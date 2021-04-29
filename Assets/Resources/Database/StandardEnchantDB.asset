@@ -1,0 +1,309 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e895dbac40a1f74da9cac849e67dcda, type: 3}
+  m_Name: StandardEnchantDB
+  m_EditorClassIdentifier: 
+  Enchantments:
+  - ID: might
+    DisplayName: of Might
+    Description: +* Might
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 4
+      StrengthRange: 
+  - ID: intellect
+    DisplayName: of Thought
+    Description: +* Intellect
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 9
+      StrengthRange: 
+  - ID: personality
+    DisplayName: of Charm
+    Description: +* Personality
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 8
+      StrengthRange: 
+  - ID: endurance
+    DisplayName: of Vigor
+    Description: +* Endurance
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 5
+      StrengthRange: 
+  - ID: accuracy
+    DisplayName: of Accuracy
+    Description: +* Accuracy
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 7
+      StrengthRange: 
+  - ID: speed
+    DisplayName: of Speed
+    Description: +* Speed
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 25
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 6
+      StrengthRange: 
+  - ID: luck
+    DisplayName: of Luck
+    Description: +* Luck
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 10
+      StrengthRange: 
+  - ID: health
+    DisplayName: of Health
+    Description: +* Hit Points
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 5
+      Helm: 5
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 5
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 2
+      StrengthRange: 
+  - ID: magic
+    DisplayName: of Magic
+    Description: +* Spell Points
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 5
+      Helm: 10
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 3
+      StrengthRange: 
+  - ID: defense
+    DisplayName: of Defense
+    Description: +* Armor Class
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 20
+      Shield: 20
+      Helm: 10
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 11
+      StrengthRange: 
+  - ID: fire_resist
+    DisplayName: of Fire Resistance
+    Description: +* Fire Resistance
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 5
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 15
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 32
+      StrengthRange: 
+  - ID: elec_resist
+    DisplayName: of Elec Resistance
+    Description: +* Elec Resistance
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 5
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 15
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 33
+      StrengthRange: 
+  - ID: cold_resist
+    DisplayName: of Cold Resistance
+    Description: +* Cold Resistance
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 5
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 15
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 34
+      StrengthRange: 
+  - ID: poison_resist
+    DisplayName: of Poison Resistance
+    Description: +* Poison Resistance
+    Type: 0
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 5
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 15
+      Boots: 5
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 0
+    Effects:
+    - Option: 35
+      StrengthRange: 

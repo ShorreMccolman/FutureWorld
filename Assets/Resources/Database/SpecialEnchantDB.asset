@@ -1,0 +1,1256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e895dbac40a1f74da9cac849e67dcda, type: 3}
+  m_Name: SpecialEnchantDB
+  m_EditorClassIdentifier: 
+  Enchantments:
+  - ID: protection
+    DisplayName: of Protection
+    Description: +* to all Resistances
+    Type: 2
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 0
+      Cloak: 10
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 0
+      StrengthRange: 0a000000
+  - ID: gods
+    DisplayName: of The Gods
+    Description: +* to all 7 Statistics
+    Type: 4
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 3000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 1
+      StrengthRange: 0a000000
+  - ID: carnage
+    DisplayName: of Carnage
+    Description: Explosive Impact!
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 10
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 5000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 18
+      StrengthRange: 
+  - ID: cold
+    DisplayName: of Cold
+    Description: Adds 3-4 points of Cold damage
+    Type: 1
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 12
+      StrengthRange: 0300000004000000
+  - ID: frost
+    DisplayName: of Frost
+    Description: Adds 6-8 points of Cold damage
+    Type: 3
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 12
+      StrengthRange: 0600000008000000
+  - ID: ice
+    DisplayName: of Ice
+    Description: Adds 9-12 points of Cold damage
+    Type: 4
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 12
+      StrengthRange: 090000000c000000
+  - ID: sparks
+    DisplayName: of Sparks
+    Description: Adds 2-5 points of Electrical damage
+    Type: 1
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 16
+      StrengthRange: 0200000005000000
+  - ID: lightning
+    DisplayName: of Lightning
+    Description: Adds 4-10 points of Electrical damage
+    Type: 3
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 16
+      StrengthRange: 040000000a000000
+  - ID: thunderbolts
+    DisplayName: of Thunderbolts
+    Description: Adds 6-15 points of Electrical damage
+    Type: 4
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 16
+      StrengthRange: 060000000f000000
+  - ID: fire
+    DisplayName: of Fire
+    Description: Adds 1-6 points of Fire damage
+    Type: 1
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 17
+      StrengthRange: 0100000006000000
+  - ID: flame
+    DisplayName: of Flame
+    Description: Adds 2-12 points of Fire damage
+    Type: 3
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 17
+      StrengthRange: 020000000c000000
+  - ID: infernos
+    DisplayName: of Infernos
+    Description: Adds 3-18 points of Fire damage
+    Type: 4
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 17
+      StrengthRange: 0300000012000000
+  - ID: poison
+    DisplayName: of Poison
+    Description: Adds 5 points of Poison damage
+    Type: 1
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 28
+      StrengthRange: 0500000005000000
+  - ID: venom
+    DisplayName: of Venom
+    Description: Adds 8 points of Poison damage
+    Type: 3
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 28
+      StrengthRange: 0800000008000000
+  - ID: acid
+    DisplayName: of Acid
+    Description: Adds 12 points of Poison damage
+    Type: 4
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 28
+      StrengthRange: 0c0000000c000000
+  - ID: vampiric
+    DisplayName: Vampiric
+    Description: Drain Hit Points from target
+    Type: 4
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 0
+    ValueMulitplier: 2
+    Effects:
+    - Option: 46
+      StrengthRange: 14000000
+  - ID: recovery
+    DisplayName: of Recovery
+    Description: Increases rate of Recovery
+    Type: 2
+    Chances:
+      Weapon: 10
+      Ranged: 10
+      Body: 20
+      Shield: 0
+      Helm: 20
+      Belt: 10
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 20
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 200
+    ValueMulitplier: 0
+    Effects:
+    - Option: 26
+      StrengthRange: 0a000000
+  - ID: immunity
+    DisplayName: of Immunity
+    Description: Wearer is resistant to Diseases
+    Type: 3
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 19
+      StrengthRange: 
+  - ID: sanity
+    DisplayName: of Sanity
+    Description: Wearer is resistant to Insanity
+    Type: 3
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 5
+      Helm: 5
+      Belt: 5
+      Cloak: 5
+      Gauntlet: 0
+      Boots: 0
+      Ring: 5
+      Amulet: 5
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 20
+      StrengthRange: 
+  - ID: freedom
+    DisplayName: of Freedom
+    Description: Wearer is resistant to Paralysis
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 21
+      StrengthRange: 
+  - ID: antidotes
+    DisplayName: of Antidotes
+    Description: Wearer is resistant to Poison
+    Type: 3
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 22
+      StrengthRange: 
+  - ID: alarms
+    DisplayName: of Alarms
+    Description: Wearer is resistant to Sleep
+    Type: 2
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 23
+      StrengthRange: 
+  - ID: medusa
+    DisplayName: of The Medusa
+    Description: Wearer is resistant to Stone
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 5
+      Shield: 5
+      Helm: 5
+      Belt: 5
+      Cloak: 5
+      Gauntlet: 0
+      Boots: 0
+      Ring: 5
+      Amulet: 5
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 24
+      StrengthRange: 
+  - ID: force
+    DisplayName: of Force
+    Description: Increases Knockback
+    Type: 1
+    Chances:
+      Weapon: 10
+      Ranged: 10
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 25
+      StrengthRange: 0a000000
+  - ID: power
+    DisplayName: of Power
+    Description: +5 Level
+    Type: 4
+    Chances:
+      Weapon: 2
+      Ranged: 2
+      Body: 2
+      Shield: 2
+      Helm: 2
+      Belt: 2
+      Cloak: 2
+      Gauntlet: 2
+      Boots: 2
+      Ring: 2
+      Amulet: 2
+    ValueBonus: 2500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 47
+      StrengthRange: 05000000
+  - ID: air_magic
+    DisplayName: of Air Magic
+    Description: Increases effect of all Air spells
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 36
+      StrengthRange: 32000000
+  - ID: body_magic
+    DisplayName: of Body Magic
+    Description: Increases effect of all Body spells
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 41
+      StrengthRange: 32000000
+  - ID: earth_magic
+    DisplayName: of Earth Magic
+    Description: Increases effect of all Earth spells
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 39
+      StrengthRange: 32000000
+  - ID: fire_magic
+    DisplayName: of Fire Magic
+    Description: Increases effect of all Fire spells
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 37
+      StrengthRange: 32000000
+  - ID: mind_magic
+    DisplayName: of Mind Magic
+    Description: Increases effect of all Mind spells
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 40
+      StrengthRange: 32000000
+  - ID: spirit_magic
+    DisplayName: of Spirit Magic
+    Description: Increases effect of all Spirit spells
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 42
+      StrengthRange: 32000000
+  - ID: water_magic
+    DisplayName: of Water Magic
+    Description: Increases effect of all Water spells
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 38
+      StrengthRange: 32000000
+  - ID: thief
+    DisplayName: of Thievery
+    Description: Increases chance of Disarming
+    Type: 2
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 20
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 15
+      StrengthRange: 02000000
+  - ID: shielding
+    DisplayName: of Shielding
+    Description: Half damage from all missile attacks
+    Type: 2
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 25
+      Shield: 30
+      Helm: 0
+      Belt: 0
+      Cloak: 20
+      Gauntlet: 0
+      Boots: 0
+      Ring: 5
+      Amulet: 5
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 27
+      StrengthRange: 32000000
+  - ID: regen
+    DisplayName: of Regeneration
+    Description: Regenerate Hit points over time
+    Type: 2
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 0
+      Helm: 0
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 0
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 30
+      StrengthRange: 
+  - ID: mana
+    DisplayName: of Mana
+    Description: Regenerate Spell points over time
+    Type: 2
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 0
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 30
+      StrengthRange: 
+  - ID: demon_slay
+    DisplayName: Demon Slayer
+    Description: Double damage vs Demons
+    Type: 1
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 0
+    ValueMulitplier: 2
+    Effects:
+    - Option: 13
+      StrengthRange: 02000000
+  - ID: dragon_slay
+    DisplayName: Dragon Slayer
+    Description: Double damage vs Dragons
+    Type: 1
+    Chances:
+      Weapon: 20
+      Ranged: 20
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 0
+    ValueMulitplier: 2
+    Effects:
+    - Option: 14
+      StrengthRange: 02000000
+  - ID: darkness
+    DisplayName: of Darkness
+    Description: Drain Hit Points from target and Increased Weapon speed
+    Type: 4
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 0
+    ValueMulitplier: 3
+    Effects:
+    - Option: 46
+      StrengthRange: 14000000
+    - Option: 29
+      StrengthRange: 14000000
+  - ID: doom
+    DisplayName: of Doom
+    Description: +1 to Seven Stats, HP, SP, Armor, Resistances
+    Type: 2
+    Chances:
+      Weapon: 10
+      Ranged: 10
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 750
+    ValueMulitplier: 0
+    Effects:
+    - Option: 0
+      StrengthRange: 01000000
+    - Option: 3
+      StrengthRange: 01000000
+    - Option: 2
+      StrengthRange: 01000000
+    - Option: 1
+      StrengthRange: 01000000
+    - Option: 11
+      StrengthRange: 01000000
+  - ID: earth
+    DisplayName: of Earth
+    Description: +10 to Endurance, Armor, Hit points
+    Type: 4
+    Chances:
+      Weapon: 10
+      Ranged: 10
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 5
+      StrengthRange: 0a000000
+    - Option: 11
+      StrengthRange: 0a000000
+    - Option: 2
+      StrengthRange: 0a000000
+  - ID: life
+    DisplayName: of Life
+    Description: +10 Hit points and Regenerate Hit points over time
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 2
+      StrengthRange: 0a000000
+    - Option: 30
+      StrengthRange: 
+  - ID: rogues
+    DisplayName: Rogues
+    Description: +5 Speed and Accuracy
+    Type: 1
+    Chances:
+      Weapon: 10
+      Ranged: 10
+      Body: 5
+      Shield: 5
+      Helm: 5
+      Belt: 10
+      Cloak: 20
+      Gauntlet: 20
+      Boots: 20
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 6
+      StrengthRange: 05000000
+    - Option: 7
+      StrengthRange: 05000000
+  - ID: dragon
+    DisplayName: of The Dragon
+    Description: Adds 10-20 points of Fire famage and +25 Might
+    Type: 4
+    Chances:
+      Weapon: 10
+      Ranged: 10
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 3000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 17
+      StrengthRange: 0a00000014000000
+    - Option: 4
+      StrengthRange: 19000000
+  - ID: eclipse
+    DisplayName: of The Eclipse
+    Description: +10 Spell points and Regenerate Spell points over time
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 5
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 3
+      StrengthRange: 0a000000
+    - Option: 31
+      StrengthRange: 
+  - ID: golem
+    DisplayName: of The Golem
+    Description: +15 Endurance and +5 Armor
+    Type: 3
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 20
+      Shield: 20
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 5
+      StrengthRange: 0f000000
+    - Option: 11
+      StrengthRange: 05000000
+  - ID: moon
+    DisplayName: of The Moon
+    Description: +10 Intellect and Luck
+    Type: 3
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 10
+      Shield: 10
+      Helm: 20
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 9
+      StrengthRange: 0a000000
+    - Option: 10
+      StrengthRange: 0a000000
+  - ID: phoenix
+    DisplayName: of The Phoenix
+    Description: +30 Fire Resistance and Regenerate Hit points over time
+    Type: 4
+    Chances:
+      Weapon: 0
+      Ranged: 0
+      Body: 20
+      Shield: 20
+      Helm: 20
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 3000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 32
+      StrengthRange: 1e000000
+    - Option: 30
+      StrengthRange: 
+  - ID: sky
+    DisplayName: of The Sky
+    Description: +10 Spell points, Speed, Intellect
+    Type: 4
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 10
+      Shield: 10
+      Helm: 20
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 2500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 3
+      StrengthRange: 0a000000
+    - Option: 6
+      StrengthRange: 0a000000
+    - Option: 9
+      StrengthRange: 0a000000
+  - ID: stars
+    DisplayName: of The Stars
+    Description: +10 Endurance and Accuracy
+    Type: 3
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 20
+      Gauntlet: 20
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 5
+      StrengthRange: 0a000000
+    - Option: 7
+      StrengthRange: 0a000000
+  - ID: sun
+    DisplayName: of The Sun
+    Description: +10 Might and Personality
+    Type: 3
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 20
+      Gauntlet: 20
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1000
+    ValueMulitplier: 0
+    Effects:
+    - Option: 4
+      StrengthRange: 0a000000
+    - Option: 8
+      StrengthRange: 0a000000
+  - ID: troll
+    DisplayName: of The Troll
+    Description: +15 Endurance and Regenerate Hit points over time
+    Type: 3
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 20
+      Shield: 20
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 5
+      StrengthRange: 0f000000
+    - Option: 30
+      StrengthRange: 
+  - ID: unicorn
+    DisplayName: of The Unicorn
+    Description: +15 Luck and Regenerate Spell points over time
+    Type: 3
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 10
+      Shield: 10
+      Helm: 20
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 1500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 10
+      StrengthRange: 0f000000
+    - Option: 31
+      StrengthRange: 
+  - ID: warriors
+    DisplayName: Warriors
+    Description: +5 Might and Endurance
+    Type: 1
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 4
+      StrengthRange: 05000000
+    - Option: 5
+      StrengthRange: 05000000
+  - ID: wizards
+    DisplayName: Wizards
+    Description: +5 Intellect and Personality
+    Type: 1
+    Chances:
+      Weapon: 5
+      Ranged: 5
+      Body: 5
+      Shield: 5
+      Helm: 5
+      Belt: 10
+      Cloak: 10
+      Gauntlet: 10
+      Boots: 10
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 500
+    ValueMulitplier: 0
+    Effects:
+    - Option: 8
+      StrengthRange: 05000000
+    - Option: 9
+      StrengthRange: 05000000
+  - ID: antique
+    DisplayName: Antique
+    Description: Increased Value
+    Type: 2
+    Chances:
+      Weapon: 10
+      Ranged: 10
+      Body: 10
+      Shield: 10
+      Helm: 10
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 10
+      Boots: 0
+      Ring: 10
+      Amulet: 10
+    ValueBonus: 0
+    ValueMulitplier: 10
+    Effects:
+    - Option: 45
+      StrengthRange: 
+  - ID: swiftness
+    DisplayName: of Swiftness
+    Description: Increased Weapon speed
+    Type: 2
+    Chances:
+      Weapon: 25
+      Ranged: 25
+      Body: 0
+      Shield: 0
+      Helm: 0
+      Belt: 0
+      Cloak: 0
+      Gauntlet: 0
+      Boots: 0
+      Ring: 0
+      Amulet: 0
+    ValueBonus: 0
+    ValueMulitplier: 2
+    Effects:
+    - Option: 29
+      StrengthRange: 14000000

@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60266f42bbbcd2f49a9143517929da32, type: 3}
+  m_Name: Weapon_Mace
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 1210616804279642, guid: 7df2ecad8d1456e458bd02eb3f415990,
+    type: 3}
+  Items:
+  - ID: mace_1
+    DisplayName: Mace
+    Description: Little more than a glorified club, this common mace is made of ordinary
+      materials and unexceptional craftsmanship.
+    Chances:
+      L1: 10
+      L2: 10
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 50
+    Width: 1
+    Height: 4
+    startWithSkill: Mace
+    sprite: {fileID: 21300000, guid: 728f8e1061a9725459c5aab0f0b78ed7, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1210616804279642, guid: 7df2ecad8d1456e458bd02eb3f415990, type: 3}
+    EquipOffset: {x: -13, y: 88, z: 0}
+    EquipSlot: 7
+    Type: 5
+    DamageRoll:
+      Rolls: 2
+      Sides: 4
+    BaseDamage: 0
+  - ID: mace_2
+    DisplayName: Wicked Mace
+    Description: Wicked
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 5
+      L4: 2
+      L5: 0
+      L6: 0
+    Level: 2
+    Value: 150
+    Width: 1
+    Height: 5
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 78575731af2500a42ac4b4afe2478e3c, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1210616804279642, guid: 7df2ecad8d1456e458bd02eb3f415990, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 5
+    DamageRoll:
+      Rolls: 2
+      Sides: 4
+    BaseDamage: 2
+  - ID: hammer_1
+    DisplayName: Hammer
+    Description: Smash
+    Chances:
+      L1: 10
+      L2: 10
+      L3: 5
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 120
+    Width: 2
+    Height: 5
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 8944cb42a3c835042b9e5c8ebc73fadb, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1965972624209186, guid: c4f62cd4c8b7c9542bd291e1965b0f06, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 5
+    DamageRoll:
+      Rolls: 2
+      Sides: 5
+    BaseDamage: 0

@@ -1,0 +1,483 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33e160e6921d5d4fad1f1c10b5f0304, type: 3}
+  m_Name: Armor_Generic
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 1163148988897260, guid: b95c68fc93090c64aa745754ab910b5a,
+    type: 3}
+  Items:
+  - ID: ring_1
+    DisplayName: Plain Ring
+    Description: A small golden ring with a quarter carat diamond. The style is simple
+      and elegant.
+    Chances:
+      L1: 10
+      L2: 20
+      L3: 10
+      L4: 10
+      L5: 0
+      L6: 0
+    Level: 2
+    Value: 100
+    Width: 1
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 1842f95dd48ffd542af0d77b6b14a2fe, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: 2eeb94831e9724b4b83c1efdb0710f70, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 11
+    Type: 0
+    AC: 0
+  - ID: boots_1
+    DisplayName: Leather Boots
+    Description: Common traveler's boots made with leather and hobnailed.
+    Chances:
+      L1: 10
+      L2: 15
+      L3: 10
+      L4: 5
+      L5: 2
+      L6: 0
+    Level: 3
+    Value: 50
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: b9a816cfa24a8d845b427fdc32741008, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: a413585e767e813409269d9cbe4d5777, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 5
+    Type: 0
+    AC: 2
+  - ID: boots_2
+    DisplayName: Steel Boots
+    Description: Heavy steel boots made for solid foot protection in battle. They
+      are uncomfortable to walk in and have a tendency to rust on the inside.
+    Chances:
+      L1: 0
+      L2: 10
+      L3: 15
+      L4: 10
+      L5: 5
+      L6: 0
+    Level: 4
+    Value: 250
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 31ecfa1ab2372894cb03221ebb78e6e9, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: a413585e767e813409269d9cbe4d5777, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 5
+    Type: 0
+    AC: 6
+  - ID: boots_3
+    DisplayName: Armored Boots
+    Description: The interior of these steel plated boots is made of leather and cloth
+      to soften the sharp edges on the metal plates. They are a bit heavy and exhausting
+      to wear for extended periods.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 5
+      L4: 10
+      L5: 15
+      L6: 0
+    Level: 5
+    Value: 450
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 1ed617685aaa59b44a83ac55c0a3c537, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: a413585e767e813409269d9cbe4d5777, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 5
+    Type: 0
+    AC: 8
+  - ID: boots_4
+    DisplayName: Sterling Boots
+    Description: Polished silver boots with velvet interiors, these boots are lighter
+      than steel boots and far more comfortable. They look pretty snappy, too.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 5
+      L5: 10
+      L6: 15
+    Level: 6
+    Value: 650
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: e8701bb2ff1668c4a8055d56ac816788, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: a413585e767e813409269d9cbe4d5777, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 5
+    Type: 0
+    AC: 10
+  - ID: boots_5
+    DisplayName: Ultimate Boots
+    Description: Dragonhide boots reinforced with molded horn strips and stalt metal
+      rivets. Soft and light, they provide unparalleled foot protection.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 2
+      L5: 15
+      L6: 25
+    Level: 7
+    Value: 850
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: c89ee4f8f95ecb7419c000f95a94a874, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: a413585e767e813409269d9cbe4d5777, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 5
+    Type: 0
+    AC: 12
+  - ID: helm_1
+    DisplayName: Helm
+    Description: An ordinary helm. This one is made of hides stretched over wood.
+      There's no fur or padding on the inside, so your head will probably ring like
+      a bell when struck a solid blow.
+    Chances:
+      L1: 10
+      L2: 15
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 60
+    Width: 1
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 00f0dad0e1d018b45bf4fb2223b548f2, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: 1c5a0869fcd7db64b9575978d4b79a94, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 1
+    Type: 0
+    AC: 2
+  - ID: helm_2
+    DisplayName: Steel Helm
+    Description: This is a common steel helm. The design is a good one and has been
+      used for centuries by warriors all around the world. Best guess is this helm
+      is 50-75 years old.
+    Chances:
+      L1: 10
+      L2: 15
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 4
+    Value: 260
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 5ea0af8a86808c644a1987186dbf15bc, type: 3}
+    equipSprite: {fileID: 21300000, guid: 952ba3ea26159cd41a96dc9f59ae38a0, type: 3}
+    model: {fileID: 100000, guid: 1c5a0869fcd7db64b9575978d4b79a94, type: 3}
+    EquipOffset: {x: 0.5, y: -22, z: 0}
+    EquipSlot: 1
+    Type: 0
+    AC: 6
+  - ID: amulet_1
+    DisplayName: Turquoise Amulet
+    Description: A turquoise stone bracketed by a bronze chain and clasp makes for
+      an inexpensive, yet charming amulet.
+    Chances:
+      L1: 0
+      L2: 10
+      L3: 10
+      L4: 10
+      L5: 10
+      L6: 0
+    Level: 2
+    Value: 500
+    Width: 1
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 616d177eecfccae4cb31fd8c833a303f, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: c0b4fa2c8e8b05b4181209112cee26c7, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 3
+    Type: 0
+    AC: 0
+  - ID: cloak_1
+    DisplayName: Leather Cloak
+    Description: what what what
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 15
+      L4: 10
+      L5: 5
+      L6: 0
+    Level: 2
+    Value: 50
+    Width: 2
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 0d999bbb9fbf6d6438d1218d91a1dcfa, type: 3}
+    equipSprite: {fileID: 21300000, guid: f6367d5eb83de3848a1b0cd47bb5aac7, type: 3}
+    model: {fileID: 100000, guid: 3f4f446499417ed45b42581096058675, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 2
+    Type: 0
+    AC: 1
+  - ID: cloak_2
+    DisplayName: Phantom Cloak
+    Description: Indigo dye from the Regnan Archipelago was used to stain this wool
+      cloak the color of a summer night's sky.
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 15
+      L4: 10
+      L5: 5
+      L6: 0
+    Level: 3
+    Value: 150
+    Width: 2
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: e8c010f796065684f9321d86fde7efef, type: 3}
+    equipSprite: {fileID: 21300000, guid: d843828e98063d24abeccd0b58ebe747, type: 3}
+    model: {fileID: 100000, guid: 3f4f446499417ed45b42581096058675, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 2
+    Type: 0
+    AC: 3
+  - ID: cloak_3
+    DisplayName: Elven Cloak
+    Description: Woven from plant fibers found in the forests of Erathia, these cloaks
+      are the traditional garb of the Elven Rangers.
+    Chances:
+      L1: 0
+      L2: 5
+      L3: 10
+      L4: 15
+      L5: 10
+      L6: 0
+    Level: 4
+    Value: 250
+    Width: 2
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 5f802bd39ff428f429e9589b1f02c8b4, type: 3}
+    equipSprite: {fileID: 21300000, guid: 3a472c7a18798154e82b9c24bae526fa, type: 3}
+    model: {fileID: 100000, guid: 3f4f446499417ed45b42581096058675, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 2
+    Type: 0
+    AC: 5
+  - ID: cloak_4
+    DisplayName: Cardinal Cloak
+    Description: A cloak formerly worn by high officials of the Church of the Sun
+      of Karigor prior to the dissolution of the Church in 1083 A.S. Nearly all these
+      cloaks were enchanted in one way or another.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 5
+      L4: 10
+      L5: 15
+      L6: 10
+    Level: 5
+    Value: 450
+    Width: 2
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 17c4571cb900bb44ca1ff9cd52a528ba, type: 3}
+    equipSprite: {fileID: 21300000, guid: 07bdbe35f19405444b54503dc7ebc6c7, type: 3}
+    model: {fileID: 100000, guid: 3f4f446499417ed45b42581096058675, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 2
+    Type: 0
+    AC: 7
+  - ID: cloak_5
+    DisplayName: Doom's Day Cloak
+    Description: A cloak formerly worn by high officials of the Church of the Moon
+      of Karigor prior to the dissolution of the Church in 1083 A.S. Nearly all these
+      cloaks were enchanted in one way or another.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 2
+      L4: 5
+      L5: 10
+      L6: 20
+    Level: 6
+    Value: 750
+    Width: 2
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 518b7f7cfb09f4446919412ad58013f7, type: 3}
+    equipSprite: {fileID: 21300000, guid: 5f098dfe345b70142b620144fc478449, type: 3}
+    model: {fileID: 100000, guid: 3f4f446499417ed45b42581096058675, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 2
+    Type: 0
+    AC: 9
+  - ID: belt_1
+    DisplayName: Leather Belt
+    Description: A common strip of leather used to hold up your pants.
+    Chances:
+      L1: 0
+      L2: 10
+      L3: 5
+      L4: 5
+      L5: 2
+      L6: 0
+    Level: 1
+    Value: 40
+    Width: 2
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 262425756d100bd48a51189c0ccc42e7, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: 9bbaa381201c74e40ad34f7dfb6b45a5, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 12
+    Type: 0
+    AC: 0
+  - ID: gauntlets_1
+    DisplayName: Gauntlets
+    Description: A steel plated gauntlet of simple make and design.
+    Chances:
+      L1: 5
+      L2: 15
+      L3: 5
+      L4: 5
+      L5: 2
+      L6: 0
+    Level: 2
+    Value: 100
+    Width: 1
+    Height: 3
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: ebd95f5ba07a4c4438999eb85ccc53cc, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: e15781d6d19638b419ac7a9b69d9d3ad, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 4
+    Type: 0
+    AC: 3
+  - ID: gauntlets_2
+    DisplayName: Knight Gauntlets
+    Description: This gauntlet is an improvement over the simple, inflexible steel
+      gauntlets commonly worn by goblins and brigands. The back of the hand and wrist
+      are solid, while the jointing around the fingers is made of chain links to improve
+      dexterity.
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 15
+      L4: 10
+      L5: 5
+      L6: 0
+    Level: 4
+    Value: 250
+    Width: 1
+    Height: 3
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 81c1046c58d30df4ea59f17d79726863, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: e15781d6d19638b419ac7a9b69d9d3ad, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 4
+    Type: 0
+    AC: 6
+  - ID: gauntlets_3
+    DisplayName: Paladin Gauntlets
+    Description: While lacking in flexibility, this gauntlet has reinforced joints
+      over the knuckles and at the base of the wrist.
+    Chances:
+      L1: 0
+      L2: 5
+      L3: 10
+      L4: 15
+      L5: 10
+      L6: 0
+    Level: 6
+    Value: 450
+    Width: 1
+    Height: 3
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 61417777fb9e38f4e80ceff09777353a, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: e15781d6d19638b419ac7a9b69d9d3ad, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 4
+    Type: 0
+    AC: 8
+  - ID: gauntlets_4
+    DisplayName: Cavalier Gauntlets
+    Description: A high quality gauntlet, it offers both flexibility and protection.
+      The joints are reinforced, yet are 'soft' enough to permit nearly normal hand
+      motion.
+    Chances:
+      L1: 0
+      L2: 2
+      L3: 5
+      L4: 10
+      L5: 15
+      L6: 10
+    Level: 8
+    Value: 650
+    Width: 1
+    Height: 3
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: c31fe7cb57614ce468a6ae0116c70df9, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: e15781d6d19638b419ac7a9b69d9d3ad, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 4
+    Type: 0
+    AC: 10
+  - ID: gauntlets_5
+    DisplayName: Ultimate Gauntlets
+    Description: Dwarven smiths created this masterpiece of gauntlet design. Except
+      for the extra bulk, there seems little difference between this gauntlet and
+      a velvet glove. Clever sliding and rotating plates at the joints and wrist permit
+      full normal hand motion while providing continuous protection at all times.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 2
+      L4: 5
+      L5: 10
+      L6: 20
+    Level: 10
+    Value: 850
+    Width: 1
+    Height: 3
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 1e5dd943b0be4564e88530de2f694e66, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: e15781d6d19638b419ac7a9b69d9d3ad, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 4
+    Type: 0
+    AC: 12

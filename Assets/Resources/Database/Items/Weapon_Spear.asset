@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60266f42bbbcd2f49a9143517929da32, type: 3}
+  m_Name: Weapon_Spear
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 100000, guid: d72d4a44e228d2640a88570aed3600b0, type: 3}
+  Items:
+  - ID: spear_1
+    DisplayName: Spear
+    Description: Barely more than a sharpened stick, this spear is still quite deadly.
+      Like all spears, it can be used in one or both hands (+1D9 if used two-handed).
+    Chances:
+      L1: 10
+      L2: 10
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 15
+    Width: 1
+    Height: 9
+    startWithSkill: Spear
+    sprite: {fileID: 21300000, guid: e25944036159d9146a33f5accabe0070, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d72d4a44e228d2640a88570aed3600b0, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 8
+    Type: 6
+    DamageRoll:
+      Rolls: 1
+      Sides: 9
+    BaseDamage: 0
+  - ID: spear_2
+    DisplayName: Stout Spear
+    Description: Stouts
+    Chances:
+      L1: 5
+      L2: 5
+      L3: 10
+      L4: 5
+      L5: 0
+      L6: 0
+    Level: 2
+    Value: 50
+    Width: 1
+    Height: 9
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 2001124f96bcb6844bf261adb5ae5686, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d72d4a44e228d2640a88570aed3600b0, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 6
+    DamageRoll:
+      Rolls: 1
+      Sides: 9
+    BaseDamage: 2
+  - ID: halberd_1
+    DisplayName: Halberd
+    Description: Stouts
+    Chances:
+      L1: 0
+      L2: 5
+      L3: 10
+      L4: 5
+      L5: 2
+      L6: 0
+    Level: 1
+    Value: 200
+    Width: 2
+    Height: 9
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 976a2a36332a578438a35e92a03f6c15, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d72d4a44e228d2640a88570aed3600b0, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 6
+    DamageRoll:
+      Rolls: 3
+      Sides: 6
+    BaseDamage: 0
+  - ID: trident_1
+    DisplayName: Trident
+    Description: Stouts
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 100
+    Width: 2
+    Height: 9
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 594092178094a3347b1aba41cb4f8a35, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d72d4a44e228d2640a88570aed3600b0, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 6
+    DamageRoll:
+      Rolls: 2
+      Sides: 6
+    BaseDamage: 0

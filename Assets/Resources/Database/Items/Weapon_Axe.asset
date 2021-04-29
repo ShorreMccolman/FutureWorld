@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60266f42bbbcd2f49a9143517929da32, type: 3}
+  m_Name: Weapon_Axe
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 1315258659752138, guid: 289316d41a433e348bfc70cf01307fe3,
+    type: 3}
+  Items:
+  - ID: axe_1
+    DisplayName: Hand Axe
+    Description: More of a tool than a weapon, this simple axe will work in a pinch.
+      But don't expect much.
+    Chances:
+      L1: 10
+      L2: 5
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 30
+    Width: 1
+    Height: 3
+    startWithSkill: Axe
+    sprite: {fileID: 21300000, guid: d611ddfded1a579468c77063b0a0926d, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1315258659752138, guid: 289316d41a433e348bfc70cf01307fe3, type: 3}
+    EquipOffset: {x: -7.4, y: 78, z: 0}
+    EquipSlot: 7
+    Type: 1
+    DamageRoll:
+      Rolls: 4
+      Sides: 2
+    BaseDamage: 0
+  - ID: axe_2
+    DisplayName: Battle Axe
+    Description: Made as a weapon of war instead of a tool, the battle axe is usually
+      employed by barbarians and undisciplined armies.
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 5
+      L4: 2
+      L5: 0
+      L6: 0
+    Level: 2
+    Value: 100
+    Width: 2
+    Height: 4
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 5437dedf3560deb40b180e00d6e3ecc6, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1315258659752138, guid: 289316d41a433e348bfc70cf01307fe3, type: 3}
+    EquipOffset: {x: -9.1, y: 55.2, z: 0}
+    EquipSlot: 7
+    Type: 1
+    DamageRoll:
+      Rolls: 4
+      Sides: 2
+    BaseDamage: 2
+  - ID: axe_3
+    DisplayName: War Axe
+    Description: This War Axe appears to be one of a large shipment of such axes seized
+      by Roland during the Succession War. It was manufactured in Karigor by order
+      of Archibald Ironfist to be used against his brother in their struggle for the
+      throne of Enroth.
+    Chances:
+      L1: 0
+      L2: 5
+      L3: 10
+      L4: 5
+      L5: 2
+      L6: 0
+    Level: 4
+    Value: 250
+    Width: 1
+    Height: 4
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 24e146ff9a7937c46953bcbfd25694a2, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1315258659752138, guid: 289316d41a433e348bfc70cf01307fe3, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 1
+    DamageRoll:
+      Rolls: 4
+      Sides: 2
+    BaseDamage: 5
+  - ID: axe_4
+    DisplayName: Dwarven Axe
+    Description: An example of the high quality work done by the dwarves of the Red
+      Mountains, the blade is sharp and the balance perfect.
+    Chances:
+      L1: 0
+      L2: 2
+      L3: 5
+      L4: 10
+      L5: 5
+      L6: 0
+    Level: 5
+    Value: 400
+    Width: 1
+    Height: 4
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: eda1f5dbd8c78ed429b9d73481c85ccc, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1315258659752138, guid: 289316d41a433e348bfc70cf01307fe3, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 1
+    DamageRoll:
+      Rolls: 4
+      Sides: 2
+    BaseDamage: 8
+  - ID: axe_5
+    DisplayName: Supreme Axe
+    Description: This weapon surely has a dark history. An axe of this quality is
+      only forged as the personal weapon of a noble Dwarf, and it is never sold or
+      traded away.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 2
+      L5: 5
+      L6: 10
+    Level: 6
+    Value: 550
+    Width: 2
+    Height: 5
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 70d2c91afc273034cbe5786bde8d279f, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1315258659752138, guid: 289316d41a433e348bfc70cf01307fe3, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 1
+    DamageRoll:
+      Rolls: 4
+      Sides: 2
+    BaseDamage: 11
+  - ID: axe_twoh_1
+    DisplayName: Poleax
+    Description: This style of long hafted axe is typically used to deadly effect
+      by Eastern tribes and the elite guard of some members of the nobility.
+    Chances:
+      L1: 0
+      L2: 5
+      L3: 10
+      L4: 5
+      L5: 2
+      L6: 0
+    Level: 1
+    Value: 225
+    Width: 2
+    Height: 5
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 03ff5c4907a94a0419c4ee0aed5ff883, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1696625780276008, guid: 44971e3928ae414478a5259218590d7e, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 8
+    Type: 1
+    DamageRoll:
+      Rolls: 3
+      Sides: 7
+    BaseDamage: 0
+  - ID: axe_twoh_2
+    DisplayName: Heavy Poleax
+    Description: A stronger version of the basic Poleax, this weapon is frequently
+      used by city guards and other fighters who don't expect to do battle in large,
+      coordinated groups (like armies).
+    Chances:
+      L1: 0
+      L2: 2
+      L3: 5
+      L4: 10
+      L5: 2
+      L6: 0
+    Level: 5
+    Value: 450
+    Width: 2
+    Height: 8
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: fcfb75c41feece044b0e76518b1ac4b8, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1696625780276008, guid: 44971e3928ae414478a5259218590d7e, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 8
+    Type: 1
+    DamageRoll:
+      Rolls: 3
+      Sides: 7
+    BaseDamage: 3
+  - ID: axe_twoh_3
+    DisplayName: Grand Poleax
+    Description: The blade head of this weapon was obviously created with the aid
+      of magic. It is both unusually sharp and light at the same time.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 2
+      L5: 10
+      L6: 10
+    Level: 8
+    Value: 900
+    Width: 2
+    Height: 8
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 503d450235e8c2c499ef663392b6f202, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1696625780276008, guid: 44971e3928ae414478a5259218590d7e, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 8
+    Type: 1
+    DamageRoll:
+      Rolls: 3
+      Sides: 7
+    BaseDamage: 9

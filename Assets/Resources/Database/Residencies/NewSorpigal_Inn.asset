@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9189125d1e9b4c64e925c333f513681e, type: 3}
+  m_Name: NewSorpigal_Inn
+  m_EditorClassIdentifier: 
+  ID: sorpigal_inn
+  DisplayName: A Lonely Knight
+  Residents:
+  - ShortName: Innkeep
+    DisplayName: Dirk the Innkeep
+    FirstName: Dirk
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    IsService: 1
+    Services:
+      RoomRentalCost: 3
+      FoodQuantity: 6
+      FoodCost: 2
+      DrinkCost: 1
+      TipCost: 1
+      Tips:
+      - Though their physical attacks are weak, these mages can cast various elemental
+        attack spells.
+    Options: []
+  - ShortName: Andover Potbello
+    DisplayName: Andover Potbello the follower of Baa
+    FirstName: Andover Potbello
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    IsService: 0
+    Services:
+      RoomRentalCost: 0
+      FoodQuantity: 0
+      FoodCost: 0
+      DrinkCost: 0
+      TipCost: 0
+      Tips: []
+    Options:
+    - QuestLine: 1
+      Steps:
+      - Display: Fellow Travelers
+        FirstDialog: Baa, friend...oh. Uh, I thought you were a member of my temple.
+          Sorry, my mistake.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+    - QuestLine: 100
+      Steps:
+      - Display: Letter
+        FirstDialog: Oh! The seal. Here, I'm supposed to give you this money. Now,
+          go away before we're seen together. Someone will get suspicious.
+        NoRequiredItemDialog: My instructions are quite clear. I am to pay the person
+          carrying the letter that bears the Seal. Since you don't have a letter with
+          a seal, you get no money!
+        ItemRequired: letter_1
+        StartQuest: 0
+        ProgressQuest: 1
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 1000
+        ExpReceived: 0
+      - Display: Letter
+        FirstDialog: Don't try to say I didn't pay you! You got your gold!
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+    - QuestLine: 101
+      Steps:
+      - Display: Quest
+        FirstDialog: Could you do the Temple of Baa a favor? It appears that my brethren
+          left the old temple to the northwest of here in a little too much of a hurry,
+          and a candelabra necessary for some of our rituals was left behind. None
+          of the Baa priests want to go back because they're afraid of whatever curse
+          has been placed on the temple. If you were to bring back the candelabra
+          to me, however, I could reward you in their place.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 1
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+      - Display: Quest
+        FirstDialog: UNASSIGNED
+        NoRequiredItemDialog: Did the curse frighten you away as well? I can understand.
+          Baa is patient, however. Should you work up the courage to find the candelabra,
+          I'm still prepared to compensate you for it.
+        ItemRequired: quest_candelabra
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 1
+        ItemReceived: 
+        GoldReceived: 500
+        ExpReceived: 0
+  - ShortName: Maria
+    DisplayName: Maria the Gypsy
+    FirstName: Maria
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    IsService: 0
+    Services:
+      RoomRentalCost: 0
+      FoodQuantity: 0
+      FoodCost: 0
+      DrinkCost: 0
+      TipCost: 0
+      Tips: []
+    Options:
+    - QuestLine: 1
+      Steps:
+      - Display: Brigands
+        FirstDialog: With the death of Roland and rumors of a collapse of the Ironfist
+          Rule, the roads are almost unsafe to travel anymore. Brigands and bandits
+          of all sorts now prey on anyone travelling too far from the protection of
+          the castles.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+    - QuestLine: 1
+      Steps:
+      - Display: Islands
+        FirstDialog: Beware of travelling to the islands just off our north shore.
+          The waters sometime have dangerous monsters, and the islands are none too
+          hospitable, either.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+    - QuestLine: 1
+      Steps:
+      - Display: The Howling Moon
+        FirstDialog: The proprietor of the Howling Moon is George Caniss. It's a wonderful
+          place. Tell him I said hi!
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0

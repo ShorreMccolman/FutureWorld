@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab979103930c73a4b9df8b9e52e78f8e, type: 3}
+  m_Name: Goblin
+  m_EditorClassIdentifier: 
+  Family:
+    ID: Goblin
+    Soldier:
+      DisplayName: Goblin
+      Level: 4
+      HitPoints: 13
+      ArmorClass: 6
+      Experience: 56
+      Gold:
+        Rolls: 4
+        Sides: 4
+      DropLevel: 0
+      DropRate: 0
+      DropTag: 
+      AttackData:
+        Type: 6
+        DamageRoll:
+          Rolls: 1
+          Sides: 9
+        BaseDamage: 0
+        OnHitEffect: 
+        Missile: 0
+      Resistances:
+        Fire: 0
+        Electricity: 0
+        Cold: 0
+        Poison: 0
+        Magic: 0
+        Physical: 0
+      CombatData:
+        Flies: 0
+        MoveType: 1
+        AIType: 1
+        Speed: 160
+        Recovery: 100
+      Spell: 
+      model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
+        type: 3}
+    Commander:
+      DisplayName: Goblin Shaman
+      Level: 6
+      HitPoints: 21
+      ArmorClass: 10
+      Experience: 96
+      Gold:
+        Rolls: 8
+        Sides: 4
+      DropLevel: 0
+      DropRate: 0
+      DropTag: 
+      AttackData:
+        Type: 6
+        DamageRoll:
+          Rolls: 1
+          Sides: 9
+        BaseDamage: 2
+        OnHitEffect: 
+        Missile: 0
+      Resistances:
+        Fire: 0
+        Electricity: 0
+        Cold: 0
+        Poison: 0
+        Magic: 0
+        Physical: 0
+      CombatData:
+        Flies: 0
+        MoveType: 1
+        AIType: 0
+        Speed: 170
+        Recovery: 100
+      Spell: fire_bolt
+      model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
+        type: 3}
+    Captain:
+      DisplayName: Goblin Lord
+      Level: 10
+      HitPoints: 40
+      ArmorClass: 14
+      Experience: 200
+      Gold:
+        Rolls: 15
+        Sides: 4
+      DropLevel: 1
+      DropRate: 10
+      DropTag: 
+      AttackData:
+        Type: 6
+        DamageRoll:
+          Rolls: 1
+          Sides: 9
+        BaseDamage: 4
+        OnHitEffect: break
+        Missile: 0
+      Resistances:
+        Fire: 10
+        Electricity: 10
+        Cold: 10
+        Poison: 10
+        Magic: 10
+        Physical: 10
+      CombatData:
+        Flies: 0
+        MoveType: 0
+        AIType: 2
+        Speed: 180
+        Recovery: 90
+      Spell: fire_bolt
+      model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
+        type: 3}

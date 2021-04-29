@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1e516f6392f464089f0c3a4ebde333, type: 3}
+  m_Name: ScrollDB
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 0}
+  Items:
+  - ID: letter_1
+    DisplayName: The Letter
+    Description: "My Dear Sulman,\n\nYou have done well, and I hereby promote you
+      to High Priest of the Second Circle.  There is a sum of gold waiting for you
+      in the hands of Andover Potbello in New Sorpigal that he will turn over to you
+      if you tell him the Sandman sent you and show him the Seal on this letter.  Sandman\u2026I
+      like that.\n\nThe handling of the Roland affair was masterful, and I especially
+      liked the snowstorm touch\u2014it really put the Fear in him, didn\u2019t it?
+      \ Superstitious fool!  His removal has moved our timetable ahead by at least
+      two years and has spared us the trouble of assassinating him at a more delicate
+      time.  All arrangements are in place.\n\nMy minions have engineered the recall
+      of Queen Catherine to her homeland in Erathia to attend the funeral of her father.
+      \ She will not return this year, and that only leaves her worthless brat Nicolai
+      and that idiot Regent Wilbur Humphrey running things at the palace.\n\nThe people
+      have begun to sense that something is wrong, that perhaps the gods are angry.
+      \ That perhaps\u2026the Ironfists have lost the Mandate of Heaven.  Just a few
+      more disasters and there may well be a full-scale rebellion!\n\nAnd we will
+      be waiting at the breach, ready to step in and tell the sheep what to do and
+      when to do it.  Already our temples spread across the land, offering aid to
+      those displaced by disasters, and comfort to the bereaved...\n\nYes.  Remain
+      in New Sorpigal and stay out of sight.  When the time is right you will be contacted
+      and given further instructions.  So take heart, and know that our plan proceeds
+      smoothly and we will be ruling this world soon.  Your position in our hierarchy
+      will be very high!\n\n      --Zenofex"
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 0
+    Value: 0
+    Width: 2
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 43bc09c056f46284cbf9ea1bb1c38bec, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: b36fa2180a162cf48adc4b1f65b535f0, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    Date: Sep 17, 1152

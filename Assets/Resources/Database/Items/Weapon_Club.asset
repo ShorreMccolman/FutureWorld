@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60266f42bbbcd2f49a9143517929da32, type: 3}
+  m_Name: Weapon_Club
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 1947175122113050, guid: 18db737595bc3834899dfa3116d49618,
+    type: 3}
+  Items:
+  - ID: club_1
+    DisplayName: Club
+    Description: A primitive weapon usable by even the stupidest of monsters. You're
+      not thinking of using this, are you?
+    Chances:
+      L1: 10
+      L2: 5
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 0
+    Value: 1
+    Width: 1
+    Height: 5
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 80015bdfa83e77d4aab7fbe5db387d98, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1947175122113050, guid: 18db737595bc3834899dfa3116d49618, type: 3}
+    EquipOffset: {x: -4, y: 96, z: 0}
+    EquipSlot: 7
+    Type: 0
+    DamageRoll:
+      Rolls: 1
+      Sides: 3
+    BaseDamage: 0
+  - ID: club_2
+    DisplayName: Spiked Club
+    Description: in the club
+    Chances:
+      L1: 5
+      L2: 5
+      L3: 2
+      L4: 2
+      L5: 0
+      L6: 0
+    Level: 2
+    Value: 40
+    Width: 1
+    Height: 5
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: cde0553b95ab91347b763f6a3a36142f, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 1947175122113050, guid: 18db737595bc3834899dfa3116d49618, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 0
+    DamageRoll:
+      Rolls: 1
+      Sides: 3
+    BaseDamage: 3

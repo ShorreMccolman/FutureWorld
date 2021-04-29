@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60266f42bbbcd2f49a9143517929da32, type: 3}
+  m_Name: Weapon_Sword
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 100000, guid: d14b207dcffba514692982d2c77ed855, type: 3}
+  Items:
+  - ID: sword_long_1
+    DisplayName: Longsword
+    Description: Of simple make and design, this longsword is deadly nonetheless.
+    Chances:
+      L1: 5
+      L2: 5
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 50
+    Width: 1
+    Height: 6
+    startWithSkill: Sword
+    sprite: {fileID: 21300000, guid: 31593661b47786042a26000a50898596, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d14b207dcffba514692982d2c77ed855, type: 3}
+    EquipOffset: {x: 3.3, y: 144.5, z: 0}
+    EquipSlot: 7
+    Type: 8
+    DamageRoll:
+      Rolls: 3
+      Sides: 3
+    BaseDamage: 0
+  - ID: sword_long_2
+    DisplayName: Warrior Sword
+    Description: A longsword of superior strength and edge.
+    Chances:
+      L1: 0
+      L2: 10
+      L3: 5
+      L4: 2
+      L5: 0
+      L6: 0
+    Level: 3
+    Value: 200
+    Width: 1
+    Height: 6
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: f622e5ce846fa6f42bf692619d1db29d, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d14b207dcffba514692982d2c77ed855, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 8
+    DamageRoll:
+      Rolls: 3
+      Sides: 3
+    BaseDamage: 3
+  - ID: sword_cut_1
+    DisplayName: Cutlass
+    Description: A cutlass of Goblin manufacture, this blade is as deadly as it is
+      ugly.
+    Chances:
+      L1: 10
+      L2: 5
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 40
+    Width: 1
+    Height: 6
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: cddab560db2dc0644a0cfa896558d72e, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d14b207dcffba514692982d2c77ed855, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 8
+    DamageRoll:
+      Rolls: 2
+      Sides: 4
+    BaseDamage: 0
+  - ID: sword_cut_2
+    DisplayName: Pirate Cutlass
+    Description: The traditional back-up weapon of the Regnan pirates living on the
+      countless islands east of the island of Mist. These cutlasses were forged by
+      one of a long line of smiths native to those islands.
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 5
+      L4: 2
+      L5: 0
+      L6: 0
+    Level: 3
+    Value: 290
+    Width: 1
+    Height: 6
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 34090b4131c8bfd47839a0ee991255e3, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d14b207dcffba514692982d2c77ed855, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 8
+    DamageRoll:
+      Rolls: 2
+      Sides: 4
+    BaseDamage: 5
+  - ID: sword_twoh_1
+    DisplayName: Two-Handed Sword
+    Description: A basic two-handed sword. Thousands of these low quality weapons
+      can be found throughout Enroth.
+    Chances:
+      L1: 0
+      L2: 5
+      L3: 10
+      L4: 5
+      L5: 2
+      L6: 0
+    Level: 1
+    Value: 400
+    Width: 2
+    Height: 6
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: bfe8863f9da6352419b1fcf546a3bd4f, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d14b207dcffba514692982d2c77ed855, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 8
+    Type: 8
+    DamageRoll:
+      Rolls: 4
+      Sides: 5
+    BaseDamage: 0
+  - ID: sword_broad_1
+    DisplayName: Broadsword
+    Description: A common broadsword. These blades can be found throughout the land
+      in the hands of both heroes and villains.
+    Chances:
+      L1: 5
+      L2: 10
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 100
+    Width: 1
+    Height: 6
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 67f0b88760138614594ec9469cfd4197, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: d14b207dcffba514692982d2c77ed855, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 7
+    Type: 8
+    DamageRoll:
+      Rolls: 3
+      Sides: 4
+    BaseDamage: 0

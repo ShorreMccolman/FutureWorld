@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4331f5dab40c105468ade96561e77113, type: 3}
+  m_Name: GoldDB
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 100000, guid: 030a04d7723603841bb5c05fe01558f3, type: 3}
+  Items:
+  - ID: gold_1
+    DisplayName: Gold
+    Description: A small pile of gold coins.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 0
+    Value: 0
+    Width: 1
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 5b1adcc7d59e27b479ba1a59f39e311e, type: 3}
+    model: {fileID: 100000, guid: 030a04d7723603841bb5c05fe01558f3, type: 3}
+    Pivot: 0
+    minGold: 50
+    maxGold: 250
+  - ID: gold_2
+    DisplayName: Gold
+    Description: A pile of gold coins.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 0
+    Value: 0
+    Width: 1
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: ad1bca57218979944b7c99378ba829f5, type: 3}
+    model: {fileID: 100000, guid: 030a04d7723603841bb5c05fe01558f3, type: 3}
+    Pivot: 0
+    minGold: 250
+    maxGold: 1000
+  - ID: gold_3
+    DisplayName: Gold
+    Description: A large pile of gold coins.
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 0
+    Value: 0
+    Width: 1
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 521fd6a44180983479c3952816ba673b, type: 3}
+    model: {fileID: 100000, guid: 030a04d7723603841bb5c05fe01558f3, type: 3}
+    Pivot: 0
+    minGold: 1000
+    maxGold: 10000

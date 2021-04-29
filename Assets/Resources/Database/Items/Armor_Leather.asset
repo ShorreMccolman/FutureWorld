@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33e160e6921d5d4fad1f1c10b5f0304, type: 3}
+  m_Name: Armor_Leather
+  m_EditorClassIdentifier: 
+  defaultModel: {fileID: 100000, guid: 6ad4b84e5b71dec4ea672488566d430a, type: 3}
+  Items:
+  - ID: leather_1
+    DisplayName: Leather Armor
+    Description: Lightest and most easily made among the armors, leather armor offers
+      the least protection. This particular suit is of average quality.
+    Chances:
+      L1: 25
+      L2: 35
+      L3: 0
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 1
+    Value: 150
+    Width: 2
+    Height: 4
+    startWithSkill: Leather
+    sprite: {fileID: 21300000, guid: a8f3e0dfcb01dca4da0694e4d1c7ea28, type: 3}
+    equipSprite: {fileID: 21300000, guid: a8ad9e4d1e935804db75a59dfc4eb689, type: 3}
+    model: {fileID: 100000, guid: 6ad4b84e5b71dec4ea672488566d430a, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    EquipSlot: 6
+    Type: 1
+    AC: 4
+  - ID: leather_2
+    DisplayName: Studded Leather
+    Description: Studded leather offers more protection than regular leather armor
+      at the expense of being stiffer and weighing more. This particular suit is well
+      made.
+    Chances:
+      L1: 0
+      L2: 25
+      L3: 35
+      L4: 25
+      L5: 0
+      L6: 0
+    Level: 3
+    Value: 250
+    Width: 3
+    Height: 3
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: fec6ac16e41b75246828b28e57903631, type: 3}
+    equipSprite: {fileID: 21300000, guid: 341ad35c477fbf645af387fdd20a39b0, type: 3}
+    model: {fileID: 100000, guid: 6ad4b84e5b71dec4ea672488566d430a, type: 3}
+    EquipOffset: {x: -6.8, y: 18.7, z: 0}
+    EquipSlot: 6
+    Type: 1
+    AC: 6

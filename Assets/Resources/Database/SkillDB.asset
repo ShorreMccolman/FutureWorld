@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495e01794e406d346aa75bca8c64d919, type: 3}
+  m_Name: SkillDB
+  m_EditorClassIdentifier: 
+  WeaponSkills:
+  - ID: Staff
+    DisplayName: Staff
+    TrainingName: Staff
+    Type: 0
+  - ID: Sword
+    DisplayName: Sword
+    TrainingName: Sword
+    Type: 0
+  - ID: Dagger
+    DisplayName: Dagger
+    TrainingName: Dagger
+    Type: 0
+  - ID: Axe
+    DisplayName: Axe
+    TrainingName: Axe
+    Type: 0
+  - ID: Spear
+    DisplayName: Spear
+    TrainingName: Spear
+    Type: 0
+  - ID: Bow
+    DisplayName: Bow
+    TrainingName: Bowmanship
+    Type: 0
+  - ID: Mace
+    DisplayName: Mace
+    TrainingName: Mace
+    Type: 0
+  - ID: Blaster
+    DisplayName: Blaster
+    TrainingName: Blaster
+    Type: 0
+  ArmorSkills:
+  - ID: Shield
+    DisplayName: Shield
+    TrainingName: Shield
+    Type: 1
+  - ID: Leather
+    DisplayName: Leather
+    TrainingName: Leather
+    Type: 1
+  - ID: Chain
+    DisplayName: Chain
+    TrainingName: Chain
+    Type: 1
+  - ID: Plate
+    DisplayName: Plate
+    TrainingName: Plate
+    Type: 1
+  MagicSkills:
+  - ID: Fire
+    DisplayName: Fire
+    TrainingName: Fire Magic
+    Type: 2
+  - ID: Water
+    DisplayName: Water
+    TrainingName: Water Magic
+    Type: 2
+  - ID: Air
+    DisplayName: Air
+    TrainingName: Air Magic
+    Type: 2
+  - ID: Earth
+    DisplayName: Earth
+    TrainingName: Earth Magic
+    Type: 2
+  - ID: Mind
+    DisplayName: Mind
+    TrainingName: Mind Magic
+    Type: 2
+  - ID: Body
+    DisplayName: Body
+    TrainingName: Body Magic
+    Type: 2
+  - ID: Spirit
+    DisplayName: Spirit
+    TrainingName: Spirit Magic
+    Type: 2
+  - ID: Dark
+    DisplayName: Dark
+    TrainingName: Dark Magic
+    Type: 2
+  - ID: Light
+    DisplayName: Light
+    TrainingName: Light Magic
+    Type: 2
+  MiscSkills:
+  - ID: Identify
+    DisplayName: Identify Item
+    TrainingName: Identify Item
+    Type: 3
+  - ID: Merchant
+    DisplayName: Merchant
+    TrainingName: Merchant
+    Type: 3
+  - ID: Repair
+    DisplayName: Repair Item
+    TrainingName: Repair Item
+    Type: 3
+  - ID: Bodybuilding
+    DisplayName: Bodybuilding
+    TrainingName: Bodybuilding
+    Type: 3
+  - ID: Meditation
+    DisplayName: Meditation
+    TrainingName: Meditation
+    Type: 3
+  - ID: Perception
+    DisplayName: Perception
+    TrainingName: Perception
+    Type: 3
+  - ID: Diplomacy
+    DisplayName: Diplomacy
+    TrainingName: Diplomacy
+    Type: 3
+  - ID: Disarm
+    DisplayName: Disarm Traps
+    TrainingName: Disarm Traps
+    Type: 3
+  - ID: Learning
+    DisplayName: Learning
+    TrainingName: Learning
+    Type: 3
