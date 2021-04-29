@@ -429,4 +429,25 @@ public class MerchantMenu : ConversationMenu
 
         HUD.Instance.SelectNewMember -= OnMemberChanged;
     }
+
+    public override void OnClose()
+    {
+        foreach (var option in DialogOptions)
+            Destroy(option.gameObject);
+
+        if (menuOpen)
+        {
+            HUD.Instance.ReleaseInfoLock();
+
+            PlayerInventoryDisplay.gameObject.SetActive(false);
+
+            HoverDialog.text = "";
+            OnHover = null;
+
+            CloseStores();
+            SetupDialog();
+        }
+
+        HUD.Instance.SelectNewMember -= OnMemberChanged;
+    }
 }

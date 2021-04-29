@@ -506,7 +506,7 @@ public class ResidenceMenu : ConversationMenu
     {
         if (PartyController.Instance.Party.TryPay(_currentResident.Data.Services.RoomRentalCost))
         {
-            Close();
+            CloseMenu();
             MenuManager.Instance.OpenMenu("Rest", true);
 
             RestMenu menu = MenuManager.Instance.GetMenu("Rest") as RestMenu;
@@ -592,11 +592,11 @@ public class ResidenceMenu : ConversationMenu
         }
         else
         {
-            Close();
+            CloseMenu();
         }
     }
 
-    void Close()
+    public override void OnClose()
     {
         foreach (var option in DialogOptions)
             Destroy(option.gameObject);
