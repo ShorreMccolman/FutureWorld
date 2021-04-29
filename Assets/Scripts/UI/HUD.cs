@@ -421,7 +421,7 @@ public class HUD : Menu {
 
     public void TryRead()
     {
-        if (HeldItemButton.Item.Data is Scroll && Input.GetMouseButton(0))
+        if (HeldItemButton != null && HeldItemButton.Item.Data is Scroll && Input.GetMouseButton(0))
         {
             ScrollInfoPopup.gameObject.SetActive(true);
             ScrollInfoPopup.UpdateUI(HeldItemButton.Item.Data as Scroll);
