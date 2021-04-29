@@ -15,6 +15,11 @@ public class TimeManagement : MonoBehaviour
     void Awake()
     { Instance = this; }
 
+    [SerializeField] Light MainLight;
+
+    [SerializeField] Material DayBox;
+    [SerializeField] Material NightBox;
+
     public delegate void FinishEvent();
     public FinishEvent OnFinish;
     public delegate void TickEvent(float tick);
@@ -28,12 +33,16 @@ public class TimeManagement : MonoBehaviour
 
     float _manualDuration;
     bool _isComitting;
+    float _timeToUpdate;
 
     public void StartTiming(Party party)
     {
         _party = party;
         _control = TimeControl.Auto;
         _isComitting = false;
+
+        _timeToUpdate = 0;
+        OnTick += UpdateEnvironment;
     }
 
     void Update()
@@ -82,6 +91,39 @@ public class TimeManagement : MonoBehaviour
         OnFinish = finishEvent;
     }
 
+    void UpdateEnvironment(float tick)
+    {
+        _timeToUpdate -= tick;
+
+        if (_timeToUpdate <= 0)
+        {
+            float hour = GetCurrentHourFractional();
+
+            if (hour < 3 || hour == 23)
+            {
+                MainLight.intensity = 0.2f;
+            }
+            else if (hour < 6)
+            {
+                MainLight.intensity = 1f - (6 - hour) * 0.8f / 3f;
+            }
+            else if (hour < 20)
+            {
+                MainLight.intensity = 1f;
+            }
+            else
+            {
+                MainLight.intensity = 0.2f + (23 - hour) * 0.8f / 3f;
+            }
+
+            Material box = hour > 4 && hour < 21 ? DayBox : NightBox;
+            if (RenderSettings.skybox != box)
+                RenderSettings.skybox = box;
+
+            _timeToUpdate = 10 * 60;
+        }
+    }
+
     public void CommitManualTick()
     {
         if (_manualDuration > 0)
@@ -114,6 +156,12 @@ public class TimeManagement : MonoBehaviour
         date = date.AddHours(9);
         date = date.AddYears(2998);
         return date;
+    }
+
+    public float GetCurrentHourFractional()
+    {
+        System.DateTime dt = GetDT();
+        return dt.Hour + dt.Minute / 60f;
     }
 
     public int GetCurrentHour()

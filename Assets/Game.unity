@@ -7447,6 +7447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15420b8ed808ab44890ac92a2fdefd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainLight: {fileID: 701188020}
+  DayBox: {fileID: 2100000, guid: 7416536dbe0334cfd888dd1beb75a9fb, type: 2}
+  NightBox: {fileID: 2100000, guid: 9af23ba5fa5364ff598888460e0e2759, type: 2}
 --- !u!4 &372353794
 Transform:
   m_ObjectHideFlags: 0
