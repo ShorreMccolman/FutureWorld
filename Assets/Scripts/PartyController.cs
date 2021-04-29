@@ -224,7 +224,7 @@ public class PartyController : MonoBehaviour {
             }
             else if (Input.GetKeyDown(KeyCode.R))
             {
-                MenuManager.Instance.OpenMenu("Rest");
+                MenuManager.Instance.OpenMenu("Rest", true);
             }
         }
         if (Input.GetKeyDown(KeyCode.Tab))
