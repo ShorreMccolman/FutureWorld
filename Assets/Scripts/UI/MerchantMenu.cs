@@ -411,6 +411,7 @@ public class MerchantMenu : ConversationMenu
     {
         foreach (var option in DialogOptions)
             Destroy(option.gameObject);
+        DialogOptions.Clear();
 
         if (menuOpen)
         {
@@ -434,6 +435,7 @@ public class MerchantMenu : ConversationMenu
     {
         foreach (var option in DialogOptions)
             Destroy(option.gameObject);
+        DialogOptions.Clear();
 
         if (menuOpen)
         {
@@ -445,7 +447,7 @@ public class MerchantMenu : ConversationMenu
             OnHover = null;
 
             CloseStores();
-            SetupDialog();
+            menuOpen = false;
         }
 
         HUD.Instance.SelectNewMember -= OnMemberChanged;

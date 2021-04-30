@@ -600,15 +600,12 @@ public class ResidenceMenu : ConversationMenu
     {
         foreach (var option in DialogOptions)
             Destroy(option.gameObject);
-
         DialogOptions.Clear();
 
         foreach (var option in Options)
             Destroy(option.gameObject);
-
         Options.Clear();
 
-        HUD.Instance.CloseAll();
         PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
     }
 }

@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour {
             menu.Contents.SetActive(false);
         }
         _openMenuDict.Clear();
+        PartyController.Instance.SetControlState(ControlState.Previous);
     }
 
     public void CloseMenu(string menuTag)
@@ -29,6 +30,8 @@ public class MenuManager : MonoBehaviour {
             _openMenuDict[menuTag].OnClose();
             _menuDict[menuTag].Contents.SetActive(false);
             _openMenuDict.Remove(menuTag);
+
+            PartyController.Instance.SetControlState(ControlState.Previous);
         }
     }
 
