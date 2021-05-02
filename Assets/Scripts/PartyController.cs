@@ -61,12 +61,15 @@ public class PartyController : MonoBehaviour {
 
     MemberPriority _priorityQueue;
 
+    public ControlState ControlState { get { return _controlState; } }
     ControlState _controlState;
     ControlState _previousControlState;
 
     List<Entity3D> _shortRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
     bool _isInteracting;
+
+    public bool IsCombatMode { get; private set;}
 
     Entity3D _intendedTarget;
 
@@ -152,9 +155,6 @@ public class PartyController : MonoBehaviour {
         if (Entity == null)
             return;
 
-        if (Camera.main == null)
-            return;
-
         _intendedTarget = null;
 
         foreach (var member in Members)
@@ -166,40 +166,30 @@ public class PartyController : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && _controlState != ControlState.MenuLock)
+        if (_controlState != ControlState.MenuLock)
         {
-            switch (_controlState)
+            Vector3 point = Entity.Camera.ScreenToViewportPoint(SelectionPosition);
+            if (point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1)
             {
-                case ControlState.LookControl:
-                    SetControlState(ControlState.MouseControl);
-                    break;
-                case ControlState.MouseControl:
-                    SetControlState(ControlState.LookControl);
-                    break;
-            }
-        }
-
-        if (!MenuManager.Instance.IsMenuOpen())
-        {
-            Vector3 point = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-            if (!Entity.GameCamera.rect.Contains(point))
-                return;
-
-            Ray ray = Camera.main.ScreenPointToRay(SelectionPosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.tag == "Interactable")
+                Ray ray = Entity.Camera.ScreenPointToRay(SelectionPosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
                 {
-                    _intendedTarget = hit.collider.GetComponent<Entity3D>();
-                    if (_intendedTarget != null)
+                    if (hit.collider.tag == "Interactable")
                     {
-                        HUD.Instance.SendInfoMessage(_intendedTarget.MouseoverName);
+                        _intendedTarget = hit.collider.GetComponent<Entity3D>();
+                        if (_intendedTarget == null)
+                            _intendedTarget = hit.collider.GetComponentInParent<Entity3D>();
+
+                        if (_intendedTarget != null)
+                        {
+                            HUD.Instance.SendInfoMessage(_intendedTarget.MouseoverName);
+                        }
                     }
-                }
-                else
-                {
-                    HUD.Instance.SendInfoMessage("");
+                    else
+                    {
+                        HUD.Instance.SendInfoMessage("");
+                    }
                 }
             }
 
@@ -225,6 +215,22 @@ public class PartyController : MonoBehaviour {
             else if (Input.GetKeyDown(KeyCode.R))
             {
                 MenuManager.Instance.OpenMenu("Rest", true);
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                switch (_controlState)
+                {
+                    case ControlState.LookControl:
+                        SetControlState(ControlState.MouseControl);
+                        break;
+                    case ControlState.MouseControl:
+                        SetControlState(ControlState.LookControl);
+                        break;
+                }
+            } 
+            else if (Input.GetKeyDown(KeyCode.Return))
+            {
+                ToggleCombatMode();
             }
         }
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -472,5 +478,21 @@ public class PartyController : MonoBehaviour {
             }
         }
         return target;
+    }
+
+    public void ToggleCombatMode()
+    {
+        IsCombatMode = !IsCombatMode;
+
+        if(IsCombatMode)
+        {
+            TimeManagement.Instance.SetTimeControl(TimeControl.Combat);
+        } 
+        else
+        {
+            TimeManagement.Instance.SetTimeControl(TimeControl.Auto);
+        }
+
+        HUD.Instance.UpdateDisplay();
     }
 }

@@ -31,6 +31,8 @@ public class HUD : Menu {
     [SerializeField] Text FoodLabel;
     [SerializeField] Text GoldLabel;
 
+    [SerializeField] Image CombatIndicator;
+
     [SerializeField] Image CharacterPortrait;
     [SerializeField] Image CharacterPortraitArm;
     [SerializeField] Image CharacterPortraitTwoArm;
@@ -134,6 +136,8 @@ public class HUD : Menu {
 
         FoodLabel.text = _party.CurrentFood.ToString();
         GoldLabel.text = _party.CurrentGold.ToString();
+
+        CombatIndicator.gameObject.SetActive(PartyController.Instance.IsCombatMode);
     }
 
     public void System()

@@ -12,9 +12,6 @@ public class PartyEntity : Entity3D
 {
     public Party Party { get { return State as Party; } }
 
-    [SerializeField] private Camera _gameCam;
-    public Camera GameCamera { get { return _gameCam; } }
-
     [SerializeField] private PlayerSphere _sphere0;
     [SerializeField] private PlayerSphere _sphere1;
     [SerializeField] private PlayerSphere _sphere2;
@@ -24,7 +21,10 @@ public class PartyEntity : Entity3D
 
     public Camera Camera { get; protected set; }
 
-    ControlState _controls;
+    PartyController _controller;
+
+    [SerializeField] private MouseLook _mouseLook;
+    public MouseLook MouseLook { get { return _mouseLook; } }
 
     [SerializeField] private bool m_IsWalking;
     [SerializeField] private float m_WalkSpeed;
@@ -33,7 +33,6 @@ public class PartyEntity : Entity3D
     [SerializeField] private float m_JumpSpeed;
     [SerializeField] private float m_StickToGroundForce;
     [SerializeField] private float m_GravityMultiplier;
-    [SerializeField] private MouseLook _MouseLook;
     [SerializeField] private bool m_UseFovKick;
     [SerializeField] private FOVKick m_FovKick = new FOVKick();
     [SerializeField] private bool m_UseHeadBob;
@@ -72,10 +71,10 @@ public class PartyEntity : Entity3D
         m_Jumping = false;
         m_AudioSource = GetComponent<AudioSource>();
 
-        _controls = ControlState.LookControl;
+        _controller = PartyController.Instance;
 
-        _MouseLook.Init(transform, Camera.transform);
-        _MouseLook.SetCursorLock(true);
+        _mouseLook.Init(transform, Camera.transform);
+        _mouseLook.SetCursorLock(true);
 
         _sphere0.Setup(party, SphereLevel.Zero);
         _sphere1.Setup(party, SphereLevel.One);
@@ -84,22 +83,21 @@ public class PartyEntity : Entity3D
 
     public void SetControls(ControlState state)
     {
-        _controls = state;
-        _MouseLook.SetCursorLock(state == ControlState.LookControl);
+        _mouseLook.SetCursorLock(state == ControlState.LookControl);
     }
 
     private void Update()
     {
-        if (_controls == ControlState.MenuLock)
+        if (_controller.ControlState == ControlState.MenuLock)
             return;
 
         m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
 
-        if(_controls == ControlState.LookControl)
-            _MouseLook.LookRotation(transform, Camera.transform);
+        if(_controller.ControlState == ControlState.LookControl)
+            _mouseLook.LookRotation(transform, Camera.transform);
     
         // the jump state needs to read here to make sure it is not missed
-        if (!m_Jump)
+        if (!m_Jump && !_controller.IsCombatMode)
         {
             m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
         }
@@ -119,18 +117,24 @@ public class PartyEntity : Entity3D
         m_PreviouslyGrounded = m_CharacterController.isGrounded;
     }
 
-    private void PlayLandingSound()
-    {
-        m_AudioSource.clip = m_LandSound;
-        m_AudioSource.Play();
-        m_NextStep = m_StepCycle + .5f;
-    }
-
     private void FixedUpdate()
     {
-        if (_controls == ControlState.MenuLock)
+        if (_controller.ControlState == ControlState.MenuLock)
             return;
 
+        if (_controller.IsCombatMode)
+            CombatControl();
+        else
+            StandardControls();
+    }
+
+    private void CombatControl()
+    {
+
+    }
+
+    private void StandardControls()
+    {
         float speed;
         GetInput(out speed);
         // always move along the camera forward as it is the direction that it being aimed at
@@ -167,7 +171,37 @@ public class PartyEntity : Entity3D
         ProgressStepCycle(speed);
         UpdateCameraPosition(speed);
 
-        _MouseLook.UpdateCursorLock();
+        _mouseLook.UpdateCursorLock();
+    }
+
+    private void UpdateCameraPosition(float speed)
+    {
+        Vector3 newCameraPosition;
+        if (!m_UseHeadBob)
+        {
+            return;
+        }
+        if (m_CharacterController.velocity.magnitude > 0 && m_CharacterController.isGrounded)
+        {
+            Camera.transform.localPosition =
+                m_HeadBob.DoHeadBob(m_CharacterController.velocity.magnitude +
+                                  (speed * (m_IsWalking ? 1f : m_RunstepLenghten)));
+            newCameraPosition = Camera.transform.localPosition;
+            newCameraPosition.y = Camera.transform.localPosition.y - m_JumpBob.Offset();
+        }
+        else
+        {
+            newCameraPosition = Camera.transform.localPosition;
+            newCameraPosition.y = m_OriginalCameraPosition.y - m_JumpBob.Offset();
+        }
+        Camera.transform.localPosition = newCameraPosition;
+    }
+
+    private void PlayLandingSound()
+    {
+        m_AudioSource.clip = m_LandSound;
+        m_AudioSource.Play();
+        m_NextStep = m_StepCycle + .5f;
     }
 
     private void PlayJumpSound()
@@ -209,30 +243,6 @@ public class PartyEntity : Entity3D
         m_FootstepSounds[n] = m_FootstepSounds[0];
         m_FootstepSounds[0] = m_AudioSource.clip;
     }
-
-    private void UpdateCameraPosition(float speed)
-    {
-        Vector3 newCameraPosition;
-        if (!m_UseHeadBob)
-        {
-            return;
-        }
-        if (m_CharacterController.velocity.magnitude > 0 && m_CharacterController.isGrounded)
-        {
-            Camera.transform.localPosition =
-                m_HeadBob.DoHeadBob(m_CharacterController.velocity.magnitude +
-                                  (speed * (m_IsWalking ? 1f : m_RunstepLenghten)));
-            newCameraPosition = Camera.transform.localPosition;
-            newCameraPosition.y = Camera.transform.localPosition.y - m_JumpBob.Offset();
-        }
-        else
-        {
-            newCameraPosition = Camera.transform.localPosition;
-            newCameraPosition.y = m_OriginalCameraPosition.y - m_JumpBob.Offset();
-        }
-        Camera.transform.localPosition = newCameraPosition;
-    }
-
 
     private void GetInput(out float speed)
     {
