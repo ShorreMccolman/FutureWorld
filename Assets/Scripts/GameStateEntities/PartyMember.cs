@@ -4,7 +4,7 @@ using UnityEngine;
 
 using System.Xml;
 
-public class PartyMember : GameStateEntity {
+public class PartyMember : GameStateEntity, CombatEntity {
 
     public Profile Profile { get; private set; }
     public Inventory Inventory { get; private set; }
@@ -85,6 +85,11 @@ public class PartyMember : GameStateEntity {
         }
 
         return skills;
+    }
+
+    public float GetCooldown()
+    {
+        return Vitals.Cooldown;
     }
 
     public void Rest(float duration)

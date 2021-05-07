@@ -15,4 +15,9 @@ public class EnemyAnimReceiver : MonoBehaviour
     {
         _enemy.DoAttack();
     }
+
+    public void OnAttackFinish()
+    {
+        _enemy.LockMovement(false);
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum ControlState
 {
@@ -12,17 +13,17 @@ public enum ControlState
 
 public class MemberPriority
 {
-    List<PartyMember> _queue;
+    List<CombatEntity> _queue;
 
     public MemberPriority()
     {
-        _queue = new List<PartyMember>();
+        _queue = new List<CombatEntity>();
     }
 
     public bool IsReady()
     { return _queue.Count > 0; }
 
-    public void Add(PartyMember member)
+    public void Add(CombatEntity member)
     {
         if (_queue.Contains(member))
             _queue.Remove(member);
@@ -30,12 +31,31 @@ public class MemberPriority
         _queue.Add(member);
     }
 
-    public PartyMember Get()
+    public void Add(MemberPriority priority)
+    {
+        foreach(var member in priority._queue)
+        {
+            Add(member);
+        }
+    }
+
+    public void Sort()
+    {
+        List<CombatEntity> entities = new List<CombatEntity>();
+        foreach (var ent in _queue)
+            entities.Add(ent);
+
+        entities = entities.OrderBy(x => x.GetCooldown()).ToList();
+        for (int i = 0; i < entities.Count; i++)
+            Debug.LogError(entities[i].GetCooldown());
+    }
+
+    public CombatEntity Get()
     {
         if (!IsReady())
             return null;
 
-        PartyMember member = _queue[0];
+        CombatEntity member = _queue[0];
         _queue.Remove(member);
         return member;
     }
@@ -59,14 +79,14 @@ public class PartyController : MonoBehaviour {
     public List<PartyMember> Members { get { return Entity.Party.Members; } }
     public PartyMember ActiveMember { get { return Entity.Party.ActiveMember; } }
 
-    MemberPriority _priorityQueue;
+    public MemberPriority PriorityQueue { get; private set; }
 
     public ControlState ControlState { get { return _controlState; } }
     ControlState _controlState;
     ControlState _previousControlState;
 
     List<Entity3D> _shortRange = new List<Entity3D>();
-    List<Entity3D> _longRange = new List<Entity3D>();
+    List<Entity3D> _midRange = new List<Entity3D>();
     bool _isInteracting;
 
     public bool IsCombatMode { get; private set;}
@@ -95,7 +115,7 @@ public class PartyController : MonoBehaviour {
         Entity.Init(party);
         HUD.Instance.InitParty(party);
 
-        _priorityQueue = new MemberPriority();
+        PriorityQueue = new MemberPriority();
 
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
@@ -139,7 +159,7 @@ public class PartyController : MonoBehaviour {
             if (readyEvent)
             {
                 HUD.Instance.ReadyEvent(member);
-                _priorityQueue.Add(member);
+                PriorityQueue.Add(member);
             }
 
             bool statusEvent = member.Status.TickConditions(tick);
@@ -169,7 +189,7 @@ public class PartyController : MonoBehaviour {
         if (_controlState != ControlState.MenuLock)
         {
             Vector3 point = Entity.Camera.ScreenToViewportPoint(SelectionPosition);
-            if (point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1)
+            if (Mathf.Abs(point.x) <= 1 && Mathf.Abs(point.y) <= 1)
             {
                 Ray ray = Entity.Camera.ScreenPointToRay(SelectionPosition);
                 RaycastHit hit;
@@ -192,6 +212,9 @@ public class PartyController : MonoBehaviour {
                     }
                 }
             }
+
+            if (_isInteracting)
+                return;
 
             if (Input.GetMouseButtonDown(0) && _intendedTarget != null)
             {
@@ -230,7 +253,7 @@ public class PartyController : MonoBehaviour {
             } 
             else if (Input.GetKeyDown(KeyCode.Return))
             {
-                ToggleCombatMode();
+                TimeManagement.Instance.ToggleCombatMode();
             }
         }
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -255,15 +278,15 @@ public class PartyController : MonoBehaviour {
             _previousControlState = state;
     }
 
-    public void LongRange(Entity3D entity, bool add)
+    public void MidRange(Entity3D entity, bool add)
     {
         if (entity is PartyEntity)
             return;
 
-        if (add && !_longRange.Contains(entity))
-            _longRange.Add(entity);
-        else if (!add && _longRange.Contains(entity))
-            _longRange.Remove(entity);
+        if (add && !_midRange.Contains(entity))
+            _midRange.Add(entity);
+        else if (!add && _midRange.Contains(entity))
+            _midRange.Remove(entity);
     }
 
     public void ShortRange(Entity3D entity, bool add)
@@ -288,13 +311,32 @@ public class PartyController : MonoBehaviour {
         StartCoroutine(AttackRoutine());
     }
 
+    public List<Enemy> GetActiveEnemies()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+
+        foreach (Entity3D ent in _shortRange)
+        {
+            EnemyEntity enemy = ent as EnemyEntity;
+            if (enemy != null)
+                enemies.Add(enemy.Enemy);
+        }
+        foreach (Entity3D ent in _midRange)
+        {
+            EnemyEntity enemy = ent as EnemyEntity;
+            if (enemy != null)
+                enemies.Add(enemy.Enemy);
+        }
+        return enemies;
+    }
+
     IEnumerator AttackRoutine()
     {
         PartyMember attacker = null;
         if (ActiveMember.Vitals.IsReady())
             attacker = ActiveMember;
-        else if (_priorityQueue.IsReady())
-            attacker = _priorityQueue.Get();
+        else if (PriorityQueue.IsReady())
+            attacker = PriorityQueue.Get() as PartyMember;
 
         if (attacker != null)
         {
@@ -345,11 +387,11 @@ public class PartyController : MonoBehaviour {
             yield return null;
             _isInteracting = false;
 
-            _priorityQueue.Flush(attacker);
+            PriorityQueue.Flush(attacker);
         }
 
         if(ActiveMember == attacker)
-            Party.SetActiveMember(_priorityQueue.Get());
+            Party.SetActiveMember(PriorityQueue.Get() as PartyMember);
         HUD.Instance.UpdateDisplay();
     }
 
@@ -362,7 +404,7 @@ public class PartyController : MonoBehaviour {
                 shortRange = true;
                 return _intendedTarget;
             }
-            else if (_longRange.Contains(_intendedTarget))
+            else if (_midRange.Contains(_intendedTarget))
             {
                 shortRange = false;
                 return _intendedTarget;
@@ -373,7 +415,7 @@ public class PartyController : MonoBehaviour {
         if (target == null)
         {
             shortRange = false;
-            target = GetTarget(_longRange);
+            target = GetTarget(_midRange);
         }
         return target;
     }
@@ -478,21 +520,5 @@ public class PartyController : MonoBehaviour {
             }
         }
         return target;
-    }
-
-    public void ToggleCombatMode()
-    {
-        IsCombatMode = !IsCombatMode;
-
-        if(IsCombatMode)
-        {
-            TimeManagement.Instance.SetTimeControl(TimeControl.Combat);
-        } 
-        else
-        {
-            TimeManagement.Instance.SetTimeControl(TimeControl.Auto);
-        }
-
-        HUD.Instance.UpdateDisplay();
     }
 }

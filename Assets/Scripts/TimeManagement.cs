@@ -35,6 +35,9 @@ public class TimeManagement : MonoBehaviour
     bool _isComitting;
     float _timeToUpdate;
 
+    public static bool IsCombatMode;
+    public MemberPriority CombatPriority;
+
     public void StartTiming(Party party)
     {
         _party = party;
@@ -80,9 +83,36 @@ public class TimeManagement : MonoBehaviour
         }
     }
 
+    public void ToggleCombatMode()
+    {
+        if(IsCombatMode)
+        {
+            SetTimeControl(TimeControl.Auto);
+        } else
+        {
+            SetTimeControl(TimeControl.Combat);
+        }
+        HUD.Instance.UpdateDisplay();
+    }
+
     public void SetTimeControl(TimeControl control)
     {
         _control = control;
+        IsCombatMode = control == TimeControl.Combat;
+
+        if(IsCombatMode)
+        {
+            CombatPriority = new MemberPriority();
+
+            foreach(var member in PartyController.Instance.Members)
+                CombatPriority.Add(member);
+
+            foreach (var enemy in PartyController.Instance.GetActiveEnemies())
+                CombatPriority.Add(enemy);
+
+            CombatPriority.Sort();
+
+        }
     }
 
     public void ProgressManually(float minutes, FinishEvent finishEvent = null)

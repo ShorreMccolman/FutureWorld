@@ -4,6 +4,11 @@ using UnityEngine;
 
 using System.Xml;
 
+public interface CombatEntity
+{
+    float GetCooldown();
+}
+
 public class GameStateEntity {
 
     public GameStateEntity Parent { get; private set; }

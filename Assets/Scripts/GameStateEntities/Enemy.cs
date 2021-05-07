@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 
-public class Enemy : GameStateEntity
+public class Enemy : GameStateEntity, CombatEntity
 {
     public int CurrentHP { get; protected set; }
 
@@ -11,10 +11,13 @@ public class Enemy : GameStateEntity
 
     public float Cooldown { get; private set; }
 
+    public bool MovementLocked { get; private set; }
+
     public Enemy(EnemyData data) : base(null)
     {
         Data = data;
         CurrentHP = Data.HitPoints;
+        Cooldown = data.CombatData.Recovery;
     }
 
     public Enemy(XmlNode node) : base(null, node)
@@ -45,15 +48,20 @@ public class Enemy : GameStateEntity
         return Cooldown <= 0;
     }
 
-    public void ReadyAttack()
+    public float GetCooldown()
     {
-        Cooldown = Data.CombatData.Recovery / 30;
+        return Cooldown;
+    }
+
+    public void LockMovement(bool isLocked)
+    {
+        MovementLocked = isLocked;
     }
 
     public void DoAttack()
     {
         PartyController.Instance.Party.EnemyAttack(Data);
-        Cooldown = Data.CombatData.Recovery / 30;
+        Cooldown = Data.CombatData.Recovery;
     }
 
     public void OnHit(int damage)

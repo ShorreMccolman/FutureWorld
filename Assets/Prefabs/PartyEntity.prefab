@@ -43,7 +43,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3952606504422861025
 MonoBehaviour:
@@ -100,7 +100,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2207919293689961495
 MonoBehaviour:
@@ -157,7 +157,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 40
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4019638647380180295
 MonoBehaviour:
@@ -241,19 +241,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f0781fff137eb4883e3fa0388b2c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameCam: {fileID: 20761827927461848}
   _sphere0: {fileID: 2207919293689961495}
   _sphere1: {fileID: 3952606504422861025}
   _sphere2: {fileID: 4019638647380180295}
   m_dropPosition: {fileID: 6354033738829268211}
-  m_IsWalking: 0
-  m_WalkSpeed: 6
-  m_RunSpeed: 10
-  m_RunstepLenghten: 0.7
-  m_JumpSpeed: 6
-  m_StickToGroundForce: 10
-  m_GravityMultiplier: 2
-  _MouseLook:
+  _mouseLook:
     XSensitivity: 2
     YSensitivity: 2
     clampVerticalRotation: 1
@@ -262,6 +254,13 @@ MonoBehaviour:
     smooth: 0
     smoothTime: 5
     lockCursor: 1
+  m_IsWalking: 0
+  m_WalkSpeed: 6
+  m_RunSpeed: 10
+  m_RunstepLenghten: 0.7
+  m_JumpSpeed: 6
+  m_StickToGroundForce: 10
+  m_GravityMultiplier: 2
   m_UseFovKick: 1
   m_FovKick:
     Camera: {fileID: 0}
@@ -745,9 +744,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -46,13 +46,13 @@ public class Entity3D : MonoBehaviour
         if (IgnoreInteraction)
             return;
 
-        if(level == SphereLevel.One)
+        if(level == SphereLevel.Zero)
         {
             PartyController.Instance.ShortRange(this, true);
         }
-        else if (level == SphereLevel.Two)
+        else if (level == SphereLevel.One)
         {
-            PartyController.Instance.LongRange(this, true);
+            PartyController.Instance.MidRange(this, true);
         }
     }
 
@@ -61,13 +61,13 @@ public class Entity3D : MonoBehaviour
         if (IgnoreInteraction)
             return;
 
-        if (level == SphereLevel.One)
+        if (level == SphereLevel.Zero)
         {
             PartyController.Instance.ShortRange(this, false);
         }
-        else if (level == SphereLevel.Two)
+        else if (level == SphereLevel.One)
         {
-            PartyController.Instance.LongRange(this, false);
+            PartyController.Instance.MidRange(this, false);
         }
     }
 
@@ -84,7 +84,7 @@ public class Entity3D : MonoBehaviour
     protected void Kill()
     {
         PartyController.Instance.ShortRange(this, false);
-        PartyController.Instance.LongRange(this, false);
+        PartyController.Instance.MidRange(this, false);
 
         GameController.Instance.EntityUpdate -= EntityUpdate;
         Destroy(this.gameObject);
