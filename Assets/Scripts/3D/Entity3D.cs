@@ -53,6 +53,10 @@ public class Entity3D : MonoBehaviour
         else if (level == SphereLevel.One)
         {
             PartyController.Instance.MidRange(this, true);
+        } 
+        else if (level == SphereLevel.Two)
+        {
+            PartyController.Instance.LongRange(this, true);
         }
     }
 
@@ -68,6 +72,10 @@ public class Entity3D : MonoBehaviour
         else if (level == SphereLevel.One)
         {
             PartyController.Instance.MidRange(this, false);
+        }
+        else if (level == SphereLevel.Two)
+        {
+            PartyController.Instance.LongRange(this, false);
         }
     }
 

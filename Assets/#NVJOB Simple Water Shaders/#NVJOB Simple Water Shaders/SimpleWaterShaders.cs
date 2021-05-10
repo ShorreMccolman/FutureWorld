@@ -54,7 +54,9 @@ public class SimpleWaterShaders : MonoBehaviour
     {
         //--------------
 
-        if (depthTextureModeOn) Camera.main.depthTextureMode = DepthTextureMode.Depth;
+        if (depthTextureModeOn) 
+            if(Camera.main != null)
+                Camera.main.depthTextureMode = DepthTextureMode.Depth;
 
         //--------------
     }

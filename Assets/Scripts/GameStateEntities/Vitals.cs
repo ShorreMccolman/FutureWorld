@@ -206,14 +206,13 @@ public class Vitals : GameStateEntity
 
     public bool TickCooldown(float delta)
     {
-        if (CurrentHP < 0)
-            return false;
-
         bool wasOn = Cooldown > 0;
         if (!wasOn)
             return false;
 
         Cooldown -= delta;
+        if (Cooldown < 0)
+            Cooldown = 0;
         return Cooldown <= 0;
     }
 

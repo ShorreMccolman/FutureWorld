@@ -28,7 +28,13 @@ public class MemberPriority
         if (_queue.Contains(member))
             _queue.Remove(member);
 
-        _queue.Add(member);
+        int index = 0;
+        for(int i=0;i<index;i++)
+        {
+            if (member.GetCooldown() > _queue[i].GetCooldown())
+                index = i;
+        }
+        _queue.Insert(index, member);
     }
 
     public void Add(MemberPriority priority)
@@ -39,15 +45,16 @@ public class MemberPriority
         }
     }
 
-    public void Sort()
+    public bool NextCooldown(out float cooldown)
     {
-        List<CombatEntity> entities = new List<CombatEntity>();
-        foreach (var ent in _queue)
-            entities.Add(ent);
+        if (_queue.Count == 0)
+        {
+            cooldown = 0;
+            return false;
+        }
 
-        entities = entities.OrderBy(x => x.GetCooldown()).ToList();
-        for (int i = 0; i < entities.Count; i++)
-            Debug.LogError(entities[i].GetCooldown());
+        cooldown = _queue[0].GetCooldown();
+        return cooldown <= 0;
     }
 
     public CombatEntity Get()
@@ -78,7 +85,6 @@ public class PartyController : MonoBehaviour {
     public Party Party { get { return Entity.Party; } }
     public List<PartyMember> Members { get { return Entity.Party.Members; } }
     public PartyMember ActiveMember { get { return Entity.Party.ActiveMember; } }
-
     public MemberPriority PriorityQueue { get; private set; }
 
     public ControlState ControlState { get { return _controlState; } }
@@ -87,9 +93,8 @@ public class PartyController : MonoBehaviour {
 
     List<Entity3D> _shortRange = new List<Entity3D>();
     List<Entity3D> _midRange = new List<Entity3D>();
+    List<Entity3D> _longRange = new List<Entity3D>();
     bool _isInteracting;
-
-    public bool IsCombatMode { get; private set;}
 
     Entity3D _intendedTarget;
 
@@ -278,6 +283,17 @@ public class PartyController : MonoBehaviour {
             _previousControlState = state;
     }
 
+    public void LongRange(Entity3D entity, bool add)
+    {
+        if (entity is PartyEntity)
+            return;
+
+        if (add && !_longRange.Contains(entity))
+            _longRange.Add(entity);
+        else if (!add && _midRange.Contains(entity))
+            _longRange.Remove(entity);
+    }
+
     public void MidRange(Entity3D entity, bool add)
     {
         if (entity is PartyEntity)
@@ -302,13 +318,26 @@ public class PartyController : MonoBehaviour {
 
     public void TryAttack()
     {
-        if (ActiveMember == null)
-            return;
+        if(TimeManagement.IsCombatMode)
+        {
+            if (ActiveMember == null)
+                return;
 
-        if (_isInteracting)
-            return;
+            if (_isInteracting)
+                return;
 
-        StartCoroutine(AttackRoutine());
+            StartCoroutine(AttackRoutine());
+        } 
+        else
+        {
+            if (ActiveMember == null)
+                return;
+
+            if (_isInteracting)
+                return;
+
+            StartCoroutine(AttackRoutine());
+        }
     }
 
     public List<Enemy> GetActiveEnemies()
@@ -322,6 +351,12 @@ public class PartyController : MonoBehaviour {
                 enemies.Add(enemy.Enemy);
         }
         foreach (Entity3D ent in _midRange)
+        {
+            EnemyEntity enemy = ent as EnemyEntity;
+            if (enemy != null)
+                enemies.Add(enemy.Enemy);
+        }
+        foreach (Entity3D ent in _longRange)
         {
             EnemyEntity enemy = ent as EnemyEntity;
             if (enemy != null)
@@ -388,6 +423,7 @@ public class PartyController : MonoBehaviour {
             _isInteracting = false;
 
             PriorityQueue.Flush(attacker);
+            TimeManagement.Instance.EntityAttack(attacker);
         }
 
         if(ActiveMember == attacker)
@@ -404,7 +440,7 @@ public class PartyController : MonoBehaviour {
                 shortRange = true;
                 return _intendedTarget;
             }
-            else if (_midRange.Contains(_intendedTarget))
+            else if (_midRange.Contains(_intendedTarget) || _longRange.Contains(_intendedTarget))
             {
                 shortRange = false;
                 return _intendedTarget;
@@ -416,6 +452,10 @@ public class PartyController : MonoBehaviour {
         {
             shortRange = false;
             target = GetTarget(_midRange);
+            if(target == null)
+            {
+                target = GetTarget(_longRange);
+            }
         }
         return target;
     }

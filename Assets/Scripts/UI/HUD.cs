@@ -137,7 +137,7 @@ public class HUD : Menu {
         FoodLabel.text = _party.CurrentFood.ToString();
         GoldLabel.text = _party.CurrentGold.ToString();
 
-        CombatIndicator.gameObject.SetActive(PartyController.Instance.IsCombatMode);
+        CombatIndicator.gameObject.SetActive(TimeManagement.IsCombatMode);
     }
 
     public void System()

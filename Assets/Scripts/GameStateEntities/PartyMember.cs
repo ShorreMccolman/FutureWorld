@@ -15,6 +15,9 @@ public class PartyMember : GameStateEntity, CombatEntity {
     public Status Status { get; private set; }
     public Vitals Vitals { get; private set; }
 
+    public float MoveCooldown { get; set; }
+    public void CombatStep() { }
+
     public PartyMember(GameStateEntity parent, CharacterData data) : base(parent)
     {
         Status = new Status(this);

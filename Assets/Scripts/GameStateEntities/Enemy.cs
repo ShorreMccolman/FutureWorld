@@ -11,6 +11,8 @@ public class Enemy : GameStateEntity, CombatEntity
 
     public float Cooldown { get; private set; }
 
+    public float MoveCooldown { get; set; }
+
     public bool MovementLocked { get; private set; }
 
     public Enemy(EnemyData data) : base(null)
@@ -18,12 +20,14 @@ public class Enemy : GameStateEntity, CombatEntity
         Data = data;
         CurrentHP = Data.HitPoints;
         Cooldown = data.CombatData.Recovery;
+        MoveCooldown = 0;
     }
 
     public Enemy(XmlNode node) : base(null, node)
     {
         CurrentHP = int.Parse(node.SelectSingleNode("Health").InnerText);
         Cooldown = float.Parse(node.SelectSingleNode("Cooldown").InnerText);
+        MoveCooldown = 0;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -35,6 +39,10 @@ public class Enemy : GameStateEntity, CombatEntity
         return element;
     }
 
+    public void CombatStep()
+    {
+        MoveCooldown = 3f;
+    }
     public bool TickCooldown(float delta)
     {
         if (CurrentHP < 0)
@@ -45,6 +53,8 @@ public class Enemy : GameStateEntity, CombatEntity
             return false;
 
         Cooldown -= delta;
+        if (Cooldown < 0)
+            Cooldown = 0;
         return Cooldown <= 0;
     }
 
@@ -56,6 +66,7 @@ public class Enemy : GameStateEntity, CombatEntity
     public void LockMovement(bool isLocked)
     {
         MovementLocked = isLocked;
+        MoveCooldown = 0;
     }
 
     public void DoAttack()

@@ -7,9 +7,9 @@ using System.Xml;
 public enum Range
 {
     Out,
-    Approach,
-    Pursuit,
-    Attack
+    Long,
+    Mid,
+    Close
 }
 
 public enum AIState
@@ -28,6 +28,7 @@ public class EnemyEntity : Entity3D
 
     bool _isActive;
     AIState _aiState;
+    Range _range;
 
     Transform _target;
 
@@ -57,6 +58,7 @@ public class EnemyEntity : Entity3D
         TimeManagement.Instance.OnTick += Tick;
 
         _aiState = AIState.Passive;
+        _range = Range.Out;
         _isActive = true;
 
         attackReady = enemy.Cooldown <= 0;
@@ -72,12 +74,17 @@ public class EnemyEntity : Entity3D
         if(level == SphereLevel.Two)
         {
             _target = party.Entity.transform;
-            _aiState = AIState.Pursuit;
+            _range = Range.Long;
+        }
+        if (level == SphereLevel.One)
+        {
+            _target = party.Entity.transform;
+            _range = Range.Mid;
         }
         else if (level == SphereLevel.Zero)
         {
             _target = party.Entity.transform;
-            _aiState = AIState.Combat;
+            _range = Range.Close;
         }
     }
 
@@ -88,12 +95,17 @@ public class EnemyEntity : Entity3D
         if (level == SphereLevel.Two)
         {
             _target = null;
-            _aiState = AIState.Passive;
+            _range = Range.Out;
+        }
+        if (level == SphereLevel.One)
+        {
+            _target = party.Entity.transform;
+            _range = Range.Long;
         }
         else if (level == SphereLevel.Zero)
         {
             _target = party.Entity.transform;
-            _aiState = AIState.Pursuit;
+            _range = Range.Mid;
         }
     }
 
@@ -129,51 +141,63 @@ public class EnemyEntity : Entity3D
 
     void LateUpdate()
     {
-        if (_isActive && !TimeManagement.IsCombatMode)
+        if (_isActive)
         {
             Vector3 levelPosition;
             Vector3 targetVec;
 
-            switch (_aiState)
+            if(Enemy.MoveCooldown > 0)
             {
-                case AIState.Passive:
+                Enemy.MoveCooldown -= Time.fixedDeltaTime;
+            }
+
+            switch (_range)
+            {
+                case Range.Out:
                     _animator.SetFloat("MoveSpeed", 0);
                     _animator.SetFloat("TurnSpeed", 0);
                     _curMoveSpeed = 0;
                     break;
-                case AIState.Pursuit:
+                case Range.Long:
+                case Range.Mid:
                     levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
 
                     Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
                     float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
 
-                    targetVec = (levelPosition - transform.position);
-                    float ang = Vector3.Angle(transform.forward, targetVec);
-                    if(ang < 25f && !Enemy.MovementLocked)
+                    if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
                     {
-                        _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
-                        if (_curMoveSpeed > moveSpeed)
-                            _curMoveSpeed = moveSpeed;
+                        targetVec = (levelPosition - transform.position);
+                        float ang = Vector3.Angle(transform.forward, targetVec);
+                        if (ang < 25f && !Enemy.MovementLocked)
+                        {
+                            _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
+                            if (_curMoveSpeed > moveSpeed)
+                                _curMoveSpeed = moveSpeed;
 
-                        Move(_curMoveSpeed);
+                            Move(_curMoveSpeed);
+                        }
+                    } 
+                    else
+                    {
+                        _curMoveSpeed = 0;
+                        _animator.SetFloat("MoveSpeed", 0);
                     }
                     break;
-                case AIState.Combat:
+                case Range.Close:
 
                     _curMoveSpeed = 0;
                     _animator.SetFloat("MoveSpeed", 0);
 
                     levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
                     targetVec = (levelPosition - transform.position);
-                    if (attackReady)
+                    if (attackReady && Enemy.MoveCooldown <= 0)
                     {
                         Enemy.LockMovement(true);
                         _animator.SetTrigger("DoAttack");
                         attackReady = false;
                     }
-                    break;
-                case AIState.Flee:
                     break;
             }
         }

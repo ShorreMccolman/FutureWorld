@@ -24,6 +24,7 @@ public class TimeManagement : MonoBehaviour
     public FinishEvent OnFinish;
     public delegate void TickEvent(float tick);
     public TickEvent OnTick;
+    public TickEvent OnCombatTick;
 
     TimeControl _control;
 
@@ -32,17 +33,24 @@ public class TimeManagement : MonoBehaviour
     System.DateTime _dt;
 
     float _manualDuration;
+    float _combatDuration;
     bool _isComitting;
     float _timeToUpdate;
+    bool _enemiesMoving;
 
     public static bool IsCombatMode;
     public MemberPriority CombatPriority;
+
+    List<CombatEntity> ActiveEnemies;
+    List<CombatEntity> ReadyMembers;
 
     public void StartTiming(Party party)
     {
         _party = party;
         _control = TimeControl.Auto;
         _isComitting = false;
+
+        ReadyMembers = new List<CombatEntity>();
 
         _timeToUpdate = 0;
         OnTick += UpdateEnvironment;
@@ -80,6 +88,34 @@ public class TimeManagement : MonoBehaviour
                     _isComitting = false;
                 }
             }
+        } 
+        else if (_control == TimeControl.Combat)
+        {
+            if(_enemiesMoving)
+            {
+                _enemiesMoving = false;
+                List<CombatEntity> finished = new List<CombatEntity>();
+                foreach(var enemy in ActiveEnemies)
+                {
+                    if(enemy.MoveCooldown <= 0)
+                    {
+                        finished.Add(enemy);
+                    }
+                }
+                foreach (var enemy in finished)
+                    ActiveEnemies.Remove(enemy);
+
+                if (ActiveEnemies.Count > 0)
+                    _enemiesMoving = true;
+                else
+                    CombatStep();
+            }
+            else if (_combatDuration > 0)
+            {
+                OnTick?.Invoke(_combatDuration);
+                _combatDuration = 0;
+                CombatStep();
+            }
         }
     }
 
@@ -110,8 +146,55 @@ public class TimeManagement : MonoBehaviour
             foreach (var enemy in PartyController.Instance.GetActiveEnemies())
                 CombatPriority.Add(enemy);
 
-            CombatPriority.Sort();
+            CombatStep();
+        }
+    }
 
+    public void EntityAttack(CombatEntity attacker)
+    {
+        ReadyMembers.Remove(attacker);
+        CombatStep();
+    }
+
+    void CombatStep()
+    {
+        if(ReadyMembers.Count > 0)
+        {
+            return;
+        }
+
+        ActiveEnemies = new List<CombatEntity>();
+        ReadyMembers = new List<CombatEntity>();
+
+        float cooldown;
+        while(CombatPriority.NextCooldown(out cooldown))
+        {
+            CombatEntity next = CombatPriority.Get();
+            if(next is Enemy)
+            {
+                ActiveEnemies.Add(next);
+            } 
+            else
+            {
+                ReadyMembers.Add(next);
+            }
+        }
+
+        if (ActiveEnemies.Count > 0)
+        {
+            _enemiesMoving = true;
+            foreach (var enemy in ActiveEnemies)
+            {
+                enemy.CombatStep();
+            }
+        } 
+        else if (ReadyMembers.Count > 0)
+        {
+
+        } 
+        else
+        {
+            _combatDuration = cooldown;
         }
     }
 
