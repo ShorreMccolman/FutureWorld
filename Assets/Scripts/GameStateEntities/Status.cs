@@ -11,7 +11,7 @@ public class Status : GameStateEntity
     public Status(GameStateEntity parent) : base(parent)
     {
         _conditions = new List<StatusCondition>();
-        AddCondition(StatusEffectOption.Rested, 34 * 60 * 60);
+        AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
     }
 
     public Status(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -104,6 +104,31 @@ public class Status : GameStateEntity
         return false;
     }
 
+    public bool HasNegativeCondition()
+    {
+        foreach(var condition in _conditions)
+        {
+            if (condition.Effect.NeedsHealing)
+                return true;
+        }
+        return false;
+    }
+
+    public void HealConditions()
+    {
+        List<StatusEffectOption> options = new List<StatusEffectOption>();
+        foreach(var condition in _conditions)
+        {
+            if(condition.Effect.NeedsHealing)
+            {
+                options.Add(condition.Option);
+            }
+        }
+        foreach(var option in options)
+            RemoveCondition(option);
+        AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
+    }
+
     public void CompleteCondition(StatusCondition condition)
     {
         _conditions.Remove(condition);
@@ -111,7 +136,7 @@ public class Status : GameStateEntity
         {
             case StatusEffectOption.Sleep:
                 RemoveCondition(StatusEffectOption.Weak);
-                AddCondition(StatusEffectOption.Rested, 34 * 60 * 60);
+                AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
                 return;
             case StatusEffectOption.Rested:
                 RemoveCondition(StatusEffectOption.Rested);

@@ -416,6 +416,8 @@ public static class GameConstants {
     public const int TRAINING_REQUIREMENT_EXPERT = 4;
     public const int TRAINING_REQUIREMENT_MASTER = 9;
 
+    public const float REST_DURATION = 34f * 60f * 60f;
+
     public static Dictionary<SkillProficiency, string> LabelForProficiency = new Dictionary<SkillProficiency, string>()
     {
         {SkillProficiency.Novice, "Novice" },

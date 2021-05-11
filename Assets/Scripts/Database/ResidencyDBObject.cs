@@ -70,6 +70,9 @@ public class Services
     public int SkillCost;
 
     public bool IsBank;
+
+    public bool IsTemple;
+    public float HealingCostMultiplier;
 }
 
 [System.Serializable]

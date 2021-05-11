@@ -40,25 +40,27 @@ public class StatusEffect
 {
     public StatusEffectOption Option;
     public string DisplayName;
+    public bool NeedsHealing;
     public bool TicksUp;
 
-    public StatusEffect(StatusEffectOption option, string name, bool ticksUp)
+    public StatusEffect(StatusEffectOption option, string name, bool needsHealing, bool ticksUp)
     {
         Option = option;
         DisplayName = name;
+        NeedsHealing = needsHealing;
         TicksUp = ticksUp;
     }
 
     public static List<StatusEffect> Effects = new List<StatusEffect>()
     {
-        { new StatusEffect(StatusEffectOption.Sleep, "Sleep", false) },
-        { new StatusEffect(StatusEffectOption.Rested, "Rested", false) },
-        { new StatusEffect(StatusEffectOption.Poison, "Poison", true) },
-        { new StatusEffect(StatusEffectOption.Disease, "Disease", true) },
-        { new StatusEffect(StatusEffectOption.Weak, "Weak", true) },
-        { new StatusEffect(StatusEffectOption.BoostedAC, "BoostedAC", false) },
-        { new StatusEffect(StatusEffectOption.BoostedStats, "BoostedStats", false) },
-        { new StatusEffect(StatusEffectOption.BoostedResistance, "BoostedResist", false) }
+        { new StatusEffect(StatusEffectOption.Sleep, "Sleep", true, false) },
+        { new StatusEffect(StatusEffectOption.Rested, "Rested", false, false) },
+        { new StatusEffect(StatusEffectOption.Poison, "Poison", true, true) },
+        { new StatusEffect(StatusEffectOption.Disease, "Disease", true, true) },
+        { new StatusEffect(StatusEffectOption.Weak, "Weak", true, true) },
+        { new StatusEffect(StatusEffectOption.BoostedAC, "BoostedAC", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedStats, "BoostedStats", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedResistance, "BoostedResist", false, false) }
     };
 }
 

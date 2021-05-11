@@ -73,6 +73,48 @@ public class PartyMember : GameStateEntity, CombatEntity {
         return "";
     }
 
+    public bool IsConcious()
+    {
+        if (Vitals.Condition != PartyMemberState.Good)
+            return false;
+
+        if (Status.HasCondition(StatusEffectOption.Sleep))
+            return false;
+
+        return true;
+    }
+
+    public void FullHeal()
+    {
+        Status.HealConditions();
+        Vitals.Restore(true);
+    }
+
+    public int PriceOfHealing()
+    {
+        int value = 0;
+        if(Vitals.Condition == PartyMemberState.Eradicated)
+        {
+            value = 500;
+        } 
+        else if (Vitals.Condition == PartyMemberState.Dead)
+        {
+            value = 200;
+        }
+        else
+        {
+            if(Status.HasNegativeCondition())
+            {
+                value = 30;
+            } 
+            else if (Vitals.CurrentHP < Vitals.EffectiveTotalHP || Vitals.CurrentMP < Vitals.EffectiveTotalMP)
+            {
+                value = 10;
+            }
+        }
+        return value;
+    }
+
     public List<Skill> DetermineLearnableSkills(List<string> available)
     {
         List<Skill> skills = new List<Skill>();
@@ -97,8 +139,11 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public void Rest(float duration)
     {
-        Vitals.Rest();
-        Status.AddCondition(StatusEffectOption.Sleep, duration * 60);
+        Vitals.Restore();
+        if (duration > 0)
+            Status.AddCondition(StatusEffectOption.Sleep, duration * 60);
+        else
+            Status.AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
         Status.RemoveCondition(StatusEffectOption.Weak);
     }
 

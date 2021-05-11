@@ -40,7 +40,7 @@ public class Vitals : GameStateEntity
         get
         {
             int value = _profile.BaseDamage() + _equipment.GetDamageLower(_skillset);
-            return Mathf.Max(value,1);
+            return Mathf.Max(value, 1);
         }
     }
     public int EffectiveDamageUpper
@@ -186,10 +186,29 @@ public class Vitals : GameStateEntity
         return Cooldown <= 0;
     }
 
-    public void Rest()
+    public void ForceFullHeal()
     {
         CurrentHP = EffectiveTotalHP;
         CurrentMP = EffectiveTotalMP;
+    }
+
+    public void Restore(bool restoreAll = false)
+    {
+        if(restoreAll)
+        {
+            CurrentHP = EffectiveTotalHP;
+            CurrentMP = EffectiveTotalMP;
+        } 
+        else
+        {
+            CurrentHP = MaxRestHP();
+            CurrentMP = MaxRestMP();
+        }
+
+        if (Condition == PartyMemberState.Unconcious)
+            Condition = PartyMemberState.Good;
+        else if (restoreAll && (Condition == PartyMemberState.Dead || Condition == PartyMemberState.Eradicated))
+            Condition = PartyMemberState.Good;
     }
 
     public void SetExpression(string expression, float duration)

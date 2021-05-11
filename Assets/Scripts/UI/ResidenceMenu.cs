@@ -22,6 +22,7 @@ public class ResidenceMenu : ConversationMenu
 
     bool _hasAchievedSpecialCondition;
     int _advanceStepCounter = -1;
+    bool _hasTrained;
 
     public void Setup(Residency residency)
     {
@@ -86,65 +87,87 @@ public class ResidenceMenu : ConversationMenu
         {
             GameObject obj;
             DialogOptionButton UI;
-            if(resident.Data.Services.IsBank)
+
+            if (!PartyController.Instance.ActiveMember.IsConcious())
             {
                 obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                 UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Deposit", StartDeposit);
+                UI.Setup(PartyController.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything", null);
                 DialogOptions.Add(UI);
-
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Withdraw", StartWithdraw);
-                DialogOptions.Add(UI);
-
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Balance: " + PartyController.Instance.Party.CurrentBalance, null);
-                DialogOptions.Add(UI);
-            }
-            if(resident.Data.Services.Skills.Count > 0)
+            } 
+            else
             {
-                OfferSkillsToActiveMember();
-            }
-            if (resident.Data.Services.MaxTrainingLevel > 0)
-            {
-                OfferTrainingToActiveMember();
-            }
-            if (resident.Data.Services.RoomRentalCost > 0)
-            {
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                if (resident.Data.Services.IsBank)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Rent Room for " + resident.Data.Services.RoomRentalCost + " gold", BuyRoom);
-                DialogOptions.Add(UI);
-            }
-            if (resident.Data.Services.FoodCost > 0)
-            {
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Deposit", StartDeposit);
+                    DialogOptions.Add(UI);
 
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Fill Packs to " + resident.Data.Services.FoodQuantity + " days for " + _currentResident.Data.Services.FoodCost + " gold", BuyFood);
-                DialogOptions.Add(UI);
-            }
-            if (resident.Data.Services.DrinkCost > 0)
-            {
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Have a Drink", BuyDrink);
-                DialogOptions.Add(UI);
-            }
-            if (resident.Data.Services.TipCost > 0)
-            {
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Withdraw", StartWithdraw);
+                    DialogOptions.Add(UI);
 
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Tip Barkeep", BuyTip);
-                DialogOptions.Add(UI);
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Balance: " + PartyController.Instance.Party.CurrentBalance, null);
+                    DialogOptions.Add(UI);
+                }
+                if (resident.Data.Services.IsTemple)
+                {
+                    OfferHealingToActiveMember();
+
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Donate", Donate);
+                    DialogOptions.Add(UI);
+                }
+                if (resident.Data.Services.Skills.Count > 0)
+                {
+                    OfferSkillsToActiveMember();
+                }
+                if (resident.Data.Services.MaxTrainingLevel > 0)
+                {
+                    OfferTrainingToActiveMember();
+                }
+                if (resident.Data.Services.RoomRentalCost > 0)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Rent Room for " + resident.Data.Services.RoomRentalCost + " gold", BuyRoom);
+                    DialogOptions.Add(UI);
+                }
+                if (resident.Data.Services.FoodCost > 0)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Fill Packs to " + resident.Data.Services.FoodQuantity + " days for " + _currentResident.Data.Services.FoodCost + " gold", BuyFood);
+                    DialogOptions.Add(UI);
+                }
+                if (resident.Data.Services.DrinkCost > 0)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Have a Drink", BuyDrink);
+                    DialogOptions.Add(UI);
+                }
+                if (resident.Data.Services.TipCost > 0)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Tip Barkeep", BuyTip);
+                    DialogOptions.Add(UI);
+                }
             }
         }
         else
@@ -217,6 +240,19 @@ public class ResidenceMenu : ConversationMenu
             {
                 AttemptAdvanceStep(_advanceStepCounter);
             }
+        }
+    }
+
+    void OfferHealingToActiveMember()
+    {
+        int price = PartyController.Instance.Party.ActiveMember.PriceOfHealing();
+        if (price > 0)
+        {
+            GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+            OptionButton UI = obj.GetComponent<DialogOptionButton>();
+            UI.Setup("Heal " + price + " Gold", TryHeal);
+            DialogOptions.Add(UI);
         }
     }
 
@@ -427,6 +463,28 @@ public class ResidenceMenu : ConversationMenu
         }
     }
 
+    public void TryHeal()
+    {
+        int price = Mathf.RoundToInt(PartyController.Instance.Party.ActiveMember.PriceOfHealing() * _currentResident.Data.Services.HealingCostMultiplier);
+        bool success = PartyController.Instance.Party.TryPay(price);
+        if(success)
+        {
+            PartyController.Instance.Party.ActiveMember.FullHeal();
+            HUD.Instance.UpdateDisplay();
+
+            SelectResident(_currentResident);
+        }
+    }
+
+    public void Donate()
+    {
+        
+        bool success = PartyController.Instance.Party.TryPay(Mathf.RoundToInt(10f * _currentResident.Data.Services.HealingCostMultiplier));
+        if(success)
+        {
+            HUD.Instance.SendInfoMessage("Thanks!", 2.0f);
+        }
+    }
 
     public void TrainLevel()
     {
@@ -434,7 +492,13 @@ public class ResidenceMenu : ConversationMenu
 
         if (success)
         {
+            foreach (var member in PartyController.Instance.Party.Members)
+                member.Rest(0);
+
             PartyController.Instance.Party.ActiveMember.Profile.TrainLevel();
+            PartyController.Instance.Party.ActiveMember.Vitals.ForceFullHeal();
+
+            _hasTrained = true;
 
             DisplayDialog("");
             HUD.Instance.ExpressMembers(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);

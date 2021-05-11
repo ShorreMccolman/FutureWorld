@@ -64,44 +64,57 @@ public class MerchantMenu : ConversationMenu
 
         GameObject obj;
         DialogOptionButton UI;
-        if (_currentMerchant.Data.BuyInfo.CountForStoreType(_currentMerchant.Data.StoreType) > 0)
+
+
+        if (!PartyController.Instance.ActiveMember.IsConcious())
         {
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
             UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Buy", SetupBuy);
+            UI.Setup(PartyController.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything", null);
             DialogOptions.Add(UI);
-
-
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Sell", SetupSell);
-            DialogOptions.Add(UI);
-        }
-
-        if (_currentMerchant.Data.CanIdentify)
+        } 
+        else
         {
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Identify", SetupIdentify);
-            DialogOptions.Add(UI);
-        }
+            if (_currentMerchant.Data.BuyInfo.CountForStoreType(_currentMerchant.Data.StoreType) > 0)
+            {
+                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
-        if (_currentMerchant.Data.CanRepair)
-        {
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Repair", SetupRepair);
-            DialogOptions.Add(UI);
-        }
+                UI = obj.GetComponent<DialogOptionButton>();
+                UI.Setup("Buy", SetupBuy);
+                DialogOptions.Add(UI);
 
-        if (_currentMerchant.Data.SpecialInfo.CountForStoreType(_currentMerchant.Data.StoreType) > 0)
-        {
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Special", SetupSpecial);
-            DialogOptions.Add(UI);
+                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                UI = obj.GetComponent<DialogOptionButton>();
+                UI.Setup("Sell", SetupSell);
+                DialogOptions.Add(UI);
+            }
+
+            if (_currentMerchant.Data.CanIdentify)
+            {
+                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                UI = obj.GetComponent<DialogOptionButton>();
+                UI.Setup("Identify", SetupIdentify);
+                DialogOptions.Add(UI);
+            }
+
+            if (_currentMerchant.Data.CanRepair)
+            {
+                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                UI = obj.GetComponent<DialogOptionButton>();
+                UI.Setup("Repair", SetupRepair);
+                DialogOptions.Add(UI);
+            }
+
+            if (_currentMerchant.Data.SpecialInfo.CountForStoreType(_currentMerchant.Data.StoreType) > 0)
+            {
+                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                UI = obj.GetComponent<DialogOptionButton>();
+                UI.Setup("Special", SetupSpecial);
+                DialogOptions.Add(UI);
+            }
         }
 
         int yOffset = 25 * DialogOptions.Count;
