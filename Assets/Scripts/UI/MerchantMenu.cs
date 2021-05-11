@@ -446,6 +446,8 @@ public class MerchantMenu : ConversationMenu
 
     public override void OnClose()
     {
+        base.OnClose();
+
         foreach (var option in DialogOptions)
             Destroy(option.gameObject);
         DialogOptions.Clear();

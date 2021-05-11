@@ -662,6 +662,8 @@ public class ResidenceMenu : ConversationMenu
 
     public override void OnClose()
     {
+        base.OnClose();
+
         foreach (var option in DialogOptions)
             Destroy(option.gameObject);
         DialogOptions.Clear();
@@ -669,6 +671,23 @@ public class ResidenceMenu : ConversationMenu
         foreach (var option in Options)
             Destroy(option.gameObject);
         Options.Clear();
+
+        if(_hasTrained)
+        {
+            System.DateTime dt = TimeManagement.Instance.GetDT();
+            System.DateTime adjusted = dt.AddHours(15);
+
+            float duration = 24 * 7 * 60 + 60 * 24 - (adjusted.Minute + adjusted.Hour * 60);
+            TimeManagement.Instance.ProgressInstant(duration);
+            foreach (var member in PartyController.Instance.Members)
+            {
+                member.Status.RemoveCondition(StatusEffectOption.Weak);
+                member.Status.AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
+            }
+            HUD.Instance.UpdateDisplay();
+
+            _hasTrained = false;
+        }
 
         PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
     }

@@ -204,6 +204,11 @@ public class TimeManagement : MonoBehaviour
         OnFinish = finishEvent;
     }
 
+    public void ProgressInstant(float minutes)
+    {
+        OnTick?.Invoke(minutes * 60);
+    }
+
     void UpdateEnvironment(float tick)
     {
         _timeToUpdate -= tick;

@@ -12,4 +12,16 @@ public class ConversationMenu : Menu
     {
 
     }
+
+    public override void OnOpen()
+    {
+        base.OnOpen();
+        TimeManagement.Instance.SetTimeControl(TimeControl.Manual);
+    }
+
+    public override void OnClose()
+    {
+        base.OnClose();
+        TimeManagement.Instance.SetTimeControl(TimeControl.Auto);
+    }
 }
