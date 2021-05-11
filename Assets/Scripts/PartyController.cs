@@ -194,7 +194,7 @@ public class PartyController : MonoBehaviour {
         if (_controlState != ControlState.MenuLock)
         {
             Vector3 point = Entity.Camera.ScreenToViewportPoint(SelectionPosition);
-            if (Mathf.Abs(point.x) <= 1 && Mathf.Abs(point.y) <= 1)
+            if (point.x <= 1 && point.y >= 0)
             {
                 Ray ray = Entity.Camera.ScreenPointToRay(SelectionPosition);
                 RaycastHit hit;
