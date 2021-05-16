@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9189125d1e9b4c64e925c333f513681e, type: 3}
+  m_Name: NewSorpigal_House6
+  m_EditorClassIdentifier: 
+  ID: sorpigal_house_6
+  DisplayName: 
+  Hours:
+    OpenHour: 0
+    CloseHour: 0
+  Residents:
+  - ShortName: Enoch Highridge
+    DisplayName: Enoch Highridge the Teacher
+    FirstName: Enoch Highridge
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    GuildID: 
+    IsService: 0
+    Services:
+      RoomRentalCost: 0
+      FoodQuantity: 0
+      FoodCost: 0
+      DrinkCost: 0
+      TipCost: 0
+      Tips: []
+      TrainingCost: 0
+      MaxTrainingLevel: 0
+      Skills: []
+      SkillCost: 0
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+    Options:
+    - QuestLine: 0
+      Steps:
+      - Display: Skills
+        FirstDialog: Because skills get so difficult to learn once you've achieved
+          a high level in them, it is much more efficient to learn many skills to
+          a moderate level, rather than a couple of skills to a high level.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
+    - QuestLine: 0
+      Steps:
+      - Display: 
+        FirstDialog: Spirit magic is the magic you need to bring life from death.
+          I can train you in this important skill if you've already had a little
+          practice (Rank 4) and are willing to pay me 1000 gold.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 1
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: Spirit
+        Proficiency: 1
+        Cost: 1000
+    - QuestLine: 0
+      Steps:
+      - Display: Bishop Inquisitorio
+        FirstDialog: Spirit can be mastered with the help of Bishop Inquisitorio.
+          He lives right behind Castle Ironfist, you can't miss him.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0

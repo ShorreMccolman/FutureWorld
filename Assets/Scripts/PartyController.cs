@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Linq;
 
 public enum ControlState
@@ -191,6 +192,24 @@ public class PartyController : MonoBehaviour {
             }
         }
 
+        string message = "";
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        results.ForEach((result) => {
+            IInfoMessenger msg = result.gameObject.GetComponent<IInfoMessenger>();
+            if (msg != null)
+            {
+                message = msg.GetInfoMessage();
+            }
+
+        });
+
         if (_controlState != ControlState.MenuLock)
         {
             Vector3 point = Entity.Camera.ScreenToViewportPoint(SelectionPosition);
@@ -206,14 +225,10 @@ public class PartyController : MonoBehaviour {
                         if (_intendedTarget == null)
                             _intendedTarget = hit.collider.GetComponentInParent<Entity3D>();
 
-                        if (_intendedTarget != null)
+                        if (_intendedTarget != null && message == "")
                         {
-                            HUD.Instance.SendInfoMessage(_intendedTarget.MouseoverName);
+                            message = _intendedTarget.MouseoverName;
                         }
-                    }
-                    else
-                    {
-                        HUD.Instance.SendInfoMessage("");
                     }
                 }
             }
@@ -261,6 +276,9 @@ public class PartyController : MonoBehaviour {
                 TimeManagement.Instance.ToggleCombatMode();
             }
         }
+
+        HUD.Instance.SendInfoMessage(message);
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             HUD.Instance.ToggleSelectedCharacter();

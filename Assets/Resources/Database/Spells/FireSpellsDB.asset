@@ -24,3 +24,13 @@ MonoBehaviour:
     DisplayName: Fire Arrow
     School: 0
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: protect_fire
+    Number: 2
+    DisplayName: Protection from Fire
+    School: 0
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: fire_bolt
+    Number: 3
+    DisplayName: Fire Bolt
+    School: 0
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}

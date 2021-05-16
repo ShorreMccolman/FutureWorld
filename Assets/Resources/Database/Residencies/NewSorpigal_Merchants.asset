@@ -20,18 +20,22 @@ MonoBehaviour:
     StoreType: 0
     BuyInfo:
       Level: 0
+      Levels: 
       GeneralTypes: 0200000001000000
       WeaponTypes: 
       ArmorTypes: 
       MagicTypes: 
     SpecialInfo:
       Level: 0
+      Levels: 
       GeneralTypes: 
       WeaponTypes: 
       ArmorTypes: 
       MagicTypes: 
     CanIdentify: 0
     CanRepair: 0
+    SkillCost: 0
+    GuildID: 
     Hours:
       OpenHour: 5
       CloseHour: 22
@@ -42,18 +46,22 @@ MonoBehaviour:
     StoreType: 1
     BuyInfo:
       Level: 0
+      Levels: 
       GeneralTypes: 
       WeaponTypes: 0000000001000000030000000400000005000000060000000700000008000000
       ArmorTypes: 
       MagicTypes: 
     SpecialInfo:
       Level: 1
+      Levels: 
       GeneralTypes: 
       WeaponTypes: 04000000
       ArmorTypes: 
       MagicTypes: 
     CanIdentify: 1
     CanRepair: 1
+    SkillCost: 0
+    GuildID: 
     Hours:
       OpenHour: 6
       CloseHour: 18
@@ -64,18 +72,22 @@ MonoBehaviour:
     StoreType: 2
     BuyInfo:
       Level: 0
+      Levels: 
       GeneralTypes: 00000000
       WeaponTypes: 
       ArmorTypes: 010000000200000004000000
       MagicTypes: 
     SpecialInfo:
       Level: 1
+      Levels: 
       GeneralTypes: 00000000
       WeaponTypes: 
       ArmorTypes: 0100000004000000
       MagicTypes: 
     CanIdentify: 1
     CanRepair: 1
+    SkillCost: 0
+    GuildID: 
     Hours:
       OpenHour: 6
       CloseHour: 18
@@ -86,18 +98,74 @@ MonoBehaviour:
     StoreType: 3
     BuyInfo:
       Level: 0
+      Levels: 
       GeneralTypes: 020000000100000000000000030000000400000005000000
       WeaponTypes: 
       ArmorTypes: 
       MagicTypes: 
     SpecialInfo:
       Level: 1
+      Levels: 
       GeneralTypes: 000000000100000002000000030000000400000005000000
       WeaponTypes: 
       ArmorTypes: 
       MagicTypes: 
     CanIdentify: 1
     CanRepair: 1
+    SkillCost: 0
+    GuildID: 
+    Hours:
+      OpenHour: 6
+      CloseHour: 18
+  - ID: elemental_1
+    StoreName: Initiate Guild of the Elementals
+    MerchantName: Jeremy
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    StoreType: 4
+    BuyInfo:
+      Level: 0
+      Levels: 0100000002000000
+      GeneralTypes: 
+      WeaponTypes: 
+      ArmorTypes: 
+      MagicTypes: 00000000010000000200000003000000
+    SpecialInfo:
+      Level: 1
+      Levels: 
+      GeneralTypes: 
+      WeaponTypes: 
+      ArmorTypes: 
+      MagicTypes: 
+    CanIdentify: 0
+    CanRepair: 0
+    SkillCost: 750
+    GuildID: elemental
+    Hours:
+      OpenHour: 6
+      CloseHour: 18
+  - ID: self_1
+    StoreName: Initiate Guild of the Self
+    MerchantName: Teliana
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    StoreType: 4
+    BuyInfo:
+      Level: 0
+      Levels: 0100000002000000
+      GeneralTypes: 
+      WeaponTypes: 
+      ArmorTypes: 
+      MagicTypes: 040000000500000006000000
+    SpecialInfo:
+      Level: 1
+      Levels: 
+      GeneralTypes: 
+      WeaponTypes: 
+      ArmorTypes: 
+      MagicTypes: 
+    CanIdentify: 0
+    CanRepair: 0
+    SkillCost: 750
+    GuildID: self
     Hours:
       OpenHour: 6
       CloseHour: 18

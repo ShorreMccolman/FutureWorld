@@ -42,6 +42,8 @@ public class MerchantMenu : ConversationMenu
 
         DialogOptions = new List<DialogOptionButton>();
 
+        PartyController.Instance.Party.MemberChanged += OnMemberChanged;
+
         OnHover = null;
         CloseStores();
         SetupDialog();
@@ -58,15 +60,34 @@ public class MerchantMenu : ConversationMenu
         SpellStore.gameObject.SetActive(false);
     }
 
+    void OnMemberChanged()
+    {
+        if (PlayerInventoryDisplay.gameObject.activeSelf)
+            PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
+        else if(!menuOpen)
+            SetupDialog();
+    }
+
     void SetupDialog()
     {
+        foreach (var option in DialogOptions)
+            Destroy(option.gameObject);
+        DialogOptions.Clear();
+
         menuOpen = false;
 
         GameObject obj;
         DialogOptionButton UI;
 
+        if (!PartyController.Instance.Party.QuestLog.IsMemberOfGuild(_currentMerchant.Data.GuildID))
+        {
+            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
-        if (!PartyController.Instance.ActiveMember.IsConcious())
+            UI = obj.GetComponent<DialogOptionButton>();
+            UI.Setup("You must be a member of this guild to study here.", null);
+            DialogOptions.Add(UI);
+        }
+        else if (!PartyController.Instance.ActiveMember.IsConcious())
         {
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
@@ -78,17 +99,52 @@ public class MerchantMenu : ConversationMenu
         {
             if (_currentMerchant.Data.BuyInfo.CountForStoreType(_currentMerchant.Data.StoreType) > 0)
             {
+                string buyLabel = "Buy";
+
+                List<Skill> availableSkills = new List<Skill>();
+                if (_currentMerchant.Data.StoreType == StoreType.Spell)
+                {
+                    List<string> schools = new List<string>();
+                    foreach (var school in _currentMerchant.Data.BuyInfo.MagicTypes)
+                    {
+                        schools.Add(school.ToString());
+                    }
+                    availableSkills = PartyController.Instance.ActiveMember.DetermineLearnableSkills(schools);
+                    buyLabel = "Buy Spells";
+                }
+
+                if(availableSkills.Count > 0)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Skill Cost: " + _currentMerchant.Data.SkillCost, null);
+                    DialogOptions.Add(UI);
+                }
+
                 obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                 UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Buy", SetupBuy);
+                UI.Setup(buyLabel, SetupBuy);
                 DialogOptions.Add(UI);
 
-
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Sell", SetupSell);
-                DialogOptions.Add(UI);
+                if(availableSkills.Count > 0)
+                {
+                    for(int i=0;i<availableSkills.Count;i++)
+                    {
+                        obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                        UI = obj.GetComponent<DialogOptionButton>();
+                        UI.Setup(availableSkills[i].DisplayName, i, LearnSkill);
+                        DialogOptions.Add(UI);
+                    }
+                } 
+                else if (_currentMerchant.Data.StoreType != StoreType.Spell)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Sell", SetupSell);
+                    DialogOptions.Add(UI);
+                }
             }
 
             if (_currentMerchant.Data.CanIdentify)
@@ -218,6 +274,25 @@ public class MerchantMenu : ConversationMenu
         HoverDialog.text = text;
     }
 
+    public void LearnSkill(int index)
+    {
+        List<string> schools = new List<string>();
+        foreach (var school in _currentMerchant.Data.BuyInfo.MagicTypes)
+        {
+            schools.Add(school.ToString());
+        }
+        List<Skill> available = PartyController.Instance.ActiveMember.DetermineLearnableSkills(schools);
+
+        Skill skill = available[index];
+
+        if(PartyController.Instance.Party.TryPay(_currentMerchant.Data.SkillCost))
+        {
+            PartyController.Instance.ActiveMember.Skillset.LearnSkill(skill);
+            HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            SetupDialog();
+        }
+    }
+
     public void SetupBuy()
     {
         foreach (var option in DialogOptions)
@@ -267,8 +342,6 @@ public class MerchantMenu : ConversationMenu
 
         menuOpen = true;
 
-        HUD.Instance.SelectNewMember += OnMemberChanged;
-
         PlayerInventoryDisplay.Init(this, BarterSell, true);
         PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
     }
@@ -285,8 +358,6 @@ public class MerchantMenu : ConversationMenu
 
         menuOpen = true;
 
-        HUD.Instance.SelectNewMember += OnMemberChanged;
-
         PlayerInventoryDisplay.Init(this, BarterIdentify);
         PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
     }
@@ -302,8 +373,6 @@ public class MerchantMenu : ConversationMenu
         OnHover = HoverItemRepair;
 
         menuOpen = true;
-
-        HUD.Instance.SelectNewMember += OnMemberChanged;
 
         PlayerInventoryDisplay.Init(this, BarterRepair);
         PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
@@ -415,17 +484,8 @@ public class MerchantMenu : ConversationMenu
         return success;
     }
 
-    void OnMemberChanged(PartyMember member)
-    {
-        PlayerInventoryDisplay.DisplayInventory(member.Inventory);
-    }
-
     public void Back()
     {
-        foreach (var option in DialogOptions)
-            Destroy(option.gameObject);
-        DialogOptions.Clear();
-
         if (menuOpen)
         {
             HUD.Instance.ReleaseInfoLock();
@@ -440,8 +500,6 @@ public class MerchantMenu : ConversationMenu
         }
         else 
             HUD.Instance.CloseAll();
-
-        HUD.Instance.SelectNewMember -= OnMemberChanged;
     }
 
     public override void OnClose()
@@ -465,6 +523,7 @@ public class MerchantMenu : ConversationMenu
             menuOpen = false;
         }
 
-        HUD.Instance.SelectNewMember -= OnMemberChanged;
+        HUD.Instance.EnableSideMenu();
+        PartyController.Instance.Party.MemberChanged -= SetupDialog;
     }
 }

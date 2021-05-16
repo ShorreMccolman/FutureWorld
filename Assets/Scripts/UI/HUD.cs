@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public enum CharacterMenuSection
 {
@@ -18,6 +19,7 @@ public class HUD : Menu {
     void Awake() { Instance = this; }
 
     [SerializeField] GameObject DebugMenu;
+    [SerializeField] GameObject SideMenu;
 
     [SerializeField] Image LoadingScreen;
 
@@ -31,6 +33,7 @@ public class HUD : Menu {
     [SerializeField] Text FoodLabel;
     [SerializeField] Text GoldLabel;
 
+    [SerializeField] Image Vignette;
     [SerializeField] Image CombatIndicator;
 
     [SerializeField] Image CharacterPortrait;
@@ -121,6 +124,8 @@ public class HUD : Menu {
         _currentInfoMessage = "";
         ResetInfoMessage();
 
+        Vignette.enabled = false;
+
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
         UpdateDisplay();
@@ -188,11 +193,17 @@ public class HUD : Menu {
         }
     }
 
+    public void EnableSideMenu()
+    {
+        SideMenu.SetActive(true);
+    }
+
     public void OpenRest()
     {
         if (OtherMenuOpen || CharacterMenuOpen)
             return;
 
+        SideMenu.SetActive(false);
         MenuManager.Instance.OpenMenu("Rest");
     }
 
@@ -221,6 +232,7 @@ public class HUD : Menu {
         if (_selectedMenu != null)
             MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
 
+        Vignette.enabled = true;
         _selectedMenu = menu;
         _selectedMenu.Setup(SelectedMember);
         MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag);
@@ -233,6 +245,7 @@ public class HUD : Menu {
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
         CharacterMenuOpen = false;
+        Vignette.enabled = false;
     }
 
     public void CloseAll()
@@ -241,6 +254,7 @@ public class HUD : Menu {
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
         CharacterMenuOpen = false;
+        Vignette.enabled = false;
         OtherMenuOpen = false;
         PartyController.Instance.SetControlState(ControlState.Previous);
     }
@@ -358,6 +372,7 @@ public class HUD : Menu {
         CharacterMenuOpen = true;
         MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag);
         _selectedMenu.Setup(SelectedMember);
+        Vignette.enabled = true;
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(true);
         RefreshCharacterSprite();
@@ -637,6 +652,7 @@ public class HUD : Menu {
         MenuManager.Instance.OpenMenu("Residence");
         ResidenceMenu.Setup(residency);
         OtherMenuOpen = true;
+        SideMenu.SetActive(false);
     }
 
     public void EnterResidence(Merchant merchant)
@@ -645,6 +661,7 @@ public class HUD : Menu {
         MenuManager.Instance.OpenMenu("Merchant");
         MerchantMenu.Setup(merchant);
         OtherMenuOpen = true;
+        SideMenu.SetActive(false);
     }
 
     public bool TryConsume(InventoryItem item)
@@ -706,17 +723,6 @@ public class HUD : Menu {
         ScrollInfoPopup.gameObject.SetActive(false);
     }
 
-    bool _hoveringCompass;
-    public void OnHoverCompass()
-    {
-        _hoveringCompass = true;
-    }
-
-    public void OffHoverCompass()
-    {
-        _hoveringCompass = false;
-    }
-
     public void UpdateCompass()
     {
         float rot = _party.Entity.transform.eulerAngles.y % 360;
@@ -724,9 +730,6 @@ public class HUD : Menu {
         float translation = -rot * 256f / 360f;
 
         Compass.localPosition = new Vector3(translation, Compass.localPosition.y, Compass.localPosition.z);
-
-        if(_hoveringCompass)
-            SendInfoMessage(TimeManagement.Instance.GetFullDateAndTime());
     }
 
     public void ShowLoad(bool isShowing)

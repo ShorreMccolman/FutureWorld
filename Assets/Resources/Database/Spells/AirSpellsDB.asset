@@ -24,3 +24,48 @@ MonoBehaviour:
     DisplayName: Static Charge
     School: 1
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: protect_elec
+    Number: 2
+    DisplayName: Protection from Electricity
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: sparks
+    Number: 3
+    DisplayName: Sparks
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: feather_fall
+    Number: 4
+    DisplayName: Feather Fall
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: shield
+    Number: 5
+    DisplayName: Shield
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: lightning_bolt
+    Number: 6
+    DisplayName: Lightning Bolt
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: jump
+    Number: 7
+    DisplayName: Jump
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: implosion
+    Number: 8
+    DisplayName: Implosion
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: fly
+    Number: 9
+    DisplayName: Fly
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: starburst
+    Number: 10
+    DisplayName: Starburst
+    School: 1
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}

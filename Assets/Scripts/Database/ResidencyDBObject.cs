@@ -73,6 +73,8 @@ public class Services
 
     public bool IsTemple;
     public float HealingCostMultiplier;
+
+    public bool IsBounty;
 }
 
 [System.Serializable]

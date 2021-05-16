@@ -123,6 +123,7 @@ public class RestMenu : Menu
     public override void OnClose()
     {
         PartyController.Instance.SetControlState(ControlState.Previous);
+        HUD.Instance.EnableSideMenu();
         TimeManagement.Instance.OnTick -= Tick;
         TimeManagement.Instance.CommitManualTick();
     }

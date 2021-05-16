@@ -595,9 +595,48 @@ public class ItemDatabase {
                     }
                 }
             }
+            if (Items.Contains(GeneralItemType.Spells))
+            {
+                if (item is Magic)
+                {
+                    possible.Add(item);
+                }
+            }
         }
 
         return new InventoryItem(null, GetItemFromWeightedList(possible, level), level);
+    }
+
+    public InventoryItem GetProduct(List<SpellSchool> schools, List<TreasureLevel> levels)
+    {
+        List<Item> possible = new List<Item>();
+        foreach (var item in _itemDict.Values)
+        {
+            bool hasChance = false;
+            foreach (var level in levels)
+            {
+                if (item.Chances.Chance(level) > 0)
+                    hasChance = true;
+            }
+
+            if (!hasChance)
+                continue;
+
+            if (item is Magic)
+            { 
+               Magic magic = item as Magic;
+
+               if (schools.Contains(magic.Type))
+               {
+                   possible.Add(item);
+                   continue;
+               }
+            }
+        }
+
+        int rand = Random.Range(0, possible.Count);
+
+        return new InventoryItem(null, possible[rand], TreasureLevel.L1);
     }
 
     public InventoryItem GetProduct(List<WeaponType> Items, TreasureLevel level)

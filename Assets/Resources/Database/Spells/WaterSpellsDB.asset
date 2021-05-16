@@ -24,3 +24,13 @@ MonoBehaviour:
     DisplayName: Cold Beam
     School: 2
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: protect_cold
+    Number: 2
+    DisplayName: Protection from Cold
+    School: 2
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: poison_spray
+    Number: 3
+    DisplayName: Poison Spray
+    School: 2
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}

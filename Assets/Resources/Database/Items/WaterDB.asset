@@ -47,7 +47,7 @@ MonoBehaviour:
       L5: 0
       L6: 0
     Level: 1
-    Value: 100
+    Value: 200
     Width: 2
     Height: 2
     startWithSkill: Water
@@ -58,3 +58,47 @@ MonoBehaviour:
     Requirement: 0
     Type: 2
     SpellNumber: 1
+  - ID: protect_cold
+    DisplayName: Protection from Cold
+    Description: 
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 2
+    Value: 300
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: be6fb94351998514eb4275758711daff, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: 11d87aacca0b9c64aae4eae017ceaa9a, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    Requirement: 0
+    Type: 2
+    SpellNumber: 2
+  - ID: poison_spray
+    DisplayName: Poison Spray
+    Description: 
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 2
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 2
+    Value: 400
+    Width: 2
+    Height: 2
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: be6fb94351998514eb4275758711daff, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: 11d87aacca0b9c64aae4eae017ceaa9a, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}
+    Requirement: 0
+    Type: 2
+    SpellNumber: 3

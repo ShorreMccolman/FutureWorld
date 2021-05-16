@@ -23,3 +23,11 @@ MonoBehaviour:
     - Retrieve the candelabra from the Abandoned Temple for Andover Potbello in New
       Sorpigal
     AwardDescription: Retrieved the Baa Candelabra
+  - ID: 102
+    LogDescriptions:
+    - Kill the Spider Queen
+    AwardDescription: Killed the Spider Queen
+  - ID: 103
+    LogDescriptions:
+    - Find the Missing Daughter
+    AwardDescription: Rescued Missing Daughter

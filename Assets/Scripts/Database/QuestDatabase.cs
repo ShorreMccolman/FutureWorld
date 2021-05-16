@@ -10,6 +10,9 @@ public enum QuestLine
 
     Letter = 100,
     Candelabra = 101,
+
+    SpiderQueen = 102,
+    MissingDaughter = 103,
 }
 
 [System.Serializable]

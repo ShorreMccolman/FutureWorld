@@ -71,6 +71,7 @@ public class StoreHours
 public class StoreInfo
 {
     public TreasureLevel Level;
+    public List<TreasureLevel> Levels;
 
     public List<GeneralItemType> GeneralTypes;
     public List<WeaponType> WeaponTypes;
@@ -113,6 +114,9 @@ public class MerchantData
     public bool CanIdentify;
     public bool CanRepair;
 
+    public int SkillCost;
+
+    public string GuildID;
     public StoreHours Hours;
 }
 

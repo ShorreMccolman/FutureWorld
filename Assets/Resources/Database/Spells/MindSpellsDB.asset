@@ -24,3 +24,13 @@ MonoBehaviour:
     DisplayName: Remove Fear
     School: 5
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: mind_blast
+    Number: 2
+    DisplayName: Mind Blast
+    School: 5
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: precision
+    Number: 3
+    DisplayName: Precision
+    School: 5
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}

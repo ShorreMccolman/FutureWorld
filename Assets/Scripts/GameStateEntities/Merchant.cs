@@ -78,6 +78,16 @@ public class Merchant : GameStateEntity
                     SpecialItems[i].Reparent(this);
                 }
                 break;
+            case StoreType.Spell:
+                BuyItems = new InventoryItem[12];
+                for (int i = 0; i < BuyItems.Length; i++)
+                {
+                    BuyItems[i] = ItemDatabase.Instance.GetProduct(data.BuyInfo.MagicTypes, data.BuyInfo.Levels);
+                    BuyItems[i].Reparent(this);
+                }
+
+                SpecialItems = new InventoryItem[0];
+                break;
         }
 
         foreach(var item in BuyItems)

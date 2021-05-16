@@ -75,19 +75,45 @@ public class ResidenceMenu : ConversationMenu
 
         DialogOptions = new List<OptionButton>();
 
-        if(!PartyController.Instance.Party.QuestLog.IsMemberOfGuild(resident.Data.GuildID))
-        { 
-            GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+        GameObject obj;
+        DialogOptionButton UI;
 
-            OptionButton UI = obj.GetComponent<DialogOptionButton>();
+        int yOffset = 30 * (_currentResident.Data.Options.Count);
+        for (int i = 0; i < _currentResident.Data.Options.Count; i++)
+        {
+            DialogOption option = _currentResident.Data.Options[i];
+            DialogStep step = option.Steps[resident.OptionProgress[i]];
+
+            if (step.MembershipOffer && PartyController.Instance.Party.QuestLog.IsMemberOfGuild(option.Membership.GuildID))
+                continue;
+
+            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+            UI = obj.GetComponent<DialogOptionButton>();
+
+            string label = step.Display;
+            if (step.MembershipOffer)
+                label = "Join " + option.Membership.GuildName;
+            else if (step.ExpertiseOffer)
+            {
+                Skill skill = SkillDatabase.Instance.GetSkill(option.Expertise.SkillID);
+                label = GameConstants.LabelForProficiency[option.Expertise.Proficiency] + " " + skill.TrainingName;
+            }
+
+            UI.Setup(label, i, AttemptAdvanceStep);
+            DialogOptions.Add(UI);
+        }
+
+        if (!PartyController.Instance.Party.QuestLog.IsMemberOfGuild(resident.Data.GuildID))
+        { 
+            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+            UI = obj.GetComponent<DialogOptionButton>();
             UI.Setup("You must be a member of this guild to study here.", null);
             DialogOptions.Add(UI);
         } 
         else if (resident.Data.IsService)
         {
-            GameObject obj;
-            DialogOptionButton UI;
-
             if (!PartyController.Instance.ActiveMember.IsConcious())
             {
                 obj = Instantiate(DialogOptionPrefab, DialogAnchor);
@@ -126,6 +152,14 @@ public class ResidenceMenu : ConversationMenu
 
                     UI = obj.GetComponent<DialogOptionButton>();
                     UI.Setup("Donate", Donate);
+                    DialogOptions.Add(UI);
+                }
+                if(resident.Data.Services.IsBounty)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Bounty Hunt", SetupBounty);
                     DialogOptions.Add(UI);
                 }
                 if (resident.Data.Services.Skills.Count > 0)
@@ -168,34 +202,6 @@ public class ResidenceMenu : ConversationMenu
                     UI.Setup("Tip Barkeep", BuyTip);
                     DialogOptions.Add(UI);
                 }
-            }
-        }
-        else
-        {
-            int yOffset = 30 * (_currentResident.Data.Options.Count);
-            for (int i = 0; i < _currentResident.Data.Options.Count; i++)
-            {
-                DialogOption option = _currentResident.Data.Options[i];
-                DialogStep step = option.Steps[resident.OptionProgress[i]];
-
-                if (step.MembershipOffer && PartyController.Instance.Party.QuestLog.IsMemberOfGuild(option.Membership.GuildID))
-                    continue;
-
-                GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-                DialogOptionButton UI = obj.GetComponent<DialogOptionButton>();
-
-                string label = step.Display;
-                if (step.MembershipOffer)
-                    label = "Join " + option.Membership.GuildName;
-                else if (step.ExpertiseOffer)
-                {
-                    Skill skill = SkillDatabase.Instance.GetSkill(option.Expertise.SkillID);
-                    label = GameConstants.LabelForProficiency[option.Expertise.Proficiency] + " " + skill.TrainingName;
-                }
-
-                UI.Setup(label, i, AttemptAdvanceStep);
-                DialogOptions.Add(UI);
             }
         }
 
@@ -241,6 +247,12 @@ public class ResidenceMenu : ConversationMenu
                 AttemptAdvanceStep(_advanceStepCounter);
             }
         }
+    }
+
+    void SetupBounty()
+    {
+        //Enemy enemy = EnemyDatabase.Instance.GetRandomEnemy();
+        //DisplayDialog("");
     }
 
     void OfferHealingToActiveMember()
@@ -689,6 +701,7 @@ public class ResidenceMenu : ConversationMenu
             _hasTrained = false;
         }
 
+        HUD.Instance.EnableSideMenu();
         PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
     }
 }

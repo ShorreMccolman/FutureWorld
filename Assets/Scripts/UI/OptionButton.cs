@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class OptionButton : MonoBehaviour
+public class OptionButton : MonoBehaviour, IInfoMessenger
 {
     [SerializeField] protected InputField Input;
 
@@ -44,9 +44,8 @@ public class OptionButton : MonoBehaviour
         OnIndexClick = null;
     }
 
-    public void Hover()
+    public string GetInfoMessage()
     {
-        if (!string.IsNullOrEmpty(_infoMessage))
-            HUD.Instance.SendInfoMessage(_infoMessage);
+        return _infoMessage;
     }
 }

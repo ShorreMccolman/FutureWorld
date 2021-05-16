@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9189125d1e9b4c64e925c333f513681e, type: 3}
+  m_Name: NewSorpigal_House10
+  m_EditorClassIdentifier: 
+  ID: sorpigal_house_10
+  DisplayName: 
+  Hours:
+    OpenHour: 0
+    CloseHour: 0
+  Residents:
+  - ShortName: Violet Dawson
+    DisplayName: Violet Dawson the Potter
+    FirstName: Violet Dawson
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    GuildID: 
+    IsService: 0
+    Services:
+      RoomRentalCost: 0
+      FoodQuantity: 0
+      FoodCost: 0
+      DrinkCost: 0
+      TipCost: 0
+      Tips: []
+      TrainingCost: 0
+      MaxTrainingLevel: 0
+      Skills: []
+      SkillCost: 0
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+    Options:
+    - QuestLine: 0
+      Steps:
+      - Display: Hot Fires
+        FirstDialog: Enroth is rules by a king, and the council of five lords. These
+          six people handle the laws, rules, and matters of state for all of Enroth.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
+    - QuestLine: 103
+      Steps:
+      - Display: Quest
+        FirstDialog: Oh dear, can you help me? My daughter Angela is missing! I think
+          she may have wandered info the abandoned temple near town, and if she did
+          she could be in terrible danger- who knows what kind of horrible things
+          are lurking in that cursed place! Please find her and bring her back to
+          me.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 1
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      - Display: Quest
+        FirstDialog: UNNASSIGNED
+        NoRequiredItemDialog: You didn't find poor Angela? Something horrible must
+          have happened to her!
+        ItemRequired: quest_daughter
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 1
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 1
+        Cost: 0
+    - QuestLine: 0
+      Steps:
+      - Display: 
+        FirstDialog: It is my sacred duty to accept donations for the Guild of the
+          Self. If you contribute 100 gold pieces, we will grant you guild member
+          status. Members are permitted to buy spells from any Guild of the Self
+          in the land.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 1
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: self
+        GuildName: Guild of the Self
+        Cost: 100
+      Expertise:
+        SkillID: 
+        Proficiency: 1
+        Cost: 0

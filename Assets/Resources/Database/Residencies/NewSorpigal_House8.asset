@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9189125d1e9b4c64e925c333f513681e, type: 3}
+  m_Name: NewSorpigal_House8
+  m_EditorClassIdentifier: 
+  ID: sorpigal_house_8
+  DisplayName: 
+  Hours:
+    OpenHour: 0
+    CloseHour: 0
+  Residents:
+  - ShortName: Isao Magistrus
+    DisplayName: Isao Magistrus the Teacher
+    FirstName: Isao Magistrus
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    GuildID: 
+    IsService: 0
+    Services:
+      RoomRentalCost: 0
+      FoodQuantity: 0
+      FoodCost: 0
+      DrinkCost: 0
+      TipCost: 0
+      Tips: []
+      TrainingCost: 0
+      MaxTrainingLevel: 0
+      Skills: []
+      SkillCost: 0
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+    Options:
+    - QuestLine: 0
+      Steps:
+      - Display: Skills
+        FirstDialog: Because skills get so difficult to learn once you've achieved
+          a high level in them, it is much more efficient to learn many skills to
+          a moderate level, rather than a couple of skills to a high level.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
+    - QuestLine: 0
+      Steps:
+      - Display: 
+        FirstDialog: The secrets of the fire are deep indeed, and can only be taught
+          to one well initiated in the art (Rank 4). I can bring your skill to expert
+          level for 1000 gold.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 1
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: Fire
+        Proficiency: 1
+        Cost: 1000
+    - QuestLine: 0
+      Steps:
+      - Display: Jezebel
+        FirstDialog: To mastere the fire skill you need to speak to Jezebel in Mist.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0

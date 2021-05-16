@@ -87,24 +87,6 @@ public class CharacterVitalsDisplay : MonoBehaviour {
         }
     }
 
-    public void HoverPortrait()
-    {
-        HUD.Instance.SendInfoMessage(Member.Profile.CharacterName + " the " + Member.Profile.Class.ToString() + ": " + Member.EffectiveStatusCondition());
-    }
-
-    public void HoverVitals()
-    {
-        string hp = Member.Vitals.CurrentHP + " / " + Member.Vitals.EffectiveTotalHP + " Hit Points";
-        string mp = Member.Vitals.CurrentMP + " / " + Member.Vitals.EffectiveTotalMP + " Spell Points";
-
-        HUD.Instance.SendInfoMessage(hp + "     " + mp);
-    }
-
-    public void Unhover()
-    {
-        HUD.Instance.SendInfoMessage("");
-    }
-
     void Unclick()
     {
         _wasClicked = false;

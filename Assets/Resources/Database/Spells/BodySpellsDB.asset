@@ -24,3 +24,13 @@ MonoBehaviour:
     DisplayName: First Aid
     School: 6
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: protect_poison
+    Number: 2
+    DisplayName: Protection from Poison
+    School: 6
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  - ID: harm
+    Number: 3
+    DisplayName: Harm
+    School: 6
+    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
