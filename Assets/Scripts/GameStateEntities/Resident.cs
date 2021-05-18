@@ -9,6 +9,8 @@ public class Resident : GameStateEntity
 
     public ResidentData Data { get; protected set; }
 
+    public string BountyID { get; protected set; }
+
     public Resident(GameStateEntity parent, ResidentData data) : base(parent)
     {
         Data = data;
@@ -18,6 +20,7 @@ public class Resident : GameStateEntity
         {
             OptionProgress.Add(0);
         }
+        BountyID = "";
     }
 
     public Resident(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -26,6 +29,7 @@ public class Resident : GameStateEntity
         XmlNodeList nodes = node.SelectNodes("Progress");
         for (int i = 0; i < nodes.Count; i++)
             OptionProgress.Add((int)int.Parse(nodes.Item(i).InnerText));
+        BountyID = node.SelectSingleNode("Bounty").InnerText;
     }
 
     public void RestoreDataAfterLoad(ResidentData data) { Data = data; }
@@ -37,6 +41,7 @@ public class Resident : GameStateEntity
         {
             element.AppendChild(XmlHelper.Attribute(doc, "Progress", res));
         }
+        element.AppendChild(XmlHelper.Attribute(doc, "Bounty", BountyID));
         element.AppendChild(base.ToXml(doc));
 
         return element;
@@ -53,6 +58,23 @@ public class Resident : GameStateEntity
         {
             OptionProgress[option]++;
         }
+    }
+
+    public void TryUpdateBounty(float currentTime)
+    {
+        System.DateTime date = TimeManagement.Instance.GetDT(currentTime);
+        System.DateTime update = TimeManagement.Instance.GetDT(LastUpdate);
+
+        if (BountyID == "" || date.Year > update.Year || date.Month > update.Month)
+        {
+            BountyID = EnemyDatabase.Instance.GetRandomEnemy().Data.ID;
+        }
+        LastUpdate = currentTime;
+    }
+
+    public void CompleteBounty()
+    {
+        BountyID = "complete";
     }
 
     public int GetOptionProgress(int option)

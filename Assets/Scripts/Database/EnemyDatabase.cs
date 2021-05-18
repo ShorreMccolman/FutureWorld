@@ -37,6 +37,7 @@ public enum EnemyRank
 [System.Serializable]
 public class EnemyData
 {
+    public string ID;
     public string DisplayName;
 
     public int Level;
@@ -82,6 +83,40 @@ public class EnemyDatabase
         {
             _familyDict.Add(db.Family.ID, db.Family);
         }
+    }
+
+    public Enemy GetRandomEnemy()
+    {
+        int rand = Random.Range(0, _familyDict.Count);
+        int rand0 = Random.Range(0, 3);
+
+        int count = 0;
+        foreach(var value in _familyDict.Values)
+        {
+            if (count == rand)
+            {
+                return new Enemy(value.EnemyForRank((EnemyRank)rand0));
+            }
+            count++;
+        }
+
+        return null;
+    }
+
+    public EnemyData GetEnemyData(string enemyID)
+    {
+        foreach(var fam in _familyDict.Values)
+        {
+            if (fam.Soldier.ID == enemyID)
+                return fam.Soldier;
+            if (fam.Captain.ID == enemyID)
+                return fam.Captain;
+            if (fam.Commander.ID == enemyID)
+                return fam.Commander;
+        }
+
+        Debug.LogError("Could not find enemy with ID " + enemyID);
+        return null;
     }
 
     public Enemy GetEnemy(string familyID, EnemyRank rank)

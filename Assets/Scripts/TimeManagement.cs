@@ -276,6 +276,15 @@ public class TimeManagement : MonoBehaviour
         return date;
     }
 
+    public System.DateTime GetDT(float time)
+    {
+        System.DateTime date = new System.DateTime();
+        date = date.AddSeconds(time);
+        date = date.AddHours(9);
+        date = date.AddYears(2998);
+        return date;
+    }
+
     public float GetCurrentHourFractional()
     {
         System.DateTime dt = GetDT();

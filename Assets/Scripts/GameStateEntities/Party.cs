@@ -22,6 +22,8 @@ public class Party : GameStateEntity
     private List<string> _visitedLocations;
     public List<string> VisitedLocations { get; private set; }
 
+    public List<string> _monthlyKills;
+
     public delegate void OnChangeEvent();
     public OnChangeEvent MemberChanged;
 
@@ -47,6 +49,7 @@ public class Party : GameStateEntity
         CurrentBalance = 0;
         CurrentTime = 0;
         _visitedLocations = new List<string>();
+        _monthlyKills = new List<string>();
     }
 
     public Party(XmlNode node) : base(null, node)
@@ -88,7 +91,14 @@ public class Party : GameStateEntity
 
     public void TickEvent(float tick)
     {
+        System.DateTime dt = TimeManagement.Instance.GetDT(CurrentTime);
         CurrentTime += tick;
+        System.DateTime newDT = TimeManagement.Instance.GetDT(CurrentTime);
+
+        if(dt.Month < newDT.Month)
+        {
+            _monthlyKills.Clear();
+        }
     }
 
     public void SetActiveMember(PartyMember member)
@@ -121,6 +131,23 @@ public class Party : GameStateEntity
 
         CurrentGold += quantity;
         CurrentBalance -= quantity;
+    }
+
+    public void OnEnemyDeath(Enemy enemy)
+    {
+        foreach(var member in Members)
+        {
+            if (member.IsConcious())
+                member.Profile.EarnXP(enemy.Data.Experience);
+        }
+
+        if (!_monthlyKills.Contains(enemy.Data.ID))
+            _monthlyKills.Add(enemy.Data.ID);
+    }
+
+    public bool HasKilled(string enemyID)
+    { 
+        return _monthlyKills.Contains(enemyID); 
     }
 
     public void CollectGold(InventoryItem gold)

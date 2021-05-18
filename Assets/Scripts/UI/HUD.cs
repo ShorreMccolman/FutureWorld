@@ -196,6 +196,7 @@ public class HUD : Menu {
     public void EnableSideMenu()
     {
         SideMenu.SetActive(true);
+        OtherMenuOpen = false;
     }
 
     public void OpenRest()
@@ -501,6 +502,21 @@ public class HUD : Menu {
             Destroy(HeldItemButton.gameObject);
             HeldItemButton = null;
         }
+    }
+
+    public void GiveHoldItem(InventoryItem item)
+    {
+        if(HeldItemButton != null)
+        {
+            SelectedMember.Inventory.AddItem(HeldItemButton.Item);
+            Destroy(HeldItemButton.gameObject);
+        }
+
+        InventoryItemButton invButton = HUD.Instance.CreateItemButton(item.Data, Input.mousePosition, (RectTransform)HeldItemAnchor);
+        invButton.Setup(item, InventoryMenu);
+        invButton.ForceHold();
+        HeldItemButton = invButton;
+        HeldItemButton.transform.parent = HeldItemAnchor;
     }
 
     public void HoldItem(ItemButton button)

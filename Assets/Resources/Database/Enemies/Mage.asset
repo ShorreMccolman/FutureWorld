@@ -15,6 +15,7 @@ MonoBehaviour:
   Family:
     ID: Mage
     Soldier:
+      ID: mage_1
       DisplayName: Apprentice Mage
       Level: 2
       HitPoints: 6
@@ -51,6 +52,7 @@ MonoBehaviour:
       model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
         type: 3}
     Commander:
+      ID: mage_2
       DisplayName: Journeyman Mage
       Level: 6
       HitPoints: 21
@@ -87,6 +89,7 @@ MonoBehaviour:
       model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
         type: 3}
     Captain:
+      ID: mage_3
       DisplayName: Mage
       Level: 10
       HitPoints: 40

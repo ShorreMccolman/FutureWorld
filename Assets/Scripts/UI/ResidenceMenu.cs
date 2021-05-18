@@ -156,6 +156,8 @@ public class ResidenceMenu : ConversationMenu
                 }
                 if(resident.Data.Services.IsBounty)
                 {
+                    resident.TryUpdateBounty(PartyController.Instance.Party.CurrentTime);
+
                     obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                     UI = obj.GetComponent<DialogOptionButton>();
@@ -251,8 +253,31 @@ public class ResidenceMenu : ConversationMenu
 
     void SetupBounty()
     {
-        //Enemy enemy = EnemyDatabase.Instance.GetRandomEnemy();
-        //DisplayDialog("");
+        if (_currentResident.BountyID == "complete")
+        {
+            DisplayDialog("Someone has already claimed the bounty this month. Come back next month for a new bounty.");
+        } 
+        else
+        {
+            EnemyData data = EnemyDatabase.Instance.GetEnemyData(_currentResident.BountyID);
+
+            if(PartyController.Instance.Party.HasKilled(data.ID))
+            {
+                DisplayDialog("Congratulations on defeating the " + data.DisplayName + "! Here is the " + data.Level * 100 + " gold reward. Come back next month for a new bounty.");
+                PartyController.Instance.Party.CollectGold(data.Level * 100);
+                _currentResident.CompleteBounty();
+            }
+            else
+            {
+                DisplayDialog("This month's bounty is on a " + data.DisplayName + ". Kill it and return before the end of the month to collect the " + data.Level * 100 + " gold reward");
+            }
+        }
+
+        _advanceStepCounter = 1;
+
+        foreach (var dialog in DialogOptions)
+            Destroy(dialog.gameObject);
+        DialogOptions.Clear();
     }
 
     void OfferHealingToActiveMember()
@@ -425,6 +450,12 @@ public class ResidenceMenu : ConversationMenu
             else if (Step.CompleteQuest)
                 Log.CompleteQuest(Option.QuestLine);
 
+            if(!string.IsNullOrEmpty(Step.ItemReceived))
+            {
+                InventoryItem item = ItemDatabase.Instance.GetInventoryItem(Step.ItemReceived);
+                HUD.Instance.GiveHoldItem(item);
+            }
+
             DisplayDialog(Step.FirstDialog);
             _currentResident.ProgressOption(option);
         }
@@ -490,8 +521,8 @@ public class ResidenceMenu : ConversationMenu
 
     public void Donate()
     {
-        
         bool success = PartyController.Instance.Party.TryPay(Mathf.RoundToInt(10f * _currentResident.Data.Services.HealingCostMultiplier));
+        
         if(success)
         {
             HUD.Instance.SendInfoMessage("Thanks!", 2.0f);

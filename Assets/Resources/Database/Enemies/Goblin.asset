@@ -15,6 +15,7 @@ MonoBehaviour:
   Family:
     ID: Goblin
     Soldier:
+      ID: goblin_1
       DisplayName: Goblin
       Level: 4
       HitPoints: 13
@@ -51,6 +52,7 @@ MonoBehaviour:
       model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
         type: 3}
     Commander:
+      ID: goblin_2
       DisplayName: Goblin Shaman
       Level: 6
       HitPoints: 21
@@ -87,6 +89,7 @@ MonoBehaviour:
       model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
         type: 3}
     Captain:
+      ID: goblin_3
       DisplayName: Goblin Lord
       Level: 10
       HitPoints: 40

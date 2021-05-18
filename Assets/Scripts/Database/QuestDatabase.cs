@@ -13,6 +13,9 @@ public enum QuestLine
 
     SpiderQueen = 102,
     MissingDaughter = 103,
+
+    ShadowGuild = 104,
+    Goblinwatch = 105
 }
 
 [System.Serializable]

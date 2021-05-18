@@ -82,7 +82,13 @@ public class Item
     public GameObject model;
     public Vector3 EquipOffset;
 
-    public virtual string GetTypeDescription() { return "Description not implemented"; }
+    public virtual string GetTypeDescription() 
+    {
+        if (ID.Contains("key"))
+            return "Key";
+
+        return "Description not implemented"; 
+    }
     public virtual string GetItemDescription() { return Description; }
 }
 

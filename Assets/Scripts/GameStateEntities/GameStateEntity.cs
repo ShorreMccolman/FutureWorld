@@ -18,6 +18,7 @@ public class GameStateEntity {
     public GameStateEntity Parent { get; private set; }
     public Entity3D Entity { get; private set; }
     public System.Guid GSEID { get; private set; }
+    public float LastUpdate { get; protected set; }
 
     protected TransformData _savePos;
 
@@ -26,6 +27,7 @@ public class GameStateEntity {
         Parent = parent;
         if (Parent == null) GameStateManager.Instance.RegisterParentEntity(this);
         GSEID = System.Guid.NewGuid();
+        LastUpdate = 0;
     }
 
     public GameStateEntity(GameStateEntity parent, XmlNode node) : this(parent)
@@ -36,6 +38,7 @@ public class GameStateEntity {
 
         GSEID = new System.Guid(stateNode.SelectSingleNode("GSEID").InnerText);
         _savePos = XmlHelper.GetTransformData(stateNode.SelectSingleNode("Position"));
+        LastUpdate = float.Parse(stateNode.SelectSingleNode("LastUpdate").InnerText);
     }
 
     ~GameStateEntity()
@@ -68,6 +71,7 @@ public class GameStateEntity {
         if(Entity != null)
             node.AppendChild(XmlHelper.Attribute(doc, "Position", Entity.transform));
         node.AppendChild(XmlHelper.Attribute(doc, "GSEID", GSEID.ToString()));
+        node.AppendChild(XmlHelper.Attribute(doc, "LastUpdate", LastUpdate));
 
         return node;
     }

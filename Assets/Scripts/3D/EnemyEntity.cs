@@ -124,6 +124,7 @@ public class EnemyEntity : Entity3D
         IsTargetable = false;
 
         TimeManagement.Instance.OnTick -= Tick;
+        PartyController.Instance.Party.OnEnemyDeath(Enemy);
     }
 
     public override IEnumerator Interact(PartyEntity party)
