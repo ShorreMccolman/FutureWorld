@@ -12,15 +12,126 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9189125d1e9b4c64e925c333f513681e, type: 3}
   m_Name: NewSorpigal_TownHall
   m_EditorClassIdentifier: 
-  ID: sorpigal_bank
-  DisplayName: Savings House
+  ID: sorpigal_townhall
+  DisplayName: Town Hall
   Hours:
-    OpenHour: 9
-    CloseHour: 17
+    OpenHour: 10
+    CloseHour: 14
   Residents:
-  - ShortName: Banker
-    DisplayName: Schmidy the Banker
-    FirstName: Schmidy
+  - ShortName: Frank Fairchild
+    DisplayName: Frank Fairchild
+    FirstName: Frank Fairchild
+    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    GuildID: 
+    IsService: 0
+    Services:
+      RoomRentalCost: 0
+      FoodQuantity: 0
+      FoodCost: 0
+      DrinkCost: 0
+      TipCost: 0
+      Tips: []
+      TrainingCost: 0
+      MaxTrainingLevel: 0
+      Skills: []
+      SkillCost: 0
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 0
+    Options:
+    - QuestLine: 0
+      Steps:
+      - Display: Berserker's Fury
+        FirstDialog: Berserker's Fury in Castle Ironfist can teach you bow, shield,
+          chain, plate, and repair item.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
+    - QuestLine: 104
+      Steps:
+      - Display: Quest
+        FirstDialog: Members of the Shadow Guild have moved down south recently,
+          and have been trying to exert their influence over merchants in the area.
+          I refused them access to our town, so they kidnapped Sharry Canegie, an
+          old healer loved by the townspeople, in an attempt to 'convince' me to
+          let them operate here. I can't believe that their extortion has moved so
+          far south, I thought I was safe from that down here. Please rescue Sharry-
+          I can offer you some money as a reward, and I'm sure the townsfolk would
+          appreciate her return.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 1
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      - Display: Quest
+        FirstDialog: 
+        NoRequiredItemDialog: Have you found Sharry yet? No? I'm sure she's wherever
+          the Shadow Guild is hiding out. Find them and you'll find her.
+        ItemRequired: npc_sharry
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 1
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
+    - QuestLine: 0
+      Steps:
+      - Display: Shadow Guild
+        FirstDialog: I'm so tired of the Shadow Guild, but I don't have any substantial
+          proof of their activities. I'd love to have something I could show to Anthony
+          Stone proving the Shadow Guild is up to no good down here.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
+  - ShortName: Janice
+    DisplayName: Janice the Clerk
+    FirstName: Janice
     Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
     GuildID: 
     IsService: 1
@@ -35,5 +146,74 @@ MonoBehaviour:
       MaxTrainingLevel: 0
       Skills: []
       SkillCost: 0
-      IsBank: 1
-    Options: []
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 1
+    Options:
+    - QuestLine: 0
+      Steps:
+      - Display: City Councils
+        FirstDialog: If you ever find yourself in need of work, just stop by the
+          city council's office in one of the large towns. There's usually a job
+          that needs doing.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: 
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
+    - QuestLine: 105
+      Steps:
+      - Display: Goblinwatch
+        FirstDialog: Just south of town is an old keep called Goblinwatch. It was
+          originally built to help keep the town safe from goblin raids, but times
+          have been so peaceful recently that we haven't been taking care of it.
+          You can imagine our embarrassment when we realized that the very monsters
+          we were guarding against have moved into the keep! They also changed the
+          lock on a very important door leading to the caves below the dungeon level.
+          We have a standing reward of 2000 gold pieces to the ones who can figure
+          out the combination and tell us what it is.
+        NoRequiredItemDialog: 
+        ItemRequired: 
+        StartQuest: 1
+        ProgressQuest: 0
+        CompleteQuest: 0
+        ItemReceived: key_goblinwatch
+        GoldReceived: 0
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      - Display: Goblinwatch
+        FirstDialog: 
+        NoRequiredItemDialog: How can you find the combination to that lock by standing
+          around here? Get going!
+        ItemRequired: flag_goblinwatch
+        StartQuest: 0
+        ProgressQuest: 0
+        CompleteQuest: 1
+        ItemReceived: 
+        GoldReceived: 2000
+        ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0

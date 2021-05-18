@@ -12,5 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8588332d831cb4ea962186b6f10b7d, type: 3}
   m_Name: QuestItemDB
   m_EditorClassIdentifier: 
-  defaultModel: {fileID: 0}
-  Items: []
+  defaultModel: {fileID: 100000, guid: 0785660ed30fb044a9fc83a6008f11e9, type: 3}
+  Items:
+  - ID: key_goblinwatch
+    DisplayName: Key to Goblinwatch
+    Description: 'Quest Item: A small key'
+    Chances:
+      L1: 0
+      L2: 0
+      L3: 0
+      L4: 0
+      L5: 0
+      L6: 0
+    Level: 0
+    Value: 0
+    Width: 1
+    Height: 1
+    startWithSkill: 
+    sprite: {fileID: 21300000, guid: 74469b5c0e5d78d4693d5e43137a40f1, type: 3}
+    equipSprite: {fileID: 0}
+    model: {fileID: 100000, guid: 7dee17e2f16369d4a899bc8b0223aebb, type: 3}
+    EquipOffset: {x: 0, y: 0, z: 0}

@@ -21,13 +21,25 @@ MonoBehaviour:
   - ID: 101
     LogDescriptions:
     - Retrieve the candelabra from the Abandoned Temple for Andover Potbello in New
-      Sorpigal
+      Sorpigal.
     AwardDescription: Retrieved the Baa Candelabra
   - ID: 102
     LogDescriptions:
-    - Kill the Spider Queen
+    - Kill the Queen of Spiders in the Abandoned Temple in New Sorpigal and return
+      with her heart to Bufort T. Allman in New Sorpigal.
     AwardDescription: Killed the Spider Queen
   - ID: 103
     LogDescriptions:
-    - Find the Missing Daughter
+    - Rescue Angela from the Abandoned Temple and return her to Violet Dawson in
+      New Sorpigal.
     AwardDescription: Rescued Missing Daughter
+  - ID: 104
+    LogDescriptions:
+    - Rescue Sharry from the Shadow Guild Hideout and return with her to Frank Fairchild
+      in New Sorpigal.
+    AwardDescription: Rescued Sharry
+  - ID: 105
+    LogDescriptions:
+    - Find the Combination to the vault door in  Goblinwatch and return to the Town
+      Hall in New Sorpigal.
+    AwardDescription: Found the goblinwatch combination
