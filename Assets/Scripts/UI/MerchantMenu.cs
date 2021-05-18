@@ -76,6 +76,8 @@ public class MerchantMenu : ConversationMenu
 
         menuOpen = false;
 
+        _currentMerchant.TryUpdateStock(PartyController.Instance.Party.CurrentTime);
+
         GameObject obj;
         DialogOptionButton UI;
 

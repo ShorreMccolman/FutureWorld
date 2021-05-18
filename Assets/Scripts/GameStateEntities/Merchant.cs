@@ -15,89 +15,45 @@ public class Merchant : GameStateEntity
     {
         Data = data;
 
-        switch (data.StoreType)
+        Restock();
+    }
+
+    public void TryUpdateStock(float currentTime)
+    {
+        System.DateTime date = TimeManagement.Instance.GetDT(currentTime);
+        System.DateTime update = TimeManagement.Instance.GetDT(LastUpdate);
+
+        bool restock = false;
+        switch(Data.StoreType)
         {
             case StoreType.General:
-                BuyItems = new InventoryItem[6];
-                for(int i=0;i<BuyItems.Length;i++)
-                {
-                    BuyItems[i] = ItemDatabase.Instance.GetProduct(data.BuyInfo.GeneralTypes, data.BuyInfo.Level);
-                    BuyItems[i].Reparent(this);
-                }
-
-                SpecialItems = new InventoryItem[0];
+                restock = date.DayOfYear != update.DayOfYear;
                 break;
-            case StoreType.Weapon:
-                BuyItems = new InventoryItem[6];
-                for (int i = 0; i < BuyItems.Length; i++)
-                {
-                    BuyItems[i] = ItemDatabase.Instance.GetProduct(data.BuyInfo.WeaponTypes, data.BuyInfo.Level);
-                    BuyItems[i].Reparent(this);
-                }
 
-                SpecialItems = new InventoryItem[6];
-                for (int i = 0; i < SpecialItems.Length; i++)
-                {
-                    SpecialItems[i] = ItemDatabase.Instance.GetProduct(data.SpecialInfo.WeaponTypes, data.SpecialInfo.Level);
-                    SpecialItems[i].Reparent(this);
-                }
-                break;
-            case StoreType.Armor:
-                BuyItems = new InventoryItem[8];
-                for (int i = 0; i < BuyItems.Length; i++)
-                {
-                    if(i < 4)
-                        BuyItems[i] = ItemDatabase.Instance.GetProduct(data.BuyInfo.GeneralTypes, data.BuyInfo.Level);
-                    else
-                        BuyItems[i] = ItemDatabase.Instance.GetProduct(data.BuyInfo.ArmorTypes, data.BuyInfo.Level);
-                    BuyItems[i].Reparent(this);
-                }
-
-                SpecialItems = new InventoryItem[8];
-                for (int i = 0; i < SpecialItems.Length; i++)
-                {
-                    if (i < 4)
-                        SpecialItems[i] = ItemDatabase.Instance.GetProduct(data.SpecialInfo.GeneralTypes, data.SpecialInfo.Level);
-                    else
-                        SpecialItems[i] = ItemDatabase.Instance.GetProduct(data.SpecialInfo.ArmorTypes, data.SpecialInfo.Level);
-                    SpecialItems[i].Reparent(this);
-                }
-                break;
-            case StoreType.Magic:
-                BuyItems = new InventoryItem[12];
-                for (int i = 0; i < BuyItems.Length; i++)
-                {
-                    BuyItems[i] = ItemDatabase.Instance.GetProduct(data.BuyInfo.GeneralTypes, data.BuyInfo.Level);
-                    BuyItems[i].Reparent(this);
-                }
-
-                SpecialItems = new InventoryItem[12];
-                for (int i = 0; i < SpecialItems.Length; i++)
-                {
-                    SpecialItems[i] = ItemDatabase.Instance.GetProduct(data.SpecialInfo.GeneralTypes, data.SpecialInfo.Level);
-                    SpecialItems[i].Reparent(this);
-                }
-                break;
             case StoreType.Spell:
-                BuyItems = new InventoryItem[12];
-                for (int i = 0; i < BuyItems.Length; i++)
+                if (date.DayOfYear % 2 == 0)
                 {
-                    BuyItems[i] = ItemDatabase.Instance.GetProduct(data.BuyInfo.MagicTypes, data.BuyInfo.Levels);
-                    BuyItems[i].Reparent(this);
+                    restock = date.DayOfYear - update.DayOfYear > 1;
+                } 
+                else
+                {
+                    restock = date.DayOfYear > update.DayOfYear;
                 }
+                break;
 
-                SpecialItems = new InventoryItem[0];
+            case StoreType.Weapon:
+            case StoreType.Armor:
+            case StoreType.Magic:
+                int difference = 7 - (int)date.DayOfWeek;
+                restock = date.DayOfYear - update.DayOfYear >= difference;
                 break;
         }
 
-        foreach(var item in BuyItems)
+        if (date.Year > update.Year || date.Month > update.Month || restock)
         {
-            item.TryIdentify(10000);
+            Restock();
         }
-        foreach(var item in SpecialItems)
-        {
-            item.TryIdentify(10000);
-        }
+        LastUpdate = currentTime;
     }
 
     public Merchant(XmlNode node) : base(null, node)
@@ -150,6 +106,93 @@ public class Merchant : GameStateEntity
 
         element.AppendChild(base.ToXml(doc));
         return element;
+    }
+
+    public void Restock()
+    {
+        switch (Data.StoreType)
+        {
+            case StoreType.General:
+                BuyItems = new InventoryItem[6];
+                for (int i = 0; i < BuyItems.Length; i++)
+                {
+                    BuyItems[i] = ItemDatabase.Instance.GetProduct(Data.BuyInfo.GeneralTypes, Data.BuyInfo.Level);
+                    BuyItems[i].Reparent(this);
+                }
+
+                SpecialItems = new InventoryItem[0];
+                break;
+            case StoreType.Weapon:
+                BuyItems = new InventoryItem[6];
+                for (int i = 0; i < BuyItems.Length; i++)
+                {
+                    BuyItems[i] = ItemDatabase.Instance.GetProduct(Data.BuyInfo.WeaponTypes, Data.BuyInfo.Level);
+                    BuyItems[i].Reparent(this);
+                }
+
+                SpecialItems = new InventoryItem[6];
+                for (int i = 0; i < SpecialItems.Length; i++)
+                {
+                    SpecialItems[i] = ItemDatabase.Instance.GetProduct(Data.SpecialInfo.WeaponTypes, Data.SpecialInfo.Level);
+                    SpecialItems[i].Reparent(this);
+                }
+                break;
+            case StoreType.Armor:
+                BuyItems = new InventoryItem[8];
+                for (int i = 0; i < BuyItems.Length; i++)
+                {
+                    if (i < 4)
+                        BuyItems[i] = ItemDatabase.Instance.GetProduct(Data.BuyInfo.GeneralTypes, Data.BuyInfo.Level);
+                    else
+                        BuyItems[i] = ItemDatabase.Instance.GetProduct(Data.BuyInfo.ArmorTypes, Data.BuyInfo.Level);
+                    BuyItems[i].Reparent(this);
+                }
+
+                SpecialItems = new InventoryItem[8];
+                for (int i = 0; i < SpecialItems.Length; i++)
+                {
+                    if (i < 4)
+                        SpecialItems[i] = ItemDatabase.Instance.GetProduct(Data.SpecialInfo.GeneralTypes, Data.SpecialInfo.Level);
+                    else
+                        SpecialItems[i] = ItemDatabase.Instance.GetProduct(Data.SpecialInfo.ArmorTypes, Data.SpecialInfo.Level);
+                    SpecialItems[i].Reparent(this);
+                }
+                break;
+            case StoreType.Magic:
+                BuyItems = new InventoryItem[12];
+                for (int i = 0; i < BuyItems.Length; i++)
+                {
+                    BuyItems[i] = ItemDatabase.Instance.GetProduct(Data.BuyInfo.GeneralTypes, Data.BuyInfo.Level);
+                    BuyItems[i].Reparent(this);
+                }
+
+                SpecialItems = new InventoryItem[12];
+                for (int i = 0; i < SpecialItems.Length; i++)
+                {
+                    SpecialItems[i] = ItemDatabase.Instance.GetProduct(Data.SpecialInfo.GeneralTypes, Data.SpecialInfo.Level);
+                    SpecialItems[i].Reparent(this);
+                }
+                break;
+            case StoreType.Spell:
+                BuyItems = new InventoryItem[12];
+                for (int i = 0; i < BuyItems.Length; i++)
+                {
+                    BuyItems[i] = ItemDatabase.Instance.GetProduct(Data.BuyInfo.MagicTypes, Data.BuyInfo.Levels);
+                    BuyItems[i].Reparent(this);
+                }
+
+                SpecialItems = new InventoryItem[0];
+                break;
+        }
+
+        foreach (var item in BuyItems)
+        {
+            item.TryIdentify(10000);
+        }
+        foreach (var item in SpecialItems)
+        {
+            item.TryIdentify(10000);
+        }
     }
 
     public bool IsItemValidForStore(InventoryItem item)
