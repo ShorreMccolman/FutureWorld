@@ -99,20 +99,6 @@ public class PartyController : MonoBehaviour {
 
     Entity3D _intendedTarget;
 
-    public Vector3 SelectionPosition
-    {
-        get
-        {
-            Vector3 pos = Input.mousePosition;
-            if (_controlState == ControlState.LookControl)
-            {
-                // TODO: Make less jank
-                pos = new Vector3(368f, 293f + 214f, 0);
-            }
-            return pos;
-        }
-    }
-
     public void NewParty(Party party)
     {
         GameObject obj = Instantiate(PartyEntityObject);
@@ -212,10 +198,10 @@ public class PartyController : MonoBehaviour {
 
         if (_controlState != ControlState.MenuLock)
         {
-            Vector3 point = Entity.Camera.ScreenToViewportPoint(SelectionPosition);
+            Vector3 point = Entity.Camera.ScreenToViewportPoint(Input.mousePosition);
             if (point.x <= 1 && point.y >= 0)
             {
-                Ray ray = Entity.Camera.ScreenPointToRay(SelectionPosition);
+                Ray ray = Entity.Camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {

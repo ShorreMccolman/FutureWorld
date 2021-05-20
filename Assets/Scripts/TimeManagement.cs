@@ -153,7 +153,8 @@ public class TimeManagement : MonoBehaviour
     public void EntityAttack(CombatEntity attacker)
     {
         ReadyMembers.Remove(attacker);
-        CombatStep();
+        if(_control == TimeControl.Combat)
+            CombatStep();
     }
 
     void CombatStep()

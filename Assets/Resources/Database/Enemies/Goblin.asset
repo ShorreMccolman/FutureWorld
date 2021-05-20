@@ -49,7 +49,7 @@ MonoBehaviour:
         Speed: 160
         Recovery: 100
       Spell: 
-      model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
+      model: {fileID: 3047186970050578528, guid: 49bc9cdea1701c649882601ea25631fd,
         type: 3}
     Commander:
       ID: goblin_2
@@ -86,7 +86,7 @@ MonoBehaviour:
         Speed: 170
         Recovery: 100
       Spell: fire_bolt
-      model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
+      model: {fileID: 4535204003392886127, guid: 853b980c76fdae040912c85aba2b39a6,
         type: 3}
     Captain:
       ID: goblin_3
