@@ -40,6 +40,8 @@ public class EnemyData
     public string ID;
     public string DisplayName;
 
+    public bool IsHostile;
+
     public int Level;
     public int HitPoints;
     public int ArmorClass;
@@ -60,17 +62,45 @@ public class EnemyData
     public GameObject model;
 }
 
+[System.Serializable]
+public struct EnemyFamilyData
+{
+    public string ID;
+
+    public bool IsNPC;
+
+    public EnemyData Soldier;
+    public EnemyData Commander;
+    public EnemyData Captain;
+
+    public EnemyData EnemyForRank(EnemyRank rank)
+    {
+        switch (rank)
+        {
+            default:
+            case EnemyRank.Soldier:
+                return Soldier;
+            case EnemyRank.Commander:
+                return Commander;
+            case EnemyRank.Captain:
+                return Captain;
+        }
+    }
+}
+
 public class EnemyDatabase
 {
     public static EnemyDatabase Instance;
 
     Dictionary<string, EnemyFamilyData> _familyDict;
+    Dictionary<string, EnemyData> _npcDict;
 
     public EnemyDatabase()
     {
         Instance = this;
 
         _familyDict = new Dictionary<string, EnemyFamilyData>();
+        _npcDict = new Dictionary<string, EnemyData>();
 
         EnemyDBObject[] DBObjects = Resources.LoadAll<EnemyDBObject>("Database/Enemies");
         if (DBObjects.Length == 0)
@@ -81,8 +111,22 @@ public class EnemyDatabase
 
         foreach (var db in DBObjects)
         {
-            _familyDict.Add(db.Family.ID, db.Family);
+            if (db.Family.IsNPC)
+                _npcDict.Add(db.Family.ID, db.Family.Soldier);
+            else
+                _familyDict.Add(db.Family.ID, db.Family);
         }
+    }
+
+    public EnemyData GetNPCEnemyData(string ID)
+    {
+        if (!_npcDict.ContainsKey(ID))
+        {
+            Debug.LogError("Could not find npc with ID " + ID);
+            return null;
+        }
+
+        return _npcDict[ID];
     }
 
     public Enemy GetRandomEnemy()
@@ -94,7 +138,7 @@ public class EnemyDatabase
         foreach(var value in _familyDict.Values)
         {
             if (count == rand)
-            {
+            { 
                 return new Enemy(value.EnemyForRank((EnemyRank)rand0));
             }
             count++;

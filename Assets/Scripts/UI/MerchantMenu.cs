@@ -17,8 +17,6 @@ public class MerchantMenu : ConversationMenu
 
     Merchant _currentMerchant;
 
-    List<DialogOptionButton> DialogOptions;
-
     [SerializeField] StoreFrontUI GeneralStore;
     [SerializeField] StoreFrontUI WeaponStore;
     [SerializeField] StoreFrontUI ArmorStore;
@@ -40,7 +38,7 @@ public class MerchantMenu : ConversationMenu
         MerchantSprite.sprite = merchant.Data.Sprite;
         HoverDialog.text = "";
 
-        DialogOptions = new List<DialogOptionButton>();
+        DialogOptions = new List<OptionButton>();
 
         PartyController.Instance.Party.MemberChanged += OnMemberChanged;
 

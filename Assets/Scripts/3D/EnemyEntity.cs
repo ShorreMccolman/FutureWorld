@@ -26,22 +26,24 @@ public class EnemyEntity : Entity3D
     public Enemy Enemy { get { return State as Enemy; } }
     public bool IsAlive { get { return _isActive; } }
 
-    bool _isActive;
-    AIState _aiState;
-    Range _range;
+    protected bool _isActive;
+    protected AIState _aiState;
+    protected Range _range;
 
-    Transform _target;
+    protected Transform _target;
 
-    [SerializeField] float moveSpeed = 3f;
-    float _curMoveSpeed;
+    [SerializeField] protected float moveSpeed = 3f;
+    protected float _curMoveSpeed;
 
-    bool attackReady;
+    protected bool attackReady;
 
-    float rotateSpeed = 3f;
+    protected float rotateSpeed = 3f;
 
-    CharacterController _controller;
-    Collider _dropCollider;
-    Animator _animator;
+    protected CharacterController _controller;
+    protected Collider _dropCollider;
+    protected Animator _animator;
+
+    protected Vector3 _roamTarget;
 
     public void Setup(Enemy enemy)
     {
@@ -62,6 +64,7 @@ public class EnemyEntity : Entity3D
         _isActive = true;
 
         attackReady = enemy.Cooldown <= 0;
+        _roamTarget = transform.position;
 
         MouseoverName = enemy.Data.DisplayName;
         IsTargetable = true;
@@ -144,67 +147,107 @@ public class EnemyEntity : Entity3D
     {
         if (_isActive)
         {
-            Vector3 levelPosition;
-            Vector3 targetVec;
-
-            if(Enemy.MoveCooldown > 0)
-            {
-                Enemy.MoveCooldown -= Time.fixedDeltaTime;
-            }
-
-            switch (_range)
-            {
-                case Range.Out:
-                    _animator.SetFloat("MoveSpeed", 0);
-                    _animator.SetFloat("TurnSpeed", 0);
-                    _curMoveSpeed = 0;
-                    break;
-                case Range.Long:
-                case Range.Mid:
-                    levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
-
-                    Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
-                    float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
-
-                    if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
-                    {
-                        targetVec = (levelPosition - transform.position);
-                        float ang = Vector3.Angle(transform.forward, targetVec);
-                        if (ang < 25f && !Enemy.MovementLocked)
-                        {
-                            _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
-                            if (_curMoveSpeed > moveSpeed)
-                                _curMoveSpeed = moveSpeed;
-
-                            Move(_curMoveSpeed);
-                        }
-                    } 
-                    else
-                    {
-                        _curMoveSpeed = 0;
-                        _animator.SetFloat("MoveSpeed", 0);
-                    }
-                    break;
-                case Range.Close:
-
-                    _curMoveSpeed = 0;
-                    _animator.SetFloat("MoveSpeed", 0);
-
-                    levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
-                    targetVec = (levelPosition - transform.position);
-                    if (attackReady && Enemy.MoveCooldown <= 0)
-                    {
-                        Enemy.LockMovement(true);
-                        _animator.SetTrigger("DoAttack");
-                        attackReady = false;
-                    }
-                    break;
-            }
+            if (Enemy.IsHostile)
+                HostilePursuit();
+            else
+                Roam();
         }
     }
 
-    public void Tick(float tick)
+    void HostilePursuit()
+    {
+        Vector3 levelPosition;
+        Vector3 targetVec;
+
+        if (Enemy.MoveCooldown > 0)
+        {
+            Enemy.MoveCooldown -= Time.fixedDeltaTime;
+        }
+
+        switch (_range)
+        {
+            case Range.Out:
+                _animator.SetFloat("MoveSpeed", 0);
+                _animator.SetFloat("TurnSpeed", 0);
+                _curMoveSpeed = 0;
+                break;
+            case Range.Long:
+            case Range.Mid:
+                levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+
+                Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
+                float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+
+                if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
+                {
+                    targetVec = (levelPosition - transform.position);
+                    float ang = Vector3.Angle(transform.forward, targetVec);
+                    if (ang < 25f && !Enemy.MovementLocked)
+                    {
+                        _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
+                        if (_curMoveSpeed > moveSpeed)
+                            _curMoveSpeed = moveSpeed;
+
+                        Move(_curMoveSpeed);
+                    }
+                }
+                else
+                {
+                    _curMoveSpeed = 0;
+                    _animator.SetFloat("MoveSpeed", 0);
+                }
+                break;
+            case Range.Close:
+
+                _curMoveSpeed = 0;
+                _animator.SetFloat("MoveSpeed", 0);
+
+                levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+                targetVec = (levelPosition - transform.position);
+                if (attackReady && Enemy.MoveCooldown <= 0)
+                {
+                    Enemy.LockMovement(true);
+                    _animator.SetTrigger("DoAttack");
+                    attackReady = false;
+                }
+                break;
+        }
+    }
+
+    void Roam()
+    {
+        switch (_range)
+        {
+            case Range.Out:
+                _animator.SetFloat("MoveSpeed", 0);
+                _animator.SetFloat("TurnSpeed", 0);
+                _curMoveSpeed = 0;
+                break;
+            case Range.Long:
+            case Range.Mid:
+                break;
+            case Range.Close:
+
+                _curMoveSpeed = 0;
+                _animator.SetFloat("MoveSpeed", 0);
+
+                Vector3 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+
+                Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
+                float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+
+                break;
+        }
+    }
+
+    Vector3 GetNewRoamTarget()
+    {
+        return Vector3.zero;
+    }
+
+    public virtual void Tick(float tick)
     {
         bool tickEvent = Enemy.TickCooldown(tick);
         if(tickEvent)
@@ -213,7 +256,7 @@ public class EnemyEntity : Entity3D
         }
     }
 
-    void Move(float currentMoveSpeed)
+    protected void Move(float currentMoveSpeed)
     {
         Vector3 oldPos = transform.position;
 

@@ -47,6 +47,7 @@ public class HUD : Menu {
     [SerializeField] InventoryMenu ChestMenu;
     [SerializeField] ResidenceMenu ResidenceMenu;
     [SerializeField] MerchantMenu MerchantMenu;
+    [SerializeField] NPCMenu NPCMenu;
     [SerializeField] SpellsMenu SpellsMenu;
     [SerializeField] CharacterEquipmentDisplay EquipmentDisplay;
 
@@ -676,6 +677,15 @@ public class HUD : Menu {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("Merchant");
         MerchantMenu.Setup(merchant);
+        OtherMenuOpen = true;
+        SideMenu.SetActive(false);
+    }
+
+    public void Converse(NPC npc)
+    {
+        PartyController.Instance.SetControlState(ControlState.MenuLock);
+        MenuManager.Instance.OpenMenu("NPC");
+        NPCMenu.Setup(npc);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);
     }

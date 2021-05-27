@@ -224,8 +224,12 @@ public class PartyController : MonoBehaviour {
 
             if (Input.GetMouseButtonDown(0) && _intendedTarget != null)
             {
-                if (_intendedTarget is EnemyEntity)
+                if (_intendedTarget is NPCEntity)
                 {
+                    TryInteraction();
+                } 
+                else if (_intendedTarget is EnemyEntity)
+                { 
                     TryAttack();
                 }
                 else

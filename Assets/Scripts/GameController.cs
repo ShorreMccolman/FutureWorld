@@ -43,6 +43,8 @@ public class GameController : MonoBehaviour {
     MerchantDatabase MerchantDB;
     ProjectileDatabase ProjectileDB;
     SpellDatabase SpellDB;
+    NPCDatabase NPCDB;
+    TopicDatabase TopicDB;
 
     bool _isPaused;
 
@@ -69,6 +71,8 @@ public class GameController : MonoBehaviour {
         MerchantDB = new MerchantDatabase();
         ProjectileDB = new ProjectileDatabase();
         SpellDB = new SpellDatabase();
+        NPCDB = new NPCDatabase();
+        TopicDB = new TopicDatabase();
     }
 
     void Update()

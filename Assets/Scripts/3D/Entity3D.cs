@@ -89,7 +89,7 @@ public class Entity3D : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
-    protected void Kill()
+    public void Kill()
     {
         PartyController.Instance.ShortRange(this, false);
         PartyController.Instance.MidRange(this, false);

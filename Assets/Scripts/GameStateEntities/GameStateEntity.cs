@@ -4,15 +4,6 @@ using UnityEngine;
 
 using System.Xml;
 
-public interface CombatEntity
-{
-    float MoveCooldown { get; set; }
-
-    float GetCooldown();
-
-    void CombatStep();
-}
-
 public class GameStateEntity {
 
     public GameStateEntity Parent { get; private set; }

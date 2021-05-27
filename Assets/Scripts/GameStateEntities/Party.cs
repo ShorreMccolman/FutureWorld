@@ -14,6 +14,8 @@ public class Party : GameStateEntity
     public int CurrentBalance { get; private set; }
     public float CurrentTime { get; private set; }
 
+    public List<NPC> Hires { get; private set; }
+
     public QuestLog QuestLog { get; private set; }
 
     private List<PartyMember> _members;
@@ -41,6 +43,7 @@ public class Party : GameStateEntity
         Members[0].Inventory.AddItem(ItemDatabase.Instance.GetInventoryItem("letter_1"));
 
         QuestLog = new QuestLog(this);
+        Hires = new List<NPC>();
 
         TimeManagement.Instance.OnTick += TickEvent;
 
@@ -166,6 +169,23 @@ public class Party : GameStateEntity
     {
         CurrentFood = quantity;
         HUD.Instance.UpdateDisplay();
+    }
+
+    public bool TryHire(NPC npc)
+    {
+        if(Hires.Count == 2)
+        {
+            HUD.Instance.SendInfoMessage("I cannot join you, your party is full", 2.0f);
+            return false;
+        }
+
+        bool success = PartyController.Instance.Party.TryPay(npc.Cost);
+        if (success)
+        {
+            Hires.Add(npc);
+            HUD.Instance.UpdateDisplay();
+        }
+        return success;
     }
 
     public bool TryEat(int cost)

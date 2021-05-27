@@ -11,6 +11,7 @@ public class DropController : MonoBehaviour {
     [SerializeField] GameObject ItemDropEntityObject;
     [SerializeField] GameObject ChestEntityObject;
     [SerializeField] GameObject EnemyEntityObject;
+    [SerializeField] GameObject NPCEntityObject;
     [SerializeField] GameObject ResidenceEntityObject;
     [SerializeField] GameObject MerchantEntityObject;
     [SerializeField] GameObject ProjectileEntityObject;
@@ -106,13 +107,34 @@ public class DropController : MonoBehaviour {
         {
             XmlNode node = nodes.Item(i);
 
-            GameObject obj = Instantiate(EnemyEntityObject);
-
-            EnemyEntity ent = obj.GetComponent<EnemyEntity>();
             Enemy enemy = new Enemy(node);
-            ent.Setup(enemy);
-            enemy.CreateEntity(obj);
+
+            if(enemy.NPC == null)
+            {
+                GameObject obj = Instantiate(EnemyEntityObject);
+                EnemyEntity ent = obj.GetComponent<EnemyEntity>();
+                ent.Setup(enemy);
+                enemy.CreateEntity(obj);
+            } 
+            else
+            {
+                GameObject obj = Instantiate(NPCEntityObject);
+                NPCEntity ent = obj.GetComponent<NPCEntity>();
+                ent.Setup(enemy);
+                enemy.CreateEntity(obj);
+            }
         }
+    }
+
+    public void SpawnNPC(EnemyData data, Vector3 position)
+    {
+        GameObject obj = Instantiate(NPCEntityObject);
+
+        NPCEntity ent = obj.GetComponent<NPCEntity>();
+        Enemy enemy = new Enemy(data);
+        NPCDatabase.Instance.CreateRandomNPC(enemy);
+        ent.Setup(enemy, enemy.NPC);
+        enemy.CreateEntity(obj, position);
     }
 
     public void SpawnEnemy(EnemyData data, Vector3 position)

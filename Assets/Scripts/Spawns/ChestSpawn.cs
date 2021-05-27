@@ -10,7 +10,7 @@ public class ChestSpawn : Spawn
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = new Color(173f / 256f, 83f / 256f, 0f / 256f);
         Gizmos.DrawSphere(transform.position, Range);
     }
 

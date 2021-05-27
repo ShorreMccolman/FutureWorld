@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Family:
     ID: Goblin
+    IsNPC: 0
     Soldier:
       ID: goblin_1
       DisplayName: Goblin
+      IsHostile: 1
       Level: 4
       HitPoints: 13
       ArmorClass: 6
@@ -54,6 +56,7 @@ MonoBehaviour:
     Commander:
       ID: goblin_2
       DisplayName: Goblin Shaman
+      IsHostile: 1
       Level: 6
       HitPoints: 21
       ArmorClass: 10
@@ -91,6 +94,7 @@ MonoBehaviour:
     Captain:
       ID: goblin_3
       DisplayName: Goblin Lord
+      IsHostile: 1
       Level: 10
       HitPoints: 40
       ArmorClass: 14
@@ -123,5 +127,5 @@ MonoBehaviour:
         Speed: 180
         Recovery: 90
       Spell: fire_bolt
-      model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
+      model: {fileID: 7335701647072218439, guid: 50ec1ca842c71c84e91f85bf64836f08,
         type: 3}
