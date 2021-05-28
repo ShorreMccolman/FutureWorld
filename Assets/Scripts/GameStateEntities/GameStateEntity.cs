@@ -103,6 +103,13 @@ public class GameStateEntity {
         Entity = PartyEntityObject.GetComponent<Entity3D>();
     }
 
+    public void CreateEntity(GameObject PartyEntityObject, Vector3 Position, Quaternion rotation)
+    {
+        PartyEntityObject.transform.position = Position;
+        PartyEntityObject.transform.rotation = rotation;
+        Entity = PartyEntityObject.GetComponent<Entity3D>();
+    }
+
     protected void Populate<T>(ref List<T> list, System.Type entityType, XmlNode node, string groupName, string itemName)
     {
         list = new List<T>();

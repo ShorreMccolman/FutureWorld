@@ -528,6 +528,6 @@ public class MerchantMenu : ConversationMenu
         }
 
         HUD.Instance.EnableSideMenu();
-        PartyController.Instance.Party.MemberChanged -= SetupDialog;
+        PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
     }
 }

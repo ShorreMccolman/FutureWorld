@@ -112,21 +112,31 @@ public class EnemyDatabase
         foreach (var db in DBObjects)
         {
             if (db.Family.IsNPC)
-                _npcDict.Add(db.Family.ID, db.Family.Soldier);
+            {
+                _npcDict.Add(db.Family.Soldier.ID, db.Family.Soldier);
+                _npcDict.Add(db.Family.Commander.ID, db.Family.Commander);
+                _npcDict.Add(db.Family.Captain.ID, db.Family.Captain);
+            }
             else
                 _familyDict.Add(db.Family.ID, db.Family);
         }
     }
 
-    public EnemyData GetNPCEnemyData(string ID)
+    public EnemyData GetNPCEnemyData()
     {
-        if (!_npcDict.ContainsKey(ID))
+        int rand = Random.Range(0, _npcDict.Count);
+
+        int count = 0;
+        foreach (var value in _npcDict.Values)
         {
-            Debug.LogError("Could not find npc with ID " + ID);
-            return null;
+            if (count == rand)
+            {
+                return value;
+            }
+            count++;
         }
 
-        return _npcDict[ID];
+        return null;
     }
 
     public Enemy GetRandomEnemy()

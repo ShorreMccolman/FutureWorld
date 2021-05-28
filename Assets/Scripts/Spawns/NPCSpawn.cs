@@ -14,7 +14,7 @@ public class NPCSpawn : Spawn
 
     public override void Populate()
     {
-        EnemyData data = EnemyDatabase.Instance.GetNPCEnemyData("Peasant");
+        EnemyData data = EnemyDatabase.Instance.GetNPCEnemyData();
         DropController.Instance.SpawnNPC(data, transform.position);
     }
 }

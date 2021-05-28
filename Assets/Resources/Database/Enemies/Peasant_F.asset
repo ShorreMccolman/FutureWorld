@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab979103930c73a4b9df8b9e52e78f8e, type: 3}
+  m_Name: Peasant_F
+  m_EditorClassIdentifier: 
+  Family:
+    ID: Peasant_F
+    IsNPC: 1
+    Soldier:
+      ID: peasant_1f
+      DisplayName: Peasant
+      IsHostile: 0
+      Level: 1
+      HitPoints: 3
+      ArmorClass: 3
+      Experience: 11
+      Gold:
+        Rolls: 3
+        Sides: 3
+      DropLevel: 0
+      DropRate: 0
+      DropTag: 
+      AttackData:
+        Type: 6
+        DamageRoll:
+          Rolls: 2
+          Sides: 2
+        BaseDamage: 0
+        OnHitEffect: 
+        Missile: 0
+      Resistances:
+        Fire: 0
+        Electricity: 0
+        Cold: 0
+        Poison: 0
+        Magic: 0
+        Physical: 0
+      CombatData:
+        Flies: 0
+        MoveType: 2
+        AIType: 1
+        Speed: 140
+        Recovery: 100
+      Spell: 
+      model: {fileID: 5826457972267135627, guid: 4fece002520986e4b891b974a9eb55e9,
+        type: 3}
+    Commander:
+      ID: peasant_2f
+      DisplayName: Peasant
+      IsHostile: 0
+      Level: 1
+      HitPoints: 3
+      ArmorClass: 3
+      Experience: 11
+      Gold:
+        Rolls: 3
+        Sides: 3
+      DropLevel: 0
+      DropRate: 0
+      DropTag: 
+      AttackData:
+        Type: 6
+        DamageRoll:
+          Rolls: 2
+          Sides: 2
+        BaseDamage: 0
+        OnHitEffect: 
+        Missile: 0
+      Resistances:
+        Fire: 0
+        Electricity: 0
+        Cold: 0
+        Poison: 0
+        Magic: 0
+        Physical: 0
+      CombatData:
+        Flies: 0
+        MoveType: 2
+        AIType: 1
+        Speed: 140
+        Recovery: 100
+      Spell: 
+      model: {fileID: 2914617985250304388, guid: 1f6467d5eff4a9048a8c2379e6748957,
+        type: 3}
+    Captain:
+      ID: peasant_3f
+      DisplayName: Peasant
+      IsHostile: 0
+      Level: 1
+      HitPoints: 3
+      ArmorClass: 3
+      Experience: 11
+      Gold:
+        Rolls: 3
+        Sides: 3
+      DropLevel: 0
+      DropRate: 0
+      DropTag: 
+      AttackData:
+        Type: 6
+        DamageRoll:
+          Rolls: 2
+          Sides: 2
+        BaseDamage: 0
+        OnHitEffect: 
+        Missile: 0
+      Resistances:
+        Fire: 0
+        Electricity: 0
+        Cold: 0
+        Poison: 0
+        Magic: 0
+        Physical: 0
+      CombatData:
+        Flies: 0
+        MoveType: 2
+        AIType: 1
+        Speed: 140
+        Recovery: 100
+      Spell: 
+      model: {fileID: 6241943628698206530, guid: 155bba59501a2294ebf4cc9f5afacdd0,
+        type: 3}

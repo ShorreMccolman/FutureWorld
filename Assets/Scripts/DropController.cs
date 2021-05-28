@@ -134,7 +134,8 @@ public class DropController : MonoBehaviour {
         Enemy enemy = new Enemy(data);
         NPCDatabase.Instance.CreateRandomNPC(enemy);
         ent.Setup(enemy, enemy.NPC);
-        enemy.CreateEntity(obj, position);
+        Quaternion rot = Quaternion.Euler(new Vector3(0, Random.Range(0, 360f), 0));
+        enemy.CreateEntity(obj, position, rot);
     }
 
     public void SpawnEnemy(EnemyData data, Vector3 position)
