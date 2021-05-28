@@ -661,6 +661,7 @@ public class HUD : Menu {
         MenuManager.Instance.OpenMenu("Chest");
         ChestMenu.Setup(chest.Inventory);
         OtherMenuOpen = true;
+        Vignette.enabled = true;
     }
 
     public void EnterResidence(Residency residency)

@@ -486,6 +486,10 @@ public class MerchantMenu : ConversationMenu
 
     public void Back()
     {
+        foreach (var option in DialogOptions)
+            Destroy(option.gameObject);
+        DialogOptions.Clear();
+
         if (menuOpen)
         {
             HUD.Instance.ReleaseInfoLock();
