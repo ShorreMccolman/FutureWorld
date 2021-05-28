@@ -250,6 +250,16 @@ public class EnemyEntity : Entity3D
                             if (_curMoveSpeed > moveSpeed)
                                 _curMoveSpeed = moveSpeed;
 
+                            Ray ray = new Ray(transform.position, transform.forward);
+                            RaycastHit hit;
+                            if (Physics.Raycast(ray, out hit))
+                            {
+                                if(hit.distance < 1)
+                                {
+                                    _roamTarget = transform.position;
+                                }
+                            }
+
                             Move(_curMoveSpeed);
                         } 
                         else
