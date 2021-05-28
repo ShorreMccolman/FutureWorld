@@ -44,6 +44,7 @@ public class EnemyEntity : Entity3D
     protected Animator _animator;
 
     protected Vector3 _roamTarget;
+    protected float _idleDuration;
 
     public void Setup(Enemy enemy)
     {
@@ -64,7 +65,7 @@ public class EnemyEntity : Entity3D
         _isActive = true;
 
         attackReady = enemy.Cooldown <= 0;
-        _roamTarget = transform.position;
+        _idleDuration = Random.Range(5f, 10f);
 
         MouseoverName = enemy.Data.DisplayName;
         IsTargetable = true;
@@ -217,34 +218,74 @@ public class EnemyEntity : Entity3D
 
     void Roam()
     {
+        Vector3 levelPosition;
+        Vector3 targetVec;
+        Quaternion targetRotation;
+
         switch (_range)
         {
             case Range.Out:
-                _animator.SetFloat("MoveSpeed", 0);
-                _animator.SetFloat("TurnSpeed", 0);
-                _curMoveSpeed = 0;
-                break;
             case Range.Long:
             case Range.Mid:
+
+                if (_idleDuration <= 0)
+                    RefreshRoamTarget();
+
+                levelPosition = new Vector3(_roamTarget.x, _roamTarget.y, _roamTarget.z);
+
+                targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
+                float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+
+                if (!TimeManagement.IsCombatMode)
+                {
+                    targetVec = (levelPosition - transform.position);
+                    float ang = Vector3.Angle(transform.forward, targetVec);
+                    if (ang < 25f)
+                    {
+                        float dist = (transform.position - levelPosition).magnitude;
+                        if(dist > 1.0f)
+                        {
+                            _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
+                            if (_curMoveSpeed > moveSpeed)
+                                _curMoveSpeed = moveSpeed;
+
+                            Move(_curMoveSpeed);
+                        } 
+                        else
+                        {
+                            _curMoveSpeed = 0;
+                            _animator.SetFloat("MoveSpeed", 0);
+                            _idleDuration -= Time.fixedDeltaTime;
+                        }
+                    }
+                }
+
                 break;
             case Range.Close:
 
                 _curMoveSpeed = 0;
                 _animator.SetFloat("MoveSpeed", 0);
 
-                Vector3 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+                levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
 
-                Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
-                float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+                targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
+                float strength = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, strength);
 
                 break;
         }
     }
 
-    Vector3 GetNewRoamTarget()
+    public void RefreshRoamTarget()
     {
-        return Vector3.zero;
+        _idleDuration = Random.Range(5f, 15f);
+
+        float angle = Random.Range(0, 2 * Mathf.PI);
+
+        Vector3 dir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+
+        _roamTarget = transform.position + dir * Random.Range(5f, 10f);
     }
 
     public virtual void Tick(float tick)
