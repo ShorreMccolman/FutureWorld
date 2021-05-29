@@ -28,6 +28,8 @@ public class HUD : Menu {
     [SerializeField] CharacterVitalsDisplay[] CharacterVitalsUI;
     [SerializeField] GameObject[] CharacterMenuObjects;
 
+    [SerializeField] HireButton[] HireButtons;
+
     [SerializeField] Text InfoMessageLabel;
 
     [SerializeField] Text FoodLabel;
@@ -142,6 +144,13 @@ public class HUD : Menu {
 
         FoodLabel.text = _party.CurrentFood.ToString();
         GoldLabel.text = _party.CurrentGold.ToString();
+
+        HireButtons[0].gameObject.SetActive(false);
+        HireButtons[1].gameObject.SetActive(false);
+        for (int i=0;i<_party.Hires.Count;i++)
+        {
+            HireButtons[i].Setup(_party.Hires[i]);
+        }
 
         CombatIndicator.gameObject.SetActive(TimeManagement.IsCombatMode);
     }
@@ -687,6 +696,15 @@ public class HUD : Menu {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("NPC");
         NPCMenu.Setup(npc);
+        OtherMenuOpen = true;
+        SideMenu.SetActive(false);
+    }
+
+    public void ConverseWithHire(NPC npc)
+    {
+        PartyController.Instance.SetControlState(ControlState.MenuLock);
+        MenuManager.Instance.OpenMenu("NPC");
+        NPCMenu.Setup(npc, true);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);
     }

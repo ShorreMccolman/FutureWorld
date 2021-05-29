@@ -155,13 +155,25 @@ public class Party : GameStateEntity
 
     public void CollectGold(InventoryItem gold)
     {
-        CollectGold(gold.EffectiveValue);
+        CollectGold(gold.EffectiveValue, true);
     }
 
-    public void CollectGold(int amount)
+    public void CollectGold(int amount, bool payHires = false)
     {
-        CurrentGold += amount;
-        HUD.Instance.SendInfoMessage("You found " + amount + " gold!", 2.0f);
+        int paid = 0;
+        if (payHires)
+        {
+            foreach (var hire in Hires)
+            {
+                paid += Mathf.CeilToInt(amount * hire.Rate * 0.01f);
+            }
+        }
+
+        CurrentGold += amount - paid;
+        if(paid == 0)
+            HUD.Instance.SendInfoMessage("You found " + amount + " gold!", 2.0f);
+        else
+            HUD.Instance.SendInfoMessage("You found " + amount + " gold (followers take " + paid + ")!", 2.0f);
         HUD.Instance.UpdateDisplay();
     }
 
@@ -186,6 +198,16 @@ public class Party : GameStateEntity
             HUD.Instance.UpdateDisplay();
         }
         return success;
+    }
+
+    public bool DismissHire(NPC npc)
+    {
+        if (!Hires.Contains(npc))
+            return false;
+
+        Hires.Remove(npc);
+        HUD.Instance.UpdateDisplay();
+        return true;
     }
 
     public bool TryEat(int cost)

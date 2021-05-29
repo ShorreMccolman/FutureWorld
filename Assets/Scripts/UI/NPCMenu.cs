@@ -15,8 +15,9 @@ public class NPCMenu : ConversationMenu
     NPC _currentNPC;
 
     int _advanceStepCounter = -1;
+    bool _isHire;
 
-    public void Setup(NPC npc)
+    public void Setup(NPC npc, bool isHire = false)
     {
         _currentNPC = npc;
 
@@ -27,6 +28,7 @@ public class NPCMenu : ConversationMenu
         HUD.Instance.SendInfoMessage(_currentNPC.DisplayName);
 
         _advanceStepCounter = -1;
+        _isHire = isHire;
 
         DialogOptions = new List<OptionButton>();
         ShowMainOptions();
@@ -48,10 +50,20 @@ public class NPCMenu : ConversationMenu
         UI.Setup(_currentNPC.Topics[0].Header, 0, DisplayTopic);
         DialogOptions.Add(UI);
 
-        obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-        UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup("Join", ShowJoin);
-        DialogOptions.Add(UI);
+        if (_isHire)
+        {
+            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+            UI = obj.GetComponent<DialogOptionButton>();
+            UI.Setup("Dismiss " + _currentNPC.Name, Dismiss);
+            DialogOptions.Add(UI);
+        }
+        else
+        {
+            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+            UI = obj.GetComponent<DialogOptionButton>();
+            UI.Setup("Join", ShowJoin);
+            DialogOptions.Add(UI);
+        }
 
         obj = Instantiate(DialogOptionPrefab, DialogAnchor);
         UI = obj.GetComponent<DialogOptionButton>();
@@ -110,6 +122,13 @@ public class NPCMenu : ConversationMenu
         {
             DisplayDialog(_currentNPC.JoinText);
         }
+    }
+
+    void Dismiss()
+    {
+        bool success = PartyController.Instance.Party.DismissHire(_currentNPC);
+        if (success)
+            Back();
     }
 
     public override void DisplayDialog(string dialog)
