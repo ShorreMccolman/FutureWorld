@@ -26,3 +26,97 @@ MonoBehaviour:
     - Header: Bandits
       Body: The passes through the hills to the west are filled with bandits, travelling
         on foot through there can be dangerous.
+    - Header: Sea Travel
+      Body: Ocean travel around here can be dangerous because of the sea serpents
+        and water elementals that roam the oceans.
+    - Header: Oracle
+      Body: The High Council in Free Haven should really consult the Oracle to find
+        out why the Ironfists have lost the Mandate of Heaven.
+    - Header: Prince Nicolai
+      Body: "Prince Nicolai isn't even in charge anymore\u2013 Regent Humphrey makes
+        all of the decisions.  It's not fair to blame Nicolai for all the problems."
+    - Header: Solstices
+      Body: The two solstices are days of considerable magical importance.  The summer
+        solstice is on June 21st, and the winter solstice is on December 21st.
+    - Header: Arena
+      Body: The stables at Castle Ironfist can take you to the Arena, an ancient
+        place where warriors can test their prowess.
+    - Header: Goblins
+      Body: Goblins are weak creatures, but they tend to attack in large numbers.
+    - Header: Apprentice Mages
+      Body: Though their physical attacks are weak, these mages can cast various
+        elemental attack spells.
+    - Header: Mordred
+      Body: A powerful artifact, Mordred is a dagger that possesses the ability to
+        steal the health of its victim and transfer that vitality to its wielder.
+    - Header: Wizards
+      Body: Albert Newton in Mist handles the promotion of Sorcerers to Wizards.
+    - Header: Abandoned Temple
+      Body: The abandoned temple northwest of town used to be occupied by the Temple
+        of Baa, but they moved out in a hurry one day last year.  Now there's nothing
+        but snakes, bats, and huge spiders.
+    - Header: Temple of Baa
+      Body: "When the Temple of Baa moved out of that old temple outside of town,
+        all of the little problems we've been having just\u2026went away.  I tell
+        you, there's something unwholesome about those people.  I'm glad they're
+        gone."
+    - Header: Curses
+      Body: A wizard friend of mine told me the Temple of Baa was laying curses on
+        our town from the abandoned temple just outside town.  One day they tried
+        to lay the Curse of Endless Vermin on us, only they did something wrong and
+        it backfired, infesting their own temple instead.  They moved righty-o quick
+        once that happened.
+    - Header: Treasure
+      Body: I heard the Temple of Baa abandoned that old temple so quickly they didn't
+        have time to take all their stuff.  It should all still be down there, if
+        you're brave enough to go look for it.  There's a lot of nasty monsters in
+        the way, though, so be careful if you go.
+    - Header: Goblinwatch
+      Body: It's been quite a while since New Sorpigal was raided by goblins, but
+        with goblins living in the very place meant to protect us from them, it can't
+        be too long before we're attacked again, can it?
+    - Header: Magicians
+      Body: An evil guild of mages has been searching the southeast end of our peninsula
+        for signs of the fabled Fountain of Magic.  They attack anyone who comes
+        near to scare off potential rivals.  Be very careful if you travel in that
+        direction!
+    - Header: Town Fountains
+      Body: The three fountains we have here in town are said to draw their water
+        from a spring touched by the gods.  Each one is magical and beneficial to
+        drink from.
+    - Header: Goblin Raiders
+      Body: "A raiding party of goblins has staked out the west bridge, hoping to
+        rob and kill travelers.  They aren't very subtle\u2013 you can see them from
+        a mile away\u2013 but they ARE dangerous.  Watch your step!"
+    - Header: New Sorpigal
+      Body: Our town was founded centuries ago as the last major town in Enroth. 
+        We have historically been a point from which colony ships left for the rest
+        of the world.
+    - Header: Fruit Trees
+      Body: The fruit on the trees in the orchards of our fair town is quite tasty,
+        and free for all to take.  You should try it sometime!
+    - Header: Islands
+      Body: Beware of travelling to the islands just off our north shore.  The waters
+        sometime have dangerous monsters, and the islands are none too hospitable,
+        either.
+    - Header: Regnan Pirates
+      Body: It's been decades since we were last attacked by pirates from the islands
+        of Regna, and I guess it's about time for us to be attacked again, what with
+        the king missing and all.
+    - Header: Buccaneers' Lair
+      Body: Buccaneers' Lair in New Sorpigal and Mist can teach you dagger, merchant,
+        identify, perception, and disarm trap.
+    - Header: Protection Services
+      Body: You can learn dagger, merchant, identify, perception, and disarm trap
+        at protection services in Silver Cove and White Cap.
+    - Header: Smugglers' Guild
+      Body: Blackshire and Free Haven are homes to the Smugglers' Guild, where you
+        can learn dagger, merchant, identify, perception, and disarm trap.
+    - Header: Blades' End
+      Body: Sword, axe, spear, staff, and leather are all taught in Blades' End in
+        both White Cap and New Sorpigal.
+    - Header: Duelists' Edge
+      Body: Duelists' Edge in Mist teaches mace, bow, chain, shield, and body building.
+    - Header: Berserker's Fury
+      Body: Berserker's Fury in Castle Ironfist can teach you bow, shield, chain,
+        plate, and repair item.

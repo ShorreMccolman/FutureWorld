@@ -31,3 +31,83 @@ MonoBehaviour:
     ActionText: Unlimited armor repair.
     JoinText: I'm looking for work fixing armor.  All I charge is 200 gold to start
       and 2 percent of all the gold we find.  You won't regret hiring me!
+  - ID: alchemist
+    ProfessionName: Alchemist
+    Profession: 2
+    Weight: 10
+    Cost: 400
+    Rate: 4
+    ActionText: Unlimited magic item repair.
+    JoinText: I can mend any broken magic item you have, unless it's a piece of armor
+      or a weapon.  My rate is 400 gold to start plus 4 percent of all the gold we
+      find.
+  - ID: scholar
+    ProfessionName: Scholar
+    Profession: 3
+    Weight: 10
+    Cost: 500
+    Rate: 5
+    ActionText: Unlimited item Identification and a 5 percent bonus on all experience
+      gained.
+    JoinText: I studied under Lord Newton in Mist for eight years to learn to tell
+      one magic item from another.  I'll work for you for 500 gold to start, plus
+      a 5 percent share of all the gold we find.
+  - ID: guide
+    ProfessionName: Guide
+    Profession: 4
+    Weight: 10
+    Cost: 100
+    Rate: 1
+    ActionText: All map crossings one day faster (minimum one day).
+    JoinText: I know shortcuts and back roads throughout Enroth.  I'll be your guide
+      for a mere 100 gold to start and a 1 percent share of all the gold we find.
+  - ID: tracker
+    ProfessionName: Tracker
+    Profession: 5
+    Weight: 10
+    Cost: 200
+    Rate: 2
+    ActionText: All map crossings two days faster (minimum one day).
+    JoinText: I know shortcuts and back roads throughout Enroth.  I'll be your guide
+      for 200 gold to start, plus a 2 percent share of the gold we find.
+  - ID: pathfinder
+    ProfessionName: Pathfinder
+    Profession: 6
+    Weight: 10
+    Cost: 300
+    Rate: 3
+    ActionText: All map crossings three days faster (minimum one day).
+    JoinText: I know shortcuts and back roads throughout Enroth.  I'll be your guide
+      for a mere 300 gold to start, plus a 3 percent share of the gold we find.
+  - ID: sailor
+    ProfessionName: Sailor
+    Profession: 7
+    Weight: 10
+    Cost: 100
+    Rate: 1
+    ActionText: All boat travel 2 days faster (minimum one day).
+    JoinText: Uh, Ya.  I can uh, you know, work.  On a boat.  I'll help get you places
+      quicker.  With me, I can get you across the sea two days faster than normal. 
+      Uh, I uh, want oh, let's see, 100 gold to start, and 1 percent of the gold
+      we find.
+  - ID: navigator
+    ProfessionName: Navigator
+    Profession: 8
+    Weight: 10
+    Cost: 200
+    Rate: 2
+    ActionText: All boat travel 3 days faster (minimum one day).
+    JoinText: I've spent quite some time putting together accurate charts of the
+      waters surrounding our continent.  With my charts and my skill, I can get you
+      across water three days faster than normal.  I charge 200 gold to start, plus
+      2 percent of the gold we find.
+  - ID: healer
+    ProfessionName: Healer
+    Profession: 9
+    Weight: 10
+    Cost: 500
+    Rate: 5
+    ActionText: Cures all party hit points once a day.
+    JoinText: I can travel with you, my children, for an initial donation of 500
+      gold to start and 5 percent of the gold we find to my church.  Once per day
+      I'll be able to heal you of all your wounds, short of death.

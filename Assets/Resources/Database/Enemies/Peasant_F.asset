@@ -18,6 +18,7 @@ MonoBehaviour:
     Soldier:
       ID: peasant_1f
       DisplayName: Peasant
+      isFemale: 1
       IsHostile: 0
       Level: 1
       HitPoints: 3
@@ -56,6 +57,7 @@ MonoBehaviour:
     Commander:
       ID: peasant_2f
       DisplayName: Peasant
+      isFemale: 1
       IsHostile: 0
       Level: 1
       HitPoints: 3
@@ -94,6 +96,7 @@ MonoBehaviour:
     Captain:
       ID: peasant_3f
       DisplayName: Peasant
+      isFemale: 1
       IsHostile: 0
       Level: 1
       HitPoints: 3
