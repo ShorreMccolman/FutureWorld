@@ -43,6 +43,7 @@ public class EnemyEntity : Entity3D
     protected Collider _dropCollider;
     protected Animator _animator;
 
+    protected Vector3 _origin;
     protected Vector3 _roamTarget;
     protected float _idleDuration;
 
@@ -233,18 +234,19 @@ public class EnemyEntity : Entity3D
 
                 levelPosition = new Vector3(_roamTarget.x, _roamTarget.y, _roamTarget.z);
 
-                targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
-                float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
-
-                if (!TimeManagement.IsCombatMode)
+                float dist = (transform.position - levelPosition).magnitude;
+                if (dist > 1.0f)
                 {
-                    targetVec = (levelPosition - transform.position);
-                    float ang = Vector3.Angle(transform.forward, targetVec);
-                    if (ang < 25f)
+                    targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
+                    float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+                    Quaternion rot = Quaternion.Lerp(transform.rotation, targetRotation, str);
+                    transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
+
+                    if (!TimeManagement.IsCombatMode)
                     {
-                        float dist = (transform.position - levelPosition).magnitude;
-                        if(dist > 1.0f)
+                        targetVec = (levelPosition - transform.position);
+                        float ang = Vector3.Angle(transform.forward, targetVec);
+                        if (ang < 25f)
                         {
                             _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
                             if (_curMoveSpeed > moveSpeed)
@@ -254,21 +256,21 @@ public class EnemyEntity : Entity3D
                             RaycastHit hit;
                             if (Physics.Raycast(ray, out hit))
                             {
-                                if(hit.distance < 1)
+                                if (hit.distance < 1)
                                 {
                                     _roamTarget = transform.position;
                                 }
                             }
 
                             Move(_curMoveSpeed);
-                        } 
-                        else
-                        {
-                            _curMoveSpeed = 0;
-                            _animator.SetFloat("MoveSpeed", 0);
-                            _idleDuration -= Time.fixedDeltaTime;
                         }
                     }
+                }
+                else
+                {
+                    _curMoveSpeed = 0;
+                    _animator.SetFloat("MoveSpeed", 0);
+                    _idleDuration -= Time.fixedDeltaTime;
                 }
 
                 break;
@@ -287,15 +289,28 @@ public class EnemyEntity : Entity3D
         }
     }
 
-    public void RefreshRoamTarget()
+    public void RefreshRoamTarget(bool initial = false)
     {
-        _idleDuration = Random.Range(5f, 15f);
+        if (initial)
+        {
+            _idleDuration = Random.Range(3f, 10f);
+            _roamTarget = transform.position;
+            _origin = _roamTarget;
+        }
+        else
+        {
+            _idleDuration = Random.Range(7f, 25f);
 
-        float angle = Random.Range(0, 2 * Mathf.PI);
+            float angle = Random.Range(0, 2 * Mathf.PI);
+            Vector3 dir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
 
-        Vector3 dir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+            _roamTarget = transform.position + dir * Random.Range(5f, 15f);
 
-        _roamTarget = transform.position + dir * Random.Range(5f, 10f);
+            if(Vector3.Distance(_roamTarget, _origin) > 30f)
+            {
+                _roamTarget = _origin;
+            }
+        }
     }
 
     public virtual void Tick(float tick)

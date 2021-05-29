@@ -23,6 +23,7 @@ public class NPCMenu : ConversationMenu
         DialogOptions = new List<OptionButton>();
 
         NPCLabel.text = _currentNPC.DisplayName;
+        NPCPortrait.sprite = _currentNPC.Portrait;
         HUD.Instance.SendInfoMessage(_currentNPC.DisplayName);
 
         _advanceStepCounter = -1;

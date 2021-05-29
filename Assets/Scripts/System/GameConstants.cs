@@ -16,15 +16,37 @@ public static class GameConstants {
 
     public static string[] RandomNPCNamesMale = new string[]
     {
+        "Alan",
+        "Erik",
+        "Toombs",
+        "Bones",
+        "Kirk",
+        "Murdock",
+        "Shux",
+        "Hunter",
+        "Strax",
         "Tim",
         "Tom",
         "Pip",
         "Pat",
+        "Rickart",
+        "Frederick",
+        "Toby",
         "Mohammed"
     };
 
     public static string[] RandomNPCNamesFemale = new string[]
     {
+        "Alex",
+        "Shandra",
+        "Sequoia",
+        "Scarlet",
+        "Erica",
+        "Constance",
+        "Debra",
+        "Alice",
+        "Missy",
+        "Amanda",
         "Jenny",
         "Kerry",
         "Candi",

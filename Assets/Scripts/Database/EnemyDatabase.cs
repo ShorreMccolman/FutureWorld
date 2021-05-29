@@ -39,6 +39,7 @@ public class EnemyData
 {
     public string ID;
     public string DisplayName;
+    public bool isFemale;
 
     public bool IsHostile;
 
