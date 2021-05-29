@@ -232,7 +232,7 @@ public class EnemyEntity : Entity3D
                 if (_idleDuration <= 0)
                     RefreshRoamTarget();
 
-                levelPosition = new Vector3(_roamTarget.x, _roamTarget.y, _roamTarget.z);
+                levelPosition = new Vector3(_roamTarget.x, transform.position.y, _roamTarget.z);
 
                 float dist = (transform.position - levelPosition).magnitude;
                 if (dist > 1.0f)
@@ -252,15 +252,15 @@ public class EnemyEntity : Entity3D
                             if (_curMoveSpeed > moveSpeed)
                                 _curMoveSpeed = moveSpeed;
 
-                            Ray ray = new Ray(transform.position, transform.forward);
-                            RaycastHit hit;
-                            if (Physics.Raycast(ray, out hit))
-                            {
-                                if (hit.distance < 1)
-                                {
-                                    _roamTarget = transform.position;
-                                }
-                            }
+                            //Ray ray = new Ray(transform.position, transform.forward);
+                            //RaycastHit hit;
+                            //if (Physics.Raycast(ray, out hit))
+                            //{
+                            //    if (hit.distance < 1)
+                            //    {
+                            //        _roamTarget = transform.position;
+                            //    }
+                            //}
 
                             Move(_curMoveSpeed);
                         }
@@ -293,7 +293,7 @@ public class EnemyEntity : Entity3D
     {
         if (initial)
         {
-            _idleDuration = Random.Range(3f, 10f);
+            _idleDuration = Random.Range(0f, 10f);
             _roamTarget = transform.position;
             _origin = _roamTarget;
         }
@@ -301,15 +301,32 @@ public class EnemyEntity : Entity3D
         {
             _idleDuration = Random.Range(7f, 25f);
 
+            if (Vector3.Distance(_roamTarget, _origin) > 30f)
+            {
+                _roamTarget = _origin;
+                return;
+            }
+
             float angle = Random.Range(0, 2 * Mathf.PI);
             Vector3 dir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
 
-            _roamTarget = transform.position + dir * Random.Range(5f, 15f);
+            float distance = Random.Range(7f, 15f);
 
-            if(Vector3.Distance(_roamTarget, _origin) > 30f)
+            Ray ray = new Ray(transform.position, dir);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
             {
-                _roamTarget = _origin;
+                float reduced = hit.distance - 3f;
+                if (reduced < 0)
+                {
+                    _idleDuration = 0.5f;
+                    distance = 0;
+                }
+                else if (reduced < distance)
+                    distance = reduced;
             }
+
+            _roamTarget = transform.position + dir * distance;
         }
     }
 
