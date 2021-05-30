@@ -38,11 +38,11 @@ public class ResidenceMenu : ConversationMenu
         HUD.Instance.SendInfoMessage(_currentResidency.DisplayName);
 
         Options = new List<ResidentOptionUI>();
-        int yOffset = 80 * (_currentResidency.Residents.Count - 1);
+        int yOffset = 100 * (_currentResidency.Residents.Count - 1);
         for (int i = 0; i < _currentResidency.Residents.Count; i++)
         {
             GameObject obj = Instantiate(ResidentOptionPrefab, ResidentsAnchor);
-            obj.transform.position = ResidentsAnchor.position + Vector3.down * 160 * i + Vector3.up * yOffset;
+            obj.transform.position = ResidentsAnchor.position + Vector3.down * 200 * i + Vector3.up * yOffset;
 
             ResidentOptionUI UI = obj.GetComponent<ResidentOptionUI>();
             UI.Setup(this, _currentResidency.Residents[i]);
