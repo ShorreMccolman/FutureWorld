@@ -16,7 +16,7 @@ MonoBehaviour:
   - ID: general_1
     StoreName: Traveler's Supply
     MerchantName: Rino
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: c8e07a366bf2a1b4792ffaf8374f01aa, type: 3}
     StoreType: 0
     BuyInfo:
       Level: 0
@@ -41,8 +41,8 @@ MonoBehaviour:
       CloseHour: 22
   - ID: weapons_1
     StoreName: The Knife Shoppe
-    MerchantName: Rino
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    MerchantName: Caine
+    Sprite: {fileID: 21300000, guid: c8e07a366bf2a1b4792ffaf8374f01aa, type: 3}
     StoreType: 1
     BuyInfo:
       Level: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
       CloseHour: 18
   - ID: armor_1
     StoreName: The Common Defense
-    MerchantName: Rino
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    MerchantName: Harry
+    Sprite: {fileID: 21300000, guid: 202b1fd6a09a25a4893aee44bf134bfe, type: 3}
     StoreType: 2
     BuyInfo:
       Level: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
       CloseHour: 18
   - ID: magic_1
     StoreName: The Seeing Eye
-    MerchantName: Rino
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    MerchantName: Wilma
+    Sprite: {fileID: 21300000, guid: 2dca96f526ccfe64d86e12de3d951590, type: 3}
     StoreType: 3
     BuyInfo:
       Level: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   - ID: elemental_1
     StoreName: Initiate Guild of the Elementals
     MerchantName: Jeremy
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 3db5736f509318547b3b296a24c2e32f, type: 3}
     StoreType: 4
     BuyInfo:
       Level: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   - ID: self_1
     StoreName: Initiate Guild of the Self
     MerchantName: Teliana
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 2dca96f526ccfe64d86e12de3d951590, type: 3}
     StoreType: 4
     BuyInfo:
       Level: 0

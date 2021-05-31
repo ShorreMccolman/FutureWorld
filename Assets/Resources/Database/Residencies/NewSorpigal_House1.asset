@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: sorpigal_house_1
   DisplayName: 
+  Hours:
+    OpenHour: 0
+    CloseHour: 0
   Residents:
   - ShortName: Hejaz Mawsil
     DisplayName: Hejaz Mawsil the Mystic
     FirstName: Hejaz
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 3db5736f509318547b3b296a24c2e32f, type: 3}
     GuildID: 
     IsService: 0
     Services:
@@ -33,6 +36,9 @@ MonoBehaviour:
       Skills: []
       SkillCost: 0
       IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 0
     Options:
     - QuestLine: 0
       Steps:
@@ -59,15 +65,15 @@ MonoBehaviour:
       Expertise:
         SkillID: 
         Proficiency: 0
-        cost: 0
+        Cost: 0
     - QuestLine: 0
       Steps:
       - Display: Cobra Eggs
-        FirstDialog: I am a collector of rare and exotic creatures, and I make a living
-          by selling some of these creatures as pets. Currently, cobras are in great
-          demand, and I don't have many cobras left to sell. Therefore, I'm willing
-          to pay handsomely for any cobra eggs you might have. Remember, if you find
-          any cobra eggs, I'll give you the best prices.
+        FirstDialog: I am a collector of rare and exotic creatures, and I make a
+          living by selling some of these creatures as pets. Currently, cobras are
+          in great demand, and I don't have many cobras left to sell. Therefore,
+          I'm willing to pay handsomely for any cobra eggs you might have. Remember,
+          if you find any cobra eggs, I'll give you the best prices.
         NoRequiredItemDialog: 
         ItemRequired: 
         StartQuest: 0
@@ -85,7 +91,7 @@ MonoBehaviour:
       Expertise:
         SkillID: 
         Proficiency: 0
-        cost: 0
+        Cost: 0
     - QuestLine: 0
       Steps:
       - Display: 
@@ -110,4 +116,4 @@ MonoBehaviour:
       Expertise:
         SkillID: 
         Proficiency: 0
-        cost: 0
+        Cost: 0

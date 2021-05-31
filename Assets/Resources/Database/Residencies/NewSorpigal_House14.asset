@@ -21,7 +21,7 @@ MonoBehaviour:
   - ShortName: Shiela Loompus
     DisplayName: Shiela Loompus the Teacher
     FirstName: Shiela Loompus
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 2dca96f526ccfe64d86e12de3d951590, type: 3}
     GuildID: 
     IsService: 0
     Services:
@@ -38,6 +38,7 @@ MonoBehaviour:
       IsBank: 0
       IsTemple: 0
       HealingCostMultiplier: 0
+      IsBounty: 0
     Options:
     - QuestLine: 0
       Steps:

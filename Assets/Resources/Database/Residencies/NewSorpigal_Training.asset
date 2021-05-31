@@ -21,7 +21,7 @@ MonoBehaviour:
   - ShortName: Instructor
     DisplayName: Nathan the Instructor
     FirstName: Nathan
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: c8e07a366bf2a1b4792ffaf8374f01aa, type: 3}
     GuildID: 
     IsService: 1
     Services:
@@ -36,4 +36,7 @@ MonoBehaviour:
       Skills: []
       SkillCost: 0
       IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 0
     Options: []

@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: sorpigal_inn
   DisplayName: A Lonely Knight
+  Hours:
+    OpenHour: 0
+    CloseHour: 0
   Residents:
   - ShortName: Innkeep
     DisplayName: Dirk the Innkeep
     FirstName: Dirk
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: c8e07a366bf2a1b4792ffaf8374f01aa, type: 3}
+    GuildID: 
     IsService: 1
     Services:
       RoomRentalCost: 3
@@ -29,11 +33,20 @@ MonoBehaviour:
       Tips:
       - Though their physical attacks are weak, these mages can cast various elemental
         attack spells.
+      TrainingCost: 0
+      MaxTrainingLevel: 0
+      Skills: []
+      SkillCost: 0
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 0
     Options: []
   - ShortName: Andover Potbello
     DisplayName: Andover Potbello the follower of Baa
     FirstName: Andover Potbello
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 0d21a713bde679d488eee4820f83bcef, type: 3}
+    GuildID: 
     IsService: 0
     Services:
       RoomRentalCost: 0
@@ -42,6 +55,14 @@ MonoBehaviour:
       DrinkCost: 0
       TipCost: 0
       Tips: []
+      TrainingCost: 0
+      MaxTrainingLevel: 0
+      Skills: []
+      SkillCost: 0
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 0
     Options:
     - QuestLine: 1
       Steps:
@@ -56,14 +77,24 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 0
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
     - QuestLine: 100
       Steps:
       - Display: Letter
         FirstDialog: Oh! The seal. Here, I'm supposed to give you this money. Now,
           go away before we're seen together. Someone will get suspicious.
         NoRequiredItemDialog: My instructions are quite clear. I am to pay the person
-          carrying the letter that bears the Seal. Since you don't have a letter with
-          a seal, you get no money!
+          carrying the letter that bears the Seal. Since you don't have a letter
+          with a seal, you get no money!
         ItemRequired: letter_1
         StartQuest: 0
         ProgressQuest: 1
@@ -71,6 +102,8 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 1000
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
       - Display: Letter
         FirstDialog: Don't try to say I didn't pay you! You got your gold!
         NoRequiredItemDialog: 
@@ -81,14 +114,24 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 0
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
     - QuestLine: 101
       Steps:
       - Display: Quest
         FirstDialog: Could you do the Temple of Baa a favor? It appears that my brethren
-          left the old temple to the northwest of here in a little too much of a hurry,
-          and a candelabra necessary for some of our rituals was left behind. None
-          of the Baa priests want to go back because they're afraid of whatever curse
-          has been placed on the temple. If you were to bring back the candelabra
+          left the old temple to the northwest of here in a little too much of a
+          hurry, and a candelabra necessary for some of our rituals was left behind.
+          None of the Baa priests want to go back because they're afraid of whatever
+          curse has been placed on the temple. If you were to bring back the candelabra
           to me, however, I could reward you in their place.
         NoRequiredItemDialog: 
         ItemRequired: 
@@ -98,6 +141,8 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 0
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
       - Display: Quest
         FirstDialog: UNASSIGNED
         NoRequiredItemDialog: Did the curse frighten you away as well? I can understand.
@@ -110,10 +155,21 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 500
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
   - ShortName: Maria
     DisplayName: Maria the Gypsy
     FirstName: Maria
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 6803e56b8039c1f4b85e06707c3c0259, type: 3}
+    GuildID: 
     IsService: 0
     Services:
       RoomRentalCost: 0
@@ -122,14 +178,22 @@ MonoBehaviour:
       DrinkCost: 0
       TipCost: 0
       Tips: []
+      TrainingCost: 0
+      MaxTrainingLevel: 0
+      Skills: []
+      SkillCost: 0
+      IsBank: 0
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 0
     Options:
     - QuestLine: 1
       Steps:
       - Display: Brigands
         FirstDialog: With the death of Roland and rumors of a collapse of the Ironfist
           Rule, the roads are almost unsafe to travel anymore. Brigands and bandits
-          of all sorts now prey on anyone travelling too far from the protection of
-          the castles.
+          of all sorts now prey on anyone travelling too far from the protection
+          of the castles.
         NoRequiredItemDialog: 
         ItemRequired: 
         StartQuest: 0
@@ -138,6 +202,16 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 0
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
     - QuestLine: 1
       Steps:
       - Display: Islands
@@ -152,11 +226,21 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 0
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0
     - QuestLine: 1
       Steps:
       - Display: The Howling Moon
-        FirstDialog: The proprietor of the Howling Moon is George Caniss. It's a wonderful
-          place. Tell him I said hi!
+        FirstDialog: The proprietor of the Howling Moon is George Caniss. It's a
+          wonderful place. Tell him I said hi!
         NoRequiredItemDialog: 
         ItemRequired: 
         StartQuest: 0
@@ -165,3 +249,13 @@ MonoBehaviour:
         ItemReceived: 
         GoldReceived: 0
         ExpReceived: 0
+        MembershipOffer: 0
+        ExpertiseOffer: 0
+      Membership:
+        GuildID: 
+        GuildName: 
+        Cost: 0
+      Expertise:
+        SkillID: 
+        Proficiency: 0
+        Cost: 0

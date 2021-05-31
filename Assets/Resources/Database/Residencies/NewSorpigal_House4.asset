@@ -21,7 +21,7 @@ MonoBehaviour:
   - ShortName: Abdulai Mahgreb
     DisplayName: Abdulai Mahgreb the Teacher
     FirstName: Abdulai Mahgreb
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 3db5736f509318547b3b296a24c2e32f, type: 3}
     GuildID: 
     IsService: 0
     Services:
@@ -38,6 +38,7 @@ MonoBehaviour:
       IsBank: 0
       IsTemple: 0
       HealingCostMultiplier: 0
+      IsBounty: 0
     Options:
     - QuestLine: 0
       Steps:
@@ -113,7 +114,7 @@ MonoBehaviour:
   - ShortName: Dini Mahgreb
     DisplayName: Dini Mahgreb the Child
     FirstName: Dini Mahgreb
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 202b1fd6a09a25a4893aee44bf134bfe, type: 3}
     GuildID: 
     IsService: 0
     Services:
@@ -130,6 +131,7 @@ MonoBehaviour:
       IsBank: 0
       IsTemple: 0
       HealingCostMultiplier: 0
+      IsBounty: 0
     Options:
     - QuestLine: 0
       Steps:

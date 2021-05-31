@@ -21,7 +21,7 @@ MonoBehaviour:
   - ShortName: Frank Fairchild
     DisplayName: Frank Fairchild
     FirstName: Frank Fairchild
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: a5aadf2f733aa824b97eae72a1ca68b7, type: 3}
     GuildID: 
     IsService: 0
     Services:
@@ -132,7 +132,7 @@ MonoBehaviour:
   - ShortName: Janice
     DisplayName: Janice the Clerk
     FirstName: Janice
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 6803e56b8039c1f4b85e06707c3c0259, type: 3}
     GuildID: 
     IsService: 1
     Services:

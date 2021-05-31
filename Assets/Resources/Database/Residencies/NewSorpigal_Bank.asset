@@ -21,7 +21,7 @@ MonoBehaviour:
   - ShortName: Banker
     DisplayName: Schmidy the Banker
     FirstName: Schmidy
-    Sprite: {fileID: 21300000, guid: f715fd983de02fe419580102dde2fc79, type: 3}
+    Sprite: {fileID: 21300000, guid: 13540352f6892ad4e9c51df194fbb93d, type: 3}
     GuildID: 
     IsService: 1
     Services:
@@ -36,4 +36,7 @@ MonoBehaviour:
       Skills: []
       SkillCost: 0
       IsBank: 1
+      IsTemple: 0
+      HealingCostMultiplier: 0
+      IsBounty: 0
     Options: []
