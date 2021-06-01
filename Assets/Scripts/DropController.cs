@@ -150,6 +150,31 @@ public class DropController : MonoBehaviour {
         enemy.CreateEntity(obj, position);
     }
 
+    public void LoadInteractables(XmlNodeList nodes)
+    {
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            XmlNode node = nodes.Item(i);
+
+            Interactable interactable = new Interactable(node);
+
+            GameObject obj = Instantiate(interactable.Data.Prefab);
+            InteractableEntity ent = obj.GetComponent<InteractableEntity>();
+            ent.Setup(interactable);
+            interactable.CreateEntity(obj);
+        }
+    }
+
+    public void SpawnInteractable(InteractableData data, Transform position)
+    {
+        GameObject obj = Instantiate(data.Prefab);
+
+        InteractableEntity ent = obj.GetComponent<InteractableEntity>();
+        Interactable interactable = new Interactable(data);
+        ent.Setup(interactable);
+        interactable.CreateEntity(obj, position);
+    }
+
     public void LoadResidences(XmlNodeList nodes)
     {
         for (int i = 0; i < nodes.Count; i++)

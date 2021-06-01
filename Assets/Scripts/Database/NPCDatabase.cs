@@ -29,6 +29,11 @@ public struct NPCData
 
     public string ActionText;
     public string JoinText;
+
+    public static NPCData Default()
+    {
+        return new NPCData();
+    }
 }
 
 public class NPCDatabase : MonoBehaviour
@@ -55,6 +60,14 @@ public class NPCDatabase : MonoBehaviour
             foreach(var npc in db.NPCs)
                 _npcDict.Add(npc.ID, npc);
         }
+    }
+
+    public NPCData GetNPCData(string ID)
+    {
+        if (!_npcDict.ContainsKey(ID))
+            return NPCData.Default();
+
+        return _npcDict[ID];
     }
 
     public void CreateRandomNPC(Enemy enemy)

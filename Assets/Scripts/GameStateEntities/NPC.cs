@@ -8,7 +8,7 @@ public class NPC : GameStateEntity
     public string Name { get; protected set; }
 
     public Sprite Portrait { get; protected set; }
-    string portraitID;
+    string _portraitID;
 
     public string DisplayName { get { return Name + " the " + _data.ProfessionName; } }
     public string JoinText { get { return _data.JoinText; } }
@@ -17,7 +17,8 @@ public class NPC : GameStateEntity
     public int Cost { get { return _data.Cost; } }
     public int Rate { get { return _data.Rate; } }
 
-    public List<Topic> Topics { get; protected set; }
+    List<Topic> _topics;
+    public List<Topic> Topics { get { return _topics; } }
 
     NPCData _data;
 
@@ -46,27 +47,34 @@ public class NPC : GameStateEntity
         }
 
         Portrait = options[Random.Range(0, options.Count)];
-        portraitID = Portrait.name;
+        _portraitID = Portrait.name;
 
         if (enemy.Data.isFemale)
             Name = GameConstants.RandomNPCNamesFemale[rand];
         else
             Name = GameConstants.RandomNPCNamesMale[rand];
 
-        Topics = TopicDatabase.Instance.GetNewsTopics(2, this);
+        _topics = TopicDatabase.Instance.GetNewsTopics(2, this);
 
         _data = data;
     }
 
     public NPC(XmlNode node, Enemy enemy) : base(enemy, node)
     {
-
+        Name = node.SelectSingleNode("Name").InnerText;
+        _data = NPCDatabase.Instance.GetNPCData(node.SelectSingleNode("ID").InnerText);
+        _portraitID = node.SelectSingleNode("Portrait").InnerText;
+        Portrait = Resources.Load<Sprite>("NPC/" + _portraitID);
+        Populate<Topic>(ref _topics, typeof(NPC), node, "Topics", "Topic");
     }
 
     public override XmlNode ToXml(XmlDocument doc)
     {
         XmlNode element = doc.CreateElement("NPC");
-
+        element.AppendChild(XmlHelper.Attribute(doc, "Name", Name));
+        element.AppendChild(XmlHelper.Attribute(doc, "ID", _data.ID));
+        element.AppendChild(XmlHelper.Attribute(doc, "Portrait", _portraitID));
+        element.AppendChild(XmlHelper.Attribute(doc, "Topics", Topics));
         return element;
     }
 }

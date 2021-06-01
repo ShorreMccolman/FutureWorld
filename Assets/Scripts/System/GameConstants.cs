@@ -425,13 +425,22 @@ public static class GameConstants {
         {TreasureLevel.L6, "gold_3" }
     };
 
+    public static Dictionary<StoreType, RefreshPeriod> RefreshForStoreType = new Dictionary<StoreType, RefreshPeriod>()
+    {
+        {StoreType.General, RefreshPeriod.Daily },
+        {StoreType.Weapon, RefreshPeriod.Weekly },
+        {StoreType.Armor, RefreshPeriod.Weekly },
+        {StoreType.Magic, RefreshPeriod.Weekly },
+        {StoreType.Spell, RefreshPeriod.Even }
+    };
+
     public static Dictionary<StoreType, string> MerchantTitleForStoreType = new Dictionary<StoreType, string>()
     {
         {StoreType.General, "Shopkeeper" },
         {StoreType.Weapon, "Blacksmith" },
         {StoreType.Armor, "Armorsmith" },
         {StoreType.Magic, "Alchemist" },
-        {StoreType.Spell, "Scholar" },
+        {StoreType.Spell, "Guildmaster" },
     };
 
     public const string EXPRESSION_NEUTRAL = "neutral";

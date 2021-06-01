@@ -82,6 +82,8 @@ public class PartyEntity : Entity3D
         _sphere2.Setup(party, SphereLevel.Two);
 
         MapCam.pixelRect = new Rect(new Vector2(Screen.width - 250f, Screen.height - 100 - 250f), new Vector2(250f, 250f));
+        MapCam.enabled = false;
+        MapCam.enabled = true;
     }
 
     public void SetControls(ControlState state)

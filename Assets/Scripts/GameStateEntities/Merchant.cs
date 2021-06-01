@@ -7,7 +7,7 @@ using System.Xml;
 public class Merchant : GameStateEntity
 {
     public MerchantData Data { get; protected set; }
-
+    public string DisplayName { get { return Data.MerchantName + " the " + GameConstants.MerchantTitleForStoreType[Data.StoreType]; } }
     public InventoryItem[] BuyItems { get; protected set; }
     public InventoryItem[] SpecialItems { get; protected set; }
 
@@ -20,40 +20,13 @@ public class Merchant : GameStateEntity
 
     public void TryUpdateStock(float currentTime)
     {
-        System.DateTime date = TimeManagement.Instance.GetDT(currentTime);
-        System.DateTime update = TimeManagement.Instance.GetDT(LastUpdate);
-
-        bool restock = false;
-        switch(Data.StoreType)
-        {
-            case StoreType.General:
-                restock = date.DayOfYear != update.DayOfYear;
-                break;
-
-            case StoreType.Spell:
-                if (date.DayOfYear % 2 == 0)
-                {
-                    restock = date.DayOfYear - update.DayOfYear > 1;
-                } 
-                else
-                {
-                    restock = date.DayOfYear > update.DayOfYear;
-                }
-                break;
-
-            case StoreType.Weapon:
-            case StoreType.Armor:
-            case StoreType.Magic:
-                int difference = 7 - (int)date.DayOfWeek;
-                restock = date.DayOfYear - update.DayOfYear >= difference;
-                break;
-        }
-
-        if (date.Year > update.Year || date.Month > update.Month || restock)
+        float update;
+        bool refresh = TimeManagement.Instance.ShouldRefresh(GameConstants.RefreshForStoreType[Data.StoreType], LastUpdate, out update);
+        LastUpdate = update;
+        if (refresh)
         {
             Restock();
         }
-        LastUpdate = currentTime;
     }
 
     public Merchant(XmlNode node) : base(null, node)

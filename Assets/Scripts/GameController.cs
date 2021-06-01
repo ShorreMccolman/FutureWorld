@@ -45,6 +45,7 @@ public class GameController : MonoBehaviour {
     SpellDatabase SpellDB;
     NPCDatabase NPCDB;
     TopicDatabase TopicDB;
+    InteractableDatabase InteractableDB;
 
     bool _isPaused;
 
@@ -73,6 +74,7 @@ public class GameController : MonoBehaviour {
         SpellDB = new SpellDatabase();
         NPCDB = new NPCDatabase();
         TopicDB = new TopicDatabase();
+        InteractableDB = new InteractableDatabase();
     }
 
     void Update()
@@ -175,6 +177,8 @@ public class GameController : MonoBehaviour {
         DropController.Instance.LoadEnemies(enemies);
         XmlNodeList projectiles = gameData.SelectNodes("Projectile");
         DropController.Instance.LoadProjectiles(projectiles);
+        XmlNodeList interactables = gameData.SelectNodes("Interactable");
+        DropController.Instance.LoadInteractables(interactables);
 
         yield return null;
 

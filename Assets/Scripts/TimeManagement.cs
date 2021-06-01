@@ -251,6 +251,50 @@ public class TimeManagement : MonoBehaviour
             _control = TimeControl.Auto;
     }
 
+    public bool ShouldRefresh(RefreshPeriod period, float lastUpdate, out float currentTime)
+    {
+        System.DateTime date = GetDT();
+        System.DateTime update = TimeManagement.Instance.GetDT(lastUpdate);
+
+        bool restock = false;
+        switch (period)
+        {
+            case RefreshPeriod.Daily:
+                restock = date.Year > update.Year || date.DayOfYear > update.DayOfYear;
+                break;
+            case RefreshPeriod.Even:
+                if (date.DayOfYear % 2 == 0)
+                {
+                    restock = date.DayOfYear - update.DayOfYear > 1 || date.Year > update.Year;
+                }
+                else
+                {
+                    restock = date.DayOfYear > update.DayOfYear || date.Year > update.Year;
+                }
+                break;
+            case RefreshPeriod.Weekly:
+                int difference = 7 - (int)date.DayOfWeek;
+                restock = date.DayOfYear - update.DayOfYear >= difference;
+                break;
+            case RefreshPeriod.Monthly:
+                restock = date.Year > update.Year || date.Month > update.Month;
+                break;
+            case RefreshPeriod.Yearly:
+                restock = date.Year > update.Year;
+                break;
+            case RefreshPeriod.YearToDate:
+                System.TimeSpan span = new System.TimeSpan(date.Ticks - update.Ticks);
+                restock = span.Days >= 365;
+                break;
+            case RefreshPeriod.Permanent:
+                restock = false;
+                break;
+        }
+
+        currentTime = _party.CurrentTime;
+        return restock;
+    }
+
     public string GetFullDateAndTime()
     {
         System.DateTime date = GetDT();
