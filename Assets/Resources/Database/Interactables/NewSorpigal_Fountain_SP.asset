@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NewSorpigal_Fountain_SP
   m_EditorClassIdentifier: 
   Data:
-    ID: sorpigal_fountain_hp
+    ID: sorpigal_fountain_sp
     Mouseover: Fountain
     Prefab: {fileID: 7900755630324207976, guid: 9725eff74bea7804f8f7ccbcecebef93,
       type: 3}
