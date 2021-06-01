@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14ab0c9cfdf1b0b4aa9ea7e12d4b4118, type: 3}
-  m_Name: NewSorpigal_Fountain_Health
+  m_Name: NewSorpigal_Fountain_HP
   m_EditorClassIdentifier: 
   Data:
     ID: sorpigal_fountain_hp
@@ -18,7 +18,7 @@ MonoBehaviour:
     Prefab: {fileID: 7900755630324207976, guid: 9725eff74bea7804f8f7ccbcecebef93,
       type: 3}
     Potency: 5
-    NumberOfUses: 25
+    NumberOfUses: 30
     Effect: 0
     Stat: 0
     Period: 0
