@@ -31,7 +31,15 @@ public enum StatusEffectOption
 
     BoostedAC,
     BoostedStats,
-    BoostedResistance
+    BoostedResistance,
+
+    BoostedMight,
+    BoostedPersonality,
+    BoostedIntellect,
+    BoostedEndurance,
+    BoostedAccuracy,
+    BoostedSpeed,
+    BoostedLuck
 }
 
 
@@ -60,7 +68,16 @@ public class StatusEffect
         { new StatusEffect(StatusEffectOption.Weak, "Weak", true, true) },
         { new StatusEffect(StatusEffectOption.BoostedAC, "BoostedAC", false, false) },
         { new StatusEffect(StatusEffectOption.BoostedStats, "BoostedStats", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedResistance, "BoostedResist", false, false) }
+        { new StatusEffect(StatusEffectOption.BoostedResistance, "BoostedResist", false, false) },
+
+        { new StatusEffect(StatusEffectOption.BoostedMight, "BoostedMight", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedIntellect, "BoostedIntellect", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedPersonality, "BoostedPersonality", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedAccuracy, "BoostedAccuracy", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedSpeed, "BoostedSpeed", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedEndurance, "BoostedEndurance", false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedLuck, "BoostedLuck", false, false) }
+
     };
 }
 
@@ -100,5 +117,15 @@ public class StatusEffectDatabase
         }
 
         return new StatusCondition(status, _seDict[option], duration);
+    }
+
+    public StatusCondition GetStatusCondition(StatusEffectOption option, Status status, int potency, float duration)
+    {
+        if (!_seDict.ContainsKey(option))
+        {
+            return null;
+        }
+
+        return new StatusCondition(status, _seDict[option], potency, duration);
     }
 }

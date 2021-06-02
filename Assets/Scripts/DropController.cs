@@ -120,7 +120,7 @@ public class DropController : MonoBehaviour {
             {
                 GameObject obj = Instantiate(NPCEntityObject);
                 NPCEntity ent = obj.GetComponent<NPCEntity>();
-                ent.Setup(enemy);
+                ent.Setup(enemy, enemy.NPC);
                 enemy.CreateEntity(obj);
                 ent.RefreshRoamTarget(true);
             }

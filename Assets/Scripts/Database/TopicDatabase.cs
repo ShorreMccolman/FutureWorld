@@ -72,6 +72,17 @@ public class TopicDatabase : MonoBehaviour
         }
     }
 
+    public TopicData GetTopicData(string ID, int index)
+    {
+        if (_topicDict.ContainsKey(ID))
+        {
+            TopicSet set = _topicDict[ID];
+            return _topicDict[ID].Info[index];
+        }
+
+        return TopicData.Default();
+    }
+
     public TopicData GetTopic(string ID, int dayOfWeek = 0)
     {
         if(_topicDict.ContainsKey(ID))

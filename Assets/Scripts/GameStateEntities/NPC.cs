@@ -59,7 +59,7 @@ public class NPC : GameStateEntity
         _data = data;
     }
 
-    public NPC(XmlNode node, Enemy enemy) : base(enemy, node)
+    public NPC(GameStateEntity enemy, XmlNode node) : base(enemy, node)
     {
         Name = node.SelectSingleNode("Name").InnerText;
         _data = NPCDatabase.Instance.GetNPCData(node.SelectSingleNode("ID").InnerText);
@@ -75,6 +75,7 @@ public class NPC : GameStateEntity
         element.AppendChild(XmlHelper.Attribute(doc, "ID", _data.ID));
         element.AppendChild(XmlHelper.Attribute(doc, "Portrait", _portraitID));
         element.AppendChild(XmlHelper.Attribute(doc, "Topics", Topics));
+        element.AppendChild(base.ToXml(doc));
         return element;
     }
 }

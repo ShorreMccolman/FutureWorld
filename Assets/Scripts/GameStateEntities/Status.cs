@@ -145,6 +145,20 @@ public class Status : GameStateEntity
         }
     }
 
+    public void AddCondition(StatusEffectOption option, int potency, float duration)
+    {
+        for (int i = 0; i < _conditions.Count; i++)
+        {
+            if (_conditions[i].Option == option)
+            {
+                _conditions[i] = StatusEffectDatabase.Instance.GetStatusCondition(option, this, potency, duration);
+                return;
+            }
+        }
+
+        _conditions.Add(StatusEffectDatabase.Instance.GetStatusCondition(option, this, potency, duration));
+    }
+
     public void AddCondition(StatusEffectOption option, float duration)
     {
         for(int i=0;i<_conditions.Count;i++)
@@ -177,116 +191,145 @@ public class Status : GameStateEntity
 
     public int ModifyMight(int stat)
     {
-        foreach(var condition in Conditions)
+        float modifier = 1.0f;
+        int bonus = 0;
+        foreach (var condition in Conditions)
         {
-            switch(condition.Option)
+            switch (condition.Option)
             {
                 case StatusEffectOption.Poison:
-                    stat = Mathf.RoundToInt(stat * 0.75f);
+                    modifier = Mathf.Min(modifier, 0.75f);
                     break;
                 case StatusEffectOption.Disease:
-                    stat = Mathf.RoundToInt(stat * 0.60f);
+                    modifier = Mathf.Min(modifier, 0.6f);
+                    break;
+                case StatusEffectOption.BoostedMight:
+                    bonus += condition.Potency;
                     break;
             }
         }
 
-        return stat;
+        return Mathf.RoundToInt(stat * modifier + bonus);
     }
 
     public int ModifyEndurance(int stat)
     {
+        float modifier = 1.0f;
+        int bonus = 0;
         foreach (var condition in Conditions)
         {
             switch (condition.Option)
             {
                 case StatusEffectOption.Poison:
-                    stat = Mathf.RoundToInt(stat * 0.75f);
+                    modifier = Mathf.Min(modifier, 0.75f);
                     break;
                 case StatusEffectOption.Disease:
-                    stat = Mathf.RoundToInt(stat * 0.60f);
+                    modifier = Mathf.Min(modifier, 0.6f);
+                    break;
+                case StatusEffectOption.BoostedEndurance:
+                    bonus += condition.Potency;
                     break;
             }
         }
 
-        return stat;
+        return Mathf.RoundToInt(stat * modifier + bonus);
     }
 
     public int ModifyIntellect(int stat)
     {
+        float modifier = 1.0f;
+        int bonus = 0;
         foreach (var condition in Conditions)
         {
             switch (condition.Option)
             {
-                default:
+                case StatusEffectOption.BoostedIntellect:
+                    bonus += condition.Potency;
                     break;
             }
         }
 
-        return stat;
+        return Mathf.RoundToInt(stat * modifier + bonus);
     }
 
     public int ModifyPersonality(int stat)
     {
+        float modifier = 1.0f;
+        int bonus = 0;
         foreach (var condition in Conditions)
         {
             switch (condition.Option)
             {
-                default:
+                case StatusEffectOption.BoostedPersonality:
+                    bonus += condition.Potency;
                     break;
             }
         }
 
-        return stat;
+        return Mathf.RoundToInt(stat * modifier + bonus);
     }
 
     public int ModifyAccuracy(int stat)
     {
+        float modifier = 1.0f;
+        int bonus = 0;
         foreach (var condition in Conditions)
         {
             switch (condition.Option)
             {
                 case StatusEffectOption.Poison:
-                    stat = Mathf.RoundToInt(stat * 0.75f);
+                    modifier = Mathf.Min(modifier, 0.75f);
                     break;
                 case StatusEffectOption.Disease:
-                    stat = Mathf.RoundToInt(stat * 0.60f);
+                    modifier = Mathf.Min(modifier, 0.6f);
+                    break;
+                case StatusEffectOption.BoostedAccuracy:
+                    bonus += condition.Potency;
                     break;
             }
         }
 
-        return stat;
+        return Mathf.RoundToInt(stat * modifier + bonus);
     }
 
     public int ModifySpeed(int stat)
     {
+        float modifier = 1.0f;
+        int bonus = 0;
         foreach (var condition in Conditions)
         {
             switch (condition.Option)
             {
                 case StatusEffectOption.Poison:
-                    stat = Mathf.RoundToInt(stat * 0.75f);
+                    modifier = Mathf.Min(modifier, 0.75f);
                     break;
                 case StatusEffectOption.Disease:
-                    stat = Mathf.RoundToInt(stat * 0.60f);
+                    modifier = Mathf.Min(modifier, 0.6f);
+                    break;
+                case StatusEffectOption.BoostedSpeed:
+                    bonus += condition.Potency;
                     break;
             }
         }
 
-        return stat;
+        return Mathf.RoundToInt(stat * modifier + bonus);
     }
 
     public int ModifyLuck(int stat)
     {
+        float modifier = 1.0f;
+        int bonus = 0;
         foreach (var condition in Conditions)
         {
             switch (condition.Option)
             {
-                default:
+                case StatusEffectOption.BoostedLuck:
+                    bonus += condition.Potency;
                     break;
             }
         }
 
-        return stat;
+        return Mathf.RoundToInt(stat * modifier + bonus);
     }
 
     public int ModifyRestHP(int stat)
@@ -311,7 +354,8 @@ public class Status : GameStateEntity
         {
             switch (condition.Option)
             {
-                default:
+                case StatusEffectOption.BoostedResistance:
+                    stat += condition.Potency;
                     break;
             }
         }

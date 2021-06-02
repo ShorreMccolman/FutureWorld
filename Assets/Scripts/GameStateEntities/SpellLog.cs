@@ -29,31 +29,36 @@ public class SpellLog : GameStateEntity
         _skillset = skillset;
         _knownSpells = new Dictionary<SpellSchool, List<int>>();
 
-        XmlNodeList schoolNodes = node.SelectNodes("Schools");
+        XmlNodeList schoolNodes = node.SelectNodes("School");
         for(int i=0;i< schoolNodes.Count;i++)
         {
             XmlNode school = schoolNodes.Item(i);
             List<int> spells = new List<int>();
 
-            XmlNodeList spellNodes = school.SelectNodes("ID");
+            int schoolID = int.Parse(school.SelectSingleNode("ID").InnerText);
+            XmlNodeList spellNodes = school.SelectNodes("Spell");
             for(int j=0;j<spellNodes.Count;j++)
             {
-                spells.Add(int.Parse(spellNodes.Item(j).Name));
+                spells.Add(int.Parse(spellNodes.Item(j).InnerText));
             }
 
-            _knownSpells.Add((SpellSchool)int.Parse(school.Name), spells);
+            _knownSpells.Add((SpellSchool)schoolID, spells);
         }
     }
 
     public override XmlNode ToXml(XmlDocument doc)
     {
         XmlNode element = doc.CreateElement("SpellLog");
-        XmlNode schools = doc.CreateElement("Schools");
         foreach(var school in _knownSpells.Keys)
         {
-            schools.AppendChild(XmlHelper.Attribute(doc, ((int)school).ToString(), "ID", _knownSpells[school]));
+            XmlNode schoolNode = doc.CreateElement("School");
+            schoolNode.AppendChild(XmlHelper.Attribute(doc, "ID", (int)school));
+            foreach(var spell in _knownSpells[school])
+            {
+                schoolNode.AppendChild(XmlHelper.Attribute(doc, "Spell", spell));
+            }
+            element.AppendChild(schoolNode);
         }
-        element.AppendChild(schools);
         element.AppendChild(base.ToXml(doc));
 
         return element;

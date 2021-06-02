@@ -14,7 +14,8 @@ public class Party : GameStateEntity
     public int CurrentBalance { get; private set; }
     public float CurrentTime { get; private set; }
 
-    public List<NPC> Hires { get; private set; }
+    List<NPC> _hires;
+    public List<NPC> Hires { get { return _hires; } }
 
     public QuestLog QuestLog { get; private set; }
 
@@ -43,7 +44,7 @@ public class Party : GameStateEntity
         Members[0].Inventory.AddItem(ItemDatabase.Instance.GetInventoryItem("letter_1"));
 
         QuestLog = new QuestLog(this);
-        Hires = new List<NPC>();
+        _hires = new List<NPC>();
 
         TimeManagement.Instance.OnTick += TickEvent;
 
@@ -61,9 +62,10 @@ public class Party : GameStateEntity
         CurrentFood = int.Parse(node.SelectSingleNode("Food").InnerText);
         CurrentGold = int.Parse(node.SelectSingleNode("Gold").InnerText);
         CurrentBalance = int.Parse(node.SelectSingleNode("Balance").InnerText);
-        CurrentTime = int.Parse(node.SelectSingleNode("Time").InnerText);
+        CurrentTime = float.Parse(node.SelectSingleNode("Time").InnerText);
         QuestLog = new QuestLog(this, node.SelectSingleNode("QuestLog"));
         Populate<PartyMember>(ref _members, typeof(Party), node, "Members", "PartyMember");
+        Populate<NPC>(ref _hires, typeof(Party), node, "Hires", "NPC");
 
         TimeManagement.Instance.OnTick += TickEvent;
     }
@@ -77,6 +79,8 @@ public class Party : GameStateEntity
         element.AppendChild(XmlHelper.Attribute(doc, "Balance", CurrentBalance));
         element.AppendChild(XmlHelper.Attribute(doc, "Time", CurrentTime));
         element.AppendChild(XmlHelper.Attribute(doc, "Members", Members));
+        if(Hires.Count > 0)
+            element.AppendChild(XmlHelper.Attribute(doc, "Hires", Hires));
         element.AppendChild(QuestLog.ToXml(doc));
         element.AppendChild(base.ToXml(doc));
 

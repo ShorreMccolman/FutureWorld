@@ -94,7 +94,8 @@ public class HUD : Menu {
         if (Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0))
             HidePopup();
 
-        UpdateCompass();
+        if(_party != null)
+            UpdateCompass();
 
         if(Input.GetKeyDown(KeyCode.F1))
         {

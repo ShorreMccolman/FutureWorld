@@ -9,7 +9,7 @@ public class QuestLog : GameStateEntity
     public List<QuestChain> Quests { get { return _activeQuests; } }
 
     List<string> _guildMemberships;
-    public List<string> GuildMemberships { get; private set; }
+    public List<string> GuildMemberships { get { return _guildMemberships; } }
 
     List<QuestChain> _completedQuests;
 
@@ -17,7 +17,6 @@ public class QuestLog : GameStateEntity
     {
         _activeQuests = new List<QuestChain>();
         _completedQuests = new List<QuestChain>();
-
         _guildMemberships = new List<string>();
 
         AcceptQuest(QuestLine.Letter);

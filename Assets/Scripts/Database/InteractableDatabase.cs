@@ -21,9 +21,11 @@ public class InteractableData
     public GameObject Prefab;
 
     public int Potency;
+    public float Duration;
     public int NumberOfUses;
 
     public InteractableEffect Effect;
+    public StatusEffectOption Option;
     public CharacterStat Stat;
     public RefreshPeriod Period;
 }

@@ -48,7 +48,7 @@ public class Enemy : GameStateEntity, CombatEntity
         XmlNode npc = node.SelectSingleNode("NPC");
         if(npc != null)
         {
-            NPC = new NPC(npc, this);
+            NPC = new NPC(this, npc);
         }
     }
 
@@ -58,7 +58,7 @@ public class Enemy : GameStateEntity, CombatEntity
         element.AppendChild(XmlHelper.Attribute(doc, "ID", Data.ID));
         element.AppendChild(XmlHelper.Attribute(doc, "Health", CurrentHP));
         element.AppendChild(XmlHelper.Attribute(doc, "Cooldown", Cooldown));
-        element.AppendChild(XmlHelper.Attribute(doc, "Holstile", IsHostile));
+        element.AppendChild(XmlHelper.Attribute(doc, "Hostile", IsHostile));
         if(NPC != null)
             element.AppendChild(NPC.ToXml(doc));
         element.AppendChild(base.ToXml(doc));

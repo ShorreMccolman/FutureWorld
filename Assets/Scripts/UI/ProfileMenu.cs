@@ -43,13 +43,13 @@ public class ProfileMenu : CharacterMenu
         Name.text = member.Profile.CharacterName + " the " + member.Profile.Class.ToString();
         Skillpoints.text = "Skill Points: " + member.Profile.SkillPoints;
 
-        Might.text = Label(member.Profile.EffectiveMight);
-        Intellect.text = Label(member.Profile.EffectiveIntellect);
-        Personality.text = Label(member.Profile.EffectivePersonality);
-        Endurance.text = Label(member.Profile.EffectiveEndurance);
-        Accuracy.text = Label(member.Profile.EffectiveAccuracy);
-        Speed.text = Label(member.Profile.EffectiveSpeed);
-        Luck.text = Label(member.Profile.EffectiveLuck);
+        Might.text = Label(member.Profile.EffectiveMight, member.Profile.Might);
+        Intellect.text = Label(member.Profile.EffectiveIntellect, member.Profile.Intellect);
+        Personality.text = Label(member.Profile.EffectivePersonality, member.Profile.Personality);
+        Endurance.text = Label(member.Profile.EffectiveEndurance, member.Profile.Endurance);
+        Accuracy.text = Label(member.Profile.EffectiveAccuracy, member.Profile.Accuracy);
+        Speed.text = Label(member.Profile.EffectiveSpeed, member.Profile.Speed);
+        Luck.text = Label(member.Profile.EffectiveLuck, member.Profile.Luck);
 
         Hitpoints.text = Label(member.Vitals.CurrentHP,member.Vitals.EffectiveTotalHP);
         Spellpoints.text = Label(member.Vitals.CurrentMP,member.Vitals.EffectiveTotalMP);
@@ -91,6 +91,14 @@ public class ProfileMenu : CharacterMenu
 
     string Label(int current, int normal)
     {
-        return current + " / " + normal;
+        string color = "white";
+        if (current < normal)
+            color = "red";
+        else if (current > normal)
+            color = "green";
+
+        string colorLabel = "<color=" + color + ">";
+
+        return colorLabel + current + "</color> / " + normal;
     }
 }

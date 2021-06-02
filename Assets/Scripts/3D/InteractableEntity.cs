@@ -6,7 +6,7 @@ public enum InteractableEffect
 {
     RestoreHP,
     RestoreMP,
-    TemporaryStat,
+    StatusEffect,
     PermanentStat,
     Charity
 }

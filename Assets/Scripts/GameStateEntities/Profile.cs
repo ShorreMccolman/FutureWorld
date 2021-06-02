@@ -291,6 +291,34 @@ public class Profile : GameStateEntity {
         SkillPoints += amount;
     }
 
+    public void AddStatPoints(CharacterStat stat, int amount)
+    {
+        switch(stat)
+        {
+            case CharacterStat.Might:
+                Might += amount;
+                return;
+            case CharacterStat.Endurance:
+                Endurance += amount;
+                return;
+            case CharacterStat.Speed:
+                Speed += amount;
+                return;
+            case CharacterStat.Accuracy:
+                Accuracy += amount;
+                return;
+            case CharacterStat.Intellect:
+                Intellect += amount;
+                return;
+            case CharacterStat.Personality:
+                Personality += amount;
+                return;
+            case CharacterStat.Luck:
+                Luck += amount;
+                return;
+        }
+    }
+
     public void EarnXP(int value)
     {
         Experience += value;

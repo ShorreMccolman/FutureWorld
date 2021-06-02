@@ -170,6 +170,12 @@ public class EnemyDatabase
                 return fam.Commander;
         }
 
+        foreach(var npc in _npcDict.Values)
+        {
+            if (npc.ID == enemyID)
+                return npc;
+        }
+
         Debug.LogError("Could not find enemy with ID " + enemyID);
         return null;
     }

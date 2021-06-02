@@ -142,8 +142,8 @@ public class Vitals : GameStateEntity
         Condition = (PartyMemberState)int.Parse(vitalsNode.SelectSingleNode("Condition").InnerText);
         CurrentHP = int.Parse(vitalsNode.SelectSingleNode("CurrentHP").InnerText);
         CurrentMP = int.Parse(vitalsNode.SelectSingleNode("CurrentMP").InnerText);
-        TimeToNeutral = int.Parse(vitalsNode.SelectSingleNode("TTN").InnerText);
-        Cooldown = int.Parse(vitalsNode.SelectSingleNode("Cooldown").InnerText);
+        TimeToNeutral = float.Parse(vitalsNode.SelectSingleNode("TTN").InnerText);
+        Cooldown = float.Parse(vitalsNode.SelectSingleNode("Cooldown").InnerText);
         Expression = vitalsNode.SelectSingleNode("Expression").InnerText;
     }
 
