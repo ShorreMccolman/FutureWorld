@@ -6368,6 +6368,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &271713917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 271713918}
+  - component: {fileID: 271713919}
+  m_Layer: 0
+  m_Name: IS_Stable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &271713918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271713917}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -23.120003, y: 0, z: -17.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1555420938}
+  m_RootOrder: 48
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &271713919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271713917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2beed1d17ed5b7f488b25af5b9df93de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: horseshoe
+  ItemLevel: 0
+  Range: 0.5
 --- !u!1 &272125528
 GameObject:
   m_ObjectHideFlags: 0
@@ -26083,6 +26129,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1464529155}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1464676986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1464676987}
+  - component: {fileID: 1464676988}
+  m_Layer: 0
+  m_Name: IS_Stable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1464676987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464676986}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -23.12, y: 0, z: -10.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1555420938}
+  m_RootOrder: 47
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1464676988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464676986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2beed1d17ed5b7f488b25af5b9df93de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: horseshoe
+  ItemLevel: 0
+  Range: 0.5
 --- !u!1 &1467161245
 GameObject:
   m_ObjectHideFlags: 0
@@ -28613,6 +28705,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12f0a7bad4267ca408aba61040db74e9, type: 3}
+--- !u!4 &1555420938 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6272316668168667653, guid: b12e92a92dc073448846553deee4fa42,
+    type: 3}
+  m_PrefabInstance: {fileID: 6272316668530328983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1557201991
 GameObject:
   m_ObjectHideFlags: 0
@@ -39499,6 +39597,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1152709024, guid: b12e92a92dc073448846553deee4fa42, type: 3}
+      propertyPath: m_Name
+      value: IntS_Fountain
+      objectReference: {fileID: 0}
+    - target: {fileID: 1216633082, guid: b12e92a92dc073448846553deee4fa42, type: 3}
+      propertyPath: m_Name
+      value: IntS_Fountain
+      objectReference: {fileID: 0}
+    - target: {fileID: 1398887145, guid: b12e92a92dc073448846553deee4fa42, type: 3}
+      propertyPath: m_Name
+      value: IntS_Fountain
+      objectReference: {fileID: 0}
     - target: {fileID: 6272316668168667653, guid: b12e92a92dc073448846553deee4fa42,
         type: 3}
       propertyPath: m_RootOrder

@@ -13,7 +13,7 @@ public class ItemDropEntity : Entity3D
     {
         _drop = drop;
         GameObject obj = Instantiate(drop.Item.Data.model, anchor);
-        MouseoverName = drop.Item.Data.GetTypeDescription();
+        MouseoverName = "Get " + drop.Item.Data.GetTypeDescription();
     }
 
     public override IEnumerator Interact(PartyEntity party)

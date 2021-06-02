@@ -5,6 +5,7 @@ using UnityEditor;
 
 public class ItemSpawn : Spawn
 {
+    [SerializeField] protected string ItemID;
     [SerializeField] protected TreasureLevel ItemLevel;
     [SerializeField] protected float Range = 3.0f;
 
@@ -16,7 +17,11 @@ public class ItemSpawn : Spawn
 
     public override void Populate()
     {
-        Item data = ItemDatabase.Instance.GetItemByTreasureLevel(ItemLevel);
+        Item data;
+        if (!string.IsNullOrEmpty(ItemID))
+            data = ItemDatabase.Instance.GetItem(ItemID);
+        else
+            data = ItemDatabase.Instance.GetItemByTreasureLevel(ItemLevel);
         InventoryItem item = new InventoryItem(null, data, ItemLevel);
         DropController.Instance.DropItem(item, transform.position);
     }

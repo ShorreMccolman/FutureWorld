@@ -62,8 +62,8 @@ MonoBehaviour:
     Recipe: []
   - ID: herb_red
     DisplayName: Widoweeps Berries
-    Description: A magical herb of unusual properties.  Widoweeps Berries can be used
-      to make potions.
+    Description: A magical herb of unusual properties.  Widoweeps Berries can be
+      used to make potions.
     Chances:
       L1: 20
       L2: 0

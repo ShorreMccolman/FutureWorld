@@ -632,6 +632,8 @@ public class HUD : Menu {
 
     public bool PickupCorpse(Enemy enemy)
     {
+        int gold = enemy.Data.Gold.Roll();
+        _party.CollectGold(gold, true);
         return true;
     }
 
@@ -646,6 +648,7 @@ public class HUD : Menu {
         if (SelectedMember != null)
         {
             InventoryItem item = SelectedMember.Inventory.AddItem(drop.Item);
+            SendInfoMessage("You found an item (" + item.Data.GetTypeDescription() + ")!", 2.0f);
             if (item != null)
                 return true;
         }
