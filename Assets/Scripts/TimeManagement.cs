@@ -15,9 +15,11 @@ public class TimeManagement : MonoBehaviour
     void Awake()
     { Instance = this; }
 
-    [SerializeField] Light MainLight;
+    [SerializeField] Transform LightAnchor;
 
+    [SerializeField] Light DayLight;
     [SerializeField] Material DayBox;
+    [SerializeField] Light NightLight;
     [SerializeField] Material NightBox;
 
     public delegate void FinishEvent();
@@ -51,6 +53,8 @@ public class TimeManagement : MonoBehaviour
         _isComitting = false;
 
         ReadyMembers = new List<CombatEntity>();
+
+        InitEnvironment(party.CurrentTime);
 
         _timeToUpdate = 0;
         OnTick += UpdateEnvironment;
@@ -210,37 +214,48 @@ public class TimeManagement : MonoBehaviour
         OnTick?.Invoke(minutes * 60);
     }
 
+    void InitEnvironment(float time)
+    {
+        System.DateTime dt = TimeManagement.Instance.GetDT(time);
+
+        float rot = ((float)dt.TimeOfDay.TotalSeconds - 60f * 60f * 13f) * 360f / (24f * 60f * 60f);
+
+        LightAnchor.eulerAngles = new Vector3(45, 0, rot);
+
+        //bool isDay = dt.Hour > 6 && dt.Hour < 21;
+        //Light light = isDay ? DayLight : NightLight;
+        //Material box = isDay ? DayBox : NightBox;
+        //if (RenderSettings.sun != light)
+        //{
+        //    RenderSettings.sun = light;
+        //    RenderSettings.skybox = box;
+        //    RenderSettings.ambientIntensity = isDay ? 0.8f : 0.5f;
+        //}
+    }
+
     void UpdateEnvironment(float tick)
     {
         _timeToUpdate -= tick;
 
-        if (_timeToUpdate <= 0)
-        {
-            float hour = GetCurrentHourFractional();
+        //if (_timeToUpdate <= 0)
+        //{
+        //    float hour = GetCurrentHourFractional();
 
-            if (hour < 3 || hour == 23)
-            {
-                MainLight.intensity = 0.2f;
-            }
-            else if (hour < 6)
-            {
-                MainLight.intensity = 1f - (6 - hour) * 0.8f / 3f;
-            }
-            else if (hour < 20)
-            {
-                MainLight.intensity = 1f;
-            }
-            else
-            {
-                MainLight.intensity = 0.2f + (23 - hour) * 0.8f / 3f;
-            }
+        //    bool isDay = hour > 6 && hour < 21;
+        //    Light light = isDay ? DayLight : NightLight;
+        //    Material box = isDay ? DayBox : NightBox;
+        //    if (RenderSettings.sun != light)
+        //    {
+        //        RenderSettings.sun = light;
+        //        RenderSettings.skybox = box;
+        //        RenderSettings.ambientIntensity = isDay ? 0.8f : 0.5f;
+        //    }
 
-            Material box = hour > 4 && hour < 21 ? DayBox : NightBox;
-            if (RenderSettings.skybox != box)
-                RenderSettings.skybox = box;
+        //    _timeToUpdate = 10 * 60;
+        //}
 
-            _timeToUpdate = 10 * 60;
-        }
+        float rot = tick * 360f / (24f * 60f * 60f);
+        LightAnchor.Rotate(new Vector3(0, 0, rot));
     }
 
     public void CommitManualTick()
