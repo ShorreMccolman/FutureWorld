@@ -34,7 +34,7 @@ public class MerchantMenu : ConversationMenu
         _currentMerchant = merchant;
 
         StoreLabel.text = merchant.Data.StoreName;
-        MerchantLabel.text = merchant.Data.MerchantName;
+        MerchantLabel.text = merchant.DisplayName;
         MerchantSprite.sprite = merchant.Data.Sprite;
         HoverDialog.text = "";
 

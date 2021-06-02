@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChestSpawn : Spawn
 {
-    public SpawnQuantities Quantities;
+    public ChestDBObject DBObject;
 
     [SerializeField] private float Range = 3.0f;
 
@@ -16,6 +16,6 @@ public class ChestSpawn : Spawn
 
     public override void Populate()
     {
-        DropController.Instance.SpawnChest(Quantities, transform);
+        DropController.Instance.SpawnChest(DBObject.Data, transform);
     }
 }

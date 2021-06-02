@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62743a74eafdb04e9736a2b180eb225, type: 3}
+  m_Name: Sorpigal_Town
+  m_EditorClassIdentifier: 
+  Data:
+    ID: sorpigal_town
+    Quantities:
+      L1: 1
+      L2: 1
+      L3: 1
+      L4: 0
+      L5: 0
+      L6: 0
+      Artifact: 0
+      Custom: []
+    Prefab: {fileID: 1780410620924641544, guid: eee171e437a45d444812d43a54ea2947,
+      type: 3}

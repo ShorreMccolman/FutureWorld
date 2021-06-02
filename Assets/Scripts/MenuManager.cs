@@ -20,7 +20,8 @@ public class MenuManager : MonoBehaviour {
             menu.Contents.SetActive(false);
         }
         _openMenuDict.Clear();
-        PartyController.Instance.SetControlState(ControlState.Previous);
+        if(PartyController.Instance.Entity != null)
+            PartyController.Instance.SetControlState(ControlState.Previous);
     }
 
     public void CloseMenu(string menuTag)
@@ -30,8 +31,8 @@ public class MenuManager : MonoBehaviour {
             _openMenuDict[menuTag].OnClose();
             _menuDict[menuTag].Contents.SetActive(false);
             _openMenuDict.Remove(menuTag);
-
-            PartyController.Instance.SetControlState(ControlState.Previous);
+            if (PartyController.Instance.Entity != null)
+                PartyController.Instance.SetControlState(ControlState.Previous);
         }
     }
 
@@ -52,7 +53,8 @@ public class MenuManager : MonoBehaviour {
 
         if(setMenuLock)
         {
-            PartyController.Instance.SetControlState(ControlState.MenuLock);
+            if (PartyController.Instance.Entity != null)
+                PartyController.Instance.SetControlState(ControlState.MenuLock);
         }
     }
 

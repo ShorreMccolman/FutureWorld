@@ -235,7 +235,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         if(hits)
         {
             dmg = Equipment.RollDamage(Skillset);
-            float chanceOfReduction = 1 - 30 / (30 + enemy.Data.Resistances.Physical);
+            float chanceOfReduction = 1 - 30 / (float)(30 + enemy.Data.Resistances.Physical);
             dmg = CombatHelper.ReduceDamage(dmg, chanceOfReduction);
         }
 

@@ -7,6 +7,8 @@ public class BackToLoad : MonoBehaviour {
 	void Awake()
     {
         if (GameController.Instance == null)
+        {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
     }
 }

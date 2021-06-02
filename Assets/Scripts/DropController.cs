@@ -9,7 +9,6 @@ public class DropController : MonoBehaviour {
     void Awake() { Instance = this; }
 
     [SerializeField] GameObject ItemDropEntityObject;
-    [SerializeField] GameObject ChestEntityObject;
     [SerializeField] GameObject EnemyEntityObject;
     [SerializeField] GameObject NPCEntityObject;
     [SerializeField] GameObject ResidenceEntityObject;
@@ -56,22 +55,21 @@ public class DropController : MonoBehaviour {
         for (int i = 0; i < nodes.Count; i++)
         {
             XmlNode node = nodes.Item(i);
-
-            GameObject obj = Instantiate(ChestEntityObject);
+            Chest chest = new Chest(node);
+            GameObject obj = Instantiate(chest.Data.Prefab);
 
             ChestEntity ent = obj.GetComponent<ChestEntity>();
-            Chest chest = new Chest(node);
             ent.Setup(chest);
             chest.CreateEntity(obj);
         }
     }
 
-    public void SpawnChest(SpawnQuantities quantities, Transform location)
+    public void SpawnChest(ChestData data, Transform location)
     {
-        GameObject obj = Instantiate(ChestEntityObject);
+        GameObject obj = Instantiate(data.Prefab);
 
         ChestEntity ent = obj.GetComponent<ChestEntity>();
-        Chest chest = new Chest(quantities);
+        Chest chest = new Chest(data);
         ent.Setup(chest);
         chest.CreateEntity(obj, location);
     }

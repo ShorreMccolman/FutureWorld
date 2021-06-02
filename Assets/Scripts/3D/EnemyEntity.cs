@@ -47,6 +47,9 @@ public class EnemyEntity : Entity3D
     protected Vector3 _roamTarget;
     protected float _idleDuration;
 
+    bool _movingRight;
+    float _changeDirectionTimer;
+
     public void Setup(Enemy enemy)
     {
         State = enemy;
@@ -174,31 +177,21 @@ public class EnemyEntity : Entity3D
                 _curMoveSpeed = 0;
                 break;
             case Range.Long:
-            case Range.Mid:
+
+                _changeDirectionTimer -= Time.fixedDeltaTime;
+                if(_changeDirectionTimer <= 0)
+                {
+                    _changeDirectionTimer = Random.Range(3f, 5f);
+                    _movingRight = !_movingRight;
+                }
+
                 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+                targetVec = (levelPosition - transform.position);
 
-                Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
-                float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
-
-                if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
-                {
-                    targetVec = (levelPosition - transform.position);
-                    float ang = Vector3.Angle(transform.forward, targetVec);
-                    if (ang < 25f && !Enemy.MovementLocked)
-                    {
-                        _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
-                        if (_curMoveSpeed > moveSpeed)
-                            _curMoveSpeed = moveSpeed;
-
-                        Move(_curMoveSpeed);
-                    }
-                }
-                else
-                {
-                    _curMoveSpeed = 0;
-                    _animator.SetFloat("MoveSpeed", 0);
-                }
+                Pursue(Vector3.Cross(Vector3.up, targetVec).normalized * 10f * (_movingRight ? 1 : -1));
+                break;
+            case Range.Mid:
+                Pursue(Vector3.zero);
                 break;
             case Range.Close:
 
@@ -207,14 +200,55 @@ public class EnemyEntity : Entity3D
 
                 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
                 targetVec = (levelPosition - transform.position);
-                if (attackReady && Enemy.MoveCooldown <= 0)
-                {
-                    Enemy.LockMovement(true);
-                    _animator.SetTrigger("DoAttack");
-                    attackReady = false;
-                }
+                TryAttack(_target.position);
                 break;
         }
+    }
+
+    void Pursue(Vector3 offset)
+    {
+        Vector3 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z) + offset;
+
+        Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
+        float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+
+        if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
+        {
+            Vector3 targetVec = (levelPosition - transform.position);
+            float ang = Vector3.Angle(transform.forward, targetVec);
+            if (ang < 25f && !Enemy.MovementLocked)
+            {
+                _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
+                if (_curMoveSpeed > moveSpeed)
+                    _curMoveSpeed = moveSpeed;
+
+                bool attack = TryAttack(_target.position);
+                if (!attack)
+                    Move(_curMoveSpeed);
+            }
+        }
+        else
+        {
+            _curMoveSpeed = 0;
+            _animator.SetFloat("MoveSpeed", 0);
+        }
+    }
+
+    bool TryAttack(Vector3 target)
+    {
+        float distance = Vector3.Distance(transform.position, target);
+        bool success = attackReady && Enemy.MoveCooldown <= 0 && distance < 5.0f;
+        if(success)
+        {
+            _curMoveSpeed = 0;
+            _animator.SetFloat("MoveSpeed", 0);
+
+            Enemy.LockMovement(true);
+            _animator.SetTrigger("DoAttack");
+            attackReady = false;
+        }
+        return success;
     }
 
     void Roam()
@@ -251,16 +285,6 @@ public class EnemyEntity : Entity3D
                             _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
                             if (_curMoveSpeed > moveSpeed)
                                 _curMoveSpeed = moveSpeed;
-
-                            //Ray ray = new Ray(transform.position, transform.forward);
-                            //RaycastHit hit;
-                            //if (Physics.Raycast(ray, out hit))
-                            //{
-                            //    if (hit.distance < 1)
-                            //    {
-                            //        _roamTarget = transform.position;
-                            //    }
-                            //}
 
                             Move(_curMoveSpeed);
                         }

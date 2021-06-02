@@ -164,7 +164,7 @@ public class HUD : Menu {
         if(_selectedMenu != null)
             MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
 
-        MenuManager.Instance.OpenMenu("System");
+        MenuManager.Instance.OpenMenu("System", true);
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
     }
@@ -174,7 +174,7 @@ public class HUD : Menu {
         if (OtherMenuOpen || CharacterMenuOpen)
             return;
 
-        MenuManager.Instance.OpenMenu("Quests");
+        MenuManager.Instance.OpenMenu("Quests", true);
     }
 
     public void OpenNotes()
@@ -199,15 +199,9 @@ public class HUD : Menu {
 
         if (SelectedMember != null)
         {
-            MenuManager.Instance.OpenMenu("Spells");
+            MenuManager.Instance.OpenMenu("Spells", true);
             SpellsMenu.Setup(SelectedMember);
         }
-    }
-
-    public void EnableSideMenu()
-    {
-        SideMenu.SetActive(true);
-        OtherMenuOpen = false;
     }
 
     public void OpenRest()
@@ -233,7 +227,6 @@ public class HUD : Menu {
     {
         SwapMenu(InventoryMenu);
     }
-
     public void Awards()
     {
         SwapMenu(AwardsMenu);
@@ -247,7 +240,7 @@ public class HUD : Menu {
         Vignette.enabled = true;
         _selectedMenu = menu;
         _selectedMenu.Setup(SelectedMember);
-        MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag);
+        MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true);
     }
 
     public void Close()
@@ -269,6 +262,12 @@ public class HUD : Menu {
         Vignette.enabled = false;
         OtherMenuOpen = false;
         PartyController.Instance.SetControlState(ControlState.Previous);
+    }
+
+    public void EnableSideMenu()
+    {
+        SideMenu.SetActive(true);
+        OtherMenuOpen = false;
     }
 
     public void ReadyEvent(PartyMember member)
@@ -382,7 +381,7 @@ public class HUD : Menu {
             return;
 
         CharacterMenuOpen = true;
-        MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag);
+        MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true);
         _selectedMenu.Setup(SelectedMember);
         Vignette.enabled = true;
         foreach (var obj in CharacterMenuObjects)

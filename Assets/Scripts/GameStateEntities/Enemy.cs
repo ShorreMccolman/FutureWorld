@@ -108,6 +108,7 @@ public class Enemy : GameStateEntity, CombatEntity
 
     public void OnHit(int damage)
     {
+        IsHostile = true;
         CurrentHP -= damage;
         if(CurrentHP <= 0)
         {

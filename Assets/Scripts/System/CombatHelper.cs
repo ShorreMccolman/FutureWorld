@@ -13,7 +13,7 @@ public static class CombatHelper
 
     public static int ReduceDamage(int damage, float chanceOfReduction)
     {
-        while (true)
+        for(int i=0;i<4;i++)
         {
             float rand = Random.Range(0f, 1f);
             if (rand < chanceOfReduction)

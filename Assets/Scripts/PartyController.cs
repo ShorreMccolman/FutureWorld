@@ -178,6 +178,8 @@ public class PartyController : MonoBehaviour {
             }
         }
 
+        bool hoveringUI = false;
+
         string message = "";
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
         {
@@ -191,6 +193,7 @@ public class PartyController : MonoBehaviour {
             IInfoMessenger msg = result.gameObject.GetComponent<IInfoMessenger>();
             if (msg != null)
             {
+                hoveringUI = true;
                 message = msg.GetInfoMessage();
             }
 
@@ -222,48 +225,51 @@ public class PartyController : MonoBehaviour {
             if (_isInteracting)
                 return;
 
-            if (Input.GetMouseButtonDown(0) && _intendedTarget != null)
+            if (_controlState != ControlState.MenuLock)
             {
-                if (_intendedTarget is NPCEntity)
+                if (Input.GetMouseButtonDown(0) && _intendedTarget != null && !hoveringUI)
+                {
+                    if (_intendedTarget is NPCEntity)
+                    {
+                        TryInteraction();
+                    }
+                    else if (_intendedTarget is EnemyEntity)
+                    {
+                        TryAttack();
+                    }
+                    else
+                    {
+                        TryInteraction();
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.E))
                 {
                     TryInteraction();
-                } 
-                else if (_intendedTarget is EnemyEntity)
-                { 
+                }
+                else if (Input.GetKeyDown(KeyCode.F))
+                {
                     TryAttack();
                 }
-                else
+                else if (Input.GetKeyDown(KeyCode.R))
                 {
-                    TryInteraction();
+                    MenuManager.Instance.OpenMenu("Rest", true);
                 }
-            }
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                TryInteraction();
-            }
-            else if (Input.GetKeyDown(KeyCode.F))
-            {
-                TryAttack();
-            }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                MenuManager.Instance.OpenMenu("Rest", true);
-            }
-            else if (Input.GetKeyDown(KeyCode.Q))
-            {
-                switch (_controlState)
+                else if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    case ControlState.LookControl:
-                        SetControlState(ControlState.MouseControl);
-                        break;
-                    case ControlState.MouseControl:
-                        SetControlState(ControlState.LookControl);
-                        break;
+                    switch (_controlState)
+                    {
+                        case ControlState.LookControl:
+                            SetControlState(ControlState.MouseControl);
+                            break;
+                        case ControlState.MouseControl:
+                            SetControlState(ControlState.LookControl);
+                            break;
+                    }
                 }
-            } 
-            else if (Input.GetKeyDown(KeyCode.Return))
-            {
-                TimeManagement.Instance.ToggleCombatMode();
+                else if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    TimeManagement.Instance.ToggleCombatMode();
+                }
             }
         }
 

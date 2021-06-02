@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eb4bab757f573d45a7d79285fe86bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DataObject: {fileID: 11400000, guid: 16d93ae8a58713546924d85e8ff316c5, type: 2}
+  DataObject: {fileID: 11400000, guid: c8e5df4e5dc27ea448b972d85fa39a7e, type: 2}
   Range: 3
 --- !u!1 &1216633082
 GameObject:
@@ -1250,7 +1250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660720992769920019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -62.646, y: 0, z: 35.7}
+  m_LocalPosition: {x: -64.588005, y: 0, z: 34.32501}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6272316668168667653}
@@ -1267,7 +1267,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 3, z: 1.3}
+  m_Size: {x: 0.1, y: 3, z: 2.29}
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &7566988218197302377
 MonoBehaviour:
@@ -2562,6 +2562,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6175350083886245690, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
+      propertyPath: DBObject
+      value: 
+      objectReference: {fileID: 11400000, guid: e32335b53477f9f45ab459e9b04f82e5,
+        type: 2}
+    - target: {fileID: 6175350083886245690, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
+        type: 3}
       propertyPath: MaxItemValue
       value: 300
       objectReference: {fileID: 0}
@@ -2638,7 +2644,7 @@ PrefabInstance:
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.13
+      value: 3.06
       objectReference: {fileID: 0}
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
@@ -2648,27 +2654,27 @@ PrefabInstance:
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 89.27
+      value: 88.18
       objectReference: {fileID: 0}
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7925854
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.60976106
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
@@ -2678,7 +2684,7 @@ PrefabInstance:
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 75.144
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6126496651300608449, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
@@ -2700,6 +2706,12 @@ PrefabInstance:
       propertyPath: Budget
       value: 5000
       objectReference: {fileID: 0}
+    - target: {fileID: 6175350083886245690, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
+        type: 3}
+      propertyPath: DBObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 23e7e8aa6f1384048adb5fac4aed38f5,
+        type: 2}
     - target: {fileID: 6175350083886245690, guid: 6dce54c1ae3e5b4448e3318112aa15ca,
         type: 3}
       propertyPath: MaxItemValue

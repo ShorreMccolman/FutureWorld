@@ -68,19 +68,30 @@ public class Chest : GameStateEntity
     Inventory _inventory;
     public Inventory Inventory { get { return _inventory; } }
 
-    public Chest(SpawnQuantities quantities) : base(null)
+    public ChestData Data { get; protected set; }
+
+    // USE FOR DEBUG ONLY
+    public Chest(SpawnQuantities quantities) : base(PartyController.Instance.Party)
     {
         _inventory = new Inventory(this, quantities);
     }
 
+    public Chest(ChestData data) : base(null)
+    {
+        Data = data;
+        _inventory = new Inventory(this, data.Quantities);
+    }
+
     public Chest(XmlNode node) : base(null, node)
     {
+        Data = ChestDatabase.Instance.GetChestData(node.SelectSingleNode("ID").InnerText);
         _inventory = new Inventory(this, node);
     }
 
     public override XmlNode ToXml(XmlDocument doc)
     {
         XmlNode element = doc.CreateElement("Chest");
+        element.AppendChild(XmlHelper.Attribute(doc, "ID", Data.ID));
         element.AppendChild(_inventory.ToXml(doc));
         element.AppendChild(base.ToXml(doc));
 
