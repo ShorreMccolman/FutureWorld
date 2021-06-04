@@ -371,13 +371,13 @@ public class HUD : Menu {
                 _party.SetActiveMember(display.Member);
                 SelectNewMember?.Invoke(display.Member);
             }
-            OpenMenu();
+            OpenCharacterMenu();
         }
     }
 
-    void OpenMenu()
+    void OpenCharacterMenu()
     {
-        if (MenuManager.Instance.IsMenuOpen(new List<string>() { "Merchant", "Residence" }))
+        if (MenuManager.Instance.IsMenuOpen(new List<string>() { "Merchant", "Residence", "NPC", "Rest", "System", "Quests", "Spells" }))
             return;
 
         CharacterMenuOpen = true;

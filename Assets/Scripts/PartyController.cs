@@ -357,19 +357,6 @@ public class PartyController : MonoBehaviour {
     public List<Enemy> GetActiveEnemies()
     {
         List<Enemy> enemies = new List<Enemy>();
-
-        foreach (Entity3D ent in _shortRange)
-        {
-            EnemyEntity enemy = ent as EnemyEntity;
-            if (enemy != null)
-                enemies.Add(enemy.Enemy);
-        }
-        foreach (Entity3D ent in _midRange)
-        {
-            EnemyEntity enemy = ent as EnemyEntity;
-            if (enemy != null)
-                enemies.Add(enemy.Enemy);
-        }
         foreach (Entity3D ent in _longRange)
         {
             EnemyEntity enemy = ent as EnemyEntity;
@@ -447,30 +434,21 @@ public class PartyController : MonoBehaviour {
 
     Entity3D GetNearestTargetable(out bool shortRange)
     {
-        if (_intendedTarget != null && _intendedTarget.IsTargetable)
+        Entity3D target;
+
+        if (_longRange.Contains(_intendedTarget) && _intendedTarget.IsTargetable)
         {
-            if (_shortRange.Contains(_intendedTarget))
-            {
-                shortRange = true;
-                return _intendedTarget;
-            }
-            else if (_midRange.Contains(_intendedTarget) || _longRange.Contains(_intendedTarget))
-            {
-                shortRange = false;
-                return _intendedTarget;
-            }
+            target = _intendedTarget;
+        } 
+        else
+        {
+            target = GetTarget(_longRange);
         }
-        shortRange = true;
-        Entity3D target = GetTarget(_shortRange);
-        if (target == null)
-        {
+
+        if (target != null)
+            shortRange = Vector3.Distance(target.transform.position, Entity.transform.position) <= 5f;
+        else
             shortRange = false;
-            target = GetTarget(_midRange);
-            if(target == null)
-            {
-                target = GetTarget(_longRange);
-            }
-        }
         return target;
     }
 

@@ -65,9 +65,17 @@ public class ItemInfoPopup : MonoBehaviour {
 
         Description.text = item.EffectiveDescription;
 
-        Background.sizeDelta = new Vector2(width, height);
-
         ItemImage.sprite = item.Data.sprite;
         ItemImage.SetNativeSize();
+
+        float itemHeight = ItemImage.preferredHeight + 50f;
+        height = (int)Mathf.Max(itemHeight, height);
+
+        Background.sizeDelta = new Vector2(width, height);
+
+        if(Input.mousePosition.x <= Screen.width / 2)
+            Background.position = Input.mousePosition + new Vector3(Background.sizeDelta.x / 2f, -Background.sizeDelta.y / 2, 0);
+        else
+            Background.position = Input.mousePosition + new Vector3(-Background.sizeDelta.x / 2f, -Background.sizeDelta.y / 2, 0);
     }
 }

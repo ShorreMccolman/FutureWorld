@@ -485,15 +485,21 @@ public class ItemDatabase {
             {
                 continue;
             }
-            else if (rand < .8)
+            else
             {
-                InventoryItem gold = new InventoryItem(null, GetItem(GameConstants.GoldDropIDForItemLevel[level]), level);
-                spawnItems.Enqueue(gold);
-                continue;
+                rand = Random.Range(0f, 1f);
+                if (rand < 0.6f)
+                {
+                    InventoryItem gold = new InventoryItem(null, GetItem(GameConstants.GoldDropIDForItemLevel[level]), level);
+                    spawnItems.Enqueue(gold);
+                    continue;
+                } 
+                else
+                {
+                    InventoryItem item = new InventoryItem(null, GetItemByTreasureLevel(level), level);
+                    spawnItems.Enqueue(item);
+                }
             }
-
-            InventoryItem item = new InventoryItem(null, GetItemByTreasureLevel(level), level);
-            spawnItems.Enqueue(item);
         }
 
         return spawnItems;

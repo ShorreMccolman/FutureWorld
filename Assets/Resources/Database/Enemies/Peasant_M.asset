@@ -18,6 +18,7 @@ MonoBehaviour:
     Soldier:
       ID: peasant_1m
       DisplayName: Peasant
+      isFemale: 0
       IsHostile: 0
       Level: 1
       HitPoints: 3
@@ -48,7 +49,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 2
         AIType: 1
-        Speed: 140
+        MoveSpeed: 0.8
         Recovery: 100
       Spell: 
       model: {fileID: 4867477839066132292, guid: e29ca8651eb6891488d53a6636a97194,
@@ -56,6 +57,7 @@ MonoBehaviour:
     Commander:
       ID: peasant_2m
       DisplayName: Peasant
+      isFemale: 0
       IsHostile: 0
       Level: 1
       HitPoints: 3
@@ -86,7 +88,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 2
         AIType: 1
-        Speed: 140
+        MoveSpeed: 0.8
         Recovery: 100
       Spell: 
       model: {fileID: 5108826970524621664, guid: 81b66c98ac94e0349a016eda3117a45e,
@@ -94,6 +96,7 @@ MonoBehaviour:
     Captain:
       ID: peasant_3m
       DisplayName: Peasant
+      isFemale: 0
       IsHostile: 0
       Level: 1
       HitPoints: 3
@@ -124,7 +127,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 2
         AIType: 1
-        Speed: 140
+        MoveSpeed: 0.8
         Recovery: 100
       Spell: 
       model: {fileID: 2184457143570436650, guid: 45e907171e134194aa85052c283a667c,

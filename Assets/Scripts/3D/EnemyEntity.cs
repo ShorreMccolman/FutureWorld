@@ -37,7 +37,7 @@ public class EnemyEntity : Entity3D
 
     protected bool attackReady;
 
-    protected float rotateSpeed = 3f;
+    protected float rotateSpeed = 6f;
 
     protected CharacterController _controller;
     protected Collider _dropCollider;
@@ -46,6 +46,7 @@ public class EnemyEntity : Entity3D
     protected Vector3 _origin;
     protected Vector3 _roamTarget;
     protected float _idleDuration;
+    protected float _stuckDuration;
 
     bool _movingRight;
     float _changeDirectionTimer;
@@ -69,6 +70,7 @@ public class EnemyEntity : Entity3D
         _isActive = true;
 
         attackReady = enemy.Cooldown <= 0;
+        moveSpeed = enemy.Data.CombatData.MoveSpeed;
         _idleDuration = Random.Range(5f, 10f);
 
         MouseoverName = enemy.Data.DisplayName;
@@ -287,6 +289,10 @@ public class EnemyEntity : Entity3D
                                 _curMoveSpeed = moveSpeed;
 
                             Move(_curMoveSpeed);
+                            if(_stuckDuration > 2.0f)
+                            {
+                                RefreshRoamTarget();
+                            }
                         }
                     }
                 }
@@ -315,6 +321,7 @@ public class EnemyEntity : Entity3D
 
     public void RefreshRoamTarget(bool initial = false)
     {
+        _stuckDuration = 0f;
         if (initial)
         {
             _idleDuration = Random.Range(0f, 10f);
@@ -376,8 +383,8 @@ public class EnemyEntity : Entity3D
         desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
         Vector3 moveDir = Vector3.zero;
-        moveDir.x = desiredMove.x * moveSpeed;
-        moveDir.z = desiredMove.z * moveSpeed;
+        moveDir.x = desiredMove.x * currentMoveSpeed;
+        moveDir.z = desiredMove.z * currentMoveSpeed;
 
         if (_controller.isGrounded)
         {
@@ -390,7 +397,13 @@ public class EnemyEntity : Entity3D
         CollisionFlags flags = _controller.Move(moveDir * Time.fixedDeltaTime);
 
         double distance = Vector3.Distance(oldPos, transform.position);
-        bool isStill = distance == 0;
+        bool isStill = distance <= 0.01;
+
+        if (isStill)
+            _stuckDuration += Time.fixedDeltaTime;
+        else
+            _stuckDuration = 0;
+
         _animator.SetFloat("MoveSpeed", isStill ? 0 : 1);
     }
 }

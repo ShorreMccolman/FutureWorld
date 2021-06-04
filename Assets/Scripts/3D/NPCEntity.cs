@@ -11,8 +11,6 @@ public class NPCEntity : EnemyEntity
         Setup(enemy);
         NPC = npc;
 
-        moveSpeed = 0.8f;
-
         IsTargetable = false;
     }
 

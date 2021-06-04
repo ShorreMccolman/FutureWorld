@@ -23,7 +23,7 @@ public class EnemyCombatData
     public bool Flies;
     public EnemyMoveType MoveType;
     public EnemyAIType AIType;
-    public int Speed;
+    public float MoveSpeed;
     public int Recovery;
 }
 

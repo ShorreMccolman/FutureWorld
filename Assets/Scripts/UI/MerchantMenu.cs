@@ -176,6 +176,8 @@ public class MerchantMenu : ConversationMenu
         int yOffset = 25 * DialogOptions.Count;
         for (int i = 0; i < DialogOptions.Count; i++)
             DialogOptions[i].transform.position = DialogAnchor.position + Vector3.down * 60 * i + Vector3.up * yOffset;
+
+        UpdateDisplay();
     }
 
     public void HoverItem(InventoryItem item)
@@ -428,6 +430,7 @@ public class MerchantMenu : ConversationMenu
         {
             HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             _currentMerchant.ConfirmPurchase(item);
+            UpdateDisplay();
         }
         else
         {
@@ -451,6 +454,7 @@ public class MerchantMenu : ConversationMenu
             value = Mathf.RoundToInt(value / 3.5f);
 
         bool success = HUD.Instance.SellItem(item, value);
+        UpdateDisplay();
         return success;
     }
 
@@ -466,6 +470,7 @@ public class MerchantMenu : ConversationMenu
         value = Mathf.RoundToInt(value * 0.2f);
 
         bool success = HUD.Instance.IdentifyItem(item, value);
+        UpdateDisplay();
         return success;
     }
 
@@ -481,6 +486,7 @@ public class MerchantMenu : ConversationMenu
         value = Mathf.RoundToInt(value * 0.2f);
 
         bool success = HUD.Instance.RepairItem(item, value);
+        UpdateDisplay();
         return success;
     }
 

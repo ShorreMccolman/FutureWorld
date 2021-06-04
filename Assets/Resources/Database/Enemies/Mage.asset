@@ -18,6 +18,7 @@ MonoBehaviour:
     Soldier:
       ID: mage_1
       DisplayName: Apprentice Mage
+      isFemale: 0
       IsHostile: 1
       Level: 2
       HitPoints: 6
@@ -48,7 +49,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 1
         AIType: 1
-        Speed: 140
+        MoveSpeed: 1
         Recovery: 100
       Spell: fire_arrow
       model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
@@ -56,6 +57,7 @@ MonoBehaviour:
     Commander:
       ID: mage_2
       DisplayName: Journeyman Mage
+      isFemale: 0
       IsHostile: 1
       Level: 6
       HitPoints: 21
@@ -86,7 +88,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 1
         AIType: 0
-        Speed: 140
+        MoveSpeed: 1
         Recovery: 100
       Spell: water_beam
       model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,
@@ -94,6 +96,7 @@ MonoBehaviour:
     Captain:
       ID: mage_3
       DisplayName: Mage
+      isFemale: 0
       IsHostile: 1
       Level: 10
       HitPoints: 40
@@ -124,7 +127,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 1
         AIType: 2
-        Speed: 140
+        MoveSpeed: 1
         Recovery: 100
       Spell: air_bolt
       model: {fileID: 6126582101757638904, guid: b281860e547dfb049baa5f4c800818d4,

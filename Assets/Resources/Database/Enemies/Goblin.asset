@@ -18,6 +18,7 @@ MonoBehaviour:
     Soldier:
       ID: goblin_1
       DisplayName: Goblin
+      isFemale: 0
       IsHostile: 1
       Level: 4
       HitPoints: 13
@@ -48,7 +49,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 1
         AIType: 1
-        Speed: 160
+        MoveSpeed: 1
         Recovery: 100
       Spell: 
       model: {fileID: 3047186970050578528, guid: 49bc9cdea1701c649882601ea25631fd,
@@ -56,6 +57,7 @@ MonoBehaviour:
     Commander:
       ID: goblin_2
       DisplayName: Goblin Shaman
+      isFemale: 0
       IsHostile: 1
       Level: 6
       HitPoints: 21
@@ -86,7 +88,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 1
         AIType: 0
-        Speed: 170
+        MoveSpeed: 1
         Recovery: 100
       Spell: fire_bolt
       model: {fileID: 4535204003392886127, guid: 853b980c76fdae040912c85aba2b39a6,
@@ -94,6 +96,7 @@ MonoBehaviour:
     Captain:
       ID: goblin_3
       DisplayName: Goblin Lord
+      isFemale: 0
       IsHostile: 1
       Level: 10
       HitPoints: 40
@@ -124,7 +127,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 0
         AIType: 2
-        Speed: 180
+        MoveSpeed: 1
         Recovery: 90
       Spell: fire_bolt
       model: {fileID: 7335701647072218439, guid: 50ec1ca842c71c84e91f85bf64836f08,

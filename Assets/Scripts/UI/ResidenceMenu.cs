@@ -51,6 +51,7 @@ public class ResidenceMenu : ConversationMenu
 
         if (_currentResidency.Residents.Count == 1)
             SelectResident(_currentResidency.Residents[0]);
+        UpdateDisplay();
 
         DialogBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
 
@@ -205,7 +206,7 @@ public class ResidenceMenu : ConversationMenu
                 }
             }
         }
-
+        UpdateDisplay();
         StaggerOptions();
     }
 
@@ -402,6 +403,7 @@ public class ResidenceMenu : ConversationMenu
         else if(Option.Steps.Count == 1)
         {
             DisplayDialog(Step.FirstDialog);
+            UpdateDisplay();
         }
         else
         {
@@ -429,6 +431,7 @@ public class ResidenceMenu : ConversationMenu
 
             DisplayDialog(Step.FirstDialog);
             _currentResident.ProgressOption(option);
+            UpdateDisplay();
         }
     }
 
@@ -605,6 +608,7 @@ public class ResidenceMenu : ConversationMenu
             {
                 DisplayDialog("");
                 PartyController.Instance.Party.FillFoodTo(_currentResident.Data.Services.FoodQuantity);
+                UpdateDisplay();
             }
         }
     }
@@ -616,6 +620,7 @@ public class ResidenceMenu : ConversationMenu
             DisplayDialog("");
             HUD.Instance.SendInfoMessage("Hic...", 2.0f);
             _hasAchievedSpecialCondition = true;
+            UpdateDisplay();
         }
     }
 
@@ -626,6 +631,7 @@ public class ResidenceMenu : ConversationMenu
             if (PartyController.Instance.Party.TryPay(_currentResident.Data.Services.TipCost))
             {
                 DisplayDialog(_currentResident.Data.Services.Tips[0]);
+                UpdateDisplay();
             }
         }
         else

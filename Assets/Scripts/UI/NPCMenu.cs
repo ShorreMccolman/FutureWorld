@@ -70,6 +70,8 @@ public class NPCMenu : ConversationMenu
         UI.Setup(_currentNPC.Topics[1].Header, 1, DisplayTopic);
         DialogOptions.Add(UI);
 
+        UpdateDisplay();
+
         StaggerOptions();
     }
 
@@ -114,6 +116,7 @@ public class NPCMenu : ConversationMenu
         bool success = PartyController.Instance.Party.TryHire(_currentNPC);
         if (success)
         {
+            UpdateDisplay();
             _currentNPC.Parent.Entity.Kill();
 
             Back();

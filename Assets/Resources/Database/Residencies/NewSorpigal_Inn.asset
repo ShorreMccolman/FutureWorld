@@ -21,7 +21,7 @@ MonoBehaviour:
   - ShortName: Innkeep
     DisplayName: Dirk the Innkeep
     FirstName: Dirk
-    Sprite: {fileID: 21300000, guid: c8e07a366bf2a1b4792ffaf8374f01aa, type: 3}
+    Sprite: {fileID: 21300000, guid: 1c86b53b63950ed4ab6b958730c83864, type: 3}
     GuildID: 
     IsService: 1
     Services:
