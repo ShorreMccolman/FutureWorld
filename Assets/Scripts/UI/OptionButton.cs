@@ -36,9 +36,13 @@ public class OptionButton : MonoBehaviour, IInfoMessenger
         EventSystem.current.SetSelectedGameObject(Input.gameObject);
     }
 
-    public void Setup(string label, ClickEvent onClick)
+    public void Setup(string label, ClickEvent onClick, bool useInfoMessage = false)
     {
-        _infoMessage = "";
+        if (useInfoMessage)
+            _infoMessage = label;
+        else
+            _infoMessage = "";
+
         Label.text = label;
         OnCommit = onClick;
         OnIndexClick = null;

@@ -54,14 +54,14 @@ public class NPCMenu : ConversationMenu
         {
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
             UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Dismiss " + _currentNPC.Name, Dismiss);
+            UI.Setup("Dismiss " + _currentNPC.Name, Dismiss, true);
             DialogOptions.Add(UI);
         }
         else
         {
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
             UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Join", ShowJoin);
+            UI.Setup("Join", ShowJoin, true);
             DialogOptions.Add(UI);
         }
 
@@ -69,8 +69,6 @@ public class NPCMenu : ConversationMenu
         UI = obj.GetComponent<DialogOptionButton>();
         UI.Setup(_currentNPC.Topics[1].Header, 1, DisplayTopic);
         DialogOptions.Add(UI);
-
-        UpdateDisplay();
 
         StaggerOptions();
     }
@@ -93,12 +91,12 @@ public class NPCMenu : ConversationMenu
 
         obj = Instantiate(DialogOptionPrefab, DialogAnchor);
         UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup("More Information", ShowInfo);
+        UI.Setup("More Information", ShowInfo, true);
         DialogOptions.Add(UI);
 
         obj = Instantiate(DialogOptionPrefab, DialogAnchor);
         UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup("Hire", Hire);
+        UI.Setup("Hire", Hire, true);
         DialogOptions.Add(UI);
 
         StaggerOptions();
@@ -116,7 +114,6 @@ public class NPCMenu : ConversationMenu
         bool success = PartyController.Instance.Party.TryHire(_currentNPC);
         if (success)
         {
-            UpdateDisplay();
             _currentNPC.Parent.Entity.Kill();
 
             Back();

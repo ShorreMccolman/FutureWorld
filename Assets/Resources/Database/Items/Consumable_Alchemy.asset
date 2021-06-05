@@ -85,7 +85,7 @@ MonoBehaviour:
     Recipe: []
   - ID: bottle_empty
     DisplayName: Potion Bottle
-    Description: An empty potion bottle
+    Description: An empty potion bottle.
     Chances:
       L1: 20
       L2: 0

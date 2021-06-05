@@ -9,20 +9,11 @@ public class ConversationMenu : Menu
     [SerializeField] protected GameObject DialogOptionPrefab;
     [SerializeField] protected GameObject InputOptionPrefab;
 
-    [SerializeField] protected Text FoodLabel;
-    [SerializeField] protected Text GoldLabel;
-
     protected List<OptionButton> DialogOptions;
 
     public virtual void DisplayDialog(string dialog)
     {
 
-    }
-
-    public void UpdateDisplay()
-    {
-        FoodLabel.text = PartyController.Instance.Party.CurrentFood.ToString();
-        GoldLabel.text = PartyController.Instance.Party.CurrentGold.ToString();
     }
 
     public override void OnOpen()

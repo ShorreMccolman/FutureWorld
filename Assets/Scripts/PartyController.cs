@@ -304,7 +304,7 @@ public class PartyController : MonoBehaviour {
 
         if (add && !_longRange.Contains(entity))
             _longRange.Add(entity);
-        else if (!add && _midRange.Contains(entity))
+        else if (!add && _longRange.Contains(entity))
             _longRange.Remove(entity);
     }
 
@@ -505,7 +505,17 @@ public class PartyController : MonoBehaviour {
 
     IEnumerator InteractionRoutine()
     {
-        Entity3D target = GetNearestInteractable();
+        Entity3D target;
+
+        if (_shortRange.Contains(_intendedTarget) && !_intendedTarget.IsTargetable)
+        {
+            target = _intendedTarget;
+        }
+        else
+        {
+            target = GetNearestInteractable();
+        }
+
         if (target != null)
         {
             _isInteracting = true;

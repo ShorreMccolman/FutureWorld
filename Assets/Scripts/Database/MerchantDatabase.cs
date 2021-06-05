@@ -18,6 +18,7 @@ public enum GeneralItemType
     Herbs,
     Alchemy,
     Jewelery,
+    MagicScroll,
     Spells
 }
 

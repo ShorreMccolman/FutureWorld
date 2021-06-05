@@ -34,7 +34,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: d611ddfded1a579468c77063b0a0926d, type: 3}
     equipSprite: {fileID: 0}
     model: {fileID: 1315258659752138, guid: 289316d41a433e348bfc70cf01307fe3, type: 3}
-    EquipOffset: {x: -7.4, y: 78, z: 0}
+    EquipOffset: {x: -15, y: 52, z: 0}
     EquipSlot: 7
     Type: 1
     DamageRoll:
@@ -69,10 +69,10 @@ MonoBehaviour:
     BaseDamage: 2
   - ID: axe_3
     DisplayName: War Axe
-    Description: This War Axe appears to be one of a large shipment of such axes seized
-      by Roland during the Succession War. It was manufactured in Karigor by order
-      of Archibald Ironfist to be used against his brother in their struggle for the
-      throne of Enroth.
+    Description: This War Axe appears to be one of a large shipment of such axes
+      seized by Roland during the Succession War. It was manufactured in Karigor
+      by order of Archibald Ironfist to be used against his brother in their struggle
+      for the throne of Enroth.
     Chances:
       L1: 0
       L2: 5

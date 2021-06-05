@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResidentOptionUI : MonoBehaviour
+public class ResidentOptionUI : MonoBehaviour, IInfoMessenger
 {
     [SerializeField] Image Sprite;
     [SerializeField] Text Name;
@@ -20,9 +20,9 @@ public class ResidentOptionUI : MonoBehaviour
         Name.text = resident.Data.ShortName;
     }
 
-    public void Hover()
+    public string GetInfoMessage()
     {
-        HUD.Instance.SendInfoMessage("Converse with " + _resident.Data.FirstName);
+        return "Converse with " + _resident.Data.FirstName;
     }
 
     public void OnClick()

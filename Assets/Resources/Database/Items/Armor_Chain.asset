@@ -17,8 +17,8 @@ MonoBehaviour:
   - ID: chain_1
     DisplayName: Chain Mail
     Description: 'Chain mail is an armor formed of small, interlocking loops of metal.
-      This suit is low quality: the metal used is plain iron, there are only two layers
-      of rings, and it is heavy and stiff for its size.'
+      This suit is low quality: the metal used is plain iron, there are only two
+      layers of rings, and it is heavy and stiff for its size.'
     Chances:
       L1: 5
       L2: 15
@@ -34,7 +34,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: af0265ac86e1afe47806e97d21890530, type: 3}
     equipSprite: {fileID: 21300000, guid: 744c96683ca90ff4a878fd5f2bfad172, type: 3}
     model: {fileID: 100000, guid: 3cea0aee55c17f046ad39acae92fb903, type: 3}
-    EquipOffset: {x: -4.2, y: -23.5, z: 0}
+    EquipOffset: {x: -2, y: -32, z: 0}
     EquipSlot: 6
     Type: 2
     AC: 8
@@ -65,8 +65,8 @@ MonoBehaviour:
     DisplayName: Noble Chain Mail
     Description: Cavalry officer's chain mail from the reign of Taledon V of Karigor,
       Divine High Priest and High Holy Conduit of the Church of the Sun, circa 870
-      A.S.  The armor is high quality chain, enchanted to lighten and strengthen the
-      metal.
+      A.S.  The armor is high quality chain, enchanted to lighten and strengthen
+      the metal.
     Chances:
       L1: 0
       L2: 0
@@ -113,9 +113,9 @@ MonoBehaviour:
     DisplayName: Majestic Chain Mail
     Description: A very rare suit of armor turned out by the Heavenly Forges of Governor
       Padish before the Silence. The armor was originally worn strictly by the Governor
-      and his highest military officers as a badge of office. It is not just for show;
-      this chain mail is lighter, stronger, and more supple than any other chain in
-      the world.
+      and his highest military officers as a badge of office. It is not just for
+      show; this chain mail is lighter, stronger, and more supple than any other
+      chain in the world.
     Chances:
       L1: 0
       L2: 0

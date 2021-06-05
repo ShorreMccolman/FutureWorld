@@ -326,6 +326,23 @@ public class Magic : Item
     }
 }
 
+[System.Serializable]
+public class MagicScroll : Item
+{
+    public SpellSchool Type;
+    public int SpellNumber;
+
+    public override string GetTypeDescription()
+    {
+        return "Spell Scroll";
+    }
+
+    public override string GetItemDescription()
+    {
+        return "A spell scroll. To cast this spell, pick the scroll up and left-click over the picture of your character in the inventory screen.";
+    }
+}
+
 public class IngredientPair
 {
     public string Result;
@@ -605,6 +622,13 @@ public class ItemDatabase {
                         possible.Add(item);
                         continue;
                     }
+                }
+            }
+            if(Items.Contains(GeneralItemType.MagicScroll))
+            {
+                if (item is MagicScroll)
+                {
+                    possible.Add(item);
                 }
             }
             if (Items.Contains(GeneralItemType.Spells))

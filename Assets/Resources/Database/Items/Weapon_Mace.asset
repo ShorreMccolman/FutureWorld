@@ -34,7 +34,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 728f8e1061a9725459c5aab0f0b78ed7, type: 3}
     equipSprite: {fileID: 0}
     model: {fileID: 1210616804279642, guid: 7df2ecad8d1456e458bd02eb3f415990, type: 3}
-    EquipOffset: {x: -13, y: 88, z: 0}
+    EquipOffset: {x: -19, y: 56, z: 0}
     EquipSlot: 7
     Type: 5
     DamageRoll:
