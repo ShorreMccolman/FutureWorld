@@ -85,9 +85,9 @@ MonoBehaviour:
     AC: 6
   - ID: boots_3
     DisplayName: Armored Boots
-    Description: The interior of these steel plated boots is made of leather and cloth
-      to soften the sharp edges on the metal plates. They are a bit heavy and exhausting
-      to wear for extended periods.
+    Description: The interior of these steel plated boots is made of leather and
+      cloth to soften the sharp edges on the metal plates. They are a bit heavy and
+      exhausting to wear for extended periods.
     Chances:
       L1: 0
       L2: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
     AC: 0
   - ID: cloak_1
     DisplayName: Leather Cloak
-    Description: what what what
+    Description: A used leather cloak. It smells faintly of mothballs and dust.
     Chances:
       L1: 5
       L2: 10
@@ -388,8 +388,8 @@ MonoBehaviour:
     DisplayName: Knight Gauntlets
     Description: This gauntlet is an improvement over the simple, inflexible steel
       gauntlets commonly worn by goblins and brigands. The back of the hand and wrist
-      are solid, while the jointing around the fingers is made of chain links to improve
-      dexterity.
+      are solid, while the jointing around the fingers is made of chain links to
+      improve dexterity.
     Chances:
       L1: 5
       L2: 10
@@ -460,8 +460,9 @@ MonoBehaviour:
     DisplayName: Ultimate Gauntlets
     Description: Dwarven smiths created this masterpiece of gauntlet design. Except
       for the extra bulk, there seems little difference between this gauntlet and
-      a velvet glove. Clever sliding and rotating plates at the joints and wrist permit
-      full normal hand motion while providing continuous protection at all times.
+      a velvet glove. Clever sliding and rotating plates at the joints and wrist
+      permit full normal hand motion while providing continuous protection at all
+      times.
     Chances:
       L1: 0
       L2: 0
