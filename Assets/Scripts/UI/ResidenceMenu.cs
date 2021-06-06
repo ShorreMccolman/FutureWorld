@@ -113,7 +113,7 @@ public class ResidenceMenu : ConversationMenu
         } 
         else if (resident.Data.IsService)
         {
-            if (!PartyController.Instance.ActiveMember.IsConcious())
+            if (!PartyController.Instance.ActiveMember.IsConcious() && !resident.Data.Services.IsTemple)
             {
                 obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 

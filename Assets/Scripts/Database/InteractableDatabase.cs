@@ -13,11 +13,16 @@ public enum RefreshPeriod
     Permanent
 }
 
+public enum InteractableType
+{
+    Fountain,
+    Barrel
+}
+
 [System.Serializable]
 public class InteractableData
 {
     public string ID;
-    public string Mouseover;
     public GameObject Prefab;
 
     public int Potency;
@@ -27,10 +32,11 @@ public class InteractableData
     public InteractableEffect Effect;
     public StatusEffectOption Option;
     public CharacterStat Stat;
+    public InteractableType Type;
     public RefreshPeriod Period;
 }
 
-public class InteractableDatabase : MonoBehaviour
+public class InteractableDatabase
 {
     public static InteractableDatabase Instance;
 

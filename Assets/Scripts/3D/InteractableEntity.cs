@@ -19,15 +19,36 @@ public class InteractableEntity : Entity3D
     public void Setup(Interactable interactable)
     {
         _interactable = interactable;
-        MouseoverName = _interactable.Data.Mouseover;
+
+        switch(_interactable.Data.Type)
+        {
+            case InteractableType.Fountain:
+                MouseoverName = "Fountain";
+                break;
+            case InteractableType.Barrel:
+                if (_interactable.Stat == CharacterStat.None)
+                    MouseoverName = "Empty barrel";
+                else
+                    MouseoverName = "Barrel of " + GameConstants.ColorForStat[_interactable.Stat] + " liquid";
+                break;
+        }
     }
 
     public override IEnumerator Interact(PartyEntity party)
     {
         bool success = _interactable.TryInteraction(party.Party.ActiveMember);
-        if(!success)
+        switch(_interactable.Data.Type)
         {
-            HUD.Instance.SendInfoMessage("Refreshing...", 2.0f);
+            case InteractableType.Fountain:
+                if(!success)
+                    HUD.Instance.SendInfoMessage("Refreshing...", 2.0f);
+                break;
+            case InteractableType.Barrel:
+                if (success)
+                    MouseoverName = "Empty barrel";
+                else
+                    HUD.Instance.SendInfoMessage("This barrel is empty", 2.0f);
+                break;
         }
 
         yield return new WaitForEndOfFrame();

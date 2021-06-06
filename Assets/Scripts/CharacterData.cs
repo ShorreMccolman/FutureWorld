@@ -32,13 +32,15 @@ public enum CharacterClass
 
 public enum CharacterStat
 {
-    Might,
-    Intellect,
-    Personality,
-    Endurance,
-    Accuracy,
-    Speed,
-    Luck
+    None = 0,
+    Might = 1,
+    Intellect = 2,
+    Personality = 3,
+    Endurance = 4,
+    Accuracy = 5,
+    Speed = 6,
+    Luck = 7,
+    Random = 99
 }
 
 public class CharacterData

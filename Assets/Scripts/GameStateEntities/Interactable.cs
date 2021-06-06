@@ -9,16 +9,23 @@ public class Interactable : GameStateEntity
 
     public InteractableData Data { get; protected set; }
 
+    public CharacterStat Stat { get; protected set; }
+
     public Interactable(InteractableData data) : base(null)
     {
         Data = data;
         _timesUsed = 0;
+        if (data.Stat == CharacterStat.Random)
+            Stat = (CharacterStat)Random.Range(0, 8);
+        else
+            Stat = data.Stat;
     }
 
     public Interactable(XmlNode node) : base(null, node)
     {
         Data = InteractableDatabase.Instance.GetInteractableData(node.SelectSingleNode("ID").InnerText);
         _timesUsed = int.Parse(node.SelectSingleNode("TimesUsed").InnerText);
+        Stat = (CharacterStat)int.Parse(node.SelectSingleNode("Stat").InnerText);
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -26,6 +33,7 @@ public class Interactable : GameStateEntity
         XmlNode element = doc.CreateElement("Interactable");
         element.AppendChild(XmlHelper.Attribute(doc, "ID", Data.ID));
         element.AppendChild(XmlHelper.Attribute(doc, "TimesUsed", _timesUsed));
+        element.AppendChild(XmlHelper.Attribute(doc, "Stat", (int)Stat));
         element.AppendChild(base.ToXml(doc));
         return element;
     }
@@ -58,9 +66,7 @@ public class Interactable : GameStateEntity
                     break;
                 case InteractableEffect.StatusEffect:
                     if (member.Status.HasCondition(Data.Option))
-                    {
                         canUse = false;
-                    }
                     else
                     {
                         member.Status.AddCondition(Data.Option, Data.Potency, Data.Duration * 60);
@@ -69,9 +75,15 @@ public class Interactable : GameStateEntity
                     }
                     break;
                 case InteractableEffect.PermanentStat:
-                    member.Profile.AddStatPoints(Data.Stat, Data.Potency);
-                    HUD.Instance.ExpressMember(member, GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-                    HUD.Instance.SendInfoMessage("+" + Data.Potency + " " + Data.Stat.ToString() + " permanent.", 2.0f);
+                    if (Stat == CharacterStat.None)
+                        canUse = false;
+                    else
+                    {
+                        member.Profile.AddStatPoints(Stat, Data.Potency);
+                        HUD.Instance.ExpressMember(member, GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+                        HUD.Instance.SendInfoMessage("+" + Data.Potency + " " + Stat.ToString() + " permanent.", 2.0f);
+                        Stat = CharacterStat.None;
+                    }
                     break;
             }
 

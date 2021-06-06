@@ -328,6 +328,17 @@ public static class GameConstants {
         {ArmorType.Plate, 30 }
     };
 
+    public static Dictionary<CharacterStat, string> ColorForStat = new Dictionary<CharacterStat, string>()
+    {
+        { CharacterStat.Might, "Red"},
+        { CharacterStat.Personality, "Blue"},
+        { CharacterStat.Intellect, "Orange"},
+        { CharacterStat.Accuracy, "Yellow"},
+        { CharacterStat.Endurance, "Green"},
+        { CharacterStat.Speed, "Purple"},
+        { CharacterStat.Luck, "White"}
+    };
+
     public static EnemyRank RandomRank()
     {
         float roll = Random.Range(0f, 1f);
