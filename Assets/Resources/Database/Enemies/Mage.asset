@@ -15,6 +15,8 @@ MonoBehaviour:
   Family:
     ID: Mage
     IsNPC: 0
+    MinAppearance: 3
+    MaxAppearance: 5
     Soldier:
       ID: mage_1
       DisplayName: Apprentice Mage

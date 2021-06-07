@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e62743a74eafdb04e9736a2b180eb225, type: 3}
-  m_Name: Sorpigal_Docks
+  m_Name: Sorpigal_Bridge
   m_EditorClassIdentifier: 
   Data:
     ID: sorpigal_docks
     MouseoverName: Chest
     Quantities:
-      L1: 2
-      L2: 1
+      L1: 1
+      L2: 2
       L3: 0
       L4: 0
       L5: 0

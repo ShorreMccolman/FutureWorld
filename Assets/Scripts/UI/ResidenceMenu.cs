@@ -55,6 +55,7 @@ public class ResidenceMenu : ConversationMenu
         DialogBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
 
         PartyController.Instance.Party.MemberChanged += OnMemberChanged;
+        SoundManager.Instance.SetMusicVolume(0.25f);
     }
 
     public void SelectResident(Resident resident)
@@ -705,5 +706,6 @@ public class ResidenceMenu : ConversationMenu
 
         HUD.Instance.EnableSideMenu();
         PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
+        SoundManager.Instance.SetMusicVolume(1f);
     }
 }

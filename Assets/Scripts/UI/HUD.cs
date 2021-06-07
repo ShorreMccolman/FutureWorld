@@ -669,17 +669,32 @@ public class HUD : Menu {
 
     public void InspectChest(Chest chest)
     {
-        PartyController.Instance.SetControlState(ControlState.MenuLock);
-        MenuManager.Instance.OpenMenu("Chest");
-        ChestMenu.Setup(chest.Inventory);
-        OtherMenuOpen = true;
-        Vignette.enabled = true;
+        bool canOpen = true;
+        if(chest.Data.TrapLevel > 0)
+        {
+            canOpen = _party.TryDisarm(chest.Trap);
+            if(canOpen)
+            {
+                HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            }
+        }
+
+        if (canOpen)
+        {
+            PartyController.Instance.SetControlState(ControlState.MenuLock);
+            MenuManager.Instance.OpenMenu("Chest");
+            SoundManager.Instance.PlayUISound("Flap");
+            ChestMenu.Setup(chest.Inventory);
+            OtherMenuOpen = true;
+            Vignette.enabled = true;
+        }
     }
 
     public void EnterResidence(Residency residency)
     {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("Residence");
+        SoundManager.Instance.PlayUISound("Door");
         ResidenceMenu.Setup(residency);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);
@@ -689,6 +704,7 @@ public class HUD : Menu {
     {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("Merchant");
+        SoundManager.Instance.PlayUISound("Door");
         MerchantMenu.Setup(merchant);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);

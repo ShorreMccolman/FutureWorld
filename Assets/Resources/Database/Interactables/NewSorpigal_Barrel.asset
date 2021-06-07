@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: NewSorpigal_Barrel
   m_EditorClassIdentifier: 
   Data:
-    ID: sorpigal_fountain_hp
-    Mouseover: Fountain
-    Prefab: {fileID: 7900755630324207976, guid: 9725eff74bea7804f8f7ccbcecebef93,
+    ID: sorpigal_barrel
+    Prefab: {fileID: 2249970648480613316, guid: ef79511bd6888174fb06f8d3e7282b15,
       type: 3}
-    Potency: 5
-    NumberOfUses: 30
-    Effect: 0
-    Stat: 0
-    Period: 0
+    Potency: 1
+    Duration: 0
+    NumberOfUses: 1
+    Effect: 3
+    Option: 0
+    Stat: 99
+    Type: 1
+    Period: 4

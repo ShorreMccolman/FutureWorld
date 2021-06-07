@@ -16,6 +16,7 @@ public class NPC : GameStateEntity
 
     public int Cost { get { return _data.Cost; } }
     public int Rate { get { return _data.Rate; } }
+    public Profession Profession { get { return _data.Profession; } }
 
     List<Topic> _topics;
     public List<Topic> Topics { get { return _topics; } }

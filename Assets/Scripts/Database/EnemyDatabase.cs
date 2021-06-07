@@ -70,6 +70,9 @@ public struct EnemyFamilyData
 
     public bool IsNPC;
 
+    public int MinAppearance;
+    public int MaxAppearance;
+
     public EnemyData Soldier;
     public EnemyData Commander;
     public EnemyData Captain;

@@ -142,6 +142,14 @@ public class Skillset : GameStateEntity
         skill.IncreaseMastery();
     }
 
+    public int GetSkillLevel(string ID)
+    {
+        if (!KnowsSkill(ID))
+            return 0;
+
+        return GetSkillByID(ID).Level;
+    }
+
     public InventorySkill GetSkillByID(string ID)
     {
         return Skills.Find(s => s.Skill.ID == ID);

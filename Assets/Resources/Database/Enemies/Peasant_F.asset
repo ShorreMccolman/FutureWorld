@@ -15,6 +15,8 @@ MonoBehaviour:
   Family:
     ID: Peasant_F
     IsNPC: 1
+    MinAppearance: 1
+    MaxAppearance: 1
     Soldier:
       ID: peasant_1f
       DisplayName: Peasant

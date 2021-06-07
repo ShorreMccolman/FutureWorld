@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e62743a74eafdb04e9736a2b180eb225, type: 3}
-  m_Name: Sorpigal_Docks
+  m_Name: Sorpigal_Rock
   m_EditorClassIdentifier: 
   Data:
     ID: sorpigal_docks
-    MouseoverName: Chest
+    MouseoverName: Rock
     Quantities:
-      L1: 2
-      L2: 1
-      L3: 0
+      L1: 0
+      L2: 2
+      L3: 1
       L4: 0
       L5: 0
       L6: 0
       Artifact: 0
       Custom: []
-    TrapLevel: 0
-    Prefab: {fileID: 1780410620924641544, guid: eee171e437a45d444812d43a54ea2947,
+    TrapLevel: 1
+    Prefab: {fileID: 3392935466870245823, guid: 48c20c42c6aa08e4cbb9e7872c090178,
       type: 3}

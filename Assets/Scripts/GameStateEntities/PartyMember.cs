@@ -300,4 +300,14 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
         return hits;
     }
+
+    public bool OnDamaged(AttackResult attack)
+    {
+        float chanceOfReduction = 1 - 30 / (30 + Profile.EffectiveResistance(attack.Type));
+        int damage = CombatHelper.ReduceDamage(attack.Value, chanceOfReduction);
+
+        Vitals.TakeDamage(damage);
+        HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_HIT, GameConstants.EXPRESSION_HIT_DURATION);
+        return true;
+    }
 }

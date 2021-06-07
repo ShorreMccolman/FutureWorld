@@ -6,8 +6,9 @@ using UnityEngine;
 public class ChestData
 {
     public string ID;
-
+    public string MouseoverName;
     public SpawnQuantities Quantities;
+    public int TrapLevel;
     public GameObject Prefab;
 }
 

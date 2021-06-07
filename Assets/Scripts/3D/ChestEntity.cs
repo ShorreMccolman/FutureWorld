@@ -9,7 +9,7 @@ public class ChestEntity : Entity3D
     public void Setup(Chest chest)
     {
         _chest = chest;
-        MouseoverName = "Chest";
+        MouseoverName = chest.Data.MouseoverName;
     }
 
     public override IEnumerator Interact(PartyEntity party)

@@ -73,13 +73,6 @@ public class InventoryMenu : CharacterMenu, ISlotable {
         button.Reset();
     }
 
-    public void RandomInventory()
-    {
-        //_inventory = new Inventory(null, Random.Range(200,1000), 200);
-
-        //SetupInventory();
-    }
-
     public void Setup(Inventory inventory)
     {
         _inventory = inventory;

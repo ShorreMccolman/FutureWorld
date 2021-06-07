@@ -68,6 +68,9 @@ public class Chest : GameStateEntity
     Inventory _inventory;
     public Inventory Inventory { get { return _inventory; } }
 
+    Trap _trap;
+    public Trap Trap { get { return _trap; } }
+
     public ChestData Data { get; protected set; }
 
     // USE FOR DEBUG ONLY
@@ -80,12 +83,14 @@ public class Chest : GameStateEntity
     {
         Data = data;
         _inventory = new Inventory(this, data.Quantities);
+        _trap = new Trap(this);
     }
 
     public Chest(XmlNode node) : base(null, node)
     {
         Data = ChestDatabase.Instance.GetChestData(node.SelectSingleNode("ID").InnerText);
         _inventory = new Inventory(this, node);
+        _trap = new Trap(node.SelectSingleNode("Trap"), this);
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -93,6 +98,7 @@ public class Chest : GameStateEntity
         XmlNode element = doc.CreateElement("Chest");
         element.AppendChild(XmlHelper.Attribute(doc, "ID", Data.ID));
         element.AppendChild(_inventory.ToXml(doc));
+        element.AppendChild(_trap.ToXml(doc));
         element.AppendChild(base.ToXml(doc));
 
         return element;

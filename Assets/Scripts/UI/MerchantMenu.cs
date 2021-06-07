@@ -43,6 +43,7 @@ public class MerchantMenu : ConversationMenu
         PartyController.Instance.Party.MemberChanged += OnMemberChanged;
 
         OnHover = null;
+        SoundManager.Instance.SetMusicVolume(0.25f);
         CloseStores();
         SetupDialog();
     }
@@ -529,5 +530,6 @@ public class MerchantMenu : ConversationMenu
 
         HUD.Instance.EnableSideMenu();
         PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
+        SoundManager.Instance.SetMusicVolume(1f);
     }
 }

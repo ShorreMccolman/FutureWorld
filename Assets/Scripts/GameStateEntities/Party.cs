@@ -179,6 +179,7 @@ public class Party : GameStateEntity
         else
             HUD.Instance.SendInfoMessage("You found " + amount + " gold (followers take " + paid + ")!", 2.0f);
         HUD.Instance.UpdateDisplay();
+        SoundManager.Instance.PlayUISound("Coins");
     }
 
     public void FillFoodTo(int quantity)
@@ -237,6 +238,32 @@ public class Party : GameStateEntity
         CurrentGold -= cost;
         HUD.Instance.UpdateDisplay();
         return true;
+    }
+
+    public bool TryDisarm(Trap trap)
+    {
+        if (trap.IsDisarmed)
+            return true;
+
+        int level = ActiveMember.Skillset.GetSkillLevel("Disarm");
+        //foreach(var hire in Hires)
+        //{
+        //    if (hire.Profession == Profession.Lockpick)
+        //        level = 999;
+        //}
+
+        AttackResult result;
+        bool success = trap.Disarm(level, out result);
+
+        if(!success)
+        {
+            foreach(var member in Members)
+            {
+                member.OnDamaged(result);
+            }
+        }
+
+        return success;
     }
 
     public void EarnXP(int value)
