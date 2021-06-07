@@ -36,7 +36,7 @@ public struct NPCData
     }
 }
 
-public class NPCDatabase : MonoBehaviour
+public class NPCDatabase
 {
     public static NPCDatabase Instance;
 

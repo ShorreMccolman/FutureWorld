@@ -69,6 +69,8 @@ public class EnemyEntity : Entity3D
         _range = Range.Out;
         _isActive = true;
 
+        _movingRight = Random.Range(0, 2) == 0;
+
         attackReady = enemy.Cooldown <= 0;
         moveSpeed = enemy.Data.CombatData.MoveSpeed;
         _idleDuration = Random.Range(5f, 10f);
@@ -183,16 +185,31 @@ public class EnemyEntity : Entity3D
                 _changeDirectionTimer -= Time.fixedDeltaTime;
                 if(_changeDirectionTimer <= 0)
                 {
-                    _changeDirectionTimer = Random.Range(3f, 5f);
+                    _changeDirectionTimer = Random.Range(6f, 7f);
                     _movingRight = !_movingRight;
                 }
 
                 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
                 targetVec = (levelPosition - transform.position);
 
-                Pursue(Vector3.Cross(Vector3.up, targetVec).normalized * 10f * (_movingRight ? 1 : -1));
+                Pursue(Vector3.Cross(Vector3.up, targetVec).normalized * 6f * (_movingRight ? 1 : -1));
                 break;
             case Range.Mid:
+
+                //levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+                //targetVec = (levelPosition - transform.position);
+
+                //Ray ray = new Ray(transform.position, targetVec);
+                //RaycastHit hit;
+                //if (Physics.Raycast(ray, out hit))
+                //{
+                //    EnemyEntity ent = hit.transform.GetComponent<EnemyEntity>();
+                //    if (ent != null)
+                //    {
+                //        Reposition();
+                //        break;
+                //    }
+                //}
                 Pursue(Vector3.zero);
                 break;
             case Range.Close:
@@ -219,6 +236,36 @@ public class EnemyEntity : Entity3D
         {
             Vector3 targetVec = (levelPosition - transform.position);
             float ang = Vector3.Angle(transform.forward, targetVec);
+            if (ang < 25f && !Enemy.MovementLocked)
+            {
+                _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
+                if (_curMoveSpeed > moveSpeed)
+                    _curMoveSpeed = moveSpeed;
+
+                bool attack = TryAttack(_target.position);
+                if (!attack)
+                    Move(_curMoveSpeed);
+            }
+        }
+        else
+        {
+            _curMoveSpeed = 0;
+            _animator.SetFloat("MoveSpeed", 0);
+        }
+    }
+
+    void Reposition()
+    {
+        Vector3 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+        Vector3 cross = Vector3.Cross(levelPosition - transform.position, Vector3.up);
+        Debug.LogError(cross);
+        Quaternion targetRotation = Quaternion.LookRotation(cross);
+        float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+
+        if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
+        {
+            float ang = Vector3.Angle(transform.forward, cross);
             if (ang < 25f && !Enemy.MovementLocked)
             {
                 _curMoveSpeed += 5.0f * Time.fixedDeltaTime;

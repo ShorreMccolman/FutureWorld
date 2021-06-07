@@ -29,7 +29,7 @@ public class SpellData
     public Sprite Icon;
 }
 
-public class SpellDatabase : MonoBehaviour
+public class SpellDatabase
 {
     public static SpellDatabase Instance;
 

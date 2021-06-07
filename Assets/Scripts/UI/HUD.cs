@@ -18,6 +18,7 @@ public class HUD : Menu {
     public static HUD Instance;
     void Awake() { Instance = this; }
 
+    [SerializeField] Text FPS;
     [SerializeField] GameObject DebugMenu;
     [SerializeField] GameObject SideMenu;
 
@@ -101,6 +102,9 @@ public class HUD : Menu {
         {
             DebugMenu.SetActive(!DebugMenu.activeSelf);
         }
+
+        float fps = 1 / Time.unscaledDeltaTime;
+        FPS.text = "" + fps;
     }
 
     public void InitParty(Party party)

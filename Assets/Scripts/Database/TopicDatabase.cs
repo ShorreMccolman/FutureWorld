@@ -46,7 +46,7 @@ public struct TopicSet
     }
 }
 
-public class TopicDatabase : MonoBehaviour
+public class TopicDatabase
 {
     public static TopicDatabase Instance;
 

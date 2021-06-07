@@ -26,7 +26,7 @@ public class QuestData
     public string AwardDescription;
 }
 
-public class QuestDatabase : MonoBehaviour
+public class QuestDatabase
 {
     public static QuestDatabase Instance;
 

@@ -10,7 +10,7 @@ public class ProjectileData
     public GameObject model;
 }
 
-public class ProjectileDatabase : MonoBehaviour
+public class ProjectileDatabase
 {
     public static ProjectileDatabase Instance;
 
