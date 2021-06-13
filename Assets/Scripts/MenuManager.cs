@@ -31,7 +31,7 @@ public class MenuManager : MonoBehaviour {
             _openMenuDict[menuTag].OnClose();
             _menuDict[menuTag].Contents.SetActive(false);
             _openMenuDict.Remove(menuTag);
-            if (PartyController.Instance.Entity != null)
+            if (PartyController.Instance != null)
                 PartyController.Instance.SetControlState(ControlState.Previous);
         }
     }

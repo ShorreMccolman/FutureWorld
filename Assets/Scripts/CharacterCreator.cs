@@ -6,10 +6,7 @@ using UnityEngine.UI;
 public class CharacterCreator : Menu
 {
 
-    public CharacterCreatorUI UI1;
-    public CharacterCreatorUI UI2;
-    public CharacterCreatorUI UI3;
-    public CharacterCreatorUI UI4;
+    public CharacterCreatorUI[] UIs;
 
     [SerializeField] GameObject StatSelector;
     [SerializeField] Text PointsRemainingText;
@@ -35,20 +32,48 @@ public class CharacterCreator : Menu
         LoadPortraits();
 
         char1 = new CharacterData(0, CharacterClass.Knight);
-        UI1.Setup(this, char1);
+        UIs[0].Setup(this, char1);
 
         char2 = new CharacterData(1, CharacterClass.Archer);
-        UI2.Setup(this, char2);
+        UIs[1].Setup(this, char2);
 
         char3 = new CharacterData(2, CharacterClass.Cleric);
-        UI3.Setup(this, char3);
+        UIs[2].Setup(this, char3);
 
         char4 = new CharacterData(3, CharacterClass.Sorcerer);
-        UI4.Setup(this, char4);
+        UIs[3].Setup(this, char4);
 
-        _selectedUI = UI1;
+        SelectCharacterStat(UIs[0]);
         
         UpdateUI();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            UpdateSelectedStat(true);
+        } 
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            UpdateSelectedStat(false);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            UpdateSelectedUI(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            UpdateSelectedUI(false);
+        } 
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ModifySelectedStat(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            ModifySelectedStat(-1);
+        }
     }
 
     void LoadPortraits()
@@ -126,6 +151,34 @@ public class CharacterCreator : Menu
         StatSelector.transform.position = _selectedUI.SelectedButton.transform.position;
 
         UpdateUI();
+    }
+
+    public void UpdateSelectedStat(bool forward)
+    {
+        _selectedUI.SelectStat(forward);
+        StatSelector.transform.position = _selectedUI.SelectedButton.transform.position;
+
+        UpdateUI();
+    }
+
+    public void UpdateSelectedUI(bool forward)
+    {
+        for (int i = 0; i < UIs.Length; i++)
+        {
+            if (_selectedUI == UIs[i])
+            {
+                CharacterStat stat = _selectedUI.SelectedButton.GetStat();
+
+                int diff = forward ? 1 : -1;
+                _selectedUI = UIs[(i + diff + UIs.Length) % UIs.Length];
+                _selectedUI.SelectStat(stat);
+
+                StatSelector.transform.position = _selectedUI.SelectedButton.transform.position;
+
+                UpdateUI();
+                return;
+            }
+        }
     }
 
     public void ChangeCharacterClass(CharacterClassSelectButton button)

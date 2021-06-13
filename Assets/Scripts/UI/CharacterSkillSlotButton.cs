@@ -11,6 +11,8 @@ public class CharacterSkillSlotButton : MonoBehaviour {
 
     public string SkillName { get; private set; }
 
+    Color blue = new Color(0, 235f, 255f);
+
     public void Select()
     {
         if (string.IsNullOrEmpty(SkillName))
@@ -23,6 +25,6 @@ public class CharacterSkillSlotButton : MonoBehaviour {
     {
         SkillName = skillName;
         SkillLabel.text = string.IsNullOrEmpty(skillName) ? "None" : skillName;
-        SkillLabel.color = string.IsNullOrEmpty(skillName) ? Color.blue : Color.black;
+        SkillLabel.color = string.IsNullOrEmpty(skillName) ? blue : Color.white;
     }
 }

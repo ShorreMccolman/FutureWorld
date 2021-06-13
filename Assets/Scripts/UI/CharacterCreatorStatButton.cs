@@ -27,7 +27,7 @@ public class CharacterCreatorStatButton : CharacterCreatorButton {
         StatQuantityLabel.text = quantity.ToString();
 
         if (quantity == _defaultValue)
-            StatQuantityLabel.color = Color.black;
+            StatQuantityLabel.color = Color.white;
         else if (quantity < _defaultValue)
             StatQuantityLabel.color = Color.red;
         else

@@ -16,7 +16,7 @@ public class CharacterCreatorUI : MonoBehaviour {
     [SerializeField] CharacterSkillSlotButton[] SkillSlotButtons;
 
     public CharacterData Data { get; private set; }
-    public CharacterCreatorButton SelectedButton { get; private set; }
+    public CharacterCreatorStatButton SelectedButton { get; private set; }
 
     public void Setup(CharacterCreator creator, CharacterData data)
     {
@@ -35,6 +35,31 @@ public class CharacterCreatorUI : MonoBehaviour {
     {
         SelectedButton = button;
         _creator.SelectCharacterStat(this);
+    }
+
+    public void SelectStat(bool forward)
+    {
+        for(int i=0;i<StatButtons.Length;i++)
+        {
+            if(SelectedButton == StatButtons[i])
+            {
+                int diff = forward ? 1 : -1;
+                SelectedButton = StatButtons[(i + diff + StatButtons.Length) % StatButtons.Length];
+                return;
+            }
+        }
+    }
+
+    public void SelectStat(CharacterStat stat)
+    {
+        for (int i = 0; i < StatButtons.Length; i++)
+        {
+            if (StatButtons[i].GetStat() == stat)
+            {
+                SelectedButton = StatButtons[i];
+                return;
+            }
+        }
     }
 
     public void RemoveCharacterSkill(CharacterSkillSlotButton button)
