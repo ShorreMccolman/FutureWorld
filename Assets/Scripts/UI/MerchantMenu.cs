@@ -531,5 +531,6 @@ public class MerchantMenu : ConversationMenu
         HUD.Instance.EnableSideMenu();
         PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(1f);
+        SoundManager.Instance.PlayUISound("Close");
     }
 }

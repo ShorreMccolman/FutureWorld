@@ -12,7 +12,6 @@ public class CharacterVitalsDisplay : MonoBehaviour {
     [SerializeField] Slider ManaSlider;
 
     public PartyMember Member { get; private set; }
-    bool _wasClicked;
 
     string currentExpression;
 
@@ -72,23 +71,8 @@ public class CharacterVitalsDisplay : MonoBehaviour {
 
     public void MenuClick()
     {
-        bool shouldOpen = _wasClicked || HUD.Instance.CharacterMenuOpen;
-        if (shouldOpen)
-        {
-            _wasClicked = false;
-            CancelInvoke("Unclick");
-            HUD.Instance.SelectCharacter(this, shouldOpen);
-        }
-        else
-        {
-            HUD.Instance.SelectCharacter(this, shouldOpen);
-            _wasClicked = true;
-            Invoke("Unclick", 0.2f);
-        }
+        bool shouldOpen = HUD.Instance.CharacterMenuOpen || Member == HUD.Instance.SelectedMember;
+        HUD.Instance.SelectCharacter(this, shouldOpen);
     }
 
-    void Unclick()
-    {
-        _wasClicked = false;
-    }
 }

@@ -707,5 +707,6 @@ public class ResidenceMenu : ConversationMenu
         HUD.Instance.EnableSideMenu();
         PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(1f);
+        SoundManager.Instance.PlayUISound("Close");
     }
 }

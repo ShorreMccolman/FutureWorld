@@ -4020,16 +4020,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Clips:
-  - {fileID: 8300000, guid: d334f06fcf21e2c4bafe7c1996480d7e, type: 3}
-  - {fileID: 8300000, guid: 01fdc6fe0ef7cf945b8d294324b40096, type: 3}
-  - {fileID: 8300000, guid: 899ebcc7f2499ad4b9866861d5465bcb, type: 3}
-  - {fileID: 8300000, guid: 0fe4b52acbbffd642914bfe5e55f34fc, type: 3}
-  - {fileID: 8300000, guid: d485108d2cc9a2a42990facdcbfdb366, type: 3}
-  - {fileID: 8300000, guid: e7734d98e0ad6fe46bd25dfef1948c92, type: 3}
-  - {fileID: 8300000, guid: f05bc85dc134cab4e8cd1c94b8823c22, type: 3}
-  - {fileID: 8300000, guid: 8eaa2d3e6a843a546ba06466ade06376, type: 3}
+  - Name: Coins
+    Clip: {fileID: 8300000, guid: 31242de7d122cba4e948e9a21528fcc4, type: 3}
+    Volume: 1
+    MinPitch: 0.6
+    MaxPitch: 1
+  - Name: Chest
+    Clip: {fileID: 8300000, guid: fbef799e95eef0d499c81aa8aa31a16a, type: 3}
+    Volume: 1
+    MinPitch: 1
+    MaxPitch: 1
+  - Name: Door
+    Clip: {fileID: 8300000, guid: 010a1367a5d8f9e4cb082116a0448272, type: 3}
+    Volume: 1
+    MinPitch: 1
+    MaxPitch: 1
+  - Name: Button
+    Clip: {fileID: 8300000, guid: c7d5e18d861828948999ddb535083044, type: 3}
+    Volume: 0.1
+    MinPitch: 3
+    MaxPitch: 3
+  - Name: Page
+    Clip: {fileID: 8300000, guid: 4c7d24aca2c52ea4ea3117abea5cdc48, type: 3}
+    Volume: 0.5
+    MinPitch: 1
+    MaxPitch: 1
   MusicSource: {fileID: 184086365}
   MaxMusicVolume: 0.2
+  MusicOffset: 0
 --- !u!4 &184086367
 Transform:
   m_ObjectHideFlags: 0

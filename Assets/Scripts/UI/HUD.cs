@@ -203,6 +203,7 @@ public class HUD : Menu {
 
         if (SelectedMember != null)
         {
+            SoundManager.Instance.PlayUISound("Page");
             MenuManager.Instance.OpenMenu("Spells", true);
             SpellsMenu.Setup(SelectedMember);
         }
@@ -244,6 +245,7 @@ public class HUD : Menu {
         Vignette.enabled = true;
         _selectedMenu = menu;
         _selectedMenu.Setup(SelectedMember);
+        SoundManager.Instance.PlayUISound("Button");
         MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true);
     }
 
@@ -255,6 +257,7 @@ public class HUD : Menu {
             obj.SetActive(false);
         CharacterMenuOpen = false;
         Vignette.enabled = false;
+        SoundManager.Instance.PlayUISound("Button");
     }
 
     public void CloseAll()
@@ -687,7 +690,7 @@ public class HUD : Menu {
         {
             PartyController.Instance.SetControlState(ControlState.MenuLock);
             MenuManager.Instance.OpenMenu("Chest");
-            SoundManager.Instance.PlayUISound("Flap");
+            SoundManager.Instance.PlayUISound("Chest");
             ChestMenu.Setup(chest.Inventory);
             OtherMenuOpen = true;
             Vignette.enabled = true;
@@ -698,7 +701,7 @@ public class HUD : Menu {
     {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("Residence");
-        SoundManager.Instance.PlayUISound("Door");
+        SoundManager.Instance.PlayUISound("Open");
         ResidenceMenu.Setup(residency);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);
@@ -708,7 +711,7 @@ public class HUD : Menu {
     {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("Merchant");
-        SoundManager.Instance.PlayUISound("Door");
+        SoundManager.Instance.PlayUISound("Open");
         MerchantMenu.Setup(merchant);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);
