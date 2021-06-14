@@ -147,11 +147,14 @@ public class PartyController : MonoBehaviour {
     {
         foreach (var member in Members)
         {
-            bool readyEvent = member.Vitals.TickCooldown(tick);
-            if (readyEvent)
+            if (member.IsConcious())
             {
-                HUD.Instance.ReadyEvent(member);
-                PriorityQueue.Add(member);
+                bool readyEvent = member.Vitals.TickCooldown(tick);
+                if (readyEvent)
+                {
+                    HUD.Instance.ReadyEvent(member);
+                    PriorityQueue.Add(member);
+                }
             }
 
             bool statusEvent = member.Status.TickConditions(tick);
@@ -330,6 +333,13 @@ public class PartyController : MonoBehaviour {
             _shortRange.Remove(entity);
     }
 
+    public void Knockout(PartyMember member)
+    {
+        PriorityQueue.Flush(member);
+        if (member == ActiveMember)
+            HUD.Instance.ToggleSelectedCharacter();
+    }
+
     public void TryAttack()
     {
         if(TimeManagement.IsCombatMode)
@@ -401,8 +411,8 @@ public class PartyController : MonoBehaviour {
 
                     if(projectile != null)
                     {
-                        projectile.Setup(((target.transform.position + Vector3.up ) - Party.Entity.transform.position).normalized, true);
-                        DropController.Instance.SpawnProjectile(Party.Entity.transform, projectile);
+                        projectile.Setup(((target.transform.position + Vector3.up ) - Entity.transform.position).normalized, true);
+                        DropController.Instance.SpawnProjectile(Party.Entity.transform, projectile, Entity.GetSpeed());
                     }
                 }
 
@@ -416,7 +426,7 @@ public class PartyController : MonoBehaviour {
                 if (projectile != null)
                 {
                     projectile.Setup(Party.Entity.transform.forward.normalized, true);
-                    DropController.Instance.SpawnProjectile(Party.Entity.transform, projectile);
+                    DropController.Instance.SpawnProjectile(Party.Entity.transform, projectile, Entity.GetSpeed());
                 }
             }
 

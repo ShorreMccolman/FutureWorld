@@ -310,7 +310,7 @@ public class HUD : Menu {
         for(int i=1;i<4;i++)
         {
             int cur = (index + i) % 4;
-            if(_party.Members[cur].Vitals.IsReady())
+            if(_party.Members[cur].Vitals.IsReady() && _party.Members[cur].IsConcious())
             {
                 _party.SetActiveMember(_party.Members[cur]);
                 foreach (var cvd in CharacterVitalsUI)

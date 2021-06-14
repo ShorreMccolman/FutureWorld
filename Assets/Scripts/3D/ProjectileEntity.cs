@@ -6,14 +6,16 @@ public class ProjectileEntity : Entity3D
 {
     public Projectile Projectile { get { return State as Projectile; } }
 
-    double lifetime;
+    double _lifetime;
+    float _relativeSpeed;
 
     bool inMotion;
 
-    public void Setup(Projectile projectile)
+    public void Setup(Projectile projectile, float relativeSpeed)
     {
         State = projectile;
-        lifetime = 5.0f;
+        _lifetime = 5.0f;
+        _relativeSpeed = relativeSpeed;
         inMotion = true;
         IgnoreInteraction = true;
     }
@@ -52,7 +54,7 @@ public class ProjectileEntity : Entity3D
                     enemy.Enemy.OnHit(damage);
                 }
 
-                lifetime = 1.0f;
+                _lifetime = 1.0f;
             }
 
             inMotion = false;
@@ -63,10 +65,10 @@ public class ProjectileEntity : Entity3D
     void LateUpdate()
     {
         if(inMotion)
-            transform.position += Projectile.Direction * Projectile.Speed * Time.fixedDeltaTime;
+            transform.position += Projectile.Direction * (Projectile.Speed + _relativeSpeed) * Time.fixedDeltaTime;
 
-        lifetime -= Time.fixedDeltaTime;
-        if(lifetime < 0)
+        _lifetime -= Time.fixedDeltaTime;
+        if(_lifetime < 0)
         {
             Kill();
         }

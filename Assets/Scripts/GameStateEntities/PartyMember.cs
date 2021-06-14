@@ -249,10 +249,12 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
             HUD.Instance.SendInfoMessage(msg, 2.0f);
             HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            SoundManager.Instance.PlayUISound("Hit");
         }
         else
         {
             HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
+            SoundManager.Instance.PlayUISound("Swing");
         }
 
         Vitals.ApplyCooldown(Vitals.Recovery);
@@ -272,9 +274,11 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
             Vitals.ApplyCooldown(Vitals.RangedRecovery);
             HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
+            SoundManager.Instance.PlayUISound("Arrow");
         }
         else
         {
+            SoundManager.Instance.PlayUISound("Swing");
             Vitals.ApplyCooldown(Vitals.Recovery);
         }
         return result;
@@ -293,8 +297,6 @@ public class PartyMember : GameStateEntity, CombatEntity {
             damage = CombatHelper.ReduceDamage(damage, chanceOfReduction);
 
             Vitals.TakeDamage(damage);
-            //string msg = enemy.DisplayName + " hit " + Profile.CharacterName + " for " + damage + " damage.";
-            //HUD.Instance.SendInfoMessage(msg, 2.0f);
             HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_HIT, GameConstants.EXPRESSION_HIT_DURATION);
         }
 

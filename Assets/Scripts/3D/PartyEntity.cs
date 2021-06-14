@@ -23,6 +23,8 @@ public class PartyEntity : Entity3D
     [SerializeField] public Camera MapCam;
 
     PartyController _controller;
+    float _currentMoveSpeed;
+    public float GetSpeed() { return _currentMoveSpeed; }
 
     [SerializeField] private MouseLook _mouseLook;
     public MouseLook MouseLook { get { return _mouseLook; } }
@@ -140,8 +142,7 @@ public class PartyEntity : Entity3D
 
     private void StandardControls()
     {
-        float speed;
-        GetInput(out speed);
+        GetInput(out _currentMoveSpeed);
         // always move along the camera forward as it is the direction that it being aimed at
         Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
 
@@ -151,8 +152,8 @@ public class PartyEntity : Entity3D
                            m_CharacterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
         desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
-        m_MoveDir.x = desiredMove.x * speed;
-        m_MoveDir.z = desiredMove.z * speed;
+        m_MoveDir.x = desiredMove.x * _currentMoveSpeed;
+        m_MoveDir.z = desiredMove.z * _currentMoveSpeed;
 
 
         if (m_CharacterController.isGrounded)
@@ -173,8 +174,8 @@ public class PartyEntity : Entity3D
         }
         m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
-        ProgressStepCycle(speed);
-        UpdateCameraPosition(speed);
+        ProgressStepCycle(_currentMoveSpeed);
+        UpdateCameraPosition(_currentMoveSpeed);
 
         _mouseLook.UpdateCursorLock();
     }

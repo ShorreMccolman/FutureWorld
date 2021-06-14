@@ -4022,15 +4022,15 @@ MonoBehaviour:
   Clips:
   - Name: Coins
     Clip: {fileID: 8300000, guid: 31242de7d122cba4e948e9a21528fcc4, type: 3}
-    Volume: 1
-    MinPitch: 0.6
-    MaxPitch: 1
+    Volume: 0.8
+    MinPitch: 2.3
+    MaxPitch: 2.3
   - Name: Chest
     Clip: {fileID: 8300000, guid: fbef799e95eef0d499c81aa8aa31a16a, type: 3}
     Volume: 1
     MinPitch: 1
     MaxPitch: 1
-  - Name: Door
+  - Name: Close
     Clip: {fileID: 8300000, guid: 010a1367a5d8f9e4cb082116a0448272, type: 3}
     Volume: 1
     MinPitch: 1
@@ -4042,6 +4042,26 @@ MonoBehaviour:
     MaxPitch: 3
   - Name: Page
     Clip: {fileID: 8300000, guid: 4c7d24aca2c52ea4ea3117abea5cdc48, type: 3}
+    Volume: 0.5
+    MinPitch: 1
+    MaxPitch: 1
+  - Name: Hit
+    Clip: {fileID: 8300000, guid: 8d751e2fd076bae449a9b16699168f17, type: 3}
+    Volume: 0.5
+    MinPitch: 1
+    MaxPitch: 1
+  - Name: Arrow
+    Clip: {fileID: 8300000, guid: 459447a01d901cb459d70a770f2030f9, type: 3}
+    Volume: 0.5
+    MinPitch: 1
+    MaxPitch: 1
+  - Name: Swing
+    Clip: {fileID: 8300000, guid: 5e7ad0bc669ee4d46be623ccf0caa522, type: 3}
+    Volume: 0.5
+    MinPitch: 1
+    MaxPitch: 1
+  - Name: Open
+    Clip: {fileID: 8300000, guid: 855d55f293da8314aa7ef3d7de6fe156, type: 3}
     Volume: 0.5
     MinPitch: 1
     MaxPitch: 1
@@ -36694,7 +36714,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5684415606778222030, guid: 57e9672ba1d412343a12c5189618e096, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 57e9672ba1d412343a12c5189618e096, type: 3}
 --- !u!1001 &1329029262398817808
 PrefabInstance:

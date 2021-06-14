@@ -311,6 +311,9 @@ public class Party : GameStateEntity
         {
             HUD.Instance.UpdateDisplay();
 
+            if (!member.IsConcious())
+                PartyController.Instance.Knockout(member);
+
             if (IsDead())
                 GameController.Instance.TriggerDeath();
 

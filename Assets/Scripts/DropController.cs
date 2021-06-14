@@ -84,17 +84,17 @@ public class DropController : MonoBehaviour {
 
             ProjectileEntity ent = obj.GetComponent<ProjectileEntity>();
             Projectile proj = new Projectile(node);
-            ent.Setup(proj);
+            ent.Setup(proj, 0f);
             proj.CreateEntity(obj);
         }
     }
 
-    public void SpawnProjectile(Transform location, Projectile proj)
+    public void SpawnProjectile(Transform location, Projectile proj, float speed)
     {
         GameObject obj = Instantiate(ProjectileEntityObject);
 
         ProjectileEntity ent = obj.GetComponent<ProjectileEntity>();
-        ent.Setup(proj);
+        ent.Setup(proj, speed);
 
         proj.CreateEntity(obj, location);
     }
