@@ -43,8 +43,9 @@ public class CharacterCreator : Menu
         char4 = new CharacterData(3, CharacterClass.Sorcerer);
         UIs[3].Setup(this, char4);
 
-        SelectCharacterStat(UIs[0]);
-        
+        _selectedUI = UIs[0];
+        StatSelector.transform.position = _selectedUI.SelectedButton.transform.position;
+
         UpdateUI();
     }
 
@@ -106,9 +107,6 @@ public class CharacterCreator : Menu
 
     public void ModifySelectedStat(int amount)
     {
-        if (_selectedUI == null || _selectedUI.SelectedButton == null)
-            return;
-
         CharacterCreatorStatButton button = _selectedUI.SelectedButton as CharacterCreatorStatButton;
         if (button == null)
             return;
@@ -141,6 +139,7 @@ public class CharacterCreator : Menu
                 break;
         }
 
+        SoundManager.Instance.PlayUISoundExtreme("Modify", amount < 0);
         UpdateUI();
 
     }
@@ -150,6 +149,7 @@ public class CharacterCreator : Menu
         _selectedUI = UI;
         StatSelector.transform.position = _selectedUI.SelectedButton.transform.position;
 
+        SoundManager.Instance.PlayUISound("Select");
         UpdateUI();
     }
 
@@ -228,6 +228,7 @@ public class CharacterCreator : Menu
     public void FinalizeCreation()
     {
         CharacterData[] data = new CharacterData[] { char1, char2, char3, char4 };
+        SoundManager.Instance.PlayUISound("Button");
         GameController.Instance.StartNewGame(data);
     }
 }

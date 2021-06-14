@@ -6,11 +6,14 @@ public class MainMenu : Menu {
 
     public void NewGame()
     {
+        SoundManager.Instance.PlayUISound("Button");
         MenuManager.Instance.OpenMenu("NewMenu");
     }
 
     public void QuickStart()
     {
+        SoundManager.Instance.PlayUISound("Button");
+
         CharacterData char1 = new CharacterData(0, CharacterClass.Paladin, true);
         char1.Might = 17;
         char1.Intellect = 5;
@@ -61,16 +64,19 @@ public class MainMenu : Menu {
 
     public void LoadGame()
     {
+        SoundManager.Instance.PlayUISound("Button");
         MenuManager.Instance.OpenMenu("LoadMenu");
     }
 
     public void Credits()
     {
+        SoundManager.Instance.PlayUISound("Button");
         MenuManager.Instance.OpenMenu("Credits");
     }
 
     public void QuitGame()
     {
+        SoundManager.Instance.PlayUISound("Button");
         Application.Quit();
     }
 }
