@@ -701,7 +701,7 @@ public class HUD : Menu {
     {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("Residence");
-        SoundManager.Instance.PlayUISound("Door");
+        SoundManager.Instance.PlayUISound("Open");
         ResidenceMenu.Setup(residency);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);
@@ -711,7 +711,7 @@ public class HUD : Menu {
     {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("Merchant");
-        SoundManager.Instance.PlayUISound("Door");
+        SoundManager.Instance.PlayUISound("Open");
         MerchantMenu.Setup(merchant);
         OtherMenuOpen = true;
         SideMenu.SetActive(false);
