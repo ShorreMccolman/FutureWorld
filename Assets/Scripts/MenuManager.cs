@@ -8,6 +8,9 @@ public class MenuManager : MonoBehaviour {
     void Awake()
     { Instance = this; }
 
+    public delegate void MenuEvent(bool enabled);
+    public MenuEvent OnMenuLock;
+
     Dictionary<string, Menu> _menuDict = new Dictionary<string, Menu>();
 
     Dictionary<string, Menu> _openMenuDict = new Dictionary<string, Menu>();
@@ -20,8 +23,7 @@ public class MenuManager : MonoBehaviour {
             menu.Contents.SetActive(false);
         }
         _openMenuDict.Clear();
-        if(PartyController.Instance.Entity != null)
-            PartyController.Instance.SetControlState(ControlState.Previous);
+        OnMenuLock?.Invoke(false);
     }
 
     public void CloseMenu(string menuTag)
@@ -31,8 +33,7 @@ public class MenuManager : MonoBehaviour {
             _openMenuDict[menuTag].OnClose();
             _menuDict[menuTag].Contents.SetActive(false);
             _openMenuDict.Remove(menuTag);
-            if (PartyController.Instance != null)
-                PartyController.Instance.SetControlState(ControlState.Previous);
+            OnMenuLock?.Invoke(false);
         }
     }
 
@@ -53,8 +54,7 @@ public class MenuManager : MonoBehaviour {
 
         if(setMenuLock)
         {
-            if (PartyController.Instance.Entity != null)
-                PartyController.Instance.SetControlState(ControlState.MenuLock);
+            OnMenuLock?.Invoke(true);
         }
     }
 

@@ -8,13 +8,11 @@ public class NPCMenu : ConversationMenu
     [SerializeField] Text NPCLabel;
     [SerializeField] Image NPCPortrait;
     [SerializeField] Transform ResidentDialogObject;
-
     [SerializeField] RectTransform DialogBox;
     [SerializeField] Text Dialog;
 
     NPC _currentNPC;
-
-    int _advanceStepCounter = -1;
+    int _advanceStepCounter;
     bool _isHire;
 
     public void Setup(NPC npc, bool isHire = false)
@@ -111,7 +109,7 @@ public class NPCMenu : ConversationMenu
 
     void Hire()
     {
-        bool success = PartyController.Instance.Party.TryHire(_currentNPC);
+        bool success = Party.Instance.TryHire(_currentNPC);
         if (success)
         {
             _currentNPC.Parent.Entity.Kill();
@@ -126,7 +124,7 @@ public class NPCMenu : ConversationMenu
 
     void Dismiss()
     {
-        bool success = PartyController.Instance.Party.DismissHire(_currentNPC);
+        bool success = Party.Instance.DismissHire(_currentNPC);
         if (success)
             Back();
     }

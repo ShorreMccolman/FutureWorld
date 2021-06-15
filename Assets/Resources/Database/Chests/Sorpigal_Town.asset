@@ -17,7 +17,7 @@ MonoBehaviour:
     MouseoverName: Chest
     Quantities:
       L1: 1
-      L2: 1
+      L2: 0
       L3: 1
       L4: 0
       L5: 0
@@ -25,5 +25,6 @@ MonoBehaviour:
       Artifact: 0
       Custom: []
     TrapLevel: 0
+    LockLevel: 0
     Prefab: {fileID: 1780410620924641544, guid: eee171e437a45d444812d43a54ea2947,
       type: 3}

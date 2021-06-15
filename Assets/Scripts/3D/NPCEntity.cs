@@ -16,7 +16,7 @@ public class NPCEntity : EnemyEntity
 
     public override IEnumerator Interact(PartyEntity party)
     {
-        if (!IsAlive)
+        if (!_isActive)
         {
             yield return base.Interact(party);
         } 

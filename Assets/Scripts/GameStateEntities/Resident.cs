@@ -52,7 +52,7 @@ public class Resident : GameStateEntity
         DialogStep step = Data.Options[option].Steps[OptionProgress[option]];
 
         if (step.GoldReceived > 0)
-            PartyController.Instance.Party.CollectGold(step.GoldReceived);
+            Party.Instance.CollectGold(step.GoldReceived);
 
         if (OptionProgress[option] + 1 < Data.Options[option].Steps.Count)
         {

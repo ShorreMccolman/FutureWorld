@@ -6,32 +6,33 @@ using System.Linq;
 
 public class Party : GameStateEntity
 {
+    public static Party Instance { get; private set; }
+
     public PartyMember ActiveMember { get; private set; }
     public string CurrentLocationID { get; private set; }
-
+    public int CurrentReputation { get; private set; }
     public int CurrentFood { get; private set; }
     public int CurrentGold { get; private set; }
     public int CurrentBalance { get; private set; }
     public float CurrentTime { get; private set; }
+    public QuestLog QuestLog { get; private set; }
 
     List<NPC> _hires;
     public List<NPC> Hires { get { return _hires; } }
 
-    public QuestLog QuestLog { get; private set; }
-
-    private List<PartyMember> _members;
+    List<PartyMember> _members;
     public List<PartyMember> Members { get { return _members; } }
 
-    private List<string> _visitedLocations;
-    public List<string> VisitedLocations { get; private set; }
-
-    public List<string> _monthlyKills;
+    List<string> _visitedLocations;
+    List<string> _monthlyKills;
 
     public delegate void OnChangeEvent();
     public OnChangeEvent MemberChanged;
 
     public Party(CharacterData[] characterData) : base(null)
     {
+        Instance = this;
+
         CurrentLocationID = "Game";
 
         _members = new List<PartyMember>();
@@ -48,6 +49,7 @@ public class Party : GameStateEntity
 
         TimeManagement.Instance.OnTick += TickEvent;
 
+        CurrentReputation = 0;
         CurrentFood = 7;
         CurrentGold = 200;
         CurrentBalance = 0;
@@ -58,7 +60,10 @@ public class Party : GameStateEntity
 
     public Party(XmlNode node) : base(null, node)
     {
+        Instance = this;
+
         CurrentLocationID = node.SelectSingleNode("LocationID").InnerText;
+        CurrentFood = int.Parse(node.SelectSingleNode("Reputation").InnerText);
         CurrentFood = int.Parse(node.SelectSingleNode("Food").InnerText);
         CurrentGold = int.Parse(node.SelectSingleNode("Gold").InnerText);
         CurrentBalance = int.Parse(node.SelectSingleNode("Balance").InnerText);
@@ -74,6 +79,7 @@ public class Party : GameStateEntity
     {
         XmlNode element = doc.CreateElement("Party");
         element.AppendChild(XmlHelper.Attribute(doc, "LocationID", CurrentLocationID));
+        element.AppendChild(XmlHelper.Attribute(doc, "Reputation", CurrentReputation));
         element.AppendChild(XmlHelper.Attribute(doc, "Food", CurrentFood));
         element.AppendChild(XmlHelper.Attribute(doc, "Gold", CurrentGold));
         element.AppendChild(XmlHelper.Attribute(doc, "Balance", CurrentBalance));
@@ -116,7 +122,7 @@ public class Party : GameStateEntity
 
     public void VisitLocation(string locationID)
     {
-        VisitedLocations.Add(locationID);
+        _visitedLocations.Add(locationID);
     }
 
     public void Deposit(int quantity)
@@ -196,7 +202,7 @@ public class Party : GameStateEntity
             return false;
         }
 
-        bool success = PartyController.Instance.Party.TryPay(npc.Cost);
+        bool success = TryPay(npc.Cost);
         if (success)
         {
             Hires.Add(npc);
@@ -240,17 +246,65 @@ public class Party : GameStateEntity
         return true;
     }
 
+    public bool TryIdentify(InventoryItem item)
+    {
+        if (item.IsIdentified)
+            return false;
+
+        Armor armor = item.Data as Armor;
+
+        int level = ActiveMember.Skillset.GetSkillLevel("Identify");
+        foreach (var hire in Hires)
+        {
+            if (hire.Profession == Profession.Scholar)
+                level = 999;
+        }
+
+        return item.TryIdentify(level);
+    }
+
+    public bool TryRepair(InventoryItem item)
+    {
+        if (!item.IsBroken)
+            return false;
+
+        Armor armor = item.Data as Armor;
+
+        int level = ActiveMember.Skillset.GetSkillLevel("Repair");
+        foreach (var hire in Hires)
+        {
+            if (hire.Profession == Profession.Smith && item.Data is Weapon)
+                level = 999;
+            else if (hire.Profession == Profession.Armorer)
+            {
+                if(armor != null && armor.IsArmorItem())
+                    level = 999;
+            }
+            else if (hire.Profession == Profession.Alchemist)
+            {
+                if (armor != null && armor.IsMagicItem())
+                    level = 999;
+            }
+        }
+
+        return item.TryRepair(level);
+    }
+
     public bool TryDisarm(Trap trap)
     {
         if (trap.IsDisarmed)
             return true;
 
         int level = ActiveMember.Skillset.GetSkillLevel("Disarm");
-        //foreach(var hire in Hires)
-        //{
-        //    if (hire.Profession == Profession.Lockpick)
-        //        level = 999;
-        //}
+        foreach(var hire in Hires)
+        {
+            if (hire.Profession == Profession.Tinker)
+                level += 4;
+            else if (hire.Profession == Profession.Locksmith)
+                level += 6;
+            else if (hire.Profession == Profession.Burglar)
+                level += 8;
+        }
 
         AttackResult result;
         bool success = trap.Disarm(level, out result);

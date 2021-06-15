@@ -16,7 +16,7 @@ public class SkillButton : MonoBehaviour {
         _skill = skill;
         _menu = menu;
 
-        string label = skill.Skill.DisplayName;
+        string label = skill.Data.DisplayName;
         if (skill.Proficiency != SkillProficiency.Novice)
             label += " (" + GameConstants.LabelForProficiency[skill.Proficiency] + ")";
   
@@ -26,7 +26,7 @@ public class SkillButton : MonoBehaviour {
 
 	public void Select()
     {
-        bool success = PartyController.Instance.ActiveMember.Profile.TryUpgradeSkill(_skill);
+        bool success = Party.Instance.ActiveMember.Profile.TryUpgradeSkill(_skill);
         if(success)
         {
             HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
@@ -40,7 +40,7 @@ public class SkillButton : MonoBehaviour {
     public void OnHover()
     {
         int difference;
-        if (PartyController.Instance.ActiveMember.Profile.CanUpgradeSkill(_skill, out difference))
+        if (Party.Instance.ActiveMember.Profile.CanUpgradeSkill(_skill, out difference))
         {
             SkillNameLabel.color = Color.blue;
             SkillLevelLabel.color = Color.blue;

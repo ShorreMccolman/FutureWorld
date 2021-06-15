@@ -16,7 +16,6 @@ public class TimeManagement : MonoBehaviour
     { Instance = this; }
 
     [SerializeField] Transform LightAnchor;
-
     [SerializeField] Light DayLight;
     [SerializeField] Material DayBox;
     [SerializeField] Light NightLight;
@@ -29,9 +28,7 @@ public class TimeManagement : MonoBehaviour
     public TickEvent OnCombatTick;
 
     TimeControl _control;
-
     Party _party;
-
     System.DateTime _dt;
 
     float _manualDuration;
@@ -144,7 +141,7 @@ public class TimeManagement : MonoBehaviour
         {
             CombatPriority = new MemberPriority();
 
-            foreach(var member in PartyController.Instance.Members)
+            foreach(var member in Party.Instance.Members)
                 CombatPriority.Add(member);
 
             foreach (var enemy in PartyController.Instance.GetActiveEnemies())

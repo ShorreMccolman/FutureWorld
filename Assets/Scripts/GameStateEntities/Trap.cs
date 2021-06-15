@@ -17,8 +17,9 @@ public struct AttackResult
 
 public class Trap : GameStateEntity
 {
-    int _level;
     AttackType _attackType;
+    int _trapLevel;
+    int _lockLevel;
 
     bool _isDisarmed;
     public bool IsDisarmed { get { return _isDisarmed; } }
@@ -27,9 +28,10 @@ public class Trap : GameStateEntity
 
     public Trap(Chest parent) : base(parent)
     {
-        _level = parent.Data.TrapLevel;
-        Roll = new DiceRoll(6, 3 + _level);
-        if (_level == 0)
+        _trapLevel = parent.Data.TrapLevel;
+        Roll = new DiceRoll(20, _trapLevel);
+        _lockLevel = parent.Data.LockLevel;
+        if (_lockLevel == 0)
             _isDisarmed = true;
 
         int rand = Random.Range(0, 4);
@@ -53,18 +55,20 @@ public class Trap : GameStateEntity
 
     public Trap(XmlNode node, GameStateEntity parent) : base(parent, node)
     {
-        _level = int.Parse(node.SelectSingleNode("Level").InnerText);
+        _trapLevel = int.Parse(node.SelectSingleNode("Level").InnerText);
         _attackType = (AttackType)int.Parse(node.SelectSingleNode("Type").InnerText);
         _isDisarmed = bool.Parse(node.SelectSingleNode("Disarmed").InnerText);
-        Roll = new DiceRoll(6, 3 + _level);
+        _lockLevel = int.Parse(node.SelectSingleNode("Lock").InnerText);
+        Roll = new DiceRoll(6, 3 + _trapLevel);
     }
 
     public override XmlNode ToXml(XmlDocument doc)
     {
         XmlNode element = doc.CreateElement("Trap");
-        element.AppendChild(XmlHelper.Attribute(doc, "Level", _level));
+        element.AppendChild(XmlHelper.Attribute(doc, "Level", _trapLevel));
         element.AppendChild(XmlHelper.Attribute(doc, "Type", (int)_attackType));
         element.AppendChild(XmlHelper.Attribute(doc, "Disarmed", _isDisarmed));
+        element.AppendChild(XmlHelper.Attribute(doc, "Lock", _lockLevel));
         element.AppendChild(base.ToXml(doc));
         return element;
     }
@@ -73,6 +77,6 @@ public class Trap : GameStateEntity
     {
         attack = new AttackResult(Roll.Roll(), _attackType);
         _isDisarmed = true;
-        return level >= _level;
+        return level >= _lockLevel;
     }
 }

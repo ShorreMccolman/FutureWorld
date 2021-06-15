@@ -9,6 +9,7 @@ public class ChestData
     public string MouseoverName;
     public SpawnQuantities Quantities;
     public int TrapLevel;
+    public int LockLevel;
     public GameObject Prefab;
 }
 

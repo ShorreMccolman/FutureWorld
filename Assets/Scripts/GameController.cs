@@ -192,8 +192,9 @@ public class GameController : MonoBehaviour {
 
     IEnumerator Death()
     {
+        Party party = Party.Instance;
+
         HUD.Instance.ShowLoad(true);
-        Party party = PartyController.Instance.Party;
 
         yield return SceneManager.LoadSceneAsync(2);
         while (PartyController.Instance == null)

@@ -14,7 +14,6 @@ public class ChestEntity : Entity3D
 
     public override IEnumerator Interact(PartyEntity party)
     {
-        
         yield return new WaitForEndOfFrame();
         HUD.Instance.InspectChest(_chest);
     }

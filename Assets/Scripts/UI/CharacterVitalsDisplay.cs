@@ -13,12 +13,12 @@ public class CharacterVitalsDisplay : MonoBehaviour {
 
     public PartyMember Member { get; private set; }
 
-    string currentExpression;
+    string _currentExpression;
 
     public void Init(PartyMember member)
     {
         Member = member;
-        currentExpression = "X";
+        _currentExpression = "X";
 
         UpdateUI();
         SelectionIndicator.color = Color.grey;
@@ -35,30 +35,30 @@ public class CharacterVitalsDisplay : MonoBehaviour {
                 string expression;
                 if(Member.Status.ExpressionOverride(out expression))
                 {
-                    if(currentExpression != expression)
+                    if(_currentExpression != expression)
                     {
-                        currentExpression = expression;
+                        _currentExpression = expression;
                         Portrait.sprite = Resources.Load<Sprite>("Portraits/Face" + Member.Profile.PortraitID + "_" + expression);
                     }
                 }
-                else if (currentExpression != Member.Vitals.Expression)
+                else if (_currentExpression != Member.Vitals.Expression)
                 {
-                    currentExpression = Member.Vitals.Expression;
+                    _currentExpression = Member.Vitals.Expression;
                     Portrait.sprite = Resources.Load<Sprite>("Portraits/Face" + Member.Profile.PortraitID + "_" + Member.Vitals.Expression);
                 }
                 break;
             case PartyMemberState.Unconcious:
-                if (currentExpression != GameConstants.EXPRESSION_UNCONCIOUS)
+                if (_currentExpression != GameConstants.EXPRESSION_UNCONCIOUS)
                 {
-                    currentExpression = GameConstants.EXPRESSION_UNCONCIOUS;
-                    Portrait.sprite = Resources.Load<Sprite>("Portraits/Face" + Member.Profile.PortraitID + "_" + currentExpression);
+                    _currentExpression = GameConstants.EXPRESSION_UNCONCIOUS;
+                    Portrait.sprite = Resources.Load<Sprite>("Portraits/Face" + Member.Profile.PortraitID + "_" + _currentExpression);
                 }
                 break;
             case PartyMemberState.Dead:
-                if (currentExpression != GameConstants.EXPRESSION_DEAD)
+                if (_currentExpression != GameConstants.EXPRESSION_DEAD)
                 {
-                    currentExpression = GameConstants.EXPRESSION_DEAD;
-                    Portrait.sprite = Resources.Load<Sprite>("Portraits/Face" + Member.Profile.PortraitID + "_" + currentExpression);
+                    _currentExpression = GameConstants.EXPRESSION_DEAD;
+                    Portrait.sprite = Resources.Load<Sprite>("Portraits/Face" + Member.Profile.PortraitID + "_" + _currentExpression);
                 }
                 break;
         }
@@ -71,7 +71,7 @@ public class CharacterVitalsDisplay : MonoBehaviour {
 
     public void MenuClick()
     {
-        bool shouldOpen = HUD.Instance.CharacterMenuOpen || Member == HUD.Instance.SelectedMember;
+        bool shouldOpen = HUD.Instance.CharacterMenuOpen || Member == Party.Instance.ActiveMember;
         HUD.Instance.SelectCharacter(this, shouldOpen);
     }
 

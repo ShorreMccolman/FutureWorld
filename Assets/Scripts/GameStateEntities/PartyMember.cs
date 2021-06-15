@@ -196,37 +196,6 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
         return false;
     }
-
-    public bool TryIdentify(InventoryItem item)
-    {
-        if (!Skillset.KnowsSkill("Identify"))
-            return false;
-
-        InventorySkill skill = Skillset.GetSkillByID("Identify");
-        int level = skill.Level;
-        if (skill.Proficiency == SkillProficiency.Expert)
-            level *= 2;
-        else if (skill.Proficiency == SkillProficiency.Master)
-            level *= 3;
-
-        return item.TryIdentify(level);
-    }
-
-    public bool TryRepair(InventoryItem item)
-    {
-        if (!Skillset.KnowsSkill("Repair"))
-            return false;
-
-        InventorySkill skill = Skillset.GetSkillByID("Repair");
-        int level = skill.Level;
-        if (skill.Proficiency == SkillProficiency.Expert)
-            level *= 2;
-        else if (skill.Proficiency == SkillProficiency.Master)
-            level *= 3;
-
-        return item.TryRepair(level);
-    }
-
     public bool TryHit(Enemy enemy, out int damage)
     {
         bool hits = CombatHelper.ShouldHit(Vitals.EffectiveAttack, enemy.Data.ArmorClass);

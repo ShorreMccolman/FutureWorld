@@ -9,25 +9,20 @@ public delegate bool ItemCheckEvent(InventoryItem item);
 public class MerchantMenu : ConversationMenu
 {
     [SerializeField] Text StoreLabel;
-
     [SerializeField] Text MerchantLabel;
     [SerializeField] Image MerchantSprite;
-
     [SerializeField] Text HoverDialog;
-
-    Merchant _currentMerchant;
-
     [SerializeField] StoreFrontUI GeneralStore;
     [SerializeField] StoreFrontUI WeaponStore;
     [SerializeField] StoreFrontUI ArmorStore;
     [SerializeField] StoreFrontUI MagicStore;
     [SerializeField] StoreFrontUI SpellStore;
-
     [SerializeField] PlayerMechandiseUI PlayerInventoryDisplay;
 
-    ItemEvent OnHover;
+    Merchant _currentMerchant;
+    bool _inventoryMenuOpen;
 
-    bool menuOpen = false;
+    ItemEvent OnHover;
 
     public void Setup(Merchant merchant)
     {
@@ -40,7 +35,7 @@ public class MerchantMenu : ConversationMenu
 
         DialogOptions = new List<OptionButton>();
 
-        PartyController.Instance.Party.MemberChanged += OnMemberChanged;
+        Party.Instance.MemberChanged += OnMemberChanged;
 
         OnHover = null;
         SoundManager.Instance.SetMusicVolume(0.25f);
@@ -62,8 +57,8 @@ public class MerchantMenu : ConversationMenu
     void OnMemberChanged()
     {
         if (PlayerInventoryDisplay.gameObject.activeSelf)
-            PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
-        else if(!menuOpen)
+            PlayerInventoryDisplay.DisplayInventory(Party.Instance.ActiveMember.Inventory);
+        else if(!_inventoryMenuOpen)
             SetupDialog();
     }
 
@@ -73,14 +68,14 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        menuOpen = false;
+        _inventoryMenuOpen = false;
 
-        _currentMerchant.TryUpdateStock(PartyController.Instance.Party.CurrentTime);
+        _currentMerchant.TryUpdateStock(Party.Instance.CurrentTime);
 
         GameObject obj;
         DialogOptionButton UI;
 
-        if (!PartyController.Instance.Party.QuestLog.IsMemberOfGuild(_currentMerchant.Data.GuildID))
+        if (!Party.Instance.QuestLog.IsMemberOfGuild(_currentMerchant.Data.GuildID))
         {
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
@@ -88,12 +83,12 @@ public class MerchantMenu : ConversationMenu
             UI.Setup("You must be a member of this guild to study here.", null);
             DialogOptions.Add(UI);
         }
-        else if (!PartyController.Instance.ActiveMember.IsConcious())
+        else if (!Party.Instance.ActiveMember.IsConcious())
         {
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
             UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup(PartyController.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything", null);
+            UI.Setup(Party.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything", null);
             DialogOptions.Add(UI);
         } 
         else
@@ -110,7 +105,7 @@ public class MerchantMenu : ConversationMenu
                     {
                         schools.Add(school.ToString());
                     }
-                    availableSkills = PartyController.Instance.ActiveMember.DetermineLearnableSkills(schools);
+                    availableSkills = Party.Instance.ActiveMember.DetermineLearnableSkills(schools);
                     buyLabel = "Buy Spells";
                 }
 
@@ -282,13 +277,13 @@ public class MerchantMenu : ConversationMenu
         {
             schools.Add(school.ToString());
         }
-        List<Skill> available = PartyController.Instance.ActiveMember.DetermineLearnableSkills(schools);
+        List<Skill> available = Party.Instance.ActiveMember.DetermineLearnableSkills(schools);
 
         Skill skill = available[index];
 
-        if(PartyController.Instance.Party.TryPay(_currentMerchant.Data.SkillCost))
+        if(Party.Instance.TryPay(_currentMerchant.Data.SkillCost))
         {
-            PartyController.Instance.ActiveMember.Skillset.LearnSkill(skill);
+            Party.Instance.ActiveMember.Skillset.LearnSkill(skill);
             HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             SetupDialog();
         }
@@ -304,7 +299,7 @@ public class MerchantMenu : ConversationMenu
 
         OnHover = HoverItemBuy;
 
-        menuOpen = true;
+        _inventoryMenuOpen = true;
 
         switch (_currentMerchant.Data.StoreType)
         {
@@ -341,10 +336,10 @@ public class MerchantMenu : ConversationMenu
 
         OnHover = HoverItemSell;
 
-        menuOpen = true;
+        _inventoryMenuOpen = true;
 
         PlayerInventoryDisplay.Init(this, BarterSell, true);
-        PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
+        PlayerInventoryDisplay.DisplayInventory(Party.Instance.ActiveMember.Inventory);
     }
 
     public void SetupIdentify()
@@ -357,10 +352,10 @@ public class MerchantMenu : ConversationMenu
 
         OnHover = HoverItemIdentify;
 
-        menuOpen = true;
+        _inventoryMenuOpen = true;
 
         PlayerInventoryDisplay.Init(this, BarterIdentify);
-        PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
+        PlayerInventoryDisplay.DisplayInventory(Party.Instance.ActiveMember.Inventory);
     }
 
     public void SetupRepair()
@@ -373,10 +368,10 @@ public class MerchantMenu : ConversationMenu
 
         OnHover = HoverItemRepair;
 
-        menuOpen = true;
+        _inventoryMenuOpen = true;
 
         PlayerInventoryDisplay.Init(this, BarterRepair);
-        PlayerInventoryDisplay.DisplayInventory(HUD.Instance.SelectedMember.Inventory);
+        PlayerInventoryDisplay.DisplayInventory(Party.Instance.ActiveMember.Inventory);
     }
 
     public void SetupSpecial()
@@ -389,7 +384,7 @@ public class MerchantMenu : ConversationMenu
 
         OnHover = HoverItemBuy;
 
-        menuOpen = true;
+        _inventoryMenuOpen = true;
 
         switch (_currentMerchant.Data.StoreType)
         {
@@ -491,7 +486,7 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        if (menuOpen)
+        if (_inventoryMenuOpen)
         {
             HUD.Instance.ReleaseInfoLock();
 
@@ -515,7 +510,7 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        if (menuOpen)
+        if (_inventoryMenuOpen)
         {
             HUD.Instance.ReleaseInfoLock();
 
@@ -525,11 +520,11 @@ public class MerchantMenu : ConversationMenu
             OnHover = null;
 
             CloseStores();
-            menuOpen = false;
+            _inventoryMenuOpen = false;
         }
 
         HUD.Instance.EnableSideMenu();
-        PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
+        Party.Instance.MemberChanged -= OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(1f);
         SoundManager.Instance.PlayUISound("Close");
     }

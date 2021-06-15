@@ -14,7 +14,7 @@ public class DebugMenu : MonoBehaviour
 
     public void MasterSkills()
     {
-        foreach(var member in PartyController.Instance.Party.Members)
+        foreach(var member in Party.Instance.Members)
         {
             foreach(var skill in member.Skillset.Skills)
             {
@@ -53,7 +53,7 @@ public class DebugMenu : MonoBehaviour
             item = ItemDatabase.Instance.GetInventoryItem(input);
         }
         item.TryIdentify(100000);
-        HUD.Instance.SelectedMember.Inventory.AddItem(item);
+        Party.Instance.ActiveMember.Inventory.AddItem(item);
         HUD.Instance.UpdateDisplay();
     }
 
@@ -79,14 +79,14 @@ public class DebugMenu : MonoBehaviour
     {
         string input = ChestInput.text;
         int value = int.Parse(input);
-        PartyController.Instance.Party.CollectGold(value);
+        Party.Instance.CollectGold(value);
     }
 
     public void AddXP()
     {
         string input = ChestInput.text;
         int value = int.Parse(input);
-        PartyController.Instance.Party.EarnXP(value);
+        Party.Instance.EarnXP(value);
     }
 
     public void AddSkillPoints()

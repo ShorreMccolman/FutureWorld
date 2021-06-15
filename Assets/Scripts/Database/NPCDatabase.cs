@@ -4,16 +4,39 @@ using UnityEngine;
 
 public enum Profession
 {
-    Smith,
-    Armorer,
-    Alchemist,
-    Scholar,
-    Guide,
-    Tracker,
-    Pathfinder,
-    Sailor,
-    Navigator,
-    Healer
+    Smith = 1,
+    Armorer = 2,
+    Alchemist = 3,
+    Scholar = 4,
+    Guide = 5,
+    Tracker = 6,
+    Pathfinder = 7,
+    Sailor = 8,
+    Navigator = 9,
+    Healer = 10,
+    ExpertHealer = 11,
+    MasterHealer = 12,
+    Teacher = 13,
+    Instructor = 14,
+    ArmsMaster = 15,
+    WeaponsMaster = 16,
+    Apprentice = 17,
+    Mystic = 18,
+    SpellMaster = 19,
+    Trader = 20,
+    Merchant = 21,
+    Scout = 22,
+    Counselor = 23,
+    Barrister = 24,
+    Tinker = 25,
+    Locksmith = 26,
+    Fool = 27,
+    ChimneySweep = 28,
+    Porter = 29,
+    QuarterMaster = 30,
+
+    Burglar = 51,
+    Peasant = 52
 }
 
 [System.Serializable]

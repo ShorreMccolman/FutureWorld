@@ -77,48 +77,50 @@ public class MemberPriority
 
 public class PartyController : MonoBehaviour {
     public static PartyController Instance { get; private set; }
-    void Awake() { Instance = this; }
 
     [SerializeField] Transform NewGameSpawn;
     [SerializeField] GameObject PartyEntityObject;
 
     public PartyEntity Entity { get; private set; }
-    public Party Party { get { return Entity.Party; } }
-    public List<PartyMember> Members { get { return Entity.Party.Members; } }
-    public PartyMember ActiveMember { get { return Entity.Party.ActiveMember; } }
-    public MemberPriority PriorityQueue { get; private set; }
 
     public ControlState ControlState { get { return _controlState; } }
+    Party _party;
     ControlState _controlState;
     ControlState _previousControlState;
-
+    MemberPriority _priorityQueue;
     List<Entity3D> _shortRange = new List<Entity3D>();
     List<Entity3D> _midRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
     bool _isInteracting;
-
     Entity3D _intendedTarget;
 
     public void NewParty(Party party)
     {
+        Instance = this;
+
         GameObject obj = Instantiate(PartyEntityObject);
         party.CreateEntity(obj, NewGameSpawn);
+        _party = party;
         Entity = party.Entity as PartyEntity;
         Entity.Init(party);
         HUD.Instance.InitParty(party);
 
-        PriorityQueue = new MemberPriority();
+        _priorityQueue = new MemberPriority();
 
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
 
+        MenuManager.Instance.OnMenuLock += MenuEvent;
         TimeManagement.Instance.OnTick += Tick;
     }
 
     public void LoadParty(Party party)
     {
+        Instance = this;
+
         GameObject obj = Instantiate(PartyEntityObject);
         party.CreateEntity(obj);
+        _party = party;
         Entity = party.Entity as PartyEntity;
         Entity.Init(party);
         HUD.Instance.InitParty(party);
@@ -127,6 +129,7 @@ public class PartyController : MonoBehaviour {
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
 
+        MenuManager.Instance.OnMenuLock += MenuEvent;
         TimeManagement.Instance.OnTick += Tick;
     }
 
@@ -145,7 +148,7 @@ public class PartyController : MonoBehaviour {
 
     void Tick(float tick)
     {
-        foreach (var member in Members)
+        foreach (var member in Party.Instance.Members)
         {
             if (member.IsConcious())
             {
@@ -153,7 +156,7 @@ public class PartyController : MonoBehaviour {
                 if (readyEvent)
                 {
                     HUD.Instance.ReadyEvent(member);
-                    PriorityQueue.Add(member);
+                    _priorityQueue.Add(member);
                 }
             }
 
@@ -172,7 +175,7 @@ public class PartyController : MonoBehaviour {
 
         _intendedTarget = null;
 
-        foreach (var member in Members)
+        foreach (var member in Party.Instance.Members)
         {
             bool expressionEvent = member.Vitals.TickExpression(Time.deltaTime);
             if (expressionEvent)
@@ -288,6 +291,14 @@ public class PartyController : MonoBehaviour {
         }
     }
 
+    public void MenuEvent(bool locked)
+    {
+        if (locked)
+            SetControlState(ControlState.MenuLock);
+        else
+            SetControlState(ControlState.Previous);
+    }
+
     public void SetControlState(ControlState state, bool isForced = false)
     {
         if (state == ControlState.Previous)
@@ -335,8 +346,8 @@ public class PartyController : MonoBehaviour {
 
     public void Knockout(PartyMember member)
     {
-        PriorityQueue.Flush(member);
-        if (member == ActiveMember)
+        _priorityQueue.Flush(member);
+        if (member == _party.ActiveMember)
             HUD.Instance.ToggleSelectedCharacter();
     }
 
@@ -344,7 +355,7 @@ public class PartyController : MonoBehaviour {
     {
         if(TimeManagement.IsCombatMode)
         {
-            if (ActiveMember == null)
+            if (_party.ActiveMember == null)
                 return;
 
             if (_isInteracting)
@@ -354,7 +365,7 @@ public class PartyController : MonoBehaviour {
         } 
         else
         {
-            if (ActiveMember == null)
+            if (_party.ActiveMember == null)
                 return;
 
             if (_isInteracting)
@@ -379,10 +390,10 @@ public class PartyController : MonoBehaviour {
     IEnumerator AttackRoutine()
     {
         PartyMember attacker = null;
-        if (ActiveMember.Vitals.IsReady())
-            attacker = ActiveMember;
-        else if (PriorityQueue.IsReady())
-            attacker = PriorityQueue.Get() as PartyMember;
+        if (_party.ActiveMember.Vitals.IsReady())
+            attacker = _party.ActiveMember;
+        else if (_priorityQueue.IsReady())
+            attacker = _priorityQueue.Get() as PartyMember;
 
         if (attacker != null)
         {
@@ -412,7 +423,7 @@ public class PartyController : MonoBehaviour {
                     if(projectile != null)
                     {
                         projectile.Setup(((target.transform.position + Vector3.up ) - Entity.transform.position).normalized, true);
-                        DropController.Instance.SpawnProjectile(Party.Entity.transform, projectile, Entity.GetSpeed());
+                        DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.GetSpeed());
                     }
                 }
 
@@ -425,20 +436,20 @@ public class PartyController : MonoBehaviour {
 
                 if (projectile != null)
                 {
-                    projectile.Setup(Party.Entity.transform.forward.normalized, true);
-                    DropController.Instance.SpawnProjectile(Party.Entity.transform, projectile, Entity.GetSpeed());
+                    projectile.Setup(Entity.transform.forward.normalized, true);
+                    DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.GetSpeed());
                 }
             }
 
             yield return null;
             _isInteracting = false;
 
-            PriorityQueue.Flush(attacker);
+            _priorityQueue.Flush(attacker);
             TimeManagement.Instance.EntityAttack(attacker);
         }
 
-        if(ActiveMember == attacker)
-            Party.SetActiveMember(PriorityQueue.Get() as PartyMember);
+        if(_party.ActiveMember == attacker)
+            Party.Instance.SetActiveMember(_priorityQueue.Get() as PartyMember);
         HUD.Instance.UpdateDisplay();
     }
 

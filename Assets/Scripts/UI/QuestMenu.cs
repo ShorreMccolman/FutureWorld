@@ -9,12 +9,11 @@ public class QuestMenu : Menu
     [SerializeField] GameObject EntryUIPrefab;
 
     QuestLog _log;
-
     List<LogEntryUI> _entries;
 
     public override void OnOpen()
     {
-        _log = PartyController.Instance.Party.QuestLog;
+        _log = Party.Instance.QuestLog;
         _entries = new List<LogEntryUI>();
 
         float yOffset = 0;

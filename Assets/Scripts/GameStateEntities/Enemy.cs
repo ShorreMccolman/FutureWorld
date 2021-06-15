@@ -102,7 +102,7 @@ public class Enemy : GameStateEntity, CombatEntity
 
     public void DoAttack()
     {
-        PartyController.Instance.Party.EnemyAttack(Data);
+        Party.Instance.EnemyAttack(Data);
         Cooldown = Data.CombatData.Recovery;
     }
 

@@ -271,6 +271,44 @@ public class Armor : Item
     public ArmorType Type;
     public int AC;
 
+    public bool IsArmorItem()
+    {
+        switch (EquipSlot)
+        {
+            case EquipSlot.Body:
+                return true;
+            case EquipSlot.Secondary:
+                return true;
+            case EquipSlot.Helmet:
+                return true;
+            case EquipSlot.Gauntlets:
+                return true;
+        }
+        return false;
+    }
+
+    public bool IsMagicItem()
+    {
+        switch (EquipSlot)
+        {
+            case EquipSlot.Amulet:
+                return true;
+            case EquipSlot.Boots:
+                return true;
+            case EquipSlot.Cloak:
+                return true;
+            case EquipSlot.Helmet:
+                return true;
+            case EquipSlot.Gauntlets:
+                return true;
+            case EquipSlot.Ring:
+                return true;
+            case EquipSlot.Belt:
+                return true;
+        }
+        return false;
+    }
+
     public override string GetTypeDescription()
     {
         switch(Type)

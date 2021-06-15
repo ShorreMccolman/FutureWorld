@@ -15,14 +15,14 @@ public class InventorySkill : GameStateEntity
     public string ID { get; private set; }
     public int Level { get; private set; }
     public SkillProficiency Proficiency { get; private set; }
-    public Skill Skill { get; private set; }
+    public Skill Data { get; private set; }
 
     public InventorySkill(Skillset parent, Skill skill) : base(parent)
     {
         ID = skill.ID;
         Level = 1;
         Proficiency = SkillProficiency.Novice;
-        Skill = skill;
+        Data = skill;
     }
 
     public InventorySkill(Skillset parent, XmlNode node) : base(parent, node)
@@ -30,7 +30,7 @@ public class InventorySkill : GameStateEntity
         ID = node.SelectSingleNode("ID").InnerText;
         Level = int.Parse(node.SelectSingleNode("Level").InnerText);
         Proficiency = (SkillProficiency)int.Parse(node.SelectSingleNode("Proficiency").InnerText);
-        Skill = SkillDatabase.Instance.GetSkill(ID);
+        Data = SkillDatabase.Instance.GetSkill(ID);
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -95,7 +95,7 @@ public class Skillset : GameStateEntity
 
     public bool KnowsSkill(string ID)
     {
-        return Skills.Find(s => s.Skill.ID == ID) != null;
+        return Skills.Find(s => s.Data.ID == ID) != null;
     }
 
     public bool KnowsSkillAtProficiency(string ID, SkillProficiency proficiency)
@@ -147,17 +147,27 @@ public class Skillset : GameStateEntity
         if (!KnowsSkill(ID))
             return 0;
 
-        return GetSkillByID(ID).Level;
+        InventorySkill skill = GetSkillByID(ID);
+        int level = skill.Level;
+        if(skill.Data.Type == SkillType.Misc)
+        {
+            if (skill.Proficiency == SkillProficiency.Expert)
+                level *= 2;
+            else if (skill.Proficiency == SkillProficiency.Master)
+                level *= 3;
+        }
+
+        return level;
     }
 
     public InventorySkill GetSkillByID(string ID)
     {
-        return Skills.Find(s => s.Skill.ID == ID);
+        return Skills.Find(s => s.Data.ID == ID);
     }
 
     public List<InventorySkill> GetSkillsByType(SkillType type)
     {
-        return Skills.FindAll(s => s.Skill.Type == type);
+        return Skills.FindAll(s => s.Data.Type == type);
     }
 
     public void LearnSkill(Skill skill)
@@ -173,7 +183,7 @@ public class Skillset : GameStateEntity
             if (weapon.Type == WeaponType.Club)
                 return true;
 
-            return Skills.Exists(s => s.Skill.ID == weapon.Type.ToString());
+            return Skills.Exists(s => s.Data.ID == weapon.Type.ToString());
         }
 
         Armor armor = item as Armor;
@@ -182,7 +192,7 @@ public class Skillset : GameStateEntity
             if (armor.Type == ArmorType.Generic)
                 return true;
 
-            return Skills.Exists(s => s.Skill.ID == armor.Type.ToString());
+            return Skills.Exists(s => s.Data.ID == armor.Type.ToString());
         }
 
         return false;
@@ -401,37 +411,13 @@ public class Skillset : GameStateEntity
 
     public int GetBonusHP(CharacterClass characterClass)
     {
-        InventorySkill skill = GetSkillByID("Bodybuilding");
-        if (skill != null)
-        {
-            switch (skill.Proficiency)
-            {
-                case SkillProficiency.Novice:
-                    return skill.Level * GameConstants.HPScalingByCharacterClass_1[characterClass];
-                case SkillProficiency.Expert:
-                    return 2 * skill.Level * GameConstants.HPScalingByCharacterClass_1[characterClass];
-                case SkillProficiency.Master:
-                    return 3 * skill.Level * GameConstants.HPScalingByCharacterClass_1[characterClass];
-            }
-        }
-        return 0;
+        int level = GetSkillLevel("Bodybuilding");
+        return level * GameConstants.HPScalingByCharacterClass_1[characterClass];
     }
 
     public int GetBonusMP(CharacterClass characterClass)
     {
-        InventorySkill skill = GetSkillByID("Meditation");
-        if(skill != null)
-        {
-            switch(skill.Proficiency)
-            {
-                case SkillProficiency.Novice:
-                    return skill.Level * GameConstants.MPScalingByCharacterClass_1[characterClass];
-                case SkillProficiency.Expert:
-                    return 2 * skill.Level * GameConstants.MPScalingByCharacterClass_1[characterClass];
-                case SkillProficiency.Master:
-                    return 3 * skill.Level * GameConstants.MPScalingByCharacterClass_1[characterClass];
-            }
-        }
-        return 0;
+        int level = GetSkillLevel("Meditation");
+        return level * GameConstants.HPScalingByCharacterClass_1[characterClass];
     }
 }

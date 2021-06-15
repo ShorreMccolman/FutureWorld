@@ -24,7 +24,6 @@ public enum AIState
 public class EnemyEntity : Entity3D
 {
     public Enemy Enemy { get { return State as Enemy; } }
-    public bool IsAlive { get { return _isActive; } }
 
     protected bool _isActive;
     protected AIState _aiState;
@@ -32,12 +31,11 @@ public class EnemyEntity : Entity3D
 
     protected Transform _target;
 
-    [SerializeField] protected float moveSpeed = 3f;
+    protected float _moveSpeed;
     protected float _curMoveSpeed;
 
-    protected bool attackReady;
-
-    protected float rotateSpeed = 6f;
+    protected bool _isAttackReady;
+    protected float _rotateSpeed;
 
     protected CharacterController _controller;
     protected Collider _dropCollider;
@@ -70,9 +68,9 @@ public class EnemyEntity : Entity3D
         _isActive = true;
 
         _movingRight = Random.Range(0, 2) == 0;
-
-        attackReady = enemy.Cooldown <= 0;
-        moveSpeed = enemy.Data.CombatData.MoveSpeed;
+        _rotateSpeed = 6f;
+        _isAttackReady = enemy.Cooldown <= 0;
+        _moveSpeed = enemy.Data.CombatData.MoveSpeed;
         _idleDuration = Random.Range(5f, 10f);
 
         MouseoverName = enemy.Data.DisplayName;
@@ -136,12 +134,12 @@ public class EnemyEntity : Entity3D
         IsTargetable = false;
 
         TimeManagement.Instance.OnTick -= Tick;
-        PartyController.Instance.Party.OnEnemyDeath(Enemy);
+        Party.Instance.OnEnemyDeath(Enemy);
     }
 
     public override IEnumerator Interact(PartyEntity party)
     {
-        if (!IsAlive)
+        if (!_isActive)
         {
             bool success = HUD.Instance.PickupCorpse(Enemy);
             yield return new WaitForEndOfFrame();
@@ -229,7 +227,7 @@ public class EnemyEntity : Entity3D
         Vector3 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z) + offset;
 
         Quaternion targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
-        float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+        float str = Mathf.Min(_rotateSpeed * Time.fixedDeltaTime, 1);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
 
         if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
@@ -239,8 +237,8 @@ public class EnemyEntity : Entity3D
             if (ang < 25f && !Enemy.MovementLocked)
             {
                 _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
-                if (_curMoveSpeed > moveSpeed)
-                    _curMoveSpeed = moveSpeed;
+                if (_curMoveSpeed > _moveSpeed)
+                    _curMoveSpeed = _moveSpeed;
 
                 bool attack = TryAttack(_target.position);
                 if (!attack)
@@ -260,7 +258,7 @@ public class EnemyEntity : Entity3D
         Vector3 cross = Vector3.Cross(levelPosition - transform.position, Vector3.up);
         Debug.LogError(cross);
         Quaternion targetRotation = Quaternion.LookRotation(cross);
-        float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+        float str = Mathf.Min(_rotateSpeed * Time.fixedDeltaTime, 1);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
 
         if (!TimeManagement.IsCombatMode || Enemy.MoveCooldown > 0)
@@ -269,8 +267,8 @@ public class EnemyEntity : Entity3D
             if (ang < 25f && !Enemy.MovementLocked)
             {
                 _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
-                if (_curMoveSpeed > moveSpeed)
-                    _curMoveSpeed = moveSpeed;
+                if (_curMoveSpeed > _moveSpeed)
+                    _curMoveSpeed = _moveSpeed;
 
                 bool attack = TryAttack(_target.position);
                 if (!attack)
@@ -287,7 +285,7 @@ public class EnemyEntity : Entity3D
     bool TryAttack(Vector3 target)
     {
         float distance = Vector3.Distance(transform.position, target);
-        bool success = attackReady && Enemy.MoveCooldown <= 0 && distance < 5.0f;
+        bool success = _isAttackReady && Enemy.MoveCooldown <= 0 && distance < 5.0f;
         if(success)
         {
             _curMoveSpeed = 0;
@@ -295,7 +293,7 @@ public class EnemyEntity : Entity3D
 
             Enemy.LockMovement(true);
             _animator.SetTrigger("DoAttack");
-            attackReady = false;
+            _isAttackReady = false;
         }
         return success;
     }
@@ -321,7 +319,7 @@ public class EnemyEntity : Entity3D
                 if (dist > 1.0f)
                 {
                     targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
-                    float str = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+                    float str = Mathf.Min(_rotateSpeed * Time.fixedDeltaTime, 1);
                     Quaternion rot = Quaternion.Lerp(transform.rotation, targetRotation, str);
                     transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
 
@@ -332,8 +330,8 @@ public class EnemyEntity : Entity3D
                         if (ang < 25f)
                         {
                             _curMoveSpeed += 5.0f * Time.fixedDeltaTime;
-                            if (_curMoveSpeed > moveSpeed)
-                                _curMoveSpeed = moveSpeed;
+                            if (_curMoveSpeed > _moveSpeed)
+                                _curMoveSpeed = _moveSpeed;
 
                             Move(_curMoveSpeed);
                             if(_stuckDuration > 2.0f)
@@ -359,7 +357,7 @@ public class EnemyEntity : Entity3D
                 levelPosition = new Vector3(_target.position.x, transform.position.y, _target.position.z);
 
                 targetRotation = Quaternion.LookRotation(levelPosition - transform.position);
-                float strength = Mathf.Min(rotateSpeed * Time.fixedDeltaTime, 1);
+                float strength = Mathf.Min(_rotateSpeed * Time.fixedDeltaTime, 1);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, strength);
 
                 break;
@@ -413,7 +411,7 @@ public class EnemyEntity : Entity3D
         bool tickEvent = Enemy.TickCooldown(tick);
         if(tickEvent)
         {
-            attackReady = true;
+            _isAttackReady = true;
         }
     }
 

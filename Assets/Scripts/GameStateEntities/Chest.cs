@@ -74,7 +74,7 @@ public class Chest : GameStateEntity
     public ChestData Data { get; protected set; }
 
     // USE FOR DEBUG ONLY
-    public Chest(SpawnQuantities quantities) : base(PartyController.Instance.Party)
+    public Chest(SpawnQuantities quantities) : base(Party.Instance)
     {
         _inventory = new Inventory(this, quantities);
     }

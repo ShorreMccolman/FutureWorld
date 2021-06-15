@@ -45,11 +45,11 @@ public class RestMenu : Menu
             return;
         }
 
-        bool success = PartyController.Instance.Party.TryEat(1);
+        bool success = Party.Instance.TryEat(1);
 
         if (success)
         {
-            foreach (var member in PartyController.Instance.Party.Members)
+            foreach (var member in Party.Instance.Members)
             {
                 member.Rest(60 * 8);
             }
@@ -67,7 +67,7 @@ public class RestMenu : Menu
 
         float duration = 60 * 24 - (adjusted.Minute + adjusted.Hour * 60);
 
-        foreach (var member in PartyController.Instance.Party.Members)
+        foreach (var member in Party.Instance.Members)
         {
             member.Rest(duration);
         }

@@ -54,7 +54,7 @@ public class ResidenceMenu : ConversationMenu
 
         DialogBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
 
-        PartyController.Instance.Party.MemberChanged += OnMemberChanged;
+        Party.Instance.MemberChanged += OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(0.25f);
     }
 
@@ -84,7 +84,7 @@ public class ResidenceMenu : ConversationMenu
             DialogOption option = _currentResident.Data.Options[i];
             DialogStep step = option.Steps[resident.OptionProgress[i]];
 
-            if (step.MembershipOffer && PartyController.Instance.Party.QuestLog.IsMemberOfGuild(option.Membership.GuildID))
+            if (step.MembershipOffer && Party.Instance.QuestLog.IsMemberOfGuild(option.Membership.GuildID))
                 continue;
 
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
@@ -104,7 +104,7 @@ public class ResidenceMenu : ConversationMenu
             DialogOptions.Add(UI);
         }
 
-        if (!PartyController.Instance.Party.QuestLog.IsMemberOfGuild(resident.Data.GuildID))
+        if (!Party.Instance.QuestLog.IsMemberOfGuild(resident.Data.GuildID))
         { 
             obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
@@ -114,12 +114,12 @@ public class ResidenceMenu : ConversationMenu
         } 
         else if (resident.Data.IsService)
         {
-            if (!PartyController.Instance.ActiveMember.IsConcious() && !resident.Data.Services.IsTemple)
+            if (!Party.Instance.ActiveMember.IsConcious() && !resident.Data.Services.IsTemple)
             {
                 obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                 UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup(PartyController.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything", null);
+                UI.Setup(Party.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything", null);
                 DialogOptions.Add(UI);
             } 
             else
@@ -141,7 +141,7 @@ public class ResidenceMenu : ConversationMenu
                     obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                     UI = obj.GetComponent<DialogOptionButton>();
-                    UI.Setup("Balance: " + PartyController.Instance.Party.CurrentBalance, null);
+                    UI.Setup("Balance: " + Party.Instance.CurrentBalance, null);
                     DialogOptions.Add(UI);
                 }
                 if (resident.Data.Services.IsTemple)
@@ -156,7 +156,7 @@ public class ResidenceMenu : ConversationMenu
                 }
                 if(resident.Data.Services.IsBounty)
                 {
-                    resident.TryUpdateBounty(PartyController.Instance.Party.CurrentTime);
+                    resident.TryUpdateBounty(Party.Instance.CurrentTime);
 
                     obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
@@ -233,10 +233,10 @@ public class ResidenceMenu : ConversationMenu
         {
             EnemyData data = EnemyDatabase.Instance.GetEnemyData(_currentResident.BountyID);
 
-            if(PartyController.Instance.Party.HasKilled(data.ID))
+            if(Party.Instance.HasKilled(data.ID))
             {
                 DisplayDialog("Congratulations on defeating the " + data.DisplayName + "! Here is the " + data.Level * 100 + " gold reward. Come back next month for a new bounty.");
-                PartyController.Instance.Party.CollectGold(data.Level * 100);
+                Party.Instance.CollectGold(data.Level * 100);
                 _currentResident.CompleteBounty();
             }
             else
@@ -254,7 +254,7 @@ public class ResidenceMenu : ConversationMenu
 
     void OfferHealingToActiveMember()
     {
-        int price = PartyController.Instance.Party.ActiveMember.PriceOfHealing();
+        int price = Party.Instance.ActiveMember.PriceOfHealing();
         if (price > 0)
         {
             GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
@@ -267,7 +267,7 @@ public class ResidenceMenu : ConversationMenu
 
     void OfferSkillsToActiveMember()
     {
-        List<Skill> available = PartyController.Instance.Party.ActiveMember.DetermineLearnableSkills(_currentResident.Data.Services.Skills);
+        List<Skill> available = Party.Instance.ActiveMember.DetermineLearnableSkills(_currentResident.Data.Services.Skills);
 
         if(available.Count == 0)
         {
@@ -300,7 +300,7 @@ public class ResidenceMenu : ConversationMenu
 
     void OfferTrainingToActiveMember()
     {
-        int level = PartyController.Instance.ActiveMember.Profile.Level;
+        int level = Party.Instance.ActiveMember.Profile.Level;
         if(level >= _currentResident.Data.Services.MaxTrainingLevel)
         {
             GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
@@ -312,13 +312,13 @@ public class ResidenceMenu : ConversationMenu
         else
         {
             int xpNeeded;
-            bool canTrain = PartyController.Instance.ActiveMember.Profile.CanTrainLevel(out xpNeeded);
+            bool canTrain = Party.Instance.ActiveMember.Profile.CanTrainLevel(out xpNeeded);
             if(canTrain)
             {
                 GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                 OptionButton UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Train to level " + (PartyController.Instance.ActiveMember.Profile.Level + 1) + " for " + _currentResident.Data.Services.TrainingCost + " gold", TrainLevel);
+                UI.Setup("Train to level " + (Party.Instance.ActiveMember.Profile.Level + 1) + " for " + _currentResident.Data.Services.TrainingCost + " gold", TrainLevel);
                 DialogOptions.Add(UI);
             }
             else
@@ -326,7 +326,7 @@ public class ResidenceMenu : ConversationMenu
                 GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                 OptionButton UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("You need " + xpNeeded + " more experience to train to level " + (PartyController.Instance.ActiveMember.Profile.Level + 1), null);
+                UI.Setup("You need " + xpNeeded + " more experience to train to level " + (Party.Instance.ActiveMember.Profile.Level + 1), null);
                 DialogOptions.Add(UI);
             }
         }
@@ -336,7 +336,7 @@ public class ResidenceMenu : ConversationMenu
 
     public void AttemptAdvanceStep(int option)
     {
-        QuestLog Log = PartyController.Instance.Party.QuestLog;
+        QuestLog Log = Party.Instance.QuestLog;
         DialogOption Option = _currentResident.Data.Options[option];
         DialogStep Step = Option.Steps[_currentResident.OptionProgress[option]];
 
@@ -370,21 +370,21 @@ public class ResidenceMenu : ConversationMenu
 
             string label = "";
             ClickIndexEvent clickEvent = null;
-            if(!PartyController.Instance.ActiveMember.Skillset.KnowsSkill(Option.Expertise.SkillID))
+            if(!Party.Instance.ActiveMember.Skillset.KnowsSkill(Option.Expertise.SkillID))
             {
                 if(Option.Expertise.Proficiency == SkillProficiency.Expert)
                     label = "You must know the skill before you can become an expert in it!";
                 else
                     label = "You must know the skill before you can become a master in it!";
             }
-            else if (PartyController.Instance.ActiveMember.Skillset.KnowsSkillAtProficiency(Option.Expertise.SkillID, Option.Expertise.Proficiency))
+            else if (Party.Instance.ActiveMember.Skillset.KnowsSkillAtProficiency(Option.Expertise.SkillID, Option.Expertise.Proficiency))
             {
                 if (Option.Expertise.Proficiency == SkillProficiency.Expert)
                     label = "You are already an expert in this skill.";
                 else
                     label = "You are already a master in this skill.";
             }
-            else if (PartyController.Instance.ActiveMember.Skillset.CanTrain(Option.Expertise.SkillID, Option.Expertise.Proficiency))
+            else if (Party.Instance.ActiveMember.Skillset.CanTrain(Option.Expertise.SkillID, Option.Expertise.Proficiency))
             {
                 label = "Become " + Option.Expertise.Proficiency.ToString() + " in " + SkillDatabase.Instance.GetSkill(Option.Expertise.SkillID).DisplayName + " for " + Option.Expertise.Cost + " gold";
                 clickEvent = TrainSkill;
@@ -408,7 +408,7 @@ public class ResidenceMenu : ConversationMenu
         {
             if (!string.IsNullOrEmpty(Step.ItemRequired))
             {
-                if (!PartyController.Instance.Party.CheckForItem(Step.ItemRequired))
+                if (!Party.Instance.CheckForItem(Step.ItemRequired))
                 {
                     DisplayDialog(Step.NoRequiredItemDialog);
                     return;
@@ -435,12 +435,12 @@ public class ResidenceMenu : ConversationMenu
 
     public void LearnSkill(int option)
     {
-        bool success = PartyController.Instance.Party.TryPay(_currentResident.Data.Services.SkillCost);
+        bool success = Party.Instance.TryPay(_currentResident.Data.Services.SkillCost);
 
         if (success)
         {
-            List<Skill> available = PartyController.Instance.Party.ActiveMember.DetermineLearnableSkills(_currentResident.Data.Services.Skills);
-            PartyController.Instance.Party.ActiveMember.Skillset.LearnSkill(available[option]);
+            List<Skill> available = Party.Instance.ActiveMember.DetermineLearnableSkills(_currentResident.Data.Services.Skills);
+            Party.Instance.ActiveMember.Skillset.LearnSkill(available[option]);
 
             HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
 
@@ -450,11 +450,11 @@ public class ResidenceMenu : ConversationMenu
 
     public void JoinGuild(int option)
     {
-        bool success = PartyController.Instance.Party.TryPay(_currentResident.Data.Options[option].Membership.Cost);
+        bool success = Party.Instance.TryPay(_currentResident.Data.Options[option].Membership.Cost);
 
         if (success)
         {
-            PartyController.Instance.Party.QuestLog.JoinGuild(_currentResident.Data.Options[option].Membership.GuildID);
+            Party.Instance.QuestLog.JoinGuild(_currentResident.Data.Options[option].Membership.GuildID);
 
             DisplayDialog("");
             HUD.Instance.ExpressMembers(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
@@ -465,11 +465,11 @@ public class ResidenceMenu : ConversationMenu
 
     public void TrainSkill(int option)
     {
-        bool success = PartyController.Instance.Party.TryPay(_currentResident.Data.Options[option].Expertise.Cost);
+        bool success = Party.Instance.TryPay(_currentResident.Data.Options[option].Expertise.Cost);
 
         if (success)
         {
-            PartyController.Instance.Party.ActiveMember.Skillset.TrainSkill(_currentResident.Data.Options[option].Expertise.SkillID);
+            Party.Instance.ActiveMember.Skillset.TrainSkill(_currentResident.Data.Options[option].Expertise.SkillID);
 
             DisplayDialog("");
             HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
@@ -480,11 +480,11 @@ public class ResidenceMenu : ConversationMenu
 
     public void TryHeal()
     {
-        int price = Mathf.RoundToInt(PartyController.Instance.Party.ActiveMember.PriceOfHealing() * _currentResident.Data.Services.HealingCostMultiplier);
-        bool success = PartyController.Instance.Party.TryPay(price);
+        int price = Mathf.RoundToInt(Party.Instance.ActiveMember.PriceOfHealing() * _currentResident.Data.Services.HealingCostMultiplier);
+        bool success = Party.Instance.TryPay(price);
         if(success)
         {
-            PartyController.Instance.Party.ActiveMember.FullHeal();
+            Party.Instance.ActiveMember.FullHeal();
             HUD.Instance.UpdateDisplay();
 
             SelectResident(_currentResident);
@@ -493,7 +493,7 @@ public class ResidenceMenu : ConversationMenu
 
     public void Donate()
     {
-        bool success = PartyController.Instance.Party.TryPay(Mathf.RoundToInt(10f * _currentResident.Data.Services.HealingCostMultiplier));
+        bool success = Party.Instance.TryPay(Mathf.RoundToInt(10f * _currentResident.Data.Services.HealingCostMultiplier));
         
         if(success)
         {
@@ -503,15 +503,15 @@ public class ResidenceMenu : ConversationMenu
 
     public void TrainLevel()
     {
-        bool success = PartyController.Instance.Party.TryPay(_currentResident.Data.Services.TrainingCost * (PartyController.Instance.ActiveMember.Profile.Level + 1));
+        bool success = Party.Instance.TryPay(_currentResident.Data.Services.TrainingCost * (Party.Instance.ActiveMember.Profile.Level + 1));
 
         if (success)
         {
-            foreach (var member in PartyController.Instance.Party.Members)
+            foreach (var member in Party.Instance.Members)
                 member.Rest(0);
 
-            PartyController.Instance.Party.ActiveMember.Profile.TrainLevel();
-            PartyController.Instance.Party.ActiveMember.Vitals.ForceFullHeal();
+            Party.Instance.ActiveMember.Profile.TrainLevel();
+            Party.Instance.ActiveMember.Vitals.ForceFullHeal();
 
             _hasTrained = true;
 
@@ -537,7 +537,7 @@ public class ResidenceMenu : ConversationMenu
         obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
         UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup("Balance: " + PartyController.Instance.Party.CurrentBalance, null);
+        UI.Setup("Balance: " + Party.Instance.CurrentBalance, null);
         DialogOptions.Add(UI);
 
         StaggerOptions();
@@ -545,7 +545,7 @@ public class ResidenceMenu : ConversationMenu
 
     public void CommitDeposit(int value)
     {
-        PartyController.Instance.Party.Deposit(value);
+        Party.Instance.Deposit(value);
         HUD.Instance.UpdateDisplay();
         HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
 
@@ -567,7 +567,7 @@ public class ResidenceMenu : ConversationMenu
         obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
         UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup("Balance: " + PartyController.Instance.Party.CurrentBalance, null);
+        UI.Setup("Balance: " + Party.Instance.CurrentBalance, null);
         DialogOptions.Add(UI);
 
         StaggerOptions();
@@ -575,7 +575,7 @@ public class ResidenceMenu : ConversationMenu
 
     public void CommitWithdraw(int value)
     {
-        PartyController.Instance.Party.Withdraw(value);
+        Party.Instance.Withdraw(value);
         HUD.Instance.UpdateDisplay();
 
         SelectResident(_currentResident);
@@ -583,7 +583,7 @@ public class ResidenceMenu : ConversationMenu
 
     public void BuyRoom()
     {
-        if (PartyController.Instance.Party.TryPay(_currentResident.Data.Services.RoomRentalCost))
+        if (Party.Instance.TryPay(_currentResident.Data.Services.RoomRentalCost))
         {
             CloseMenu();
             MenuManager.Instance.OpenMenu("Rest", true);
@@ -595,24 +595,24 @@ public class ResidenceMenu : ConversationMenu
 
     public void BuyFood()
     {
-        if(PartyController.Instance.Party.CurrentFood >= _currentResident.Data.Services.FoodQuantity)
+        if(Party.Instance.CurrentFood >= _currentResident.Data.Services.FoodQuantity)
         {
             DisplayDialog("");
             HUD.Instance.SendInfoMessage("Your packs are already full!", 2.0f);
         }
         else
         {
-            if (PartyController.Instance.Party.TryPay(_currentResident.Data.Services.FoodCost))
+            if (Party.Instance.TryPay(_currentResident.Data.Services.FoodCost))
             {
                 DisplayDialog("");
-                PartyController.Instance.Party.FillFoodTo(_currentResident.Data.Services.FoodQuantity);
+                Party.Instance.FillFoodTo(_currentResident.Data.Services.FoodQuantity);
             }
         }
     }
 
     public void BuyDrink()
     {
-        if (PartyController.Instance.Party.TryPay(_currentResident.Data.Services.DrinkCost))
+        if (Party.Instance.TryPay(_currentResident.Data.Services.DrinkCost))
         {
             DisplayDialog("");
             HUD.Instance.SendInfoMessage("Hic...", 2.0f);
@@ -624,7 +624,7 @@ public class ResidenceMenu : ConversationMenu
     {
         if(_hasAchievedSpecialCondition)
         {
-            if (PartyController.Instance.Party.TryPay(_currentResident.Data.Services.TipCost))
+            if (Party.Instance.TryPay(_currentResident.Data.Services.TipCost))
             {
                 DisplayDialog(_currentResident.Data.Services.Tips[0]);
             }
@@ -694,7 +694,7 @@ public class ResidenceMenu : ConversationMenu
 
             float duration = 24 * 7 * 60 + 60 * 24 - (adjusted.Minute + adjusted.Hour * 60);
             TimeManagement.Instance.ProgressInstant(duration);
-            foreach (var member in PartyController.Instance.Members)
+            foreach (var member in Party.Instance.Members)
             {
                 member.Status.RemoveCondition(StatusEffectOption.Weak);
                 member.Status.AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
@@ -705,7 +705,7 @@ public class ResidenceMenu : ConversationMenu
         }
 
         HUD.Instance.EnableSideMenu();
-        PartyController.Instance.Party.MemberChanged -= OnMemberChanged;
+        Party.Instance.MemberChanged -= OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(1f);
         SoundManager.Instance.PlayUISound("Close");
     }
