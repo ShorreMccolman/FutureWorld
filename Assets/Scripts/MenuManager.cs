@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour {
-
+public class MenuManager : MonoBehaviour 
+{
     public static MenuManager Instance { get; private set; }
-    void Awake()
-    { Instance = this; }
+    void Awake() { Instance = this; }
 
     public delegate void MenuEvent(bool enabled);
     public MenuEvent OnMenuLock;

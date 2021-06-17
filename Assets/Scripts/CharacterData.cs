@@ -249,7 +249,6 @@ public class CharacterData
         if (Skills.Contains(skillName))
             return;
 
-
         Skills.Add(skillName);
     }
 

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class CharacterCreator : Menu
 {
-
     public CharacterCreatorUI[] UIs;
 
     [SerializeField] GameObject StatSelector;
@@ -51,6 +50,12 @@ public class CharacterCreator : Menu
 
     void Update()
     {
+        foreach(var ui in UIs)
+        {
+            if (ui.IsFocusedName())
+                return;
+        }
+
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             UpdateSelectedStat(true);

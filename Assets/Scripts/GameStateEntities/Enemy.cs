@@ -6,9 +6,7 @@ using System.Xml;
 public interface CombatEntity
 {
     float MoveCooldown { get; set; }
-
     float GetCooldown();
-
     void CombatStep();
 }
 
@@ -28,14 +26,15 @@ public class Enemy : GameStateEntity, CombatEntity
 
     public NPC NPC { get; protected set; }
 
-    public Enemy(EnemyData data, NPC npc = null) : base(null)
+    public Enemy(EnemyData data, NPCData npc = null) : base(null)
     {
         Data = data;
         CurrentHP = Data.HitPoints;
         Cooldown = data.CombatData.Recovery;
         MoveCooldown = 0;
         IsHostile = Data.IsHostile;
-        NPC = npc;
+        if(npc != null)
+            NPC = new NPC(npc, this);
     }
 
     public Enemy(XmlNode node) : base(null, node)
@@ -44,7 +43,6 @@ public class Enemy : GameStateEntity, CombatEntity
         CurrentHP = int.Parse(node.SelectSingleNode("Health").InnerText);
         Cooldown = float.Parse(node.SelectSingleNode("Cooldown").InnerText);
         IsHostile = bool.Parse(node.SelectSingleNode("Hostile").InnerText);
-
         XmlNode npc = node.SelectSingleNode("NPC");
         if(npc != null)
         {
@@ -65,15 +63,11 @@ public class Enemy : GameStateEntity, CombatEntity
         return element;
     }
 
-    public void InitNPC(NPCData data)
-    {
-        NPC = new NPC(data, this);
-    }
-
     public void CombatStep()
     {
         MoveCooldown = 3f;
     }
+
     public bool TickCooldown(float delta)
     {
         if (CurrentHP < 0)

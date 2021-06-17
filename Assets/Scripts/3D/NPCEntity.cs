@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class NPCEntity : EnemyEntity
 {
-    public NPC NPC { get; protected set; }
-
-    public void Setup(Enemy enemy, NPC npc)
+    public override void Setup(Enemy enemy)
     {
-        Setup(enemy);
-        NPC = npc;
+        base.Setup(enemy);
 
         IsTargetable = false;
     }
@@ -24,7 +21,7 @@ public class NPCEntity : EnemyEntity
         {
             yield return new WaitForEndOfFrame();
 
-            HUD.Instance.Converse(NPC);
+            HUD.Instance.Converse(Enemy.NPC);
         }
     }
 }

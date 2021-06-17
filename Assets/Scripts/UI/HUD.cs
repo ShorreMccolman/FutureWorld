@@ -12,8 +12,6 @@ public enum CharacterMenuSection
     Awards = 3
 }
 
-public delegate void SelectedMemberChangeEvent(PartyMember member);
-
 public class HUD : Menu {
     public static HUD Instance;
     void Awake() { Instance = this; }
@@ -59,6 +57,7 @@ public class HUD : Menu {
 
     [SerializeField] Transform HeldItemAnchor;
 
+    public delegate void SelectedMemberChangeEvent(PartyMember member);
     public SelectedMemberChangeEvent SelectNewMember;
 
     public bool CharacterMenuOpen { get; private set; }

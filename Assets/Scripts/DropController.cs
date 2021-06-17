@@ -118,7 +118,7 @@ public class DropController : MonoBehaviour {
             {
                 GameObject obj = Instantiate(NPCEntityObject);
                 NPCEntity ent = obj.GetComponent<NPCEntity>();
-                ent.Setup(enemy, enemy.NPC);
+                ent.Setup(enemy);
                 enemy.CreateEntity(obj);
                 ent.RefreshRoamTarget(true);
             }
@@ -130,9 +130,8 @@ public class DropController : MonoBehaviour {
         GameObject obj = Instantiate(NPCEntityObject);
 
         NPCEntity ent = obj.GetComponent<NPCEntity>();
-        Enemy enemy = new Enemy(data);
-        NPCDatabase.Instance.CreateRandomNPC(enemy);
-        ent.Setup(enemy, enemy.NPC);
+        Enemy enemy = NPCDatabase.Instance.CreateRandomNPC(data);
+        ent.Setup(enemy);
         Quaternion rot = Quaternion.Euler(new Vector3(0, Random.Range(0, 360f), 0));
         enemy.CreateEntity(obj, position, rot);
         ent.RefreshRoamTarget(true);

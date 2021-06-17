@@ -49,7 +49,7 @@ public class EnemyEntity : Entity3D
     bool _movingRight;
     float _changeDirectionTimer;
 
-    public void Setup(Enemy enemy)
+    public virtual void Setup(Enemy enemy)
     {
         State = enemy;
         GameObject obj = Instantiate(enemy.Data.model, transform);
@@ -66,6 +66,10 @@ public class EnemyEntity : Entity3D
         _aiState = AIState.Passive;
         _range = Range.Out;
         _isActive = true;
+        for(int i=0;i<transform.childCount;i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
 
         _movingRight = Random.Range(0, 2) == 0;
         _rotateSpeed = 6f;
@@ -81,7 +85,14 @@ public class EnemyEntity : Entity3D
     {
         base.OnEnterSphere(party, level);
 
-        if(level == SphereLevel.Two)
+        if (level == SphereLevel.Three)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+        if (level == SphereLevel.Two)
         {
             _target = party.Entity.transform;
             _range = Range.Long;
@@ -102,6 +113,13 @@ public class EnemyEntity : Entity3D
     {
         base.OnExitSphere(party, level);
 
+        if (level == SphereLevel.Three)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
         if (level == SphereLevel.Two)
         {
             _target = null;
@@ -242,7 +260,7 @@ public class EnemyEntity : Entity3D
 
                 bool attack = TryAttack(_target.position);
                 if (!attack)
-                    Move(_curMoveSpeed);
+                    Move(_moveSpeed);
             }
         }
         else
@@ -417,6 +435,8 @@ public class EnemyEntity : Entity3D
 
     protected void Move(float currentMoveSpeed)
     {
+        currentMoveSpeed *= 50;
+
         Vector3 oldPos = transform.position;
 
         Vector3 desiredMove = transform.forward;
@@ -428,8 +448,8 @@ public class EnemyEntity : Entity3D
         desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
         Vector3 moveDir = Vector3.zero;
-        moveDir.x = desiredMove.x * currentMoveSpeed;
-        moveDir.z = desiredMove.z * currentMoveSpeed;
+        moveDir.x = desiredMove.x * currentMoveSpeed * Time.fixedDeltaTime;
+        moveDir.z = desiredMove.z * currentMoveSpeed * Time.fixedDeltaTime;
 
         if (_controller.isGrounded)
         {

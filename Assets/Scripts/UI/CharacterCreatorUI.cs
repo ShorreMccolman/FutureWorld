@@ -31,6 +31,11 @@ public class CharacterCreatorUI : MonoBehaviour {
         Data.SetName(name);
     }
 
+    public bool IsFocusedName()
+    {
+        return NameField.isFocused;
+    }
+
     public void SelectStat(CharacterCreatorStatButton button)
     {
         SelectedButton = button;

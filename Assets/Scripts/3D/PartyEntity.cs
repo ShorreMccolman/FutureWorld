@@ -15,6 +15,7 @@ public class PartyEntity : Entity3D
     [SerializeField] private PlayerSphere _sphere0;
     [SerializeField] private PlayerSphere _sphere1;
     [SerializeField] private PlayerSphere _sphere2;
+    [SerializeField] private PlayerSphere _sphere3;
 
     [SerializeField] private Transform m_dropPosition;
     public Transform DropPosition { get { return m_dropPosition; } }
@@ -82,6 +83,7 @@ public class PartyEntity : Entity3D
         _sphere0.Setup(party, SphereLevel.Zero);
         _sphere1.Setup(party, SphereLevel.One);
         _sphere2.Setup(party, SphereLevel.Two);
+        _sphere3.Setup(party, SphereLevel.Three);
 
         MapCam.pixelRect = new Rect(new Vector2(Screen.width - 250f, Screen.height - 100 - 250f), new Vector2(250f, 250f));
         MapCam.enabled = false;

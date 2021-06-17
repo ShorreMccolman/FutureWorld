@@ -40,7 +40,7 @@ public enum Profession
 }
 
 [System.Serializable]
-public struct NPCData
+public class NPCData
 {
     public string ID;
     public string ProfessionName;
@@ -52,11 +52,6 @@ public struct NPCData
 
     public string ActionText;
     public string JoinText;
-
-    public static NPCData Default()
-    {
-        return new NPCData();
-    }
 }
 
 public class NPCDatabase
@@ -88,12 +83,12 @@ public class NPCDatabase
     public NPCData GetNPCData(string ID)
     {
         if (!_npcDict.ContainsKey(ID))
-            return NPCData.Default();
+            return null;
 
         return _npcDict[ID];
     }
 
-    public void CreateRandomNPC(Enemy enemy)
+    public Enemy CreateRandomNPC(EnemyData enemyData)
     {
         int max = 0;
         foreach (var npc in _npcDict.Values)
@@ -108,11 +103,11 @@ public class NPCDatabase
             int chance = data.Weight;
             if (roll >= current && roll < current + chance)
             {
-                enemy.InitNPC(data);
-                return;
+                return new Enemy(enemyData, data);
             }
 
             current += chance;
         }
+        return null;
     }
 }

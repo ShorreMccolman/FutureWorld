@@ -77,6 +77,7 @@ public class MemberPriority
 
 public class PartyController : MonoBehaviour {
     public static PartyController Instance { get; private set; }
+    private void Awake() { Instance = this; }
 
     [SerializeField] Transform NewGameSpawn;
     [SerializeField] GameObject PartyEntityObject;
@@ -96,8 +97,6 @@ public class PartyController : MonoBehaviour {
 
     public void NewParty(Party party)
     {
-        Instance = this;
-
         GameObject obj = Instantiate(PartyEntityObject);
         party.CreateEntity(obj, NewGameSpawn);
         _party = party;
@@ -106,7 +105,6 @@ public class PartyController : MonoBehaviour {
         HUD.Instance.InitParty(party);
 
         _priorityQueue = new MemberPriority();
-
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
 

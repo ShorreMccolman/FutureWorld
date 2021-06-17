@@ -127,8 +127,9 @@ public class GameController : MonoBehaviour {
     IEnumerator NewGameSequence(CharacterData[] characterData)
     {
         yield return SceneManager.LoadSceneAsync("Game");
-        while (PartyController.Instance == null)
-            yield return null;
+
+        yield return null;
+
         Party party = new Party(characterData);
         PartyController.Instance.NewParty(party);
         Spawn[] spawns = FindObjectsOfType<Spawn>();
