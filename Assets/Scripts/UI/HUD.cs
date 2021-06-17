@@ -87,6 +87,10 @@ public class HUD : Menu {
         {
             DebugMenu.SetActive(!DebugMenu.activeSelf);
         }
+        if(Input.GetKeyDown(KeyCode.F2))
+        {
+            FPS.enabled = !FPS.enabled;
+        }
 
         float fps = 1 / Time.unscaledDeltaTime;
         FPS.text = "" + fps;

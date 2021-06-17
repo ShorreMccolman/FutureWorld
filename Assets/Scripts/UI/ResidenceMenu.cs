@@ -124,6 +124,14 @@ public class ResidenceMenu : ConversationMenu
             } 
             else
             {
+                if(resident.Data.Services.IsTransport)
+                {
+                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+                    UI = obj.GetComponent<DialogOptionButton>();
+                    UI.Setup("Sorry, come back another day.", null);
+                    DialogOptions.Add(UI);
+                }
                 if (resident.Data.Services.IsBank)
                 {
                     obj = Instantiate(DialogOptionPrefab, DialogAnchor);

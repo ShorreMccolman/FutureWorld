@@ -7,10 +7,10 @@ public class ProductItemButton : ItemButton
 {
     StoreFrontUI _ui;
 
-    public void Setup(InventoryItem item, StoreFrontUI ui, bool alignBottom, bool alignTop, bool randomY)
+    public void Setup(InventoryItem item, StoreFrontUI ui, bool alignBottom, bool alignTop, bool randomY, bool useEquip)
     {
         _ui = ui;
-        Setup(item);
+        Setup(item, useEquip, false);
 
         if(alignBottom)
             Image.rectTransform.position += Vector3.up * Image.rectTransform.sizeDelta.y / 4;

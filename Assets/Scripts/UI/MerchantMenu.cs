@@ -169,9 +169,7 @@ public class MerchantMenu : ConversationMenu
             }
         }
 
-        int yOffset = 25 * DialogOptions.Count;
-        for (int i = 0; i < DialogOptions.Count; i++)
-            DialogOptions[i].transform.position = DialogAnchor.position + Vector3.down * 60 * i + Vector3.up * yOffset;
+        StaggerOptions();
     }
 
     public void HoverItem(InventoryItem item)

@@ -31,8 +31,8 @@ public class ConversationMenu : Menu
     protected void StaggerOptions()
     {
         bool usesSmallButtons = DialogOptions.Count > 4;
-        float spacing = usesSmallButtons ? 40 : 80;
-        int yOffset = usesSmallButtons ? 15 * DialogOptions.Count : 30 * DialogOptions.Count;
+        float spacing = usesSmallButtons ? 50 : 80;
+        int yOffset = usesSmallButtons ? 20 * DialogOptions.Count : 30 * DialogOptions.Count;
         for (int i = 0; i < DialogOptions.Count; i++)
         {
             DialogOptions[i].transform.position = DialogAnchor.position + Vector3.down * spacing * i + Vector3.up * yOffset;
@@ -48,7 +48,7 @@ public class ConversationMenu : Menu
             }
             else if (DialogOptions.Count > 4)
             {
-                height = 40f;
+                height = 50f;
             }
 
             RectTransform rect = DialogOptions[i].transform as RectTransform;

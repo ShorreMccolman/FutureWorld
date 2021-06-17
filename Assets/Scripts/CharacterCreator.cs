@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class CharacterCreator : Menu
 {
-    public CharacterCreatorUI[] UIs;
-
+    [SerializeField] CharacterCreatorUI[] UIs;
     [SerializeField] GameObject StatSelector;
     [SerializeField] Text PointsRemainingText;
     [SerializeField] CharacterClassSelectButton[] ClassSelectButtons;

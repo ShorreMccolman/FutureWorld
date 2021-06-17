@@ -75,6 +75,8 @@ public class Services
     public float HealingCostMultiplier;
 
     public bool IsBounty;
+
+    public bool IsTransport;
 }
 
 [System.Serializable]

@@ -49,6 +49,6 @@ public class StoreFrontUI : MonoBehaviour
         _buttons.Add(obj);
 
         ProductItemButton btn = obj.GetComponent<ProductItemButton>();
-        btn.Setup(item, this, slot.AlignBottom, slot.AlignTop, slot.RandomY);
+        btn.Setup(item, this, slot.AlignBottom, slot.AlignTop, slot.RandomY, slot.UseEquip);
     }
 }

@@ -226,6 +226,8 @@ public class PartyController : MonoBehaviour {
                 }
             }
 
+            HUD.Instance.SendInfoMessage(message);
+
             if (_isInteracting)
                 return;
 
@@ -256,7 +258,7 @@ public class PartyController : MonoBehaviour {
                 }
                 else if (Input.GetKeyDown(KeyCode.R))
                 {
-                    MenuManager.Instance.OpenMenu("Rest", true);
+                    HUD.Instance.OpenRest();
                 }
                 else if (Input.GetKeyDown(KeyCode.Q))
                 {
@@ -276,8 +278,6 @@ public class PartyController : MonoBehaviour {
                 }
             }
         }
-
-        HUD.Instance.SendInfoMessage(message);
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
