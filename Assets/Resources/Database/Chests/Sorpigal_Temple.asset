@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sorpigal_Temple
   m_EditorClassIdentifier: 
   Data:
-    ID: sorpigal_town
+    ID: sorpigal_temple
     MouseoverName: Chest
     Quantities:
       L1: 1

@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour {
 
     ItemDatabase ItemDB;
     SkillDatabase SkillDB;
+    ChestDatabase ChestDB;
     EnemyDatabase EnemyDB;
     StatusEffectDatabase EffectDB;
     QuestDatabase QuestDB;
@@ -66,6 +67,7 @@ public class GameController : MonoBehaviour {
         ItemDB = new ItemDatabase();
         SkillDB = new SkillDatabase();
         EnemyDB = new EnemyDatabase();
+        ChestDB = new ChestDatabase();
         EffectDB = new StatusEffectDatabase();
         QuestDB = new QuestDatabase();
         ResidencyDB = new ResidencyDatabase();

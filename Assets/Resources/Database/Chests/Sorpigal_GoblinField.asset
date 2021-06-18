@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sorpigal_GoblinField
   m_EditorClassIdentifier: 
   Data:
-    ID: sorpigal_town
+    ID: sorpigal_goblins
     MouseoverName: Chest
     Quantities:
       L1: 1

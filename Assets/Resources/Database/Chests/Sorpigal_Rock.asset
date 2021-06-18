@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sorpigal_Rock
   m_EditorClassIdentifier: 
   Data:
-    ID: sorpigal_docks
+    ID: sorpigal_rock
     MouseoverName: Rock
     Quantities:
       L1: 0
@@ -25,5 +25,6 @@ MonoBehaviour:
       Artifact: 0
       Custom: []
     TrapLevel: 1
+    LockLevel: 0
     Prefab: {fileID: 3392935466870245823, guid: 48c20c42c6aa08e4cbb9e7872c090178,
       type: 3}

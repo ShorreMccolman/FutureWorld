@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sorpigal_Bridge
   m_EditorClassIdentifier: 
   Data:
-    ID: sorpigal_docks
+    ID: sorpigal_bridge
     MouseoverName: Chest
     Quantities:
       L1: 1
@@ -25,5 +25,6 @@ MonoBehaviour:
       Artifact: 0
       Custom: []
     TrapLevel: 0
+    LockLevel: 0
     Prefab: {fileID: 1780410620924641544, guid: eee171e437a45d444812d43a54ea2947,
       type: 3}
