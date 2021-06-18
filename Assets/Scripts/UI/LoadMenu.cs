@@ -9,7 +9,6 @@ public class LoadMenu : Menu {
     [SerializeField] Text TimeLabel;
     [SerializeField] GameObject ButtonTemplate;
     [SerializeField] Transform Content;
-    [SerializeField] bool isGame;
 
     List<LoadButton> _buttons;
 
@@ -23,8 +22,7 @@ public class LoadMenu : Menu {
         for (int i = 0; i < 10; i++)
         {
             GameObject obj = Instantiate(ButtonTemplate, Content);
-            Vector3 offset = isGame ? Vector3.right * 160 : Vector3.zero;
-            obj.transform.position = Content.position + Vector3.down * 40 * i + offset;
+            obj.transform.position = Content.position + Vector3.down * 40 * i;
 
             LoadButton button = obj.GetComponent<LoadButton>();
             _buttons.Add(button);

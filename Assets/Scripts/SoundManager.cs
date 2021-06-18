@@ -30,6 +30,8 @@ public class SoundManager : MonoBehaviour {
 	List<AudioSource> _usedSources;
 	List<AudioSource> _unusedSources;
 
+	bool _isFading;
+
 	// Use this for initialization
 	void Start () {
 
@@ -49,10 +51,26 @@ public class SoundManager : MonoBehaviour {
 		MusicSource.Play();
 		MusicSource.time = MusicOffset;
 	}
-	
-	public void SetMusicVolume(float volume)
+
+    private void Update()
+    {
+		if (_isFading)
+		{
+			if (MusicSource.volume > 0)
+				MusicSource.volume -= Time.deltaTime * MaxMusicVolume / 2.0f;
+			else
+				_isFading = false;
+		}
+	}
+
+    public void SetMusicVolume(float volume)
     {
 		MusicSource.volume = volume * MaxMusicVolume;
+    }
+
+	public void FadeMusic()
+    {
+		_isFading = true;
     }
 
 	public void PlayUISound(string key)

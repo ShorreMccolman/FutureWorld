@@ -3802,6 +3802,8 @@ MonoBehaviour:
   Anchor: {fileID: 644519344}
   EntryUIPrefab: {fileID: 4503665928658032388, guid: 297edf62a910987478d8b56c08c3cc83,
     type: 3}
+  SeperatorPrefab: {fileID: 5816868767674885423, guid: 0abab9a208ebfcf4cb7e1da8158700bc,
+    type: 3}
 --- !u!1 &176024740
 GameObject:
   m_ObjectHideFlags: 0
@@ -10427,7 +10429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4811321, g: 0.41912308, b: 0.31092027, a: 1}
+  m_Color: {r: 0.6886792, g: 0.60953426, b: 0.4710306, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13324,7 +13326,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 330}
+  m_AnchoredPosition: {x: 0, y: 294}
   m_SizeDelta: {x: -40, y: 560}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &645487799
@@ -30272,7 +30274,7 @@ PrefabInstance:
     - target: {fileID: 451765342661649156, guid: 297edf62a910987478d8b56c08c3cc83,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 150
+      value: 124
       objectReference: {fileID: 0}
     - target: {fileID: 451765342661649156, guid: 297edf62a910987478d8b56c08c3cc83,
         type: 3}
@@ -30317,7 +30319,7 @@ PrefabInstance:
     - target: {fileID: 451765342661649156, guid: 297edf62a910987478d8b56c08c3cc83,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 198
+      value: -393
       objectReference: {fileID: 0}
     - target: {fileID: 451765342661649156, guid: 297edf62a910987478d8b56c08c3cc83,
         type: 3}
@@ -38304,6 +38306,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 154.18503
       objectReference: {fileID: 0}
+    - target: {fileID: 36748345479744673, guid: cf604016af0ae3e428445b1676827840,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -136.4
+      objectReference: {fileID: 0}
     - target: {fileID: 36748345655124804, guid: cf604016af0ae3e428445b1676827840,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -38600,6 +38607,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 118.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 9189084100516376455, guid: b12e92a92dc073448846553deee4fa42,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -136.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b12e92a92dc073448846553deee4fa42, type: 3}

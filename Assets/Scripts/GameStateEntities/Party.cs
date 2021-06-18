@@ -47,8 +47,6 @@ public class Party : GameStateEntity
         QuestLog = new QuestLog(this);
         _hires = new List<NPC>();
 
-        TimeManagement.Instance.OnTick += TickEvent;
-
         CurrentReputation = 0;
         CurrentFood = 7;
         CurrentGold = 200;
@@ -71,8 +69,6 @@ public class Party : GameStateEntity
         QuestLog = new QuestLog(this, node.SelectSingleNode("QuestLog"));
         Populate<PartyMember>(ref _members, typeof(Party), node, "Members", "PartyMember");
         Populate<NPC>(ref _hires, typeof(Party), node, "Hires", "NPC");
-
-        TimeManagement.Instance.OnTick += TickEvent;
     }
 
     public override XmlNode ToXml(XmlDocument doc)

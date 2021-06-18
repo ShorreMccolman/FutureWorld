@@ -110,6 +110,7 @@ public class PartyController : MonoBehaviour {
 
         MenuManager.Instance.OnMenuLock += MenuEvent;
         TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.Instance.OnTick += _party.TickEvent;
     }
 
     public void LoadParty(Party party)
@@ -129,6 +130,7 @@ public class PartyController : MonoBehaviour {
 
         MenuManager.Instance.OnMenuLock += MenuEvent;
         TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.Instance.OnTick += _party.TickEvent;
     }
 
     public void ReviveParty(Party party)

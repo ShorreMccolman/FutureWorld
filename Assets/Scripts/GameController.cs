@@ -128,9 +128,16 @@ public class GameController : MonoBehaviour {
 
     IEnumerator NewGameSequence(CharacterData[] characterData)
     {
-        yield return SceneManager.LoadSceneAsync("Game");
+        PersistentUI.ShowLoad();
+        SoundManager.Instance.FadeMusic();
+        yield return new WaitForSeconds(1.0f);
 
-        yield return null;
+        AsyncOperation async = SceneManager.LoadSceneAsync("Game");
+        while (!async.isDone)
+        {
+            PersistentUI.ProgressBar(async.progress);
+            yield return null;
+        }
 
         Party party = new Party(characterData);
         PartyController.Instance.NewParty(party);
@@ -141,7 +148,11 @@ public class GameController : MonoBehaviour {
             spawns[i].Terminate();
         }
 
+        yield return null;
+        yield return null;
+
         TimeManagement.Instance.StartTiming(party);
+        PersistentUI.HideLoad();
     }
 
     public void LoadGame(int slot)
@@ -153,15 +164,19 @@ public class GameController : MonoBehaviour {
 
     IEnumerator LoadGameSequence(XmlNode gameData)
     {
-        Party party = new Party(gameData.SelectSingleNode("Party"));
-        yield return SceneManager.LoadSceneAsync(party.CurrentLocationID);
-        while (PartyController.Instance == null)
-            yield return null;
+        PersistentUI.ShowLoad();
+        SoundManager.Instance.FadeMusic();
+        yield return new WaitForSeconds(1.0f);
 
-        yield return null;
+        Party party = new Party(gameData.SelectSingleNode("Party"));
+        AsyncOperation async = SceneManager.LoadSceneAsync(party.CurrentLocationID);
+        while (!async.isDone)
+        {
+            PersistentUI.ProgressBar(async.progress);
+            yield return null;
+        }
 
         PartyController.Instance.LoadParty(party);
-
         Spawn[] spawns = FindObjectsOfType<Spawn>();
         for (int i = 0; i < spawns.Length; i++)
         {
@@ -184,8 +199,10 @@ public class GameController : MonoBehaviour {
         DropController.Instance.LoadInteractables(interactables);
 
         yield return null;
+        yield return null;
 
         TimeManagement.Instance.StartTiming(party);
+        PersistentUI.HideLoad();
     }
 
     public void TriggerDeath()

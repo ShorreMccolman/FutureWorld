@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class LogEntryUI : MonoBehaviour
 {
     [SerializeField] Text Label;
-    [SerializeField] Image Seperator;
 
     public float Height { get; protected set; }
 
@@ -15,11 +14,5 @@ public class LogEntryUI : MonoBehaviour
         Label.text = description;
         Height = Label.preferredHeight;
         ((RectTransform)transform).SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Height);
-        Seperator.enabled = false;
-    }
-
-    public void ShowSeperator()
-    {
-        Seperator.enabled = true;
     }
 }

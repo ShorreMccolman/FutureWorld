@@ -9,9 +9,11 @@ public class QuestMenu : Menu
     [SerializeField] GameObject NextButton;
     [SerializeField] RectTransform Anchor;
     [SerializeField] GameObject EntryUIPrefab;
+    [SerializeField] GameObject SeperatorPrefab;
 
     QuestLog _log;
     List<LogEntryUI> _entries;
+    List<GameObject> _dividers;
 
     List<int> _offsets;
     bool _isFinalPage;
@@ -20,6 +22,7 @@ public class QuestMenu : Menu
     {
         _log = Party.Instance.QuestLog;
         _entries = new List<LogEntryUI>();
+        _dividers = new List<GameObject>();
         _offsets = new List<int>() { 0 };
 
         SetupPage(0);
@@ -33,6 +36,13 @@ public class QuestMenu : Menu
         }
         _entries.Clear();
 
+        foreach (var div in _dividers)
+        {
+            Destroy(div);
+        }
+        _dividers.Clear();
+
+
         _isFinalPage = false;
 
         int currentOffset = _offsets[_offsets.Count - 1];
@@ -42,7 +52,7 @@ public class QuestMenu : Menu
         float yOffset = 0f;
         while (true)
         {
-            if(index + currentOffset >= _log.Quests.Count)
+            if (index + currentOffset >= _log.Quests.Count)
             {
                 break;
             }
@@ -51,10 +61,17 @@ public class QuestMenu : Menu
             LogEntryUI UI = obj.GetComponent<LogEntryUI>();
             UI.Setup(_log.Quests[index + currentOffset].GetCurrentStageDescription());
 
-            yOffset += UI.Height + 30;
+            bool outOfSpace = yOffset + UI.Height / 2f + 25 >= Anchor.sizeDelta.y;
+            if (index > 0 && !outOfSpace)
+            {
+                GameObject divider = Instantiate(SeperatorPrefab, Anchor);
+                divider.transform.position = Anchor.position + Vector3.down * yOffset;
+                _dividers.Add(divider);
+            }
 
+            yOffset += UI.Height / 2f + 25;
             obj.transform.position = Anchor.position + Vector3.down * yOffset;
-            if (yOffset >= Anchor.sizeDelta.y)
+            if (outOfSpace)
             {
                 Destroy(obj);
                 _offsets.Add(currentOffset + index);
@@ -62,11 +79,9 @@ public class QuestMenu : Menu
                 return;
             }
 
-            if (_entries.Count > 0)
-                _entries[_entries.Count - 1].ShowSeperator();
-
             _entries.Add(UI);
 
+            yOffset += UI.Height / 2f + 25;
             index++;
         }
 
