@@ -10,35 +10,35 @@ All of the code with very minor exceptions was written by me. I did not copy any
 
 
 ### **Create your Party**
-![Screenshot (1)](https://user-images.githubusercontent.com/29645590/121886095-3c316280-ccd2-11eb-993d-d0f0bbf9b497.png)
+![Screenshot (13)](https://user-images.githubusercontent.com/29645590/122654089-296dc200-d106-11eb-8c20-3c7b8b58c464.png)
 
 Customize your party members. Portrait, name, class, stats and skills. Each character starts with 4 skills, 2 are determined by class and 2 are of your choosing. Become a member of one of the guilds in town and you can train new skills for a price. You also get 50 points to spend on stats - you dont have to spend them evenly so you can stack a single character if you really want to. Your skills will determine the items each character starts the game with. Choose quick start to start with a premade fully equipped party.
 
 ### **Equip your party and collect loot**
-![Screenshot (9)](https://user-images.githubusercontent.com/29645590/121888406-312c0180-ccd5-11eb-8bfe-7b6fe72e800d.png)
+![Screenshot (14)](https://user-images.githubusercontent.com/29645590/122654096-35598400-d106-11eb-9693-02785f4b0432.png)
 
 Each character has a seperate inventory that stores items of various sizes on a grid. Items can be equipped to your player just by dragging them and dropping them over your portrait. Most weapons and armor are only equippable if the character knows the relevant skill but things like cloaks and helmets are available for all characters. Right click any item to read about it. There are nearly 200 items of various types available in game - find them in chests, shops or out in the world. Manage your inventory by trading items between characters. 
 
-![Screenshot (4)](https://user-images.githubusercontent.com/29645590/121888526-59b3fb80-ccd5-11eb-999c-ee788b67caea.png)
+![Screenshot (21)](https://user-images.githubusercontent.com/29645590/122654111-4904ea80-d106-11eb-9056-92a70fc63a0b.png)
 
 Chests will intelligently spawn random loot and gold. Items are weighted at different tiers so that low quality chests have higher chances of spawning lower quality loot. The same items can appear at different tier levels but with different frequencies for each tier they can be spawned in at. Weapons and Armor come in a variety of subtypes and have different enchantments that can appear on them depending on type and tier level.
 
-![Screenshot (10)](https://user-images.githubusercontent.com/29645590/121889270-46556000-ccd6-11eb-8d0b-e7988d0dbb03.png)
+![Screenshot (20)](https://user-images.githubusercontent.com/29645590/122654117-55894300-d106-11eb-9bb6-1616ff22ac46.png)
 
 Merchants will stock items depending on the type of shop and will restock their shelves with random items at least once per week depending on the type of shop. Blacksmiths, Armorsmiths and Alchemists can repair or identify the kind of items that they sell. Most shops offer a selection of lower quality items as well as a seperate selection of higher quality items, usually of a specific type.
 
 ### **Interact with the townsfolk**
-![Screenshot (5)](https://user-images.githubusercontent.com/29645590/121889832-ec08cf00-ccd6-11eb-8bd3-be58e19e6f91.png)
+![Screenshot (19)](https://user-images.githubusercontent.com/29645590/122654122-5fab4180-d106-11eb-92ee-4895e127f996.png)
 
 The town is populated with random NPCs who walk around town offering lore and services. Speak with them to find out what they can offer and hire up to 2 to travel with your party. They will take a small percentage of the gold you find as well as an up front payment. NPCs can also be found inside houses where they offer a variety of services such as the bank or inn. These NPCs can also sometimes offer quests for the party to go on.
 
 ### **Fight in real time or turn based mode**
-![Screenshot (8)](https://user-images.githubusercontent.com/29645590/121890495-a8fb2b80-ccd7-11eb-8959-35f2ab165a78.png)
+![Screenshot (16)](https://user-images.githubusercontent.com/29645590/122654138-75b90200-d106-11eb-91cc-d5acb788d76d.png)
 
 Fight with monsters using your equipment and skills. Killing them earns experience which you can use to level up your characters and improve their skills. You will soon also be able to cast spells for more interesting combat options. Learn new spells by finding or purchasing spell books or cast them one time with a scroll.
 
 ### **In game clock and calender**
-![Screenshot (12)](https://user-images.githubusercontent.com/29645590/121890849-08593b80-ccd8-11eb-90f0-a1714d7ebb15.png)
+![Screenshot (18)](https://user-images.githubusercontent.com/29645590/122654145-85384b00-d106-11eb-8bd5-26acdc708431.png)
 
 The game runs on an in game clock and calendar that controls everything from the day night cycle to status effects and cooldowns. Open the rest menu and consume food to give your party a proper rest or just to wait time out quickly. If your characters go too long without being rested however they will become weak. 
 
