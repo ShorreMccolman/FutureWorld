@@ -55,10 +55,7 @@ public class Vitals : GameStateEntity
     {
         get
         {
-            if (!_equipment.HasRangedWeapon())
-                return 0;
-
-            return _profile.BaseRangedAttack(_equipment.AccuracyBonus()) + _equipment.GetRangedAttack(_skillset);
+            return _profile.BaseRangedAttack() + _equipment.GetRangedAttack(_skillset);
         }
     }
     public int EffectiveRangedDamageLower

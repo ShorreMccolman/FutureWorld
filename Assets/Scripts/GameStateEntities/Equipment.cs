@@ -738,7 +738,7 @@ public class Equipment : GameStateEntity
         if(item != null)
             ac = set.GetWeaponRecovery((item.Data as Weapon).Type, item.Enchantment);
 
-        if (Weapons.ContainsKey(EquipSlot.Body))
+        if (Armor.ContainsKey(EquipSlot.Body))
         {
             InventoryItem armor = Armor[EquipSlot.Body];
             if (armor.Data is Armor)
@@ -763,16 +763,16 @@ public class Equipment : GameStateEntity
 
     public int GetRangedRecovery(Skillset set)
     {
-        int ac = 0;
+        int ac = 100;
 
         if (Weapons.ContainsKey(EquipSlot.Ranged))
         {
             InventoryItem weapon = Weapons[EquipSlot.Ranged];
             Weapon data = weapon.Data as Weapon;
-            ac += set.GetWeaponRecovery(data.Type, weapon.Enchantment);
+            ac = set.GetWeaponRecovery(data.Type, weapon.Enchantment);
         }
 
-        if (Weapons.ContainsKey(EquipSlot.Body))
+        if (Armor.ContainsKey(EquipSlot.Body))
         {
             InventoryItem armor = Armor[EquipSlot.Body];
             if (armor.Data is Armor)

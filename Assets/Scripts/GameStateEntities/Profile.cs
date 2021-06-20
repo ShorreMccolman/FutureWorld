@@ -176,7 +176,7 @@ public class Profile : GameStateEntity {
         return GameConstants.GetStatisticalEffect(EffectiveMight);
     }
 
-    public int BaseRangedAttack(int bonus)
+    public int BaseRangedAttack()
     {
         return GameConstants.GetStatisticalEffect(EffectiveAccuracy);
     }
