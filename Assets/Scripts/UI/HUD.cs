@@ -52,8 +52,6 @@ public class HUD : Menu {
     [SerializeField] NPCMenu NPCMenu;
     [SerializeField] SpellsMenu SpellsMenu;
     [SerializeField] CharacterEquipmentDisplay EquipmentDisplay;
-
-    [SerializeField] ScrollPopup ScrollInfoPopup;
     [SerializeField] Transform HeldItemAnchor;
 
     public delegate void SelectedMemberChangeEvent(PartyMember member);
@@ -446,8 +444,7 @@ public class HUD : Menu {
     {
         if (HeldItemButton != null && HeldItemButton.Item.Data is Scroll && Input.GetMouseButton(0))
         {
-            ScrollInfoPopup.gameObject.SetActive(true);
-            ScrollInfoPopup.UpdateUI(HeldItemButton.Item.Data as Scroll);
+            Popups.ShowScroll(HeldItemButton.Item.Data as Scroll);
         }
     }
 

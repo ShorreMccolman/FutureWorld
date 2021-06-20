@@ -33,6 +33,10 @@ public class PartyController : MonoBehaviour {
     bool _showingPopup;
     Entity3D _intendedTarget;
 
+    public delegate void InputEvent();
+    public InputEvent OnPressClick;
+    public InputEvent OnReleaseClick;
+
     public void NewParty(Party party)
     {
         GameObject obj = Instantiate(PartyEntityObject);
@@ -62,7 +66,6 @@ public class PartyController : MonoBehaviour {
         Entity.Init(party);
         HUD.Instance.InitParty(party);
 
-        // Maybe save and load this later???
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
 
@@ -79,7 +82,6 @@ public class PartyController : MonoBehaviour {
         Entity.Init(party);
         HUD.Instance.InitParty(party);
 
-        // Maybe save and load this later???
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
     }
@@ -112,6 +114,15 @@ public class PartyController : MonoBehaviour {
             return;
 
         _intendedTarget = null;
+
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            OnPressClick?.Invoke();
+        }
+        else if(Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+        {
+            OnReleaseClick?.Invoke();
+        }
 
         foreach (var member in Party.Instance.Members)
         {

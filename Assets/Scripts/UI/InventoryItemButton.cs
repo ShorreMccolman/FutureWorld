@@ -63,9 +63,9 @@ public class InventoryItemButton : ItemButton {
     protected override void OnRightDown()
     {
         bool success = HUD.Instance.TryConsume(Item);
-        if (!success)
+        if (success)
         {
-            
+            HUD.Instance.Popups.Supress();
         }
     }
 }

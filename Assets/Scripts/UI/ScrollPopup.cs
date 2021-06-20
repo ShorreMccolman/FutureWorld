@@ -18,5 +18,10 @@ public class ScrollPopup : MonoBehaviour
         Text.text = item.Description;
 
         Background.sizeDelta = new Vector2(Background.sizeDelta.x, Text.preferredHeight + 55);
+
+        float x = Input.mousePosition.x <= Screen.width / 2 ? Background.sizeDelta.x / 2f : -Background.sizeDelta.x / 2f;
+        float y = Input.mousePosition.y <= Screen.height / 2 ? Background.sizeDelta.y / 3f : -Background.sizeDelta.y / 3f;
+
+        Background.position = Input.mousePosition + new Vector3(x, y, 0);
     }
 }
