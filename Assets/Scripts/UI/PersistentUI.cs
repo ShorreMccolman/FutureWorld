@@ -13,7 +13,7 @@ public class PersistentUI : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this.gameObject);
         LoadingScreen.SetActive(false);
         LoadBar.value = 0;
     }
@@ -26,6 +26,7 @@ public class PersistentUI : MonoBehaviour
     public static void ShowLoad()
     {
         Instance.LoadingScreen.SetActive(true);
+        Instance.LoadBar.value = 0;
     }
 
     public static void HideLoad()

@@ -21,7 +21,7 @@ public enum AIState
     Flee
 }
 
-public class EnemyEntity : Entity3D
+public class EnemyEntity : Entity3D, IPopable
 {
     public Enemy Enemy { get { return State as Enemy; } }
 
@@ -52,7 +52,7 @@ public class EnemyEntity : Entity3D
     public virtual void Setup(Enemy enemy)
     {
         State = enemy;
-        GameObject obj = Instantiate(enemy.Data.model, transform);
+        GameObject obj = Instantiate(enemy.Data.Model, transform);
 
         _controller = GetComponent<CharacterController>();
         _dropCollider = GetComponent<SphereCollider>();
@@ -166,6 +166,11 @@ public class EnemyEntity : Entity3D
                 Kill();
             }
         }
+    }
+
+    public void ShowPopup()
+    {
+        HUD.Instance.Popups.ShowEnemy(Enemy);
     }
 
     void LateUpdate()

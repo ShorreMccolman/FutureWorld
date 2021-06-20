@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInfoPopup : MonoBehaviour {
-
+public class ItemInfoPopup : MonoBehaviour 
+{
     [SerializeField] RectTransform Background;
     [SerializeField] Image ItemImage;
     [SerializeField] Text Name;

@@ -96,7 +96,8 @@ public class Profile : GameStateEntity {
     public int Speed { get; private set; }
     public int Luck { get; private set; }
 
-    public string QuickSpell { get; private set; }
+    string _quickSpell;
+    public string QuickSpell { get { return string.IsNullOrEmpty(_quickSpell) ? "None" : _quickSpell; } }
 
     public Resistances Resistances { get; private set; }
 
@@ -118,6 +119,11 @@ public class Profile : GameStateEntity {
         health += GameConstants.PersonalityModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(EffectivePersonality);
         health += GameConstants.IntellectModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(EffectiveIntellect);
         return health;
+    }
+
+    public string FullName
+    {
+        get { return CharacterName + " the " + Class.ToString(); }
     }
 
     public int EffectiveMight
@@ -206,7 +212,7 @@ public class Profile : GameStateEntity {
         Accuracy = data.Accuracy;
         Speed = data.Speed;
         Luck = data.Luck;
-        QuickSpell = "";
+        _quickSpell = "";
         Resistances = new Resistances(0, 0, 0, 0, 0, 0);
         _status = status;
         _equipment = equipment;
@@ -231,7 +237,7 @@ public class Profile : GameStateEntity {
         Speed = int.Parse(profileNode.SelectSingleNode("Speed").InnerText);
         Luck = int.Parse(profileNode.SelectSingleNode("Luck").InnerText);
         
-        QuickSpell = profileNode.SelectSingleNode("QuickSpell").InnerText;
+        _quickSpell = profileNode.SelectSingleNode("QuickSpell").InnerText;
 
         Resistances = new Resistances(profileNode);
 
@@ -258,7 +264,7 @@ public class Profile : GameStateEntity {
         element.AppendChild(XmlHelper.Attribute(doc, "Speed", Speed));
         element.AppendChild(XmlHelper.Attribute(doc, "Luck", Luck));
         
-        element.AppendChild(XmlHelper.Attribute(doc, "QuickSpell", QuickSpell));
+        element.AppendChild(XmlHelper.Attribute(doc, "QuickSpell", _quickSpell));
 
         element.AppendChild(Resistances.ToXml(doc));
 
@@ -266,18 +272,24 @@ public class Profile : GameStateEntity {
         return element;
     }
 
-    public bool CanTrainLevel()
+    public int NeededXP
     {
-        int xpForLevel = Level * (Level + 1) * 500;
-        return Experience >= xpForLevel;
+        get { return Level * (Level + 1) * 500; }
     }
 
-    public bool CanTrainLevel(out int xpNeeded)
+    public string GetTrainingDetails()
     {
-        int xpForLevel = Level * (Level + 1) * 500;
+        if(CanTrainLevel())
+        {
+            return "You have enough experience to train to level " + (Level + 1);
+        }
 
-        xpNeeded = xpForLevel - Experience;
-        return Experience >= xpForLevel;
+        return "You need " + (NeededXP - Experience) + " more experience to train to level " + (Level + 1);
+    }
+
+    public bool CanTrainLevel()
+    {
+        return Experience >= NeededXP;
     }
 
     public void TrainLevel()

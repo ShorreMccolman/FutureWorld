@@ -60,7 +60,8 @@ public class EnemyData
 
     public string Spell;
 
-    public GameObject model;
+    public GameObject Model;
+    public Sprite Portrait;
 }
 
 [System.Serializable]

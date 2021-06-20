@@ -54,8 +54,9 @@ MonoBehaviour:
         MoveSpeed: 1
         Recovery: 100
       Spell: 
-      model: {fileID: 5826457972267135627, guid: 4fece002520986e4b891b974a9eb55e9,
+      Model: {fileID: 5826457972267135627, guid: 4fece002520986e4b891b974a9eb55e9,
         type: 3}
+      Portrait: {fileID: 0}
     Commander:
       ID: peasant_2f
       DisplayName: Peasant
@@ -93,8 +94,9 @@ MonoBehaviour:
         MoveSpeed: 1
         Recovery: 100
       Spell: 
-      model: {fileID: 2914617985250304388, guid: 1f6467d5eff4a9048a8c2379e6748957,
+      Model: {fileID: 2914617985250304388, guid: 1f6467d5eff4a9048a8c2379e6748957,
         type: 3}
+      Portrait: {fileID: 0}
     Captain:
       ID: peasant_3f
       DisplayName: Peasant
@@ -132,5 +134,6 @@ MonoBehaviour:
         MoveSpeed: 1
         Recovery: 100
       Spell: 
-      model: {fileID: 6241943628698206530, guid: 155bba59501a2294ebf4cc9f5afacdd0,
+      Model: {fileID: 6241943628698206530, guid: 155bba59501a2294ebf4cc9f5afacdd0,
         type: 3}
+      Portrait: {fileID: 0}

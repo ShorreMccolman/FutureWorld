@@ -13,7 +13,11 @@ public class CharacterVitalsDisplay : MonoBehaviour {
 
     public PartyMember Member { get; private set; }
 
+    public Sprite Sprite { get { return Portrait.sprite; } }
+
     string _currentExpression;
+
+    bool _clicking;
 
     public void Init(PartyMember member)
     {
@@ -71,8 +75,17 @@ public class CharacterVitalsDisplay : MonoBehaviour {
 
     public void MenuClick()
     {
-        bool shouldOpen = HUD.Instance.CharacterMenuOpen || Member == Party.Instance.ActiveMember;
+        bool shouldOpen = HUD.Instance.CharacterMenuOpen || Member == Party.Instance.ActiveMember || _clicking;
         HUD.Instance.SelectCharacter(this, shouldOpen);
+
+        _clicking = true;
+        CancelInvoke();
+        Invoke("TimeoutClick", 0.3f);
+    }
+
+    void TimeoutClick()
+    {
+        _clicking = false;
     }
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Xml;
+using System.IO;
 
 [System.Serializable]
 public class PlayerFileInfo
@@ -47,6 +48,7 @@ public class GameController : MonoBehaviour {
     NPCDatabase NPCDB;
     TopicDatabase TopicDB;
     InteractableDatabase InteractableDB;
+    ProfilePopupInfoDatabase ProfileInfoDB;
 
     bool _isPaused;
 
@@ -77,6 +79,7 @@ public class GameController : MonoBehaviour {
         NPCDB = new NPCDatabase();
         TopicDB = new TopicDatabase();
         InteractableDB = new InteractableDatabase();
+        ProfileInfoDB = new ProfilePopupInfoDatabase();
     }
 
     void Update()
@@ -104,7 +107,12 @@ public class GameController : MonoBehaviour {
 
     public void SaveGame(int slot, string title)
     {
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/SaveData/screenshot_" + slot + ".png");
+        string directory = Application.persistentDataPath + "/SaveData";
+
+        if (!Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
+
+        ScreenCapture.CaptureScreenshot(directory + "/screenshot_" + slot + ".png");
         PlayerFileInfo info = new PlayerFileInfo(slot, title);
         FileManager.SaveBinary<PlayerFileInfo>(info, "info_" + slot);
 
@@ -222,6 +230,11 @@ public class GameController : MonoBehaviour {
 
         PartyController.Instance.ReviveParty(party);
         HUD.Instance.ShowLoad(false);
+    }
+
+    public void QuitToMain()
+    {
+        SceneManager.LoadSceneAsync("Main");
     }
 
     void PauseGame(bool shouldPause)

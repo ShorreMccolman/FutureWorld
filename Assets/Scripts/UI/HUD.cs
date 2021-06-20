@@ -16,6 +16,9 @@ public class HUD : Menu {
     public static HUD Instance;
     void Awake() { Instance = this; }
 
+    [SerializeField] Popups PopupObject;
+    public Popups Popups { get { return PopupObject; } }
+
     [SerializeField] Text FPS;
     [SerializeField] GameObject DebugMenu;
     [SerializeField] GameObject SideMenu;
@@ -52,7 +55,6 @@ public class HUD : Menu {
     [SerializeField] SpellsMenu SpellsMenu;
     [SerializeField] CharacterEquipmentDisplay EquipmentDisplay;
 
-    [SerializeField] ItemInfoPopup ItemInfoPopup;
     [SerializeField] ScrollPopup ScrollInfoPopup;
 
     [SerializeField] Transform HeldItemAnchor;
@@ -77,9 +79,6 @@ public class HUD : Menu {
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0))
-            HidePopup();
-
         if(_party != null)
             UpdateCompass();
 
@@ -204,7 +203,7 @@ public class HUD : Menu {
             return;
 
         SideMenu.SetActive(false);
-        MenuManager.Instance.OpenMenu("Rest");
+        MenuManager.Instance.OpenMenu("Rest", true);
     }
 
     public void Profile()
@@ -753,34 +752,34 @@ public class HUD : Menu {
 
     public void UpdatePopup(InventoryItem item, bool showPopup)
     {
-        if (showPopup)
-        {
-            ItemInfoPopup.gameObject.SetActive(true);
+        //if (showPopup)
+        //{
+        //    ItemInfoPopup.gameObject.SetActive(true);
 
-            if (item.IsBroken)
-            {
-                bool success = _party.TryRepair(item);
-                if (success)
-                {
-                    ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-                }
-            }
-            if (!item.IsIdentified)
-            {
-                bool success = _party.TryIdentify(item);
-                if (success)
-                {
-                    ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-                }
-            }
-        }
-        ItemInfoPopup.UpdateUI(item);
+        //    if (item.IsBroken)
+        //    {
+        //        bool success = _party.TryRepair(item);
+        //        if (success)
+        //        {
+        //            ExpressSelectedmember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+        //        }
+        //    }
+        //    if (!item.IsIdentified)
+        //    {
+        //        bool success = _party.TryIdentify(item);
+        //        if (success)
+        //        {
+        //            ExpressSelectedmember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+        //        }
+        //    }
+        //}
+        //ItemInfoPopup.UpdateUI(item);
     }
 
     public void HidePopup()
     {
-        ItemInfoPopup.gameObject.SetActive(false);
-        ScrollInfoPopup.gameObject.SetActive(false);
+        //ItemInfoPopup.gameObject.SetActive(false);
+        //ScrollInfoPopup.gameObject.SetActive(false);
     }
 
     public void UpdateCompass()

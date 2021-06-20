@@ -54,8 +54,9 @@ MonoBehaviour:
         MoveSpeed: 1
         Recovery: 100
       Spell: 
-      model: {fileID: 3047186970050578528, guid: 49bc9cdea1701c649882601ea25631fd,
+      Model: {fileID: 3047186970050578528, guid: 49bc9cdea1701c649882601ea25631fd,
         type: 3}
+      Portrait: {fileID: 21300000, guid: cd140afbcc0e4554f87a99259ef955fc, type: 3}
     Commander:
       ID: goblin_2
       DisplayName: Goblin Shaman
@@ -93,8 +94,9 @@ MonoBehaviour:
         MoveSpeed: 1
         Recovery: 100
       Spell: fire_bolt
-      model: {fileID: 4535204003392886127, guid: 853b980c76fdae040912c85aba2b39a6,
+      Model: {fileID: 4535204003392886127, guid: 853b980c76fdae040912c85aba2b39a6,
         type: 3}
+      Portrait: {fileID: 21300000, guid: cd140afbcc0e4554f87a99259ef955fc, type: 3}
     Captain:
       ID: goblin_3
       DisplayName: Goblin Lord
@@ -132,5 +134,6 @@ MonoBehaviour:
         MoveSpeed: 1
         Recovery: 90
       Spell: fire_bolt
-      model: {fileID: 7335701647072218439, guid: 50ec1ca842c71c84e91f85bf64836f08,
+      Model: {fileID: 7335701647072218439, guid: 50ec1ca842c71c84e91f85bf64836f08,
         type: 3}
+      Portrait: {fileID: 21300000, guid: cd140afbcc0e4554f87a99259ef955fc, type: 3}

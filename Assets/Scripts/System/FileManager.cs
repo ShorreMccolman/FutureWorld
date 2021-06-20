@@ -32,7 +32,7 @@ public static class FileManager {
 
     public static Texture2D LoadPNG(string filename, string location)
     {
-        string filepath = Application.dataPath + "/" + location + "/" + filename + ".png";
+        string filepath = Application.persistentDataPath + "/" + location + "/" + filename + ".png";
         if (!File.Exists(filepath))
             return null;
 
@@ -44,14 +44,14 @@ public static class FileManager {
 
     public static void SaveFile(string filename, string extension, string location, string body)
     {
-        string filepath = Application.dataPath + "/" + location + "/" + filename + "." + extension;
+        string filepath = Application.persistentDataPath + "/" + location + "/" + filename + "." + extension;
         Debug.Log("Saving to filepath " + filepath);
         File.WriteAllText(filepath, body);
     }
 
     public static string ReadFile(string filename, string extension, string location)
     {
-        string filepath = Application.dataPath + "/" + location + "/" + filename + "." + extension;
+        string filepath = Application.persistentDataPath + "/" + location + "/" + filename + "." + extension;
         Debug.Log("Reading from filepath " + filepath);
         string result = File.ReadAllText(filepath);
         return result;

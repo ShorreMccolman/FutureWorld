@@ -63,6 +63,15 @@ public class Enemy : GameStateEntity, CombatEntity
         return element;
     }
 
+    public Sprite GetPortrait()
+    {
+        if(NPC != null)
+        {
+            return NPC.Portrait;
+        }
+        return Data.Portrait;
+    }
+
     public void CombatStep()
     {
         MoveCooldown = 3f;

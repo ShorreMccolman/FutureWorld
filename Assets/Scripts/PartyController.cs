@@ -93,6 +93,7 @@ public class PartyController : MonoBehaviour {
     List<Entity3D> _midRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
     bool _isInteracting;
+    bool _showingPopup;
     Entity3D _intendedTarget;
 
     public void NewParty(Party party)
@@ -192,17 +193,19 @@ public class PartyController : MonoBehaviour {
             position = Input.mousePosition
         };
 
+        IPopable popable = null;
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
 
         results.ForEach((result) => {
-            IInfoMessenger msg = result.gameObject.GetComponent<IInfoMessenger>();
-            if (msg != null)
+            IInfoMessenger messenger = result.gameObject.GetComponent<IInfoMessenger>();
+            if (messenger != null)
             {
                 hoveringUI = true;
-                message = msg.GetInfoMessage();
+                message = messenger.GetInfoMessage();
             }
 
+            TryFindPopable(ref popable, result.gameObject);
         });
 
         if (_controlState != ControlState.MenuLock)
@@ -219,6 +222,8 @@ public class PartyController : MonoBehaviour {
                         _intendedTarget = hit.collider.GetComponent<Entity3D>();
                         if (_intendedTarget == null)
                             _intendedTarget = hit.collider.GetComponentInParent<Entity3D>();
+
+                        TryFindPopable(ref popable, _intendedTarget.gameObject);
 
                         if (_intendedTarget != null && message == "")
                         {
@@ -289,6 +294,34 @@ public class PartyController : MonoBehaviour {
         {
             MenuManager.Instance.CloseAllMenus();
         }
+
+        if (popable != null)
+        {
+            popable.ShowPopup();
+            _showingPopup = true;
+        }
+        else
+        {
+            if (_showingPopup)
+            {
+                HUD.Instance.Popups.Close();
+                _showingPopup = false;
+            }
+        }
+    }
+
+    bool TryFindPopable(ref IPopable popable, GameObject obj)
+    {
+        if (popable == null && Input.GetMouseButton(1))
+        {
+            IPopable possiblePopup = obj.GetComponent<IPopable>();
+            if (possiblePopup != null)
+            {
+                popable = possiblePopup;
+                return true;
+            }
+        }
+        return false;
     }
 
     public void MenuEvent(bool locked)

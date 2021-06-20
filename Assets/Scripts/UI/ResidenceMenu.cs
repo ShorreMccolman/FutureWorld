@@ -319,8 +319,7 @@ public class ResidenceMenu : ConversationMenu
         }
         else
         {
-            int xpNeeded;
-            bool canTrain = Party.Instance.ActiveMember.Profile.CanTrainLevel(out xpNeeded);
+            bool canTrain = Party.Instance.ActiveMember.Profile.CanTrainLevel();
             if(canTrain)
             {
                 GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
@@ -334,7 +333,7 @@ public class ResidenceMenu : ConversationMenu
                 GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
 
                 OptionButton UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("You need " + xpNeeded + " more experience to train to level " + (Party.Instance.ActiveMember.Profile.Level + 1), null);
+                UI.Setup(Party.Instance.ActiveMember.Profile.GetTrainingDetails(), null);
                 DialogOptions.Add(UI);
             }
         }

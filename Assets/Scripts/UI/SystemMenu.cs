@@ -6,19 +6,17 @@ public class SystemMenu : Menu {
 
 	public void SaveGame()
     {
-        MenuManager.Instance.OpenMenu("SaveMenu");
-        MenuManager.Instance.CloseMenu(MenuTag);
+        MenuManager.Instance.SwapMenu("SaveMenu");
     }
 
     public void NewGame()
     {
-
+        GameController.Instance.QuitToMain();
     }
 
     public void LoadGame()
     {
-        MenuManager.Instance.OpenMenu("LoadMenu");
-        MenuManager.Instance.CloseMenu(MenuTag);
+        MenuManager.Instance.SwapMenu("LoadMenu");
     }
 
     public void Controls()
@@ -28,7 +26,7 @@ public class SystemMenu : Menu {
 
     public void QuitGame()
     {
-        //GameController.Instance.QuitToMain();
+        GameController.Instance.QuitToMain();
     }
 
     public void Close()

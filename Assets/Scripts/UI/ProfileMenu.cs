@@ -40,7 +40,7 @@ public class ProfileMenu : CharacterMenu
 
     public override void Setup(PartyMember member)
     {
-        Name.text = member.Profile.CharacterName + " the " + member.Profile.Class.ToString();
+        Name.text = member.Profile.FullName;
         Skillpoints.text = "Skill Points: " + member.Profile.SkillPoints;
 
         Might.text = Label(member.Profile.EffectiveMight, member.Profile.Might);

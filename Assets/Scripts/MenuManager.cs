@@ -14,6 +14,17 @@ public class MenuManager : MonoBehaviour
 
     Dictionary<string, Menu> _openMenuDict = new Dictionary<string, Menu>();
 
+    public void SwapMenu(string menuTag)
+    {
+        foreach (var menu in _openMenuDict.Values)
+        {
+            menu.OnClose();
+            menu.Contents.SetActive(false);
+        }
+        _openMenuDict.Clear();
+        OpenMenu(menuTag);
+    }
+
     public void CloseAllMenus()
     {
         foreach(var menu in _openMenuDict.Values)

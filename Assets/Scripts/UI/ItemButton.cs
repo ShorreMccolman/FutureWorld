@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPopable
 {
     [SerializeField] protected Image Image;
 
@@ -66,6 +66,28 @@ public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             Image.color = Color.white;
     }
 
+    public void ShowPopup()
+    {
+        if (Item.IsBroken)
+        {
+            bool success = Party.Instance.TryRepair(Item);
+            if (success)
+            {
+                HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            }
+        }
+        if (!Item.IsIdentified)
+        {
+            bool success = Party.Instance.TryIdentify(Item);
+            if (success)
+            {
+                HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            }
+        }
+
+        HUD.Instance.Popups.ShowItem(Item);
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -78,24 +100,17 @@ public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            bool success = HUD.Instance.TryConsume(Item);
-            if (!success)
-            {
-                HUD.Instance.UpdatePopup(Item, true);
-            }
             OnRightDown();
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        HUD.Instance.UpdatePopup(Item, Input.GetMouseButton(1));
         OnHover();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        HUD.Instance.HidePopup();
         OnHoverExit();
     }
 
@@ -111,7 +126,6 @@ public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            HUD.Instance.HidePopup();
             OnRightUp();
         }
     }

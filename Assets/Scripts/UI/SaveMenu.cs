@@ -3,29 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SaveMenu : Menu {
-
-    [SerializeField] GameObject ButtonTemplate;
-    [SerializeField] Transform Content;
-
-    //List<SaveButton> _buttons;
-    int _selectedSlot;
+public class SaveMenu : FileMenu 
+{
     string _selectedTitle;
 
-    protected override void Init()
+    public override void OnOpen()
     {
         _selectedSlot = -1;
         _selectedTitle = "";
 
-        for(int i=0;i<10;i++)
+        _buttons = new List<GameObject>();
+        for (int i = 0; i < 10; i++)
         {
             GameObject obj = Instantiate(ButtonTemplate, Content);
             obj.transform.position = Content.position + Vector3.down * 40 * i + Vector3.right * 160;
 
             SaveButton button = obj.GetComponent<SaveButton>();
-            button.Setup(this, i);
-            //_buttons.Add(button);
+            button.Setup(this, i, FileManager.LoadBinary<PlayerFileInfo>("info_" + i));
+            _buttons.Add(obj);
         }
+
+        SelectSlot(0);
     }
 
     public void Save()
