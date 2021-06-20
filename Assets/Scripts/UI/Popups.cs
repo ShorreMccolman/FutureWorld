@@ -9,10 +9,10 @@ public class Popups : MonoBehaviour
     [SerializeField] GenericInfoPopup Generic;
     [SerializeField] EnemyInfoPopup Enemies;
 
-    public void ShowText(string title, string body, int size = 20)
+    public void ShowText(string title, string body, int size = 20, TextAnchor anchor = TextAnchor.UpperCenter)
     {
         Generic.gameObject.SetActive(true);
-        Generic.UpdateUI(title, body, size);
+        Generic.UpdateUI(title, body, size, anchor);
     }
 
     public void ShowItem(InventoryItem item)

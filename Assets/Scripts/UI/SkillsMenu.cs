@@ -35,56 +35,65 @@ public class SkillsMenu : CharacterMenu
         Name.text = "Skills for " + member.Profile.CharacterName;
         Skillpoints.text = "Skill Points: " + member.Profile.SkillPoints;
 
-        Vector3 lastPos = WeaponLabel.transform.position;
+        float lastOffset = 0;
         List<InventorySkill> skills = member.Skillset.GetSkillsByType(SkillType.Weapon);
         for(int i=0;i<skills.Count;i++)
         {
-            GameObject obj = Instantiate(ButtonTemplate, WeaponLabel.transform.parent);
-            lastPos = WeaponLabel.transform.position + Vector3.down * (i * 22 + 30);
-            obj.transform.position = lastPos;
-            buttonObjects.Add(obj);
-
-            SkillButton btn = obj.GetComponent<SkillButton>();
-            btn.Setup(skills[i], this);
+            lastOffset = i * 22 + 30;
+            AddButton(skills[i], WeaponLabel.transform, lastOffset);
+        }
+        if(skills.Count == 0)
+        {
+            lastOffset = 30;
+            AddButton(null, WeaponLabel.transform, lastOffset);
         }
 
-        MagicLabel.transform.position = lastPos + Vector3.down * 50;
+        MagicLabel.transform.position = WeaponLabel.transform.position + Vector3.down * (lastOffset + 50);
         skills = member.Skillset.GetSkillsByType(SkillType.Magic);
         for (int i = 0; i < skills.Count; i++)
         {
-            GameObject obj = Instantiate(ButtonTemplate, MagicLabel.transform.parent);
-            lastPos = MagicLabel.transform.position + Vector3.down * (i * 22 + 30);
-            obj.transform.position = lastPos;
-            buttonObjects.Add(obj);
-
-            SkillButton btn = obj.GetComponent<SkillButton>();
-            btn.Setup(skills[i], this);
+            lastOffset = i * 22 + 30;
+            AddButton(skills[i], MagicLabel.transform, lastOffset);
+        }
+        if (skills.Count == 0)
+        {
+            lastOffset = 30;
+            AddButton(null, MagicLabel.transform, lastOffset);
         }
 
-        lastPos = ArmorLabel.transform.position;
         skills = member.Skillset.GetSkillsByType(SkillType.Armor);
         for (int i = 0; i < skills.Count; i++)
         {
-            GameObject obj = Instantiate(ButtonTemplate, ArmorLabel.transform.parent);
-            lastPos = ArmorLabel.transform.position + Vector3.down * (i * 22 + 30);
-            obj.transform.position = lastPos;
-            buttonObjects.Add(obj);
-
-            SkillButton btn = obj.GetComponent<SkillButton>();
-            btn.Setup(skills[i], this);
+            lastOffset = i * 22 + 30;
+            AddButton(skills[i], ArmorLabel.transform, lastOffset);
+        }
+        if (skills.Count == 0)
+        {
+            lastOffset = 30;
+            AddButton(null, ArmorLabel.transform, lastOffset);
         }
 
-        MiscLabel.transform.position = lastPos + Vector3.down * 50;
+        MiscLabel.transform.position = ArmorLabel.transform.position + Vector3.down * (lastOffset + 50);
         skills = member.Skillset.GetSkillsByType(SkillType.Misc);
         for (int i = 0; i < skills.Count; i++)
         {
-            GameObject obj = Instantiate(ButtonTemplate, MiscLabel.transform.parent);
-            lastPos = MiscLabel.transform.position + Vector3.down * (i * 22 + 30);
-            obj.transform.position = lastPos;
-            buttonObjects.Add(obj);
-
-            SkillButton btn = obj.GetComponent<SkillButton>();
-            btn.Setup(skills[i], this);
+            lastOffset = i * 22 + 30;
+            AddButton(skills[i], MiscLabel.transform, lastOffset);
         }
+        if (skills.Count == 0)
+        {
+            lastOffset = 30;
+            AddButton(null, MiscLabel.transform, lastOffset);
+        }
+    }
+
+    void AddButton(InventorySkill skill, Transform anchor, float offset)
+    {
+        GameObject obj = Instantiate(ButtonTemplate, anchor.parent);
+        obj.transform.position = anchor.position + Vector3.down * offset;
+        buttonObjects.Add(obj);
+
+        SkillButton btn = obj.GetComponent<SkillButton>();
+        btn.Setup(_member, skill, this);
     }
 }

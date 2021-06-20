@@ -8,6 +8,7 @@ public class ProfilePopupInfo
     public string Tag;
     public string Title;
     public string Body;
+    public string[] Extra;
 }
 
 public class ProfilePopupInfoDatabase

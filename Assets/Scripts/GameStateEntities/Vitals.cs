@@ -87,6 +87,7 @@ public class Vitals : GameStateEntity
             return Mathf.Max(30, value);
         }
     }
+
     public int RangedRecovery
     {
         get
