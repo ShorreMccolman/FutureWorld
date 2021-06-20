@@ -20,7 +20,7 @@ public class EquipmentItemButton : ItemButton {
         else
             Image.color = Color.white;
 
-        Setup(item, true);
+        Setup(item, true, true);
     }
 
     protected override void OnLeftDown()

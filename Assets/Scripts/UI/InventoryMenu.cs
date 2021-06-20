@@ -29,9 +29,9 @@ public class InventoryMenu : CharacterMenu, ISlotable {
             for (int i = 0; i < width; i++)
             {
                 GameObject obj = Instantiate<GameObject>(ButtonPrefab, Anchor);
-                obj.transform.position = Anchor.position + Vector3.up * (height - 1 - j) * Anchor.rect.height + Vector3.right * i * Anchor.rect.width;
+                obj.transform.position = Anchor.position + Vector3.up * (height - j) * Anchor.rect.height + Vector3.right * i * Anchor.rect.width;
 
-                obj.transform.position += new Vector3(-Anchor.rect.width * width / 2, -Anchor.rect.height * height / 2, 0);
+                obj.transform.position += new Vector3(-Anchor.rect.width * (width - 1) / 2, -Anchor.rect.height * (height+1) / 2, 0);
 
                 InventoryGridButton button = obj.GetComponent<InventoryGridButton>();
                 button.Setup(i + j * width, this);
@@ -64,7 +64,7 @@ public class InventoryMenu : CharacterMenu, ISlotable {
         Vector3 pos = _gridButtons[item.Slot].transform.position;
 
         float halfDown = (float)(button.Item.Data.Height / 2f) - 0.5f;
-        float halfOver = (float)(button.Item.Data.Width / 2f) - 0.5f;
+        float halfOver = (float)(button.Item.Data.Width / 2f) - 0.5f; 
 
         button.gameObject.transform.position = pos + Vector3.down * halfDown * Anchor.rect.height + Vector3.right * halfOver * Anchor.rect.width;
         _itemButtons.Add(button.gameObject);

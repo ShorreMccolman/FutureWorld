@@ -332,7 +332,7 @@ public class Inventory : GameStateEntity
         Items = new List<InventoryItem>();
         bool success = true;
 
-        InventoryItem ring = ItemDatabase.Instance.GetInventoryItem("ring_1", Random.Range(0f, 1f) < 0.33 ? TreasureLevel.L2 : TreasureLevel.L1, this);
+        InventoryItem ring = ItemDatabase.Instance.GetInventoryItem("ring_1", TreasureLevel.L2, this);
         success = AttemptAdd(ring);
         ring.TryIdentify(100000);
 

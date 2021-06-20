@@ -222,14 +222,23 @@ public class GameController : MonoBehaviour {
     {
         Party party = Party.Instance;
 
-        HUD.Instance.ShowLoad(true);
+        PersistentUI.ShowLoad();
+        SoundManager.Instance.FadeMusic();
+        yield return new WaitForSeconds(1.0f);
 
-        yield return SceneManager.LoadSceneAsync(2);
-        while (PartyController.Instance == null)
+        AsyncOperation async = SceneManager.LoadSceneAsync("Game");
+        while (!async.isDone)
+        {
+            PersistentUI.ProgressBar(async.progress);
             yield return null;
+        }
 
         PartyController.Instance.ReviveParty(party);
-        HUD.Instance.ShowLoad(false);
+        yield return null;
+        yield return null;
+
+        TimeManagement.Instance.StartTiming(party);
+        PersistentUI.HideLoad();
     }
 
     public void QuitToMain()

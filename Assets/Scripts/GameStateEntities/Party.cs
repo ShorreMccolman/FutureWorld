@@ -18,10 +18,10 @@ public class Party : GameStateEntity
     public QuestLog QuestLog { get; private set; }
 
     List<NPC> _hires;
-    public List<NPC> Hires { get { return _hires; } }
+    public List<NPC> Hires => _hires;
 
     List<PartyMember> _members;
-    public List<PartyMember> Members { get { return _members; } }
+    public List<PartyMember> Members => _members;
 
     List<string> _visitedLocations;
     List<string> _monthlyKills;

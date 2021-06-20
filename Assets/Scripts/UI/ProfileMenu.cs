@@ -67,15 +67,22 @@ public class ProfileMenu : CharacterMenu
             Experience.color = Color.white;
 
         Attack.text = (member.Vitals.EffectiveAttack >= 0 ? "+ " : "- ") + Mathf.Abs(member.Vitals.EffectiveAttack);
-        string damage = member.Vitals.EffectiveDamageLower.ToString();
+        string label = member.Vitals.EffectiveDamageLower.ToString();
         if(member.Vitals.EffectiveDamageLower != member.Vitals.EffectiveDamageUpper)
-            damage += " - " + member.Vitals.EffectiveDamageUpper;
-        Damage.text = damage;
+            label += " - " + member.Vitals.EffectiveDamageUpper;
+        Damage.text = label;
         Shoot.text = (member.Vitals.EffectiveRangedAttack >= 0 ? "+ " : "- ") + Mathf.Abs(member.Vitals.EffectiveRangedAttack);
-        damage = member.Vitals.EffectiveRangedDamageLower.ToString();
-        if (member.Vitals.EffectiveRangedDamageLower != member.Vitals.EffectiveRangedDamageUpper)
-            damage += " - " + member.Vitals.EffectiveRangedDamageUpper;
-        ShootDamage.text = damage;
+        if(!member.Equipment.HasRangedWeapon())
+        {
+            label = "N/A";
+        } 
+        else
+        {
+            label = member.Vitals.EffectiveRangedDamageLower.ToString();
+            if (member.Vitals.EffectiveRangedDamageLower != member.Vitals.EffectiveRangedDamageUpper)
+                label += " - " + member.Vitals.EffectiveRangedDamageUpper;
+        }
+        ShootDamage.text = label;
 
         Fire.text = Label(member.Profile.Resistances.Fire);
         Electricity.text = Label(member.Profile.Resistances.Electricity);

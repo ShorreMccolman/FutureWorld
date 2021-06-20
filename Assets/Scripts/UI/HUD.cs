@@ -23,8 +23,6 @@ public class HUD : Menu {
     [SerializeField] GameObject DebugMenu;
     [SerializeField] GameObject SideMenu;
 
-    [SerializeField] Image LoadingScreen;
-
     [SerializeField] Transform Compass;
 
     [SerializeField] CharacterVitalsDisplay[] CharacterVitalsUI;
@@ -56,14 +54,10 @@ public class HUD : Menu {
     [SerializeField] CharacterEquipmentDisplay EquipmentDisplay;
 
     [SerializeField] ScrollPopup ScrollInfoPopup;
-
     [SerializeField] Transform HeldItemAnchor;
 
     public delegate void SelectedMemberChangeEvent(PartyMember member);
     public SelectedMemberChangeEvent SelectNewMember;
-
-    public bool CharacterMenuOpen { get; private set; }
-    public bool OtherMenuOpen { get; private set; }
 
     Party _party;
     CharacterMenu _selectedMenu;
@@ -71,29 +65,13 @@ public class HUD : Menu {
 
     Dictionary<PartyMember, CharacterVitalsDisplay> _partyMembersDisplayDict;
 
+    bool _isCharacterMenuOpen;
+    bool _isOtherMenuOpen;
     bool _showingTempMessage;
     string _currentInfoMessage;
     bool _infoMessageLock;
 
     public ItemButton HeldItemButton { get; private set; }
-
-    void Update()
-    {
-        if(_party != null)
-            UpdateCompass();
-
-        if(Input.GetKeyDown(KeyCode.F1))
-        {
-            DebugMenu.SetActive(!DebugMenu.activeSelf);
-        }
-        if(Input.GetKeyDown(KeyCode.F2))
-        {
-            FPS.enabled = !FPS.enabled;
-        }
-
-        float fps = 1 / Time.unscaledDeltaTime;
-        FPS.text = "" + fps;
-    }
 
     public void InitParty(Party party)
     {
@@ -117,6 +95,8 @@ public class HUD : Menu {
         foreach (var cvd in CharacterVitalsUI)
             cvd.IndicateSelection(cvd.Member == party.ActiveMember);
 
+        _selectedMenu = ProfileMenu;
+
         _currentInfoMessage = "";
         ResetInfoMessage();
 
@@ -125,6 +105,24 @@ public class HUD : Menu {
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
         UpdateDisplay();
+    }
+
+    void Update()
+    {
+        if (_party != null)
+            UpdateCompass();
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            DebugMenu.SetActive(!DebugMenu.activeSelf);
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            FPS.enabled = !FPS.enabled;
+        }
+
+        float fps = 1 / Time.unscaledDeltaTime;
+        FPS.text = "" + fps;
     }
 
     public void UpdateDisplay()
@@ -163,7 +161,7 @@ public class HUD : Menu {
 
     public void OpenQuests()
     {
-        if (OtherMenuOpen || CharacterMenuOpen)
+        if (_isOtherMenuOpen || _isCharacterMenuOpen)
             return;
 
         MenuManager.Instance.OpenMenu("Quests", true);
@@ -186,7 +184,7 @@ public class HUD : Menu {
 
     public void OpenSpells()
     {
-        if (OtherMenuOpen || CharacterMenuOpen)
+        if (_isOtherMenuOpen || _isCharacterMenuOpen)
             return;
 
         if (_party.ActiveMember != null)
@@ -199,7 +197,7 @@ public class HUD : Menu {
 
     public void OpenRest()
     {
-        if (OtherMenuOpen || CharacterMenuOpen)
+        if (_isOtherMenuOpen || _isCharacterMenuOpen)
             return;
 
         SideMenu.SetActive(false);
@@ -243,7 +241,7 @@ public class HUD : Menu {
             MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
-        CharacterMenuOpen = false;
+        _isCharacterMenuOpen = false;
         Vignette.enabled = false;
         SoundManager.Instance.PlayUISound("Button");
     }
@@ -253,16 +251,16 @@ public class HUD : Menu {
         MenuManager.Instance.CloseAllMenus();
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
-        CharacterMenuOpen = false;
+        _isCharacterMenuOpen = false;
         Vignette.enabled = false;
-        OtherMenuOpen = false;
+        _isOtherMenuOpen = false;
         PartyController.Instance.SetControlState(ControlState.Previous);
     }
 
     public void EnableSideMenu()
     {
         SideMenu.SetActive(true);
-        OtherMenuOpen = false;
+        _isOtherMenuOpen = false;
     }
 
     public void ReadyEvent(PartyMember member)
@@ -304,7 +302,7 @@ public class HUD : Menu {
                 foreach (var cvd in CharacterVitalsUI)
                     cvd.IndicateSelection(cvd.Member == _party.ActiveMember);
 
-                if(CharacterMenuOpen)
+                if(_isCharacterMenuOpen)
                 {
                     _selectedMenu.Setup(_party.ActiveMember);
                     EquipmentDisplay.Setup(_party.ActiveMember);
@@ -330,11 +328,6 @@ public class HUD : Menu {
 
     public void SelectCharacter(CharacterVitalsDisplay display, bool openMenu)
     {
-        if (_selectedMenu == null)
-        {
-            _selectedMenu = ProfileMenu;
-        }
-
         if (HeldItemButton != null)
         {
             InventoryItem item = display.Member.Inventory.AddItem(HeldItemButton.Item);
@@ -354,12 +347,17 @@ public class HUD : Menu {
             if (_party.ActiveMember != display.Member) {
                 _party.SetActiveMember(display.Member);
                 SelectNewMember?.Invoke(display.Member);
+
+                foreach (var cvd in CharacterVitalsUI)
+                    cvd.IndicateSelection(cvd == display);
+            } 
+            else
+            {
+                openMenu = true;
             }
-            foreach (var cvd in CharacterVitalsUI)
-                cvd.IndicateSelection(cvd == display);
         }
 
-        if (openMenu)
+        if (openMenu || _isCharacterMenuOpen)
         {
             if (_party.ActiveMember != display.Member)
             {
@@ -375,7 +373,7 @@ public class HUD : Menu {
         if (MenuManager.Instance.IsMenuOpen(new List<string>() { "Merchant", "Residence", "NPC", "Rest", "System", "Quests", "Spells" }))
             return;
 
-        CharacterMenuOpen = true;
+        _isCharacterMenuOpen = true;
         MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true);
         _selectedMenu.Setup(_party.ActiveMember);
         Vignette.enabled = true;
@@ -554,7 +552,7 @@ public class HUD : Menu {
 
     public void DropItem()
     {
-        if (HeldItemButton == null || CharacterMenuOpen || OtherMenuOpen)
+        if (HeldItemButton == null || _isCharacterMenuOpen || _isOtherMenuOpen)
             return;
 
         DropController.Instance.DropItem(HeldItemButton.Item, _party.DropPosition);
@@ -680,7 +678,7 @@ public class HUD : Menu {
             MenuManager.Instance.OpenMenu("Chest");
             SoundManager.Instance.PlayUISound("Chest");
             ChestMenu.Setup(chest.Inventory);
-            OtherMenuOpen = true;
+            _isOtherMenuOpen = true;
             Vignette.enabled = true;
         }
     }
@@ -691,7 +689,7 @@ public class HUD : Menu {
         MenuManager.Instance.OpenMenu("Residence");
         SoundManager.Instance.PlayUISound("Open");
         ResidenceMenu.Setup(residency);
-        OtherMenuOpen = true;
+        _isOtherMenuOpen = true;
         SideMenu.SetActive(false);
     }
 
@@ -701,7 +699,7 @@ public class HUD : Menu {
         MenuManager.Instance.OpenMenu("Merchant");
         SoundManager.Instance.PlayUISound("Open");
         MerchantMenu.Setup(merchant);
-        OtherMenuOpen = true;
+        _isOtherMenuOpen = true;
         SideMenu.SetActive(false);
     }
 
@@ -710,7 +708,7 @@ public class HUD : Menu {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("NPC");
         NPCMenu.Setup(npc);
-        OtherMenuOpen = true;
+        _isOtherMenuOpen = true;
         SideMenu.SetActive(false);
     }
 
@@ -719,7 +717,7 @@ public class HUD : Menu {
         PartyController.Instance.SetControlState(ControlState.MenuLock);
         MenuManager.Instance.OpenMenu("NPC");
         NPCMenu.Setup(npc, true);
-        OtherMenuOpen = true;
+        _isOtherMenuOpen = true;
         SideMenu.SetActive(false);
     }
 
@@ -750,38 +748,6 @@ public class HUD : Menu {
         return false;
     }
 
-    public void UpdatePopup(InventoryItem item, bool showPopup)
-    {
-        //if (showPopup)
-        //{
-        //    ItemInfoPopup.gameObject.SetActive(true);
-
-        //    if (item.IsBroken)
-        //    {
-        //        bool success = _party.TryRepair(item);
-        //        if (success)
-        //        {
-        //            ExpressSelectedmember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-        //        }
-        //    }
-        //    if (!item.IsIdentified)
-        //    {
-        //        bool success = _party.TryIdentify(item);
-        //        if (success)
-        //        {
-        //            ExpressSelectedmember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-        //        }
-        //    }
-        //}
-        //ItemInfoPopup.UpdateUI(item);
-    }
-
-    public void HidePopup()
-    {
-        //ItemInfoPopup.gameObject.SetActive(false);
-        //ScrollInfoPopup.gameObject.SetActive(false);
-    }
-
     public void UpdateCompass()
     {
         float rot = _party.Entity.transform.eulerAngles.y % 360;
@@ -789,11 +755,6 @@ public class HUD : Menu {
         float translation = -rot * 256f / 360f;
 
         Compass.localPosition = new Vector3(translation, Compass.localPosition.y, Compass.localPosition.z);
-    }
-
-    public void ShowLoad(bool isShowing)
-    {
-        LoadingScreen.gameObject.SetActive(isShowing);
     }
 
     public void ReleaseInfoLock()

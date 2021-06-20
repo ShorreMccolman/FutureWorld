@@ -6,6 +6,24 @@ using System.Xml;
 
 public class Vitals : GameStateEntity
 {
+    public string EffectiveExpression
+    {
+        get
+        {
+            if (Condition == PartyMemberState.Unconcious)
+                return GameConstants.EXPRESSION_UNCONCIOUS;
+            else if (Condition == PartyMemberState.Dead)
+                return GameConstants.EXPRESSION_DEAD;
+            else
+            {
+                string expression;
+                if (_status.ExpressionOverride(out expression))
+                    return expression;
+            }
+            return Expression;
+        }
+    }
+
     public int EffectiveTotalHP
     {
         get

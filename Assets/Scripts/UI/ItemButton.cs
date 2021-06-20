@@ -19,7 +19,7 @@ public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     protected virtual void OnHover() { }
     protected virtual void OnHoverExit() { }
 
-    protected void Setup(InventoryItem item, bool useEquip = false, bool useEquipOffset = true)
+    protected void Setup(InventoryItem item, bool useEquip = false, bool useEquipOffset = false)
     {
         Item = item;
         Image.sprite = item.Data.equipSprite != null && useEquip ? item.Data.equipSprite : item.Data.sprite;
