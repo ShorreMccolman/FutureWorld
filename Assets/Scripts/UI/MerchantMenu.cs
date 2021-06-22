@@ -35,7 +35,7 @@ public class MerchantMenu : ConversationMenu
 
         DialogOptions = new List<OptionButton>();
 
-        Party.Instance.MemberChanged += OnMemberChanged;
+        Party.MemberChanged += OnMemberChanged;
 
         OnHover = null;
         SoundManager.Instance.SetMusicVolume(0.25f);
@@ -522,7 +522,7 @@ public class MerchantMenu : ConversationMenu
         }
 
         HUD.Instance.EnableSideMenu();
-        Party.Instance.MemberChanged -= OnMemberChanged;
+        Party.MemberChanged -= OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(1f);
         SoundManager.Instance.PlayUISound("Close");
     }

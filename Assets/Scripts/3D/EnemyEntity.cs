@@ -49,6 +49,8 @@ public class EnemyEntity : Entity3D, IPopable
     bool _movingRight;
     float _changeDirectionTimer;
 
+    public static event System.Action<Enemy> OnEnemyKilled;
+
     public virtual void Setup(Enemy enemy)
     {
         State = enemy;
@@ -140,7 +142,6 @@ public class EnemyEntity : Entity3D, IPopable
     public void OnDeath()
     {
         _animator.SetTrigger("Death");
-
         _animator.SetFloat("MoveSpeed", 0);
         _animator.SetFloat("TurnSpeed", 0);
         _curMoveSpeed = 0;
@@ -152,7 +153,7 @@ public class EnemyEntity : Entity3D, IPopable
         IsTargetable = false;
 
         TimeManagement.Instance.OnTick -= Tick;
-        Party.Instance.OnEnemyDeath(Enemy);
+        OnEnemyKilled?.Invoke(Enemy);
     }
 
     public override IEnumerator Interact(PartyEntity party)

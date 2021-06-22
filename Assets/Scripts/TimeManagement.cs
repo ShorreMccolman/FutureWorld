@@ -21,11 +21,9 @@ public class TimeManagement : MonoBehaviour
     [SerializeField] Light NightLight;
     [SerializeField] Material NightBox;
 
-    public delegate void FinishEvent();
-    public FinishEvent OnFinish;
-    public delegate void TickEvent(float tick);
-    public TickEvent OnTick;
-    public TickEvent OnCombatTick;
+    public event System.Action OnFinish;
+    public event System.Action<float> OnTick;
+    public event System.Action<float> OnCombatTick;
 
     TimeControl _control;
     Party _party;
@@ -200,7 +198,7 @@ public class TimeManagement : MonoBehaviour
         }
     }
 
-    public void ProgressManually(float minutes, FinishEvent finishEvent = null)
+    public void ProgressManually(float minutes, System.Action finishEvent = null)
     {
         _manualDuration = minutes * 60;
         OnFinish = finishEvent;

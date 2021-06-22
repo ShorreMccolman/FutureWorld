@@ -26,11 +26,13 @@ public class ItemInfoPopup : MonoBehaviour
             Type.text = "";
             Description.alignment = TextAnchor.MiddleCenter;
             Description.color = Color.red;
+            Description.fontSize = 30;
             Value.text = "";
             ItemImage.color = item.IsBroken ? Color.red : Color.green;
         }
         else
         {
+            Description.fontSize = 20;
             string typeText = "Type: " + item.Data.GetTypeDescription();
             if(item.Data is Weapon)
             {

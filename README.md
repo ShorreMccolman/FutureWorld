@@ -4,7 +4,7 @@ This is a "remake" of one of my favorite games - Might & Magic VI: The Mandate o
 
 The vast majority of assets in the game were created by me using various tools with a few exceptions. The buildings and terrain were created by my brother. The 3D characters were either made by me with MakeHuman or downloaded from Mixamo.com. The animations in game are currently all taken from that same site. The sounds are from a library I purchased a liscense for. The music is taken directly from the original game and is being used as a placeholder for now. There are some more 3rd party models and textures but for the most part the artwork was created by me based on designs from the original game.
 
-Please keep in mind I do not advertise myself as an artist. I am doing it myself because there is nobody else to do it. A lot of is very bad, I know... try to use your imagination lol.
+Please keep in mind I do not advertise myself as an artist. I am doing it myself because there is nobody else to do it. A lot of is very bad, I know... try to use your imagination.
 
 All of the code with very minor exceptions was written by me. I did not copy any of the original games scripts, everything has been recreated from scratch as my own interpretation. However I did study the mechanics of the game very closely and had discussions with community members about the details of a few of the hidden systems. The project is certainly a work in progess, but many systems are already in place.
 

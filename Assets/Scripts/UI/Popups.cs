@@ -16,7 +16,6 @@ public class Popups : MonoBehaviour
     {
         if (!_supressed)
         {
-            Debug.LogError("Supressed");
             PartyController.Instance.OnReleaseClick += Release;
             _supressed = true;
             Close();
@@ -25,7 +24,6 @@ public class Popups : MonoBehaviour
 
     void Release()
     {
-        Debug.LogError("Released");
         PartyController.Instance.OnReleaseClick -= Release;
         _supressed = false;
     }

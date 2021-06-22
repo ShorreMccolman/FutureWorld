@@ -26,12 +26,11 @@ public class Party : GameStateEntity
     List<string> _visitedLocations;
     List<string> _monthlyKills;
 
-    public delegate void OnChangeEvent();
-    public OnChangeEvent MemberChanged;
+    public static event System.Action MemberChanged;
 
     public Party(CharacterData[] characterData) : base(null)
     {
-        Instance = this;
+        Init();
 
         CurrentLocationID = "Game";
 
@@ -58,7 +57,7 @@ public class Party : GameStateEntity
 
     public Party(XmlNode node) : base(null, node)
     {
-        Instance = this;
+        Init();
 
         CurrentLocationID = node.SelectSingleNode("LocationID").InnerText;
         CurrentFood = int.Parse(node.SelectSingleNode("Reputation").InnerText);
@@ -69,6 +68,13 @@ public class Party : GameStateEntity
         QuestLog = new QuestLog(this, node.SelectSingleNode("QuestLog"));
         Populate<PartyMember>(ref _members, typeof(Party), node, "Members", "PartyMember");
         Populate<NPC>(ref _hires, typeof(Party), node, "Hires", "NPC");
+    }
+
+    void Init()
+    {
+        Instance = this;
+
+        EnemyEntity.OnEnemyKilled += OnEnemyDeath;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -142,7 +148,7 @@ public class Party : GameStateEntity
         CurrentBalance -= quantity;
     }
 
-    public void OnEnemyDeath(Enemy enemy)
+    void OnEnemyDeath(Enemy enemy)
     {
         foreach(var member in Members)
         {

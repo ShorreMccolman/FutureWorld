@@ -9,7 +9,9 @@ public class CharacterVitalsDisplay : MonoBehaviour {
     [SerializeField] Image ReadyIndicator;
     [SerializeField] Image SelectionIndicator;
     [SerializeField] Slider HealthSlider;
+    [SerializeField] Image HealthFill;
     [SerializeField] Slider ManaSlider;
+    [SerializeField] Image ManaFill;
 
     public PartyMember Member { get; private set; }
 
@@ -31,8 +33,28 @@ public class CharacterVitalsDisplay : MonoBehaviour {
     public void UpdateUI()
     {
         ReadyIndicator.color = Member.Vitals.IsReady() ? Color.green : Color.grey;
-        HealthSlider.value = Member.Vitals.GetHealthRatio();
-        ManaSlider.value = Member.Vitals.GetManaRatio();
+        float health = Member.Vitals.GetHealthRatio();
+        HealthSlider.value = health;
+        if (health <= 0f)
+            HealthFill.color = Color.clear;
+        else if (health <= 0.25f)
+            HealthFill.color = Color.red;
+        else if (health <= 0.5f)
+            HealthFill.color = Color.yellow;
+        else
+            HealthFill.color = Color.green;
+
+        float mana = Member.Vitals.GetManaRatio();
+        ManaSlider.value = mana;
+        if (mana <= 0f)
+            ManaFill.color = Color.clear;
+        else if (mana <= 0.25f)
+            ManaFill.color = Color.red;
+        else if (mana <= 0.5f)
+            ManaFill.color = Color.yellow;
+        else
+            ManaFill.color = Color.blue;
+
         SwapPortrait(Member.Vitals.EffectiveExpression);
     }
 
