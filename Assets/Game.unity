@@ -40193,8 +40193,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 650474480}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: System
+        m_TargetAssemblyTypeName: HUD, Assembly-CSharp
+        m_MethodName: OpenSystem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

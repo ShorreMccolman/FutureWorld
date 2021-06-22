@@ -157,6 +157,7 @@ public class GameController : MonoBehaviour {
         }
 
         yield return null;
+        SpriteHandler.PurgeTemp();
         yield return null;
 
         TimeManagement.Instance.StartTiming(party);

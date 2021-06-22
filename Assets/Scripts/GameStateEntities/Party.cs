@@ -11,11 +11,18 @@ public class Party : GameStateEntity
     public PartyMember ActiveMember { get; private set; }
     public string CurrentLocationID { get; private set; }
     public int CurrentReputation { get; private set; }
-    public int CurrentFood { get; private set; }
-    public int CurrentGold { get; private set; }
-    public int CurrentBalance { get; private set; }
+
     public float CurrentTime { get; private set; }
     public QuestLog QuestLog { get; private set; }
+
+    int _currentFood;
+    public int CurrentFood => _currentFood;
+
+    int _currentGold;
+    public int CurrentGold => _currentGold;
+
+    int _currentBalance;
+    public int CurrentBalance => _currentBalance;
 
     List<NPC> _hires;
     public List<NPC> Hires => _hires;
@@ -26,7 +33,10 @@ public class Party : GameStateEntity
     List<string> _visitedLocations;
     List<string> _monthlyKills;
 
-    public static event System.Action MemberChanged;
+    public static event System.Action<PartyMember> OnMemberChanged;
+    public static event System.Action<int, int> OnFundsChanged;
+    public static event System.Action<int> OnFoodChanged;
+    public static event System.Action<List<NPC>> OnHiresChanged;
 
     public Party(CharacterData[] characterData) : base(null)
     {
@@ -47,9 +57,9 @@ public class Party : GameStateEntity
         _hires = new List<NPC>();
 
         CurrentReputation = 0;
-        CurrentFood = 7;
-        CurrentGold = 200;
-        CurrentBalance = 0;
+        _currentFood = 7;
+        _currentGold = 200;
+        _currentBalance = 0;
         CurrentTime = 0;
         _visitedLocations = new List<string>();
         _monthlyKills = new List<string>();
@@ -60,10 +70,10 @@ public class Party : GameStateEntity
         Init();
 
         CurrentLocationID = node.SelectSingleNode("LocationID").InnerText;
-        CurrentFood = int.Parse(node.SelectSingleNode("Reputation").InnerText);
-        CurrentFood = int.Parse(node.SelectSingleNode("Food").InnerText);
-        CurrentGold = int.Parse(node.SelectSingleNode("Gold").InnerText);
-        CurrentBalance = int.Parse(node.SelectSingleNode("Balance").InnerText);
+        CurrentReputation = int.Parse(node.SelectSingleNode("Reputation").InnerText);
+        _currentFood = int.Parse(node.SelectSingleNode("Food").InnerText);
+        _currentGold = int.Parse(node.SelectSingleNode("Gold").InnerText);
+        _currentBalance = int.Parse(node.SelectSingleNode("Balance").InnerText);
         CurrentTime = float.Parse(node.SelectSingleNode("Time").InnerText);
         QuestLog = new QuestLog(this, node.SelectSingleNode("QuestLog"));
         Populate<PartyMember>(ref _members, typeof(Party), node, "Members", "PartyMember");
@@ -74,7 +84,9 @@ public class Party : GameStateEntity
     {
         Instance = this;
 
-        EnemyEntity.OnEnemyKilled += OnEnemyDeath;
+        EnemyEntity.OnEnemyDeath += EnemyDeath;
+        EnemyEntity.OnEnemyPickup += PickupEnemy;
+        ChestEntity.OnInspectChest += InspectChest;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -116,10 +128,23 @@ public class Party : GameStateEntity
         }
     }
 
+    void UpdateFunds(int goldDifference, int balanceDifference)
+    {
+        _currentGold += goldDifference;
+        _currentBalance += balanceDifference;
+        OnFundsChanged?.Invoke(_currentGold, _currentBalance);
+    }
+
+    void UpdateFood(int foodDifference)
+    {
+        _currentFood += foodDifference;
+        OnFoodChanged?.Invoke(_currentFood);
+    }
+
     public void SetActiveMember(PartyMember member)
     {
         ActiveMember = member;
-        MemberChanged?.Invoke();
+        OnMemberChanged?.Invoke(member);
     }
 
     public void VisitLocation(string locationID)
@@ -132,8 +157,8 @@ public class Party : GameStateEntity
         if (quantity > CurrentGold)
             quantity = CurrentGold;
 
-        CurrentGold -= quantity;
-        CurrentBalance += quantity;
+        UpdateFunds(-quantity, quantity);
+        ActiveMember.Vitals.Express(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
     }
 
     public void Withdraw(int quantity)
@@ -144,11 +169,11 @@ public class Party : GameStateEntity
         if (quantity > CurrentBalance)
             quantity = CurrentBalance;
 
-        CurrentGold += quantity;
-        CurrentBalance -= quantity;
+        UpdateFunds(quantity, -quantity);
+        ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
     }
 
-    void OnEnemyDeath(Enemy enemy)
+    void EnemyDeath(Enemy enemy)
     {
         foreach(var member in Members)
         {
@@ -160,7 +185,32 @@ public class Party : GameStateEntity
             _monthlyKills.Add(enemy.Data.ID);
     }
 
-    public bool HasKilled(string enemyID)
+    void PickupEnemy(Enemy enemy)
+    {
+        CollectGold(enemy.Data.Gold.Roll(), true);
+    }
+
+    void InspectChest(Chest chest)
+    {
+        bool canOpen = true;
+        if (chest.Data.LockLevel > 0)
+        {
+            canOpen = TryDisarm(chest.Trap);
+            if (canOpen)
+            {
+                ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            }
+        }
+
+        if (canOpen)
+        {
+            PartyController.Instance.SetControlState(ControlState.MenuLock);
+            SoundManager.Instance.PlayUISound("Chest");
+            HUD.Instance.OpenChest(chest);
+        }
+    }
+
+    public bool HasKilledEnemyThisMonth(string enemyID)
     { 
         return _monthlyKills.Contains(enemyID); 
     }
@@ -181,19 +231,22 @@ public class Party : GameStateEntity
             }
         }
 
-        CurrentGold += amount - paid;
+        UpdateFunds(amount - paid, 0);
+
         if(paid == 0)
             HUD.Instance.SendInfoMessage("You found " + amount + " gold!", 2.0f);
         else
             HUD.Instance.SendInfoMessage("You found " + amount + " gold (followers take " + paid + ")!", 2.0f);
-        HUD.Instance.UpdateDisplay();
+
         SoundManager.Instance.PlayUISound("Coins");
     }
 
     public void FillFoodTo(int quantity)
     {
-        CurrentFood = quantity;
-        HUD.Instance.UpdateDisplay();
+        if (quantity > _currentFood)
+        {
+            UpdateFood(quantity - _currentFood);
+        }
     }
 
     public bool TryHire(NPC npc)
@@ -208,7 +261,7 @@ public class Party : GameStateEntity
         if (success)
         {
             Hires.Add(npc);
-            HUD.Instance.UpdateDisplay();
+            OnHiresChanged?.Invoke(Hires);
         }
         return success;
     }
@@ -219,7 +272,7 @@ public class Party : GameStateEntity
             return false;
 
         Hires.Remove(npc);
-        HUD.Instance.UpdateDisplay();
+        OnHiresChanged?.Invoke(Hires);
         return true;
     }
 
@@ -230,9 +283,7 @@ public class Party : GameStateEntity
             HUD.Instance.SendInfoMessage("You don't have enough food to rest", 2.0f);
             return false;
         }
-
-        CurrentFood -= cost;
-        HUD.Instance.UpdateDisplay();
+        UpdateFood(-cost);
         return true;
     }
 
@@ -243,8 +294,7 @@ public class Party : GameStateEntity
             return false;
         }
 
-        CurrentGold -= cost;
-        HUD.Instance.UpdateDisplay();
+        UpdateFunds(-cost, 0);
         return true;
     }
 
@@ -262,7 +312,12 @@ public class Party : GameStateEntity
                 level = 999;
         }
 
-        return item.TryIdentify(level);
+        bool success = item.TryIdentify(level);
+        if (success)
+        {
+            ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+        }
+        return success;
     }
 
     public bool TryRepair(InventoryItem item)
@@ -289,7 +344,13 @@ public class Party : GameStateEntity
             }
         }
 
-        return item.TryRepair(level);
+        bool success = item.TryRepair(level);
+        if(success)
+        {
+            ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+        }
+
+        return success;
     }
 
     public bool TryDisarm(Trap trap)
@@ -317,6 +378,10 @@ public class Party : GameStateEntity
             {
                 member.OnDamaged(result);
             }
+        } 
+        else
+        {
+            ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
         }
 
         return success;
@@ -350,7 +415,7 @@ public class Party : GameStateEntity
     {
         foreach(var member in Members)
         {
-            if (member.Vitals.Condition == PartyMemberState.Good)
+            if (member.Vitals.Condition == PartyMemberState.Concious)
                 return false;
         }
 
@@ -359,14 +424,12 @@ public class Party : GameStateEntity
 
     public bool EnemyAttack(EnemyData data)
     {
-        List<PartyMember> validTargets = Members.FindAll(x => x.Vitals.Condition == PartyMemberState.Good);
+        List<PartyMember> validTargets = Members.FindAll(x => x.Vitals.Condition == PartyMemberState.Concious);
         PartyMember member = validTargets[Random.Range(0, validTargets.Count)];
         bool success = member.OnEnemyAttack(data);
 
         if (success)
         {
-            HUD.Instance.UpdateDisplay();
-
             if (!member.IsConcious())
                 PartyController.Instance.Knockout(member);
 

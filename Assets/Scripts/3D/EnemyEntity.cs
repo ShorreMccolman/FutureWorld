@@ -49,7 +49,8 @@ public class EnemyEntity : Entity3D, IPopable
     bool _movingRight;
     float _changeDirectionTimer;
 
-    public static event System.Action<Enemy> OnEnemyKilled;
+    public static event System.Action<Enemy> OnEnemyDeath;
+    public static event System.Action<Enemy> OnEnemyPickup;
 
     public virtual void Setup(Enemy enemy)
     {
@@ -153,19 +154,17 @@ public class EnemyEntity : Entity3D, IPopable
         IsTargetable = false;
 
         TimeManagement.Instance.OnTick -= Tick;
-        OnEnemyKilled?.Invoke(Enemy);
+        OnEnemyDeath?.Invoke(Enemy);
     }
 
     public override IEnumerator Interact(PartyEntity party)
     {
         if (!_isActive)
         {
-            bool success = HUD.Instance.PickupCorpse(Enemy);
             yield return new WaitForEndOfFrame();
-            if (success)
-            {
-                Kill();
-            }
+
+            OnEnemyPickup?.Invoke(Enemy);
+            Kill();
         }
     }
 

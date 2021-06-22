@@ -32,7 +32,7 @@ public class ItemInfoPopup : MonoBehaviour
         }
         else
         {
-            Description.fontSize = 20;
+            Description.fontSize = 14;
             string typeText = "Type: " + item.Data.GetTypeDescription();
             if(item.Data is Weapon)
             {

@@ -17,7 +17,7 @@ public class Vitals : GameStateEntity
             else
             {
                 string expression;
-                if (_status.ExpressionOverride(out expression))
+                if (_status.OverrideExpression(out expression))
                     return expression;
             }
             return Expression;
@@ -117,11 +117,10 @@ public class Vitals : GameStateEntity
     public PartyMemberState Condition { get; private set; }
     public int CurrentHP { get; private set; }
     public int CurrentMP { get; private set; }
-
-    public float TimeToNeutral { get; private set; }
     public float Cooldown { get; private set; }
     public string Expression { get; private set; }
 
+    float _timeToNeutral;
     double _timeToIdle;
     bool _isIdleing;
 
@@ -130,6 +129,11 @@ public class Vitals : GameStateEntity
     Skillset _skillset;
     Status _status;
 
+    public event System.Action<string> OnExpressionChange;
+    public event System.Action<bool, PartyMemberState> OnConditionChange;
+    public event System.Action<int, int> OnHealthChange;
+    public event System.Action<int, int> OnManaChange;
+
     public Vitals(GameStateEntity parent, CharacterData data, Status status, Profile profile, Equipment equipment, Skillset skillset) : base(parent)
     {
         _profile = profile;
@@ -137,13 +141,15 @@ public class Vitals : GameStateEntity
         _skillset = skillset;
         _status = status;
 
-        Condition = PartyMemberState.Good;
+        _status.OnStatusChange += ChangeStatus;
+
+        Condition = PartyMemberState.Concious;
         CurrentHP = EffectiveTotalHP;
         CurrentMP = EffectiveTotalMP;
         ApplyCooldown(Recovery);
 
         Expression = GameConstants.EXPRESSION_NEUTRAL;
-        TimeToNeutral = 0;
+        _timeToNeutral = 0;
         _timeToIdle = Random.Range(5.0f, 15.0f);
     }
 
@@ -158,7 +164,7 @@ public class Vitals : GameStateEntity
         Condition = (PartyMemberState)int.Parse(vitalsNode.SelectSingleNode("Condition").InnerText);
         CurrentHP = int.Parse(vitalsNode.SelectSingleNode("CurrentHP").InnerText);
         CurrentMP = int.Parse(vitalsNode.SelectSingleNode("CurrentMP").InnerText);
-        TimeToNeutral = float.Parse(vitalsNode.SelectSingleNode("TTN").InnerText);
+        _timeToNeutral = float.Parse(vitalsNode.SelectSingleNode("TTN").InnerText);
         Cooldown = float.Parse(vitalsNode.SelectSingleNode("Cooldown").InnerText);
         Expression = vitalsNode.SelectSingleNode("Expression").InnerText;
     }
@@ -170,21 +176,11 @@ public class Vitals : GameStateEntity
         element.AppendChild(XmlHelper.Attribute(doc, "Condition", (int)Condition));
         element.AppendChild(XmlHelper.Attribute(doc, "CurrentHP", CurrentHP));
         element.AppendChild(XmlHelper.Attribute(doc, "CurrentMP", CurrentMP));
-        element.AppendChild(XmlHelper.Attribute(doc, "TTN", TimeToNeutral));
+        element.AppendChild(XmlHelper.Attribute(doc, "TTN", _timeToNeutral));
         element.AppendChild(XmlHelper.Attribute(doc, "Cooldown", Cooldown));
         element.AppendChild(XmlHelper.Attribute(doc, "Expression", Expression));
         element.AppendChild(base.ToXml(doc));
         return element;
-    }
-
-    public float GetHealthRatio()
-    {
-        return (float)CurrentHP / (float)EffectiveTotalHP;
-    }
-
-    public float GetManaRatio()
-    {
-        return (float)CurrentMP / (float)EffectiveTotalMP;
     }
 
     public int MaxRestHP()
@@ -206,6 +202,9 @@ public class Vitals : GameStateEntity
     {
         CurrentHP = EffectiveTotalHP;
         CurrentMP = EffectiveTotalMP;
+
+        OnHealthChange?.Invoke(CurrentHP, EffectiveTotalHP);
+        OnManaChange?.Invoke(CurrentMP, EffectiveTotalMP);
     }
 
     public void Restore(bool restoreAll = false)
@@ -220,18 +219,26 @@ public class Vitals : GameStateEntity
             CurrentHP = MaxRestHP();
             CurrentMP = MaxRestMP();
         }
+        OnHealthChange?.Invoke(CurrentHP, EffectiveTotalHP);
+        OnManaChange?.Invoke(CurrentMP, EffectiveTotalMP);
 
         if (Condition == PartyMemberState.Unconcious)
-            Condition = PartyMemberState.Good;
+            ChangeCondition(PartyMemberState.Concious);
         else if (restoreAll && (Condition == PartyMemberState.Dead || Condition == PartyMemberState.Eradicated))
-            Condition = PartyMemberState.Good;
+            ChangeCondition(PartyMemberState.Concious);
     }
 
-    public void SetExpression(string expression, float duration)
+    public void Express(string expression, float duration)
     {
-        TimeToNeutral = duration;
+        _timeToNeutral = duration;
         Expression = expression;
         _isIdleing = false;
+        OnExpressionChange?.Invoke(EffectiveExpression);
+    }
+
+    void ChangeStatus(List<StatusCondition> conditions)
+    {
+        OnExpressionChange?.Invoke(EffectiveExpression);
     }
 
     public void ApplyCooldown(float cooldown)
@@ -248,24 +255,32 @@ public class Vitals : GameStateEntity
         Cooldown -= delta;
         if (Cooldown < 0)
             Cooldown = 0;
-        return Cooldown <= 0;
+
+        bool isReady = Cooldown <= 0;
+        if(isReady)
+        {
+            OnConditionChange?.Invoke(true, Condition);
+        }
+
+        return isReady;
     }
 
     public bool TickExpression(float delta)
     {
-        TimeToNeutral -= delta;
+        _timeToNeutral -= delta;
 
-        if (TimeToNeutral <= 0 && !_isIdleing)
+        if (_timeToNeutral <= 0 && !_isIdleing)
         {
             Expression = GameConstants.EXPRESSION_NEUTRAL;
             _timeToIdle = Random.Range(5.0f, 15.0f);
             _isIdleing = true;
+            OnExpressionChange?.Invoke(EffectiveExpression);
             return true;
         }
 
-        if (TimeToNeutral < -_timeToIdle)
+        if (_timeToNeutral < -_timeToIdle)
         {
-            SetExpression(GameConstants.EXPRESSION_IDLE, 0.5f);
+            Express(GameConstants.EXPRESSION_IDLE, 0.5f);
             return true;
         }
 
@@ -277,6 +292,10 @@ public class Vitals : GameStateEntity
         CurrentHP += amount;
         if (CurrentHP > EffectiveTotalHP)
             CurrentHP = EffectiveTotalHP;
+        OnHealthChange?.Invoke(CurrentHP, EffectiveTotalHP);
+
+        if (Condition == PartyMemberState.Unconcious && CurrentHP > 0)
+            ChangeCondition(PartyMemberState.Concious);
     }
 
     public void GainSpellPoints(int amount)
@@ -284,15 +303,24 @@ public class Vitals : GameStateEntity
         CurrentMP += amount;
         if (CurrentMP > EffectiveTotalMP)
             CurrentMP = EffectiveTotalMP;
+        OnManaChange?.Invoke(CurrentMP, EffectiveTotalMP);
     }
 
     public void TakeDamage(int damage)
     {
         CurrentHP -= damage;
+        OnHealthChange?.Invoke(CurrentHP, EffectiveTotalHP);
 
         if (CurrentHP <= -EffectiveTotalHP)
-            Condition = PartyMemberState.Dead;
+            ChangeCondition(PartyMemberState.Dead);
         else if (CurrentHP <= 0)
-            Condition = PartyMemberState.Unconcious;
+            ChangeCondition(PartyMemberState.Unconcious);
+    }
+
+    void ChangeCondition(PartyMemberState state)
+    {
+        Condition = state;
+        OnConditionChange?.Invoke(IsReady(), state);
+        OnExpressionChange?.Invoke(EffectiveExpression);
     }
 }

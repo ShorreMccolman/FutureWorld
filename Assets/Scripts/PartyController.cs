@@ -95,16 +95,14 @@ public class PartyController : MonoBehaviour {
                 bool readyEvent = member.Vitals.TickCooldown(tick);
                 if (readyEvent)
                 {
-                    HUD.Instance.ReadyEvent(member);
+                    if (_party.ActiveMember == null)
+                        _party.SetActiveMember(member);
+
                     _priorityQueue.Add(member);
                 }
             }
 
-            bool statusEvent = member.Status.TickConditions(tick);
-            if (statusEvent)
-            {
-                HUD.Instance.UpdateDisplay();
-            }
+            member.Status.TickConditions(tick);
         }
     }
 
@@ -126,11 +124,7 @@ public class PartyController : MonoBehaviour {
 
         foreach (var member in Party.Instance.Members)
         {
-            bool expressionEvent = member.Vitals.TickExpression(Time.deltaTime);
-            if (expressionEvent)
-            {
-                HUD.Instance.UpdateDisplay();
-            }
+            member.Vitals.TickExpression(Time.deltaTime);
         }
 
         bool hoveringUI = false;
@@ -431,7 +425,6 @@ public class PartyController : MonoBehaviour {
 
         if(_party.ActiveMember == attacker)
             Party.Instance.SetActiveMember(_priorityQueue.Get() as PartyMember);
-        HUD.Instance.UpdateDisplay();
     }
 
     Entity3D GetNearestTargetable(out bool shortRange)

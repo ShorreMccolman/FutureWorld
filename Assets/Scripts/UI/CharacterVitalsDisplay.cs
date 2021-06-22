@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,36 +16,35 @@ public class CharacterVitalsDisplay : MonoBehaviour {
 
     public PartyMember Member { get; private set; }
 
-    public Sprite Sprite { get { return Portrait.sprite; } }
-
-    Dictionary<string, Sprite> _usedSprites;
+    public Sprite Sprite => Portrait.sprite;
 
     bool _clicking;
 
     public void Init(PartyMember member)
     {
         Member = member;
-        _usedSprites = new Dictionary<string, Sprite>();
 
-        UpdateUI();
-        SelectionIndicator.color = Color.grey;
+        member.Vitals.OnConditionChange += UpdateStatus;
+        member.Vitals.OnExpressionChange += UpdateExpression;
+        member.Vitals.OnHealthChange += UpdateHP;
+        member.Vitals.OnManaChange += UpdateSP;
+        Party.OnMemberChanged += IndicateSelection;
+
+        UpdateSP(member.Vitals.CurrentHP, member.Vitals.EffectiveTotalHP);
+        UpdateSP(member.Vitals.CurrentMP, member.Vitals.EffectiveTotalMP);
+        UpdateExpression(member.Vitals.EffectiveExpression);
+        UpdateStatus(member.Vitals.IsReady());
+        IndicateSelection(Party.Instance.ActiveMember);
     }
 
-    public void UpdateUI()
+    private void UpdateStatus(bool isReady, PartyMemberState state = PartyMemberState.Concious)
     {
-        ReadyIndicator.color = Member.Vitals.IsReady() ? Color.green : Color.grey;
-        float health = Member.Vitals.GetHealthRatio();
-        HealthSlider.value = health;
-        if (health <= 0f)
-            HealthFill.color = Color.clear;
-        else if (health <= 0.25f)
-            HealthFill.color = Color.red;
-        else if (health <= 0.5f)
-            HealthFill.color = Color.yellow;
-        else
-            HealthFill.color = Color.green;
+        ReadyIndicator.color = isReady ? Color.green : Color.grey;
+    }
 
-        float mana = Member.Vitals.GetManaRatio();
+    void UpdateSP(int sp, int max)
+    {
+        float mana = (float)sp / (float)max;
         ManaSlider.value = mana;
         if (mana <= 0f)
             ManaFill.color = Color.clear;
@@ -54,32 +54,35 @@ public class CharacterVitalsDisplay : MonoBehaviour {
             ManaFill.color = Color.yellow;
         else
             ManaFill.color = Color.blue;
-
-        SwapPortrait(Member.Vitals.EffectiveExpression);
     }
 
-    void SwapPortrait(string expression)
+    void UpdateHP(int hp, int max)
     {
-        if (_usedSprites.ContainsKey(expression))
-        {
-            Portrait.sprite = _usedSprites[expression];
-        } 
+        float health = (float)hp / (float)max;
+        HealthSlider.value = health;
+        if (health <= 0f)
+            HealthFill.color = Color.clear;
+        else if (health <= 0.25f)
+            HealthFill.color = Color.red;
+        else if (health <= 0.5f)
+            HealthFill.color = Color.yellow;
         else
-        {
-            Sprite portrait = Resources.Load<Sprite>("Portraits/Face" + Member.Profile.PortraitID + "_" + expression);
-            _usedSprites.Add(expression, portrait);
-            Portrait.sprite = portrait;
-        }
+            HealthFill.color = Color.green;
     }
 
-    public void IndicateSelection(bool selected)
+    void UpdateExpression(string expression)
     {
-        SelectionIndicator.color = selected ? Color.white : Color.grey;
+        Portrait.sprite = SpriteHandler.FetchSprite("Portraits", "Face" + Member.Profile.PortraitID + "_" + expression);
+    }
+
+    public void IndicateSelection(PartyMember member)
+    {
+        SelectionIndicator.color = member == Member ? Color.white : Color.grey;
     }
 
     public void MenuClick()
     {
-        HUD.Instance.SelectCharacter(this, _clicking);
+        HUD.Instance.SelectCharacter(Member, _clicking);
 
         _clicking = true;
         CancelInvoke();

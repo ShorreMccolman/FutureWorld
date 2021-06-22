@@ -35,7 +35,7 @@ public class MerchantMenu : ConversationMenu
 
         DialogOptions = new List<OptionButton>();
 
-        Party.MemberChanged += OnMemberChanged;
+        Party.OnMemberChanged += OnMemberChanged;
 
         OnHover = null;
         SoundManager.Instance.SetMusicVolume(0.25f);
@@ -54,10 +54,10 @@ public class MerchantMenu : ConversationMenu
         SpellStore.gameObject.SetActive(false);
     }
 
-    void OnMemberChanged()
+    void OnMemberChanged(PartyMember member)
     {
         if (PlayerInventoryDisplay.gameObject.activeSelf)
-            PlayerInventoryDisplay.DisplayInventory(Party.Instance.ActiveMember.Inventory);
+            PlayerInventoryDisplay.DisplayInventory(member.Inventory);
         else if(!_inventoryMenuOpen)
             SetupDialog();
     }
@@ -72,24 +72,13 @@ public class MerchantMenu : ConversationMenu
 
         _currentMerchant.TryUpdateStock(Party.Instance.CurrentTime);
 
-        GameObject obj;
-        DialogOptionButton UI;
-
         if (!Party.Instance.QuestLog.IsMemberOfGuild(_currentMerchant.Data.GuildID))
         {
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("You must be a member of this guild to study here.", null);
-            DialogOptions.Add(UI);
+            AddButton("You must be a member of this guild to study here.");
         }
         else if (!Party.Instance.ActiveMember.IsConcious())
         {
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup(Party.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything", null);
-            DialogOptions.Add(UI);
+            AddButton(Party.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything");
         } 
         else
         {
@@ -111,61 +100,37 @@ public class MerchantMenu : ConversationMenu
 
                 if(availableSkills.Count > 0)
                 {
-                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-                    UI = obj.GetComponent<DialogOptionButton>();
-                    UI.Setup("Skill Cost: " + _currentMerchant.Data.SkillCost, null);
-                    DialogOptions.Add(UI);
+                    AddButton("Skill Cost: " + _currentMerchant.Data.SkillCost);
                 }
 
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup(buyLabel, SetupBuy);
-                DialogOptions.Add(UI);
+                AddButton(buyLabel, SetupBuy);
 
                 if(availableSkills.Count > 0)
                 {
                     for(int i=0;i<availableSkills.Count;i++)
                     {
-                        obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-                        UI = obj.GetComponent<DialogOptionButton>();
-                        UI.Setup(availableSkills[i].DisplayName, i, LearnSkill);
-                        DialogOptions.Add(UI);
+                        AddButton(availableSkills[i].DisplayName, i, LearnSkill);
                     }
                 } 
                 else if (_currentMerchant.Data.StoreType != StoreType.Spell)
                 {
-                    obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-                    UI = obj.GetComponent<DialogOptionButton>();
-                    UI.Setup("Sell", SetupSell);
-                    DialogOptions.Add(UI);
+                    AddButton("Sell", SetupSell);
                 }
             }
 
             if (_currentMerchant.Data.CanIdentify)
             {
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Identify", SetupIdentify);
-                DialogOptions.Add(UI);
+                AddButton("Identify", SetupIdentify);
             }
 
             if (_currentMerchant.Data.CanRepair)
             {
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Repair", SetupRepair);
-                DialogOptions.Add(UI);
+                AddButton("Repair", SetupRepair);
             }
 
             if (_currentMerchant.Data.SpecialInfo.CountForStoreType(_currentMerchant.Data.StoreType) > 0)
             {
-                obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-
-                UI = obj.GetComponent<DialogOptionButton>();
-                UI.Setup("Special", SetupSpecial);
-                DialogOptions.Add(UI);
+                AddButton("Special", SetupSpecial);
             }
         }
 
@@ -282,7 +247,7 @@ public class MerchantMenu : ConversationMenu
         if(Party.Instance.TryPay(_currentMerchant.Data.SkillCost))
         {
             Party.Instance.ActiveMember.Skillset.LearnSkill(skill);
-            HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            Party.Instance.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             SetupDialog();
         }
     }
@@ -420,12 +385,7 @@ public class MerchantMenu : ConversationMenu
         bool success = HUD.Instance.PurchaseItem(item, value);
         if(success)
         {
-            HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             _currentMerchant.ConfirmPurchase(item);
-        }
-        else
-        {
-            HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_SAD, GameConstants.EXPRESSION_SAD_DURATION);
         }
         return success;
     }
@@ -522,7 +482,7 @@ public class MerchantMenu : ConversationMenu
         }
 
         HUD.Instance.EnableSideMenu();
-        Party.MemberChanged -= OnMemberChanged;
+        Party.OnMemberChanged -= OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(1f);
         SoundManager.Instance.PlayUISound("Close");
     }

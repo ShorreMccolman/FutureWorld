@@ -54,7 +54,6 @@ public class RestMenu : Menu
                 member.Rest(60 * 8);
             }
 
-            HUD.Instance.UpdateDisplay();
             isResting = true;
             TimeManagement.Instance.ProgressManually(60 * 8, OnFinishRest);
         }
@@ -72,7 +71,6 @@ public class RestMenu : Menu
             member.Rest(duration);
         }
 
-        HUD.Instance.UpdateDisplay();
         isResting = true;
         TimeManagement.Instance.ProgressManually(duration, OnFinishRest);
     }

@@ -27,7 +27,7 @@ public class NPC : GameStateEntity
     {
         int rand = Random.Range(0, GameConstants.RandomNPCNamesFemale.Length);
 
-        Sprite[] sprites = Resources.LoadAll<Sprite>("NPC");
+        Sprite[] sprites = SpriteHandler.FetchTemp("NPC");
         List<Sprite> options = new List<Sprite>();
         foreach (var sprite in sprites)
         {
@@ -65,7 +65,7 @@ public class NPC : GameStateEntity
         Name = node.SelectSingleNode("Name").InnerText;
         _data = NPCDatabase.Instance.GetNPCData(node.SelectSingleNode("ID").InnerText);
         _portraitID = node.SelectSingleNode("Portrait").InnerText;
-        Portrait = Resources.Load<Sprite>("NPC/" + _portraitID);
+        Portrait = SpriteHandler.FetchSprite("NPC", _portraitID);
         Populate<Topic>(ref _topics, typeof(NPC), node, "Topics", "Topic");
     }
 

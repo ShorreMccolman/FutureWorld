@@ -17,7 +17,7 @@ public class HUD : Menu {
     void Awake() { Instance = this; }
 
     [SerializeField] Popups PopupObject;
-    public Popups Popups { get { return PopupObject; } }
+    public Popups Popups => PopupObject;
 
     [SerializeField] Text FPS;
     [SerializeField] GameObject DebugMenu;
@@ -51,17 +51,12 @@ public class HUD : Menu {
     [SerializeField] MerchantMenu MerchantMenu;
     [SerializeField] NPCMenu NPCMenu;
     [SerializeField] SpellsMenu SpellsMenu;
+
     [SerializeField] CharacterEquipmentDisplay EquipmentDisplay;
     [SerializeField] Transform HeldItemAnchor;
 
-    public delegate void SelectedMemberChangeEvent(PartyMember member);
-    public SelectedMemberChangeEvent SelectNewMember;
-
     Party _party;
     CharacterMenu _selectedMenu;
-    CharacterMenuSection _section;
-
-    Dictionary<PartyMember, CharacterVitalsDisplay> _partyMembersDisplayDict;
 
     bool _isCharacterMenuOpen;
     bool _isOtherMenuOpen;
@@ -84,25 +79,26 @@ public class HUD : Menu {
             }
         }
 
-        _partyMembersDisplayDict = new Dictionary<PartyMember, CharacterVitalsDisplay>();
         for (int i = 0; i < CharacterVitalsUI.Length; i++)
         {
             CharacterVitalsUI[i].Init(party.Members[i]);
-            _partyMembersDisplayDict.Add(party.Members[i], CharacterVitalsUI[i]);
         }
-        foreach (var cvd in CharacterVitalsUI)
-            cvd.IndicateSelection(cvd.Member == party.ActiveMember);
 
         _selectedMenu = ProfileMenu;
-
         _currentInfoMessage = "";
         ResetInfoMessage();
 
         Vignette.enabled = false;
-
         foreach (var obj in CharacterMenuObjects)
             obj.SetActive(false);
-        UpdateDisplay();
+
+        FoodLabel.text = _party.CurrentFood.ToString();
+        GoldLabel.text = _party.CurrentGold.ToString();
+
+        Party.OnFundsChanged += UpdateFunds;
+        Party.OnFoodChanged += UpdateFood;
+        Party.OnHiresChanged += UpdateHires;
+        TimeManagement.OnControlChanged += UpdateCombatIndicator;
     }
 
     void Update()
@@ -123,28 +119,32 @@ public class HUD : Menu {
         FPS.text = "" + fps;
     }
 
-    public void UpdateDisplay()
+    void UpdateFood(int food)
     {
-        foreach (var vitals in CharacterVitalsUI)
-        {
-            vitals.UpdateUI();
-            vitals.IndicateSelection(vitals.Member == _party.ActiveMember);
-        }
-
-        FoodLabel.text = _party.CurrentFood.ToString();
-        GoldLabel.text = _party.CurrentGold.ToString();
-
-        HireButtons[0].gameObject.SetActive(false);
-        HireButtons[1].gameObject.SetActive(false);
-        for (int i=0;i<_party.Hires.Count;i++)
-        {
-            HireButtons[i].Setup(_party.Hires[i]);
-        }
-
-        CombatIndicator.gameObject.SetActive(TimeManagement.IsCombatMode);
+        FoodLabel.text = food.ToString();
     }
 
-    public void System()
+    void UpdateFunds(int gold, int balance)
+    {
+        GoldLabel.text = gold.ToString();
+    }
+
+    void UpdateHires(List<NPC> hires)
+    {
+        HireButtons[0].gameObject.SetActive(false);
+        HireButtons[1].gameObject.SetActive(false);
+        for (int i = 0; i < hires.Count; i++)
+        {
+            HireButtons[i].Setup(hires[i]);
+        }
+    }
+
+    void UpdateCombatIndicator(TimeControl control)
+    {
+        CombatIndicator.gameObject.SetActive(control == TimeControl.Combat);
+    }
+
+    public void OpenSystem()
     {
         if (HeldItemButton != null)
             return;
@@ -261,21 +261,6 @@ public class HUD : Menu {
         _isOtherMenuOpen = false;
     }
 
-    public void ReadyEvent(PartyMember member)
-    {
-        if(_party.ActiveMember == null)
-        {
-            SelectCharacter(member, false);
-        }
-        else if (_party.ActiveMember == member)
-        {
-            foreach (var cvd in CharacterVitalsUI)
-                cvd.IndicateSelection(cvd.Member == member);
-        }
-
-        _partyMembersDisplayDict[member].UpdateUI();
-    }
-
     public void ToggleSelectedCharacter()
     {
         if (_party.ActiveMember == null)
@@ -297,8 +282,6 @@ public class HUD : Menu {
             if(_party.Members[cur].Vitals.IsReady() && _party.Members[cur].IsConcious())
             {
                 _party.SetActiveMember(_party.Members[cur]);
-                foreach (var cvd in CharacterVitalsUI)
-                    cvd.IndicateSelection(cvd.Member == _party.ActiveMember);
 
                 if(_isCharacterMenuOpen)
                 {
@@ -314,24 +297,19 @@ public class HUD : Menu {
 
     void RefreshCharacterSprite()
     {
-        CharacterPortrait.sprite = Resources.Load<Sprite>("BodyPortraits/Body" + _party.ActiveMember.Profile.PortraitID);
-        CharacterPortraitArm.sprite = Resources.Load<Sprite>("BodyPortraits/Arm" + _party.ActiveMember.Profile.PortraitID + "A");
-        CharacterPortraitTwoArm.sprite = Resources.Load<Sprite>("BodyPortraits/Arm" + _party.ActiveMember.Profile.PortraitID + "B");
+        CharacterPortrait.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Body" + _party.ActiveMember.Profile.PortraitID);
+        CharacterPortraitArm.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Arm" + _party.ActiveMember.Profile.PortraitID + "A");
+        CharacterPortraitTwoArm.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Arm" + _party.ActiveMember.Profile.PortraitID + "B");
     }
 
     public void SelectCharacter(PartyMember member, bool openMenu)
     {
-        SelectCharacter(_partyMembersDisplayDict[member], openMenu);
-    }
-
-    public void SelectCharacter(CharacterVitalsDisplay display, bool openMenu)
-    {
         if (HeldItemButton != null)
         {
-            InventoryItem item = display.Member.Inventory.AddItem(HeldItemButton.Item);
+            InventoryItem item = member.Inventory.AddItem(HeldItemButton.Item);
             if (item != null)
             {
-                if (display.Member.Equals(_party.ActiveMember))
+                if (member.Equals(_party.ActiveMember))
                     InventoryMenu.PlaceButtonAtSlot(HeldItemButton, item);
                 else
                     Destroy(HeldItemButton.gameObject);
@@ -340,14 +318,10 @@ public class HUD : Menu {
             return;
         }
 
-        if (display.Member.Vitals.IsReady())
+        if (member.Vitals.IsReady())
         {
-            if (_party.ActiveMember != display.Member) {
-                _party.SetActiveMember(display.Member);
-                SelectNewMember?.Invoke(display.Member);
-
-                foreach (var cvd in CharacterVitalsUI)
-                    cvd.IndicateSelection(cvd == display);
+            if (_party.ActiveMember != member) {
+                _party.SetActiveMember(member);
             } 
             else
             {
@@ -357,10 +331,9 @@ public class HUD : Menu {
 
         if (openMenu || _isCharacterMenuOpen)
         {
-            if (_party.ActiveMember != display.Member)
+            if (_party.ActiveMember != member)
             {
-                _party.SetActiveMember(display.Member);
-                SelectNewMember?.Invoke(display.Member);
+                _party.SetActiveMember(member);
             }
             OpenCharacterMenu();
         }
@@ -497,8 +470,7 @@ public class HUD : Menu {
         bool success = member.TryConsume(HeldItemButton.Item);
         if(success)
         {
-            UpdateDisplay();
-            ExpressMember(member, GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            member.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             Destroy(HeldItemButton.gameObject);
             HeldItemButton = null;
         }
@@ -615,16 +587,15 @@ public class HUD : Menu {
             HeldItemButton = invButton;
             HeldItemButton.transform.parent = HeldItemAnchor;
             PartyController.Instance.SetControlState(ControlState.MouseControl, true);
+
+            _party.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+        }
+        else
+        {
+            _party.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_SAD, GameConstants.EXPRESSION_SAD_DURATION);
         }
 
         return success;
-    }
-
-    public bool PickupCorpse(Enemy enemy)
-    {
-        int gold = enemy.Data.Gold.Roll();
-        _party.CollectGold(gold, true);
-        return true;
     }
 
     public bool PickupDrop(ItemDrop drop)
@@ -657,27 +628,12 @@ public class HUD : Menu {
         return true;
     }
 
-    public void InspectChest(Chest chest)
+    public void OpenChest(Chest chest)
     {
-        bool canOpen = true;
-        if(chest.Data.LockLevel > 0)
-        {
-            canOpen = _party.TryDisarm(chest.Trap);
-            if(canOpen)
-            {
-                HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-            }
-        }
-
-        if (canOpen)
-        {
-            PartyController.Instance.SetControlState(ControlState.MenuLock);
-            MenuManager.Instance.OpenMenu("Chest");
-            SoundManager.Instance.PlayUISound("Chest");
-            ChestMenu.Setup(chest.Inventory);
-            _isOtherMenuOpen = true;
-            Vignette.enabled = true;
-        }
+        MenuManager.Instance.OpenMenu("Chest");
+        ChestMenu.Setup(chest.Inventory);
+        _isOtherMenuOpen = true;
+        Vignette.enabled = true;
     }
 
     public void EnterResidence(Residency residency)
@@ -748,9 +704,7 @@ public class HUD : Menu {
     public void UpdateCompass()
     {
         float rot = _party.Entity.transform.eulerAngles.y % 360;
-
         float translation = -rot * 256f / 360f;
-
         Compass.localPosition = new Vector3(translation, Compass.localPosition.y, Compass.localPosition.z);
     }
 
@@ -759,24 +713,6 @@ public class HUD : Menu {
         _infoMessageLock = false;
         _currentInfoMessage = "";
         InfoMessageLabel.text = "";
-    }
-
-    public void ExpressMembers(string expression, float duration)
-    {
-        foreach(var member in _party.Members)
-            member.Vitals.SetExpression(expression, duration);
-        UpdateDisplay();
-    }
-
-    public void ExpressMember(PartyMember member, string expression, float duration)
-    {
-        member.Vitals.SetExpression(expression, duration);
-        UpdateDisplay();
-    }
-
-    public void ExpressSelectedMember(string expression, float duration)
-    {
-        ExpressMember(_party.ActiveMember, expression, duration);
     }
 
     public void SendInfoMessage(string msg, float duration = 0, bool setLock = false)

@@ -6,12 +6,13 @@ using System.Xml;
 public class Status : GameStateEntity
 {
     List<StatusCondition> _conditions;
-    public List<StatusCondition> Conditions { get { return _conditions; } }
+
+    public event System.Action<List<StatusCondition>> OnStatusChange;
 
     public Status(GameStateEntity parent) : base(parent)
     {
         _conditions = new List<StatusCondition>();
-        AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
+        AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION, false);
     }
 
     public Status(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -23,7 +24,7 @@ public class Status : GameStateEntity
     public override XmlNode ToXml(XmlDocument doc)
     {
         XmlNode element = doc.CreateElement("Status");
-        element.AppendChild(XmlHelper.Attribute(doc, "Conditions", Conditions));
+        element.AppendChild(XmlHelper.Attribute(doc, "Conditions", _conditions));
         element.AppendChild(base.ToXml(doc));
         return element;
     }
@@ -45,7 +46,7 @@ public class Status : GameStateEntity
         return "Good";
     }
 
-    public bool ExpressionOverride(out string expression)
+    public bool OverrideExpression(out string expression)
     {
         if (HasCondition(StatusEffectOption.Sleep))
         {
@@ -125,7 +126,7 @@ public class Status : GameStateEntity
             }
         }
         foreach(var option in options)
-            RemoveCondition(option);
+            RemoveCondition(option, false);
         AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
     }
 
@@ -134,18 +135,19 @@ public class Status : GameStateEntity
         _conditions.Remove(condition);
         switch(condition.Effect.Option)
         {
+            default:
+                break;
             case StatusEffectOption.Sleep:
-                RemoveCondition(StatusEffectOption.Weak);
-                AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
-                return;
+                SwapConditions(StatusEffectOption.Weak, StatusEffectOption.Rested, GameConstants.REST_DURATION, false);
+                break;
             case StatusEffectOption.Rested:
-                RemoveCondition(StatusEffectOption.Rested);
-                AddCondition(StatusEffectOption.Weak, 0);
-                return;
+                SwapConditions(StatusEffectOption.Rested, StatusEffectOption.Weak, 0, false);
+                break;
         }
+        OnStatusChange?.Invoke(_conditions);
     }
 
-    public void AddCondition(StatusEffectOption option, int potency, float duration)
+    public void AddCondition(StatusEffectOption option, int potency, float duration, bool update = true)
     {
         for (int i = 0; i < _conditions.Count; i++)
         {
@@ -157,9 +159,12 @@ public class Status : GameStateEntity
         }
 
         _conditions.Add(StatusEffectDatabase.Instance.GetStatusCondition(option, this, potency, duration));
+
+        if (update)
+            OnStatusChange?.Invoke(_conditions);
     }
 
-    public void AddCondition(StatusEffectOption option, float duration)
+    public void AddCondition(StatusEffectOption option, float duration, bool update = true)
     {
         for(int i=0;i<_conditions.Count;i++)
         {
@@ -171,9 +176,11 @@ public class Status : GameStateEntity
         }
 
         _conditions.Add(StatusEffectDatabase.Instance.GetStatusCondition(option, this, duration));
+        if (update)
+            OnStatusChange?.Invoke(_conditions);
     }
 
-    public void RemoveCondition(StatusEffectOption option)
+    public void RemoveCondition(StatusEffectOption option, bool update = true)
     {
         int index = -1;
         for (int i = 0; i < _conditions.Count; i++)
@@ -187,13 +194,21 @@ public class Status : GameStateEntity
 
         if(index >= 0)
             _conditions.RemoveAt(index);
+        if (update)
+            OnStatusChange?.Invoke(_conditions);
+    }
+
+    public void SwapConditions(StatusEffectOption remove, StatusEffectOption add, float duration, bool update = true)
+    {
+        RemoveCondition(remove, false);
+        AddCondition(add, duration, update);
     }
 
     public int ModifyMight(int stat)
     {
         float modifier = 1.0f;
         int bonus = 0;
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -216,7 +231,7 @@ public class Status : GameStateEntity
     {
         float modifier = 1.0f;
         int bonus = 0;
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -239,7 +254,7 @@ public class Status : GameStateEntity
     {
         float modifier = 1.0f;
         int bonus = 0;
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -256,7 +271,7 @@ public class Status : GameStateEntity
     {
         float modifier = 1.0f;
         int bonus = 0;
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -273,7 +288,7 @@ public class Status : GameStateEntity
     {
         float modifier = 1.0f;
         int bonus = 0;
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -296,7 +311,7 @@ public class Status : GameStateEntity
     {
         float modifier = 1.0f;
         int bonus = 0;
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -319,7 +334,7 @@ public class Status : GameStateEntity
     {
         float modifier = 1.0f;
         int bonus = 0;
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -334,7 +349,7 @@ public class Status : GameStateEntity
 
     public int ModifyRestHP(int stat)
     {
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -350,7 +365,7 @@ public class Status : GameStateEntity
 
     public int ModifyResistance(AttackType type, int stat)
     {
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -365,7 +380,7 @@ public class Status : GameStateEntity
 
     public int ModifyRestMP(int stat)
     {
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {
@@ -381,7 +396,7 @@ public class Status : GameStateEntity
 
     public int ModifyFinalDamage(int stat)
     {
-        foreach (var condition in Conditions)
+        foreach (var condition in _conditions)
         {
             switch (condition.Option)
             {

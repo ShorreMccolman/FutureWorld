@@ -61,7 +61,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
     {
         switch(Vitals.Condition)
         {
-            case PartyMemberState.Good:
+            case PartyMemberState.Concious:
                 return Status.GetStatusCondition();
             case PartyMemberState.Unconcious:
                 return "Unconcious";
@@ -75,7 +75,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public bool IsConcious()
     {
-        if (Vitals.Condition != PartyMemberState.Good)
+        if (Vitals.Condition != PartyMemberState.Concious)
             return false;
 
         if (Status.HasCondition(StatusEffectOption.Sleep))
@@ -215,14 +215,14 @@ public class PartyMember : GameStateEntity, CombatEntity {
             string msg = Profile.CharacterName + " hit " + enemy.Data.DisplayName + " for " + damage + " damage.";
             if(enemy.CurrentHP - damage <= 0)
                 msg = Profile.CharacterName + " inflicts " + damage + " damage killing " + enemy.Data.DisplayName + ".";
-
             HUD.Instance.SendInfoMessage(msg, 2.0f);
-            HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+
+            Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             SoundManager.Instance.PlayUISound("Hit");
         }
         else
         {
-            HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
+            Vitals.Express(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
             SoundManager.Instance.PlayUISound("Swing");
         }
 
@@ -242,13 +242,13 @@ public class PartyMember : GameStateEntity, CombatEntity {
             projectile.SetDamage(Profile.CharacterName, Vitals.EffectiveRangedAttack, Equipment.RollRangedDamage(Skillset));
 
             Vitals.ApplyCooldown(Vitals.RangedRecovery);
-            HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
+            Vitals.Express(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
             SoundManager.Instance.PlayUISound("Arrow");
         }
         else
         {
-            SoundManager.Instance.PlayUISound("Swing");
             Vitals.ApplyCooldown(Vitals.Recovery);
+            SoundManager.Instance.PlayUISound("Swing");
         }
         return result;
     }
@@ -266,7 +266,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
             damage = CombatHelper.ReduceDamage(damage, chanceOfReduction);
 
             Vitals.TakeDamage(damage);
-            HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_HIT, GameConstants.EXPRESSION_HIT_DURATION);
+            Vitals.Express(GameConstants.EXPRESSION_HIT, GameConstants.EXPRESSION_HIT_DURATION);
         }
 
         return hits;
@@ -278,7 +278,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         int damage = CombatHelper.ReduceDamage(attack.Value, chanceOfReduction);
 
         Vitals.TakeDamage(damage);
-        HUD.Instance.ExpressMember(this, GameConstants.EXPRESSION_HIT, GameConstants.EXPRESSION_HIT_DURATION);
+        Vitals.Express(GameConstants.EXPRESSION_HIT, GameConstants.EXPRESSION_HIT_DURATION);
         return true;
     }
 }

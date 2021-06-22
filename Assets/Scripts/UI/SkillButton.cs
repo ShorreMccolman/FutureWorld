@@ -56,7 +56,7 @@ public class SkillButton : MonoBehaviour, IPopable, IInfoMessenger, IPointerEnte
         bool success = Party.Instance.ActiveMember.Profile.TryUpgradeSkill(_skill);
         if(success)
         {
-            HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            Party.Instance.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             _menu.UpdateDisplay();
         } else
         {

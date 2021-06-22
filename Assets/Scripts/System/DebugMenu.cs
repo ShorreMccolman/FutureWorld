@@ -34,8 +34,7 @@ public class DebugMenu : MonoBehaviour
         string[] split = input.Split('/');
 
         Chest chest = new Chest(new SpawnQuantities(split));
-        HUD.Instance.InspectChest(chest);
-
+        HUD.Instance.OpenChest(chest);
     }
 
     public void AddToInventory()
@@ -54,7 +53,6 @@ public class DebugMenu : MonoBehaviour
         }
         item.TryIdentify(100000);
         Party.Instance.ActiveMember.Inventory.AddItem(item);
-        HUD.Instance.UpdateDisplay();
     }
 
     public void SpawnDrop()

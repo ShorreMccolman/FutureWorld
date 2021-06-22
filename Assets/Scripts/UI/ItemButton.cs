@@ -70,19 +70,11 @@ public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     {
         if (Item.IsBroken)
         {
-            bool success = Party.Instance.TryRepair(Item);
-            if (success)
-            {
-                HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-            }
+            Party.Instance.TryRepair(Item);
         }
         if (!Item.IsIdentified)
         {
-            bool success = Party.Instance.TryIdentify(Item);
-            if (success)
-            {
-                HUD.Instance.ExpressSelectedMember(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-            }
+            Party.Instance.TryIdentify(Item);
         }
 
         HUD.Instance.Popups.ShowItem(Item);

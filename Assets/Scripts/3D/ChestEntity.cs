@@ -6,6 +6,8 @@ public class ChestEntity : Entity3D
 {
     Chest _chest;
 
+    public static event System.Action<Chest> OnInspectChest;
+
     public void Setup(Chest chest)
     {
         _chest = chest;
@@ -15,6 +17,6 @@ public class ChestEntity : Entity3D
     public override IEnumerator Interact(PartyEntity party)
     {
         yield return new WaitForEndOfFrame();
-        HUD.Instance.InspectChest(_chest);
+        OnInspectChest?.Invoke(_chest);
     }
 }

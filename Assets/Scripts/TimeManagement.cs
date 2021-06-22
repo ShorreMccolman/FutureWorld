@@ -25,6 +25,11 @@ public class TimeManagement : MonoBehaviour
     public event System.Action<float> OnTick;
     public event System.Action<float> OnCombatTick;
 
+    public static event System.Action<TimeControl> OnControlChanged;
+
+    public static bool IsCombatMode => Instance._control == TimeControl.Combat;
+    public MemberPriority CombatPriority;
+
     TimeControl _control;
     Party _party;
     System.DateTime _dt;
@@ -34,9 +39,6 @@ public class TimeManagement : MonoBehaviour
     bool _isComitting;
     float _timeToUpdate;
     bool _enemiesMoving;
-
-    public static bool IsCombatMode;
-    public MemberPriority CombatPriority;
 
     List<CombatEntity> ActiveEnemies;
     List<CombatEntity> ReadyMembers;
@@ -127,13 +129,15 @@ public class TimeManagement : MonoBehaviour
         {
             SetTimeControl(TimeControl.Combat);
         }
-        HUD.Instance.UpdateDisplay();
     }
 
     public void SetTimeControl(TimeControl control)
     {
+        if (control == _control)
+            return;
+
         _control = control;
-        IsCombatMode = control == TimeControl.Combat;
+        OnControlChanged?.Invoke(control);
 
         if(IsCombatMode)
         {

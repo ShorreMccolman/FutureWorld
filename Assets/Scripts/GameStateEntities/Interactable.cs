@@ -70,7 +70,7 @@ public class Interactable : GameStateEntity
                     else
                     {
                         member.Status.AddCondition(Data.Option, Data.Potency, Data.Duration * 60);
-                        HUD.Instance.ExpressMember(member, GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+                        member.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
                         HUD.Instance.SendInfoMessage(MessageForOption(Data.Option, Data.Potency), 2.0f);
                     }
                     break;
@@ -80,14 +80,12 @@ public class Interactable : GameStateEntity
                     else
                     {
                         member.Profile.AddStatPoints(Stat, Data.Potency);
-                        HUD.Instance.ExpressMember(member, GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+                        member.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
                         HUD.Instance.SendInfoMessage("+" + Data.Potency + " " + Stat.ToString() + " permanent.", 2.0f);
                         Stat = CharacterStat.None;
                     }
                     break;
             }
-
-            HUD.Instance.UpdateDisplay();
         }
         
         return canUse;

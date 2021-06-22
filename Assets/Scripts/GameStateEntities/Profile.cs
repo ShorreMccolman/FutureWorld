@@ -6,7 +6,7 @@ using System.Xml;
 
 public enum PartyMemberState
 {
-    Good,
+    Concious,
     Unconcious,
     Dead,
     Eradicated

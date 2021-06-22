@@ -28,6 +28,24 @@ public class ConversationMenu : Menu
         TimeManagement.Instance.SetTimeControl(TimeControl.Auto);
     }
 
+    public void AddButton(string dialog, ClickEvent clickEvent = null)
+    {
+        GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+        OptionButton UI = obj.GetComponent<DialogOptionButton>();
+        UI.Setup(dialog, clickEvent);
+        DialogOptions.Add(UI);
+    }
+
+    public void AddButton(string dialog, int index, ClickIndexEvent clickEvent = null)
+    {
+        GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+        OptionButton UI = obj.GetComponent<DialogOptionButton>();
+        UI.Setup(dialog, index, clickEvent);
+        DialogOptions.Add(UI);
+    }
+
     protected void StaggerOptions()
     {
         bool usesSmallButtons = DialogOptions.Count > 4;
