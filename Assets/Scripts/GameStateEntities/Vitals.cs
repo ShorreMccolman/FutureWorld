@@ -78,6 +78,9 @@ public class Vitals : GameStateEntity
     public event System.Action<int, int> OnManaChange;
     public event System.Action OnVitalsChanged;
 
+    public static event System.Action<PartyMember> OnMemberKnockout;
+    public static event System.Action<PartyMember> OnMemberReady;
+
     public Vitals(GameStateEntity parent, CharacterData data, Status status, Profile profile, Equipment equipment, Skillset skillset) : base(parent)
     {
         _profile = profile;
@@ -112,12 +115,14 @@ public class Vitals : GameStateEntity
         _profile.OnStatsChanged += UpdateEffectiveVitals;
         _skillset.OnSkillsChanged += UpdateEffectiveVitals;
 
+        TimeManagement.Instance.OnTick += Tick;
+
         XmlNode vitalsNode = node.SelectSingleNode("Vitals");
         Condition = (PartyMemberState)int.Parse(vitalsNode.SelectSingleNode("Condition").InnerText);
         CurrentHP = int.Parse(vitalsNode.SelectSingleNode("CurrentHP").InnerText);
         CurrentSP = int.Parse(vitalsNode.SelectSingleNode("CurrentMP").InnerText);
+        ApplyCooldown(float.Parse(vitalsNode.SelectSingleNode("Cooldown").InnerText));
         _timeToNeutral = float.Parse(vitalsNode.SelectSingleNode("TTN").InnerText);
-        Cooldown = float.Parse(vitalsNode.SelectSingleNode("Cooldown").InnerText);
         _expression = vitalsNode.SelectSingleNode("Expression").InnerText;
 
         UpdateEffectiveVitals();
@@ -135,6 +140,19 @@ public class Vitals : GameStateEntity
         element.AppendChild(XmlHelper.Attribute(doc, "Expression", _expression));
         element.AppendChild(base.ToXml(doc));
         return element;
+    }
+
+    public void Tick(float delta)
+    {
+        Cooldown -= delta;
+
+        if (Cooldown <= 0)
+        {
+            OnMemberReady?.Invoke(Parent as PartyMember);
+            OnConditionChange?.Invoke(true, Condition);
+            
+            TimeManagement.Instance.OnTick -= Tick;
+        }
     }
 
     public void UpdateEffectiveVitals()
@@ -241,6 +259,8 @@ public class Vitals : GameStateEntity
                 ChangeCondition(PartyMemberState.Unconcious);
             else
                 ChangeCondition(PartyMemberState.Dead);
+
+            OnMemberKnockout?.Invoke(Parent as PartyMember);
         }
 
         CurrentHP = Mathf.Min(hp, Stats.EffectiveTotalHP);
@@ -259,25 +279,8 @@ public class Vitals : GameStateEntity
     public void ApplyCooldown(float cooldown)
     {
         Cooldown = cooldown;
-    }
-
-    public bool TickCooldown(float delta)
-    {
-        bool wasOn = Cooldown > 0;
-        if (!wasOn)
-            return false;
-
-        Cooldown -= delta;
-        if (Cooldown < 0)
-            Cooldown = 0;
-
-        bool isReady = Cooldown <= 0;
-        if(isReady)
-        {
-            OnConditionChange?.Invoke(true, Condition);
-        }
-
-        return isReady;
+        OnConditionChange?.Invoke(false, Condition);
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public void GainHealthPoints(int amount)

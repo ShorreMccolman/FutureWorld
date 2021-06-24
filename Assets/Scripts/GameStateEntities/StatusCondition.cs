@@ -11,12 +11,16 @@ public class StatusCondition : GameStateEntity
     public float Duration { get; private set; }
     public int Potency { get; private set; }
 
+    public event System.Action<StatusCondition> OnConditionComplete;
+
     public StatusCondition(GameStateEntity parent, StatusEffect data, float duration) : base(parent)
     {
         Option = data.Option;
         Effect = data;
         Duration = duration;
         Potency = 0;
+
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public StatusCondition(GameStateEntity parent, StatusEffect data, int potency, float duration) : base(parent)
@@ -25,6 +29,8 @@ public class StatusCondition : GameStateEntity
         Effect = data;
         Duration = duration;
         Potency = potency;
+
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public StatusCondition(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -34,6 +40,8 @@ public class StatusCondition : GameStateEntity
         Duration = float.Parse(node.SelectSingleNode("Duration").InnerText);
         Potency = int.Parse(node.SelectSingleNode("Potency").InnerText);
         Effect = StatusEffectDatabase.Instance.GetEffect(Option);
+
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -46,10 +54,19 @@ public class StatusCondition : GameStateEntity
         return element;
     }
 
-    public bool Tick(float delta)
+    public void Tick(float delta)
     {
         Duration += Effect.TicksUp ? delta : -delta;
-        return Duration < 0;
+
+        if(!Effect.TicksUp && Duration < 0)
+        {
+            OnConditionComplete?.Invoke(this);
+        }
+    }
+
+    public void Terminate()
+    {
+        TimeManagement.Instance.OnTick -= Tick;
     }
 
     public void ModifyStats(EffectiveStats stats)
@@ -61,14 +78,12 @@ public class StatusCondition : GameStateEntity
                 stats.GetStat(CharacterStat.Endurance).ReduceMultiplier(0.75f);
                 stats.GetStat(CharacterStat.Accuracy).ReduceMultiplier(0.75f);
                 stats.GetStat(CharacterStat.Speed).ReduceMultiplier(0.75f);
-
                 break;
             case StatusEffectOption.Disease:
                 stats.GetStat(CharacterStat.Might).ReduceMultiplier(0.6f);
                 stats.GetStat(CharacterStat.Endurance).ReduceMultiplier(0.6f);
                 stats.GetStat(CharacterStat.Accuracy).ReduceMultiplier(0.6f);
                 stats.GetStat(CharacterStat.Speed).ReduceMultiplier(0.6f);
-
                 break;
             case StatusEffectOption.BoostedResistance:
                 stats.GetStat(CharacterStat.FireResist).AddToBonus(Potency);
@@ -76,6 +91,18 @@ public class StatusCondition : GameStateEntity
                 stats.GetStat(CharacterStat.ColdResist).AddToBonus(Potency);
                 stats.GetStat(CharacterStat.PoisonResist).AddToBonus(Potency);
                 stats.GetStat(CharacterStat.MagicResist).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedAC:
+                stats.GetStat(CharacterStat.ArmorClass).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedStats:
+                stats.GetStat(CharacterStat.Might).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.Intellect).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.Personality).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.Endurance).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.Speed).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.Accuracy).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.Luck).AddToBonus(Potency);
                 break;
             case StatusEffectOption.BoostedMight:
                 stats.GetStat(CharacterStat.Might).AddToBonus(Potency);
@@ -98,7 +125,6 @@ public class StatusCondition : GameStateEntity
             case StatusEffectOption.BoostedLuck:
                 stats.GetStat(CharacterStat.Luck).AddToBonus(Potency);
                 break;
-
         }
     }
 }

@@ -53,7 +53,7 @@ public class MemberPriority
         if (!IsReady())
             return null;
 
-        CombatEntity member = _queue[0];
+        CombatEntity member = _queue[_queue.Count - 1];
         _queue.Remove(member);
         return member;
     }

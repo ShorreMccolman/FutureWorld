@@ -21,11 +21,10 @@ public class PartyController : MonoBehaviour {
 
     public PartyEntity Entity { get; private set; }
 
-    public ControlState ControlState { get { return _controlState; } }
+    public ControlState ControlState => _controlState;
     Party _party;
     ControlState _controlState;
     ControlState _previousControlState;
-    MemberPriority _priorityQueue;
     List<Entity3D> _shortRange = new List<Entity3D>();
     List<Entity3D> _midRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
@@ -46,13 +45,10 @@ public class PartyController : MonoBehaviour {
         Entity.Init(party);
         HUD.Instance.InitParty(party);
 
-        _priorityQueue = new MemberPriority();
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
 
         MenuManager.Instance.OnMenuLock += MenuEvent;
-        TimeManagement.Instance.OnTick += Tick;
-        TimeManagement.Instance.OnTick += _party.TickEvent;
     }
 
     public void LoadParty(Party party)
@@ -70,8 +66,6 @@ public class PartyController : MonoBehaviour {
         _previousControlState = ControlState.LookControl;
 
         MenuManager.Instance.OnMenuLock += MenuEvent;
-        TimeManagement.Instance.OnTick += Tick;
-        TimeManagement.Instance.OnTick += _party.TickEvent;
     }
 
     public void ReviveParty(Party party)
@@ -84,26 +78,6 @@ public class PartyController : MonoBehaviour {
 
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
-    }
-
-    void Tick(float tick)
-    {
-        foreach (var member in Party.Instance.Members)
-        {
-            if (member.IsConcious())
-            {
-                bool readyEvent = member.Vitals.TickCooldown(tick);
-                if (readyEvent)
-                {
-                    if (_party.ActiveMember == null)
-                        _party.SetActiveMember(member);
-
-                    _priorityQueue.Add(member);
-                }
-            }
-
-            member.Status.TickConditions(tick);
-        }
     }
 
     void Update()
@@ -319,13 +293,6 @@ public class PartyController : MonoBehaviour {
             _shortRange.Remove(entity);
     }
 
-    public void Knockout(PartyMember member)
-    {
-        _priorityQueue.Flush(member);
-        if (member == _party.ActiveMember)
-            HUD.Instance.ToggleSelectedCharacter();
-    }
-
     public void TryAttack()
     {
         if(TimeManagement.IsCombatMode)
@@ -364,11 +331,7 @@ public class PartyController : MonoBehaviour {
 
     IEnumerator AttackRoutine()
     {
-        PartyMember attacker = null;
-        if (_party.ActiveMember.Vitals.IsReady())
-            attacker = _party.ActiveMember;
-        else if (_priorityQueue.IsReady())
-            attacker = _priorityQueue.Get() as PartyMember;
+        PartyMember attacker = _party.GetAttacker();
 
         if (attacker != null)
         {
@@ -419,12 +382,9 @@ public class PartyController : MonoBehaviour {
             yield return null;
             _isInteracting = false;
 
-            _priorityQueue.Flush(attacker);
+            Party.Instance.MemberUnready(attacker);
             TimeManagement.Instance.EntityAttack(attacker);
         }
-
-        if(_party.ActiveMember == attacker)
-            Party.Instance.SetActiveMember(_priorityQueue.Get() as PartyMember);
     }
 
     Entity3D GetNearestTargetable(out bool shortRange)

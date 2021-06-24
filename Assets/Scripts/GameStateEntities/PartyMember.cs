@@ -15,6 +15,8 @@ public class PartyMember : GameStateEntity, CombatEntity {
     public Status Status { get; private set; }
     public Vitals Vitals { get; private set; }
 
+    float _cooldown;
+
     public float MoveCooldown { get; set; }
     public void CombatStep() { }
 
@@ -28,6 +30,9 @@ public class PartyMember : GameStateEntity, CombatEntity {
         History = new History(this, data);
         Profile = new Profile(this, Status, Equipment, Skillset, data);
         Vitals = new Vitals(this, data, Status, Profile, Equipment, Skillset);
+        _cooldown = Vitals.Stats.EffectiveRecovery;
+
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public PartyMember(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -40,6 +45,9 @@ public class PartyMember : GameStateEntity, CombatEntity {
         History = new History(this, node);
         Profile = new Profile(this, Status, Equipment, Skillset, node);
         Vitals = new Vitals(this, node, Status, Profile, Equipment, Skillset);
+        _cooldown = float.Parse(node.SelectSingleNode("Cooldown").InnerText);
+
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -53,8 +61,14 @@ public class PartyMember : GameStateEntity, CombatEntity {
         element.AppendChild(SpellLog.ToXml(doc));
         element.AppendChild(Status.ToXml(doc));
         element.AppendChild(History.ToXml(doc));
+        element.AppendChild(XmlHelper.Attribute(doc, "Cooldown", _cooldown));
         element.AppendChild(base.ToXml(doc));
         return element;
+    }
+
+    void Tick(float delta)
+    {
+
     }
 
     public string EffectiveStatusCondition()

@@ -59,26 +59,6 @@ public class Status : GameStateEntity
         }
     }
 
-    public bool TickConditions(float delta)
-    {
-        List<StatusCondition> completed = new List<StatusCondition>();
-        foreach(var condition in _conditions)
-        {
-            bool isComplete = condition.Tick(delta);
-            if (isComplete)
-                completed.Add(condition);
-        }
-
-        if (completed.Count == 0)
-            return false;
-
-        foreach (var condition in completed)
-        {
-            CompleteCondition(condition);
-        }
-        return true;
-    }
-
     public bool HasCondition(StatusEffectOption option)
     {
         for (int i = 0; i < _conditions.Count; i++)
@@ -118,19 +98,21 @@ public class Status : GameStateEntity
 
     public void CompleteCondition(StatusCondition condition)
     {
+        condition.OnConditionComplete -= CompleteCondition;
+        condition.Terminate();
         _conditions.Remove(condition);
         switch(condition.Effect.Option)
         {
             default:
+                OnStatusChanged?.Invoke();
                 break;
             case StatusEffectOption.Sleep:
-                SwapConditions(StatusEffectOption.Weak, StatusEffectOption.Rested, GameConstants.REST_DURATION, false);
+                AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
                 break;
             case StatusEffectOption.Rested:
-                SwapConditions(StatusEffectOption.Rested, StatusEffectOption.Weak, 0, false);
+                AddCondition(StatusEffectOption.Weak, 0);
                 break;
         }
-        OnStatusChanged?.Invoke();
     }
 
     public void AddCondition(StatusEffectOption option, int potency, float duration, bool update = true)
@@ -144,7 +126,9 @@ public class Status : GameStateEntity
             }
         }
 
-        _conditions.Add(StatusEffectDatabase.Instance.GetStatusCondition(option, this, potency, duration));
+        StatusCondition condition = StatusEffectDatabase.Instance.GetStatusCondition(option, this, potency, duration);
+        condition.OnConditionComplete += CompleteCondition;
+        _conditions.Add(condition);
 
         if (update)
             OnStatusChanged?.Invoke();
@@ -160,8 +144,9 @@ public class Status : GameStateEntity
                 return;
             }
         }
-
-        _conditions.Add(StatusEffectDatabase.Instance.GetStatusCondition(option, this, duration));
+        StatusCondition condition = StatusEffectDatabase.Instance.GetStatusCondition(option, this, duration);
+        condition.OnConditionComplete += CompleteCondition;
+        _conditions.Add(condition);
         if (update)
             OnStatusChanged?.Invoke();
     }
@@ -178,10 +163,14 @@ public class Status : GameStateEntity
             }
         }
 
-        if(index >= 0)
+        if (index >= 0)
+        {
+            _conditions[index].OnConditionComplete -= CompleteCondition;
+            _conditions[index].Terminate();
             _conditions.RemoveAt(index);
-        if (update)
-            OnStatusChanged?.Invoke();
+            if (update)
+                OnStatusChanged?.Invoke();
+        }
     }
 
     public void SwapConditions(StatusEffectOption remove, StatusEffectOption add, float duration, bool update = true)
@@ -207,21 +196,6 @@ public class Status : GameStateEntity
                 case StatusEffectOption.Poison:
                 case StatusEffectOption.Disease:
                     stat = Mathf.RoundToInt(stat * 0.5f);
-                    break;
-            }
-        }
-
-        return stat;
-    }
-
-    public int ModifyResistance(AttackType type, int stat)
-    {
-        foreach (var condition in _conditions)
-        {
-            switch (condition.Option)
-            {
-                case StatusEffectOption.BoostedResistance:
-                    stat += condition.Potency;
                     break;
             }
         }

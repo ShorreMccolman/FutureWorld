@@ -33,6 +33,8 @@ public class Party : GameStateEntity
     List<string> _visitedLocations;
     List<string> _monthlyKills;
 
+    MemberPriority _priorityQueue;
+
     public static event System.Action<PartyMember> OnMemberChanged;
     public static event System.Action<int, int> OnFundsChanged;
     public static event System.Action<int> OnFoodChanged;
@@ -84,9 +86,14 @@ public class Party : GameStateEntity
     {
         Instance = this;
 
+        _priorityQueue = new MemberPriority();
+
         EnemyEntity.OnEnemyDeath += EnemyDeath;
         EnemyEntity.OnEnemyPickup += PickupEnemy;
         ChestEntity.OnInspectChest += InspectChest;
+        Vitals.OnMemberKnockout += MemberUnready;
+        Vitals.OnMemberReady += MemberReady;
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -116,7 +123,7 @@ public class Party : GameStateEntity
         }
     }
 
-    public void TickEvent(float tick)
+    public void Tick(float tick)
     {
         System.DateTime dt = TimeManagement.Instance.GetDT(CurrentTime);
         CurrentTime += tick;
@@ -126,6 +133,35 @@ public class Party : GameStateEntity
         {
             _monthlyKills.Clear();
         }
+    }
+
+    void MemberReady(PartyMember member)
+    {
+        if (member.IsConcious())
+        {
+            if (ActiveMember == null)
+                SetActiveMember(member);
+
+            _priorityQueue.Add(member);
+        }
+    }
+
+    public void MemberUnready(PartyMember member)
+    {
+        _priorityQueue.Flush(member);
+        if (ActiveMember == member)
+            Party.Instance.SetActiveMember(_priorityQueue.Get() as PartyMember);
+    }
+
+    public PartyMember GetAttacker()
+    {
+        PartyMember attacker = null;
+        if (ActiveMember.Vitals.IsReady())
+            attacker = ActiveMember;
+        else if (_priorityQueue.IsReady())
+            attacker = _priorityQueue.Get() as PartyMember;
+
+        return attacker;
     }
 
     void UpdateFunds(int goldDifference, int balanceDifference)
@@ -430,12 +466,8 @@ public class Party : GameStateEntity
 
         if (success)
         {
-            if (!member.IsConcious())
-                PartyController.Instance.Knockout(member);
-
             if (IsDead())
                 GameController.Instance.TriggerDeath();
-
         }
         return success;
     }
