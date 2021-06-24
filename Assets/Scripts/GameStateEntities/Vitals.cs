@@ -115,8 +115,6 @@ public class Vitals : GameStateEntity
         _profile.OnStatsChanged += UpdateEffectiveVitals;
         _skillset.OnSkillsChanged += UpdateEffectiveVitals;
 
-        TimeManagement.Instance.OnTick += Tick;
-
         XmlNode vitalsNode = node.SelectSingleNode("Vitals");
         Condition = (PartyMemberState)int.Parse(vitalsNode.SelectSingleNode("Condition").InnerText);
         CurrentHP = int.Parse(vitalsNode.SelectSingleNode("CurrentHP").InnerText);
@@ -214,36 +212,6 @@ public class Vitals : GameStateEntity
             ChangeCondition(PartyMemberState.Concious);
     }
 
-    public void Express(string expression, float duration)
-    {
-        _expression = expression;
-        _timeToNeutral = duration;
-        _isIdleing = false;
-        UpdateEffectiveExpression();
-    }
-
-    public bool TickExpression(float delta)
-    {
-        _timeToNeutral -= delta;
-
-        if (_timeToNeutral <= 0 && !_isIdleing)
-        {
-            _expression = GameConstants.EXPRESSION_NEUTRAL;
-            UpdateEffectiveExpression();
-            _timeToIdle = Random.Range(5.0f, 15.0f);
-            _isIdleing = true;
-            return true;
-        }
-
-        if (_timeToNeutral < -_timeToIdle)
-        {
-            Express(GameConstants.EXPRESSION_IDLE, 0.5f);
-            return true;
-        }
-
-        return false;
-    }
-
     public void UpdateHP(int hp)
     {
         if (hp == CurrentHP)
@@ -306,5 +274,31 @@ public class Vitals : GameStateEntity
         Condition = state;
         OnConditionChange?.Invoke(IsReady(), state);
         UpdateEffectiveExpression();
+    }
+
+    public void Express(string expression, float duration)
+    {
+        _expression = expression;
+        _timeToNeutral = duration;
+        _isIdleing = false;
+        UpdateEffectiveExpression();
+    }
+
+    public void TickExpression(float delta)
+    {
+        _timeToNeutral -= delta;
+
+        if (_timeToNeutral <= 0 && !_isIdleing)
+        {
+            _expression = GameConstants.EXPRESSION_NEUTRAL;
+            UpdateEffectiveExpression();
+            _timeToIdle = Random.Range(5.0f, 15.0f);
+            _isIdleing = true;
+        }
+
+        if (_timeToNeutral < -_timeToIdle)
+        {
+            Express(GameConstants.EXPRESSION_IDLE, 0.5f);
+        }
     }
 }

@@ -32,7 +32,6 @@ public class Party : GameStateEntity
 
     List<string> _visitedLocations;
     List<string> _monthlyKills;
-
     MemberPriority _priorityQueue;
 
     public static event System.Action<PartyMember> OnMemberChanged;

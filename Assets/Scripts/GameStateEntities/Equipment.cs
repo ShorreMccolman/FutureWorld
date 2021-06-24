@@ -12,6 +12,8 @@ public class Equipment : GameStateEntity
     public InventoryItem Ring4 { get; private set; }
     public InventoryItem Ring5 { get; private set; }
 
+    public List<InventoryItem> Rings => new List<InventoryItem>() { Ring0, Ring1, Ring2, Ring3, Ring4, Ring5 };
+
     public Dictionary<EquipSlot, InventoryItem> Weapons { get; private set; }
     public Dictionary<EquipSlot, InventoryItem> Armor { get; private set; }
 
@@ -840,7 +842,21 @@ public class Equipment : GameStateEntity
 
     public void ModifyStats(EffectiveStats stats)
     {
+        foreach(var weapon in Weapons.Values)
+        {
+            if (weapon.Enchantment != null)
+                weapon.Enchantment.ModifyStats(stats);
+        }
+        foreach (var armor in Armor.Values)
+        {
+            if (armor.Enchantment != null)
+                armor.Enchantment.ModifyStats(stats);
+        }
 
-        
+        foreach (var ring in Rings)
+        {
+            if (ring != null && ring.Enchantment != null)
+                ring.Enchantment.ModifyStats(stats);
+        }
     }
 }

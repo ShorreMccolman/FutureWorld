@@ -96,4 +96,72 @@ public class Enchantment : GameStateEntity
         }
         return newValue;
     }
+
+    public void ModifyStats(EffectiveStats stats)
+    {
+        foreach(var pair in Data.Effects)
+        {
+            switch (pair.Option)
+            {
+                case EnchantmentEffectOption.AllResistances:
+                    stats.GetStat(CharacterStat.FireResist).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.ElecResist).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.ColdResist).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.PoisonResist).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.MagicResist).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.AllStats:
+                    stats.GetStat(CharacterStat.Might).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.Intellect).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.Personality).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.Endurance).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.Speed).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.Accuracy).AddToBonus(StrengthOfOption(pair.Option));
+                    stats.GetStat(CharacterStat.Luck).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusHP:
+                    stats.GetStat(CharacterStat.TotalHP).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusSP:
+                    stats.GetStat(CharacterStat.TotalSP).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusMight:
+                    stats.GetStat(CharacterStat.Might).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusEndurance:
+                    stats.GetStat(CharacterStat.Endurance).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusSpeed:
+                    stats.GetStat(CharacterStat.Speed).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusAccuracy:
+                    stats.GetStat(CharacterStat.Accuracy).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusPersonality:
+                    stats.GetStat(CharacterStat.Personality).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusIntellect:
+                    stats.GetStat(CharacterStat.Intellect).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusLuck:
+                    stats.GetStat(CharacterStat.Luck).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.BonusAC:
+                    stats.GetStat(CharacterStat.ArmorClass).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.ResistanceFire:
+                    stats.GetStat(CharacterStat.FireResist).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.ResistanceCold:
+                    stats.GetStat(CharacterStat.ColdResist).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.ResistanceElec:
+                    stats.GetStat(CharacterStat.ElecResist).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+                case EnchantmentEffectOption.ResistancePoison:
+                    stats.GetStat(CharacterStat.PoisonResist).AddToBonus(StrengthOfOption(pair.Option));
+                    break;
+            }
+        }
+    }
 }

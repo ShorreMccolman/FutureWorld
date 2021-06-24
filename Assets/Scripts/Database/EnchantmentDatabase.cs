@@ -70,7 +70,7 @@ public enum EnchantmentEffectOption
     AllStats,
 
     BonusHP,
-    BonusMP,
+    BonusSP,
     BonusMight,
     BonusEndurance,
     BonusSpeed,

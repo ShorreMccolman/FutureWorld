@@ -66,10 +66,10 @@ public class SpawnQuantities
 public class Chest : GameStateEntity
 {
     Inventory _inventory;
-    public Inventory Inventory { get { return _inventory; } }
+    public Inventory Inventory => _inventory;
 
     Trap _trap;
-    public Trap Trap { get { return _trap; } }
+    public Trap Trap => _trap;
 
     public ChestData Data { get; protected set; }
 
