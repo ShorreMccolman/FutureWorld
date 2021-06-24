@@ -456,8 +456,8 @@ public class MerchantMenu : ConversationMenu
             CloseStores();
             SetupDialog();
         }
-        else 
-            HUD.Instance.CloseAll();
+        else
+            CloseMenu();
     }
 
     public override void OnClose()
@@ -481,7 +481,6 @@ public class MerchantMenu : ConversationMenu
             _inventoryMenuOpen = false;
         }
 
-        HUD.Instance.EnableSideMenu();
         Party.OnMemberChanged -= OnMemberChanged;
         SoundManager.Instance.SetMusicVolume(1f);
         SoundManager.Instance.PlayUISound("Close");

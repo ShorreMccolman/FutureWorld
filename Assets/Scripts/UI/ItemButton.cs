@@ -77,7 +77,7 @@ public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             Party.Instance.TryIdentify(Item);
         }
 
-        HUD.Instance.Popups.ShowItem(Item);
+        Popups.ShowItem(Item);
     }
 
     public void OnPointerDown(PointerEventData eventData)

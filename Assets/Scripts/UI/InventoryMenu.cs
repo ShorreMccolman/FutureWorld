@@ -14,14 +14,14 @@ public class InventoryMenu : CharacterMenu, ISlotable {
     List<InventoryGridButton> _gridButtons;
     List<GameObject> _itemButtons = new List<GameObject>();
 
-    Inventory _inventory;
+    protected Inventory _inventory;
 
     protected override void Init()
     {
         Init(Width, Height);
     }
 
-    public void Init(int width, int height)
+    void Init(int width, int height)
     {
         _gridButtons = new List<InventoryGridButton>();
         for (int j = 0; j < height; j++)
@@ -73,13 +73,6 @@ public class InventoryMenu : CharacterMenu, ISlotable {
         button.Reset();
     }
 
-    public void Setup(Inventory inventory)
-    {
-        _inventory = inventory;
-
-        SetupInventory();
-    }
-
     public override void Setup(PartyMember member)
     {
         _inventory = member.Inventory;
@@ -87,7 +80,7 @@ public class InventoryMenu : CharacterMenu, ISlotable {
         SetupInventory();
     }
 
-    void SetupInventory()
+    protected void SetupInventory()
     {
         foreach (var obj in _itemButtons)
             Destroy(obj);

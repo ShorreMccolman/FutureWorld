@@ -9,6 +9,6 @@ public class ClassInfoMessenger : MonoBehaviour, IPopable
         ProfilePopupInfo info = ProfilePopupInfoDatabase.Instance.GetInfo(Party.Instance.ActiveMember.Profile.Class.ToString());
         string title = info.Title;
         string body = info.Body;
-        HUD.Instance.Popups.ShowText(title, body, 16);
+        Popups.ShowText(title, body, 16);
     }
 }

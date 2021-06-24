@@ -6,6 +6,6 @@ public class PartySpellsMessenger : MonoBehaviour, IPopable
 {
     public void ShowPopup()
     {
-        HUD.Instance.Popups.ShowText("Active Party Spells", "None");
+        Popups.ShowText("Active Party Spells", "None");
     }
 }

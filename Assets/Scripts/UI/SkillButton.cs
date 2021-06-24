@@ -87,7 +87,7 @@ public class SkillButton : MonoBehaviour, IPopable, IInfoMessenger, IPointerEnte
         body += "\nNovice: " + info.Extra[0];
         body += "\nExpert:  " + info.Extra[1];
         body += "\nMaster: " + info.Extra[2];
-        HUD.Instance.Popups.ShowText(title, body, 16, TextAnchor.UpperLeft);
+        Popups.ShowText(title, body, 16, TextAnchor.UpperLeft);
     }
 
     public string GetInfoMessage()

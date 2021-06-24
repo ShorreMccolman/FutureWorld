@@ -24,6 +24,6 @@ public class ProfileInfoMessenger : MonoBehaviour, IPopable
                 break;
         }
 
-        HUD.Instance.Popups.ShowText(title, body, 16);
+        Popups.ShowText(title, body, 16);
     }
 }

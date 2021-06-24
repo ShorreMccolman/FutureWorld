@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Popups : MonoBehaviour
 {
+    static Popups Instance;
+    private void Awake() { Instance = this; }
+
     [SerializeField] ItemInfoPopup Items;
     [SerializeField] VitalsInfoPopup Vitals;
     [SerializeField] GenericInfoPopup Generic;
@@ -12,12 +15,12 @@ public class Popups : MonoBehaviour
 
     bool _supressed;
 
-    public void Supress()
+    public static void Supress()
     {
-        if (!_supressed)
+        if (!Instance._supressed)
         {
-            PartyController.Instance.OnReleaseClick += Release;
-            _supressed = true;
+            PartyController.Instance.OnReleaseClick += Instance.Release;
+            Instance._supressed = true;
             Close();
         }
     }
@@ -28,13 +31,13 @@ public class Popups : MonoBehaviour
         _supressed = false;
     }
 
-    public void ShowScroll(Scroll scroll)
+    public static void ShowScroll(Scroll scroll)
     {
-        if (!Scrolls.gameObject.activeSelf && !_supressed)
+        if (!Instance.Scrolls.gameObject.activeSelf && !Instance._supressed)
         {
-            Scrolls.gameObject.SetActive(true);
-            Scrolls.UpdateUI(scroll);
-            PartyController.Instance.OnReleaseClick += CloseScroll;
+            Instance.Scrolls.gameObject.SetActive(true);
+            Instance.Scrolls.UpdateUI(scroll);
+            PartyController.Instance.OnReleaseClick += Instance.CloseScroll;
         }
     }
 
@@ -44,47 +47,47 @@ public class Popups : MonoBehaviour
         PartyController.Instance.OnReleaseClick -= CloseScroll;
     }
 
-    public void ShowText(string title, string body, int size = 20, TextAnchor anchor = TextAnchor.UpperCenter)
+    public static void ShowText(string title, string body, int size = 20, TextAnchor anchor = TextAnchor.UpperCenter)
     {
-        if (!_supressed)
+        if (!Instance._supressed)
         {
-            Generic.gameObject.SetActive(true);
-            Generic.UpdateUI(title, body, size, anchor);
+            Instance.Generic.gameObject.SetActive(true);
+            Instance.Generic.UpdateUI(title, body, size, anchor);
         }
     }
 
-    public void ShowItem(InventoryItem item)
+    public static void ShowItem(InventoryItem item)
     {
-        if (!_supressed)
+        if (!Instance._supressed)
         {
-            Items.gameObject.SetActive(true);
-            Items.UpdateUI(item);
+            Instance.Items.gameObject.SetActive(true);
+            Instance.Items.UpdateUI(item);
         }
     }
 
-    public void ShowVitals(CharacterVitalsDisplay display)
+    public static void ShowVitals(CharacterVitalsDisplay display)
     {
-        if (!_supressed)
+        if (!Instance._supressed)
         {
-            Vitals.gameObject.SetActive(true);
-            Vitals.UpdateUI(display);
+            Instance.Vitals.gameObject.SetActive(true);
+            Instance.Vitals.UpdateUI(display);
         }
     }
 
-    public void ShowEnemy(Enemy enemy)
+    public static void ShowEnemy(Enemy enemy)
     {
-        if (!_supressed)
+        if (!Instance._supressed)
         {
-            Enemies.gameObject.SetActive(true);
-            Enemies.UpdateUI(enemy);
+            Instance.Enemies.gameObject.SetActive(true);
+            Instance.Enemies.UpdateUI(enemy);
         }
     }
 
-    public void Close()
+    public static void Close()
     {
-        Items.gameObject.SetActive(false);
-        Vitals.gameObject.SetActive(false);
-        Generic.gameObject.SetActive(false);
-        Enemies.gameObject.SetActive(false);
+        Instance.Items.gameObject.SetActive(false);
+        Instance.Vitals.gameObject.SetActive(false);
+        Instance.Generic.gameObject.SetActive(false);
+        Instance.Enemies.gameObject.SetActive(false);
     }
 }

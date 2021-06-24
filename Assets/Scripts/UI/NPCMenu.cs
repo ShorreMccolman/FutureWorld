@@ -143,7 +143,6 @@ public class NPCMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        HUD.Instance.EnableSideMenu();
         CloseMenu();
     }
 }

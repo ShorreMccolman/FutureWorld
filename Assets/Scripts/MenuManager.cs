@@ -7,12 +7,11 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance { get; private set; }
     void Awake() { Instance = this; }
 
-    public delegate void MenuEvent(bool enabled);
-    public MenuEvent OnMenuLock;
-
     Dictionary<string, Menu> _menuDict = new Dictionary<string, Menu>();
-
     Dictionary<string, Menu> _openMenuDict = new Dictionary<string, Menu>();
+
+    public static event System.Action<bool> OnMenuOpened;
+    public static event System.Action OnMenusClosed;
 
     public void SwapMenu(string menuTag)
     {
@@ -22,18 +21,21 @@ public class MenuManager : MonoBehaviour
             menu.Contents.SetActive(false);
         }
         _openMenuDict.Clear();
-        OpenMenu(menuTag);
+        OpenMenu(menuTag, true);
     }
 
     public void CloseAllMenus()
     {
+        if (_openMenuDict.Count == 0)
+            return;
+
         foreach(var menu in _openMenuDict.Values)
         {
             menu.OnClose();
             menu.Contents.SetActive(false);
         }
         _openMenuDict.Clear();
-        OnMenuLock?.Invoke(false);
+        OnMenusClosed?.Invoke();
     }
 
     public void CloseMenu(string menuTag)
@@ -43,11 +45,13 @@ public class MenuManager : MonoBehaviour
             _openMenuDict[menuTag].OnClose();
             _menuDict[menuTag].Contents.SetActive(false);
             _openMenuDict.Remove(menuTag);
-            OnMenuLock?.Invoke(false);
+
+            if(_openMenuDict.Count == 0)
+                OnMenusClosed?.Invoke();
         }
     }
 
-    public void OpenMenu(string menuTag, bool setMenuLock = false)
+    public void OpenMenu(string menuTag, bool useVignette = false)
     {
         if(!_menuDict.ContainsKey(menuTag))
         {
@@ -62,10 +66,7 @@ public class MenuManager : MonoBehaviour
             _menuDict[menuTag].OnOpen();
         }
 
-        if(setMenuLock)
-        {
-            OnMenuLock?.Invoke(true);
-        }
+        OnMenuOpened?.Invoke(useVignette);
     }
 
     public Menu GetMenu(string menuTag)

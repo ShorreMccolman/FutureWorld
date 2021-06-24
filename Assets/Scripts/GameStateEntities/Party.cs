@@ -24,12 +24,10 @@ public class Party : GameStateEntity
     int _currentBalance;
     public int CurrentBalance => _currentBalance;
 
-    List<NPC> _hires;
-    public List<NPC> Hires => _hires;
-
     List<PartyMember> _members;
     public List<PartyMember> Members => _members;
 
+    List<NPC> _hires;
     List<string> _visitedLocations;
     List<string> _monthlyKills;
     MemberPriority _priorityQueue;
@@ -89,7 +87,6 @@ public class Party : GameStateEntity
 
         EnemyEntity.OnEnemyDeath += EnemyDeath;
         EnemyEntity.OnEnemyPickup += PickupEnemy;
-        ChestEntity.OnInspectChest += InspectChest;
         Vitals.OnMemberKnockout += MemberUnready;
         Vitals.OnMemberReady += MemberReady;
         TimeManagement.Instance.OnTick += Tick;
@@ -105,8 +102,8 @@ public class Party : GameStateEntity
         element.AppendChild(XmlHelper.Attribute(doc, "Balance", CurrentBalance));
         element.AppendChild(XmlHelper.Attribute(doc, "Time", CurrentTime));
         element.AppendChild(XmlHelper.Attribute(doc, "Members", Members));
-        if(Hires.Count > 0)
-            element.AppendChild(XmlHelper.Attribute(doc, "Hires", Hires));
+        if(_hires.Count > 0)
+            element.AppendChild(XmlHelper.Attribute(doc, "Hires", _hires));
         element.AppendChild(QuestLog.ToXml(doc));
         element.AppendChild(base.ToXml(doc));
 
@@ -225,26 +222,6 @@ public class Party : GameStateEntity
         CollectGold(enemy.Data.Gold.Roll(), true);
     }
 
-    void InspectChest(Chest chest)
-    {
-        bool canOpen = true;
-        if (chest.Data.LockLevel > 0)
-        {
-            canOpen = TryDisarm(chest.Trap);
-            if (canOpen)
-            {
-                ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-            }
-        }
-
-        if (canOpen)
-        {
-            PartyController.Instance.SetControlState(ControlState.MenuLock);
-            SoundManager.Instance.PlayUISound("Chest");
-            HUD.Instance.OpenChest(chest);
-        }
-    }
-
     public bool HasKilledEnemyThisMonth(string enemyID)
     { 
         return _monthlyKills.Contains(enemyID); 
@@ -260,7 +237,7 @@ public class Party : GameStateEntity
         int paid = 0;
         if (payHires)
         {
-            foreach (var hire in Hires)
+            foreach (var hire in _hires)
             {
                 paid += Mathf.CeilToInt(amount * hire.Rate * 0.01f);
             }
@@ -286,7 +263,7 @@ public class Party : GameStateEntity
 
     public bool TryHire(NPC npc)
     {
-        if(Hires.Count == 2)
+        if(_hires.Count == 2)
         {
             InfoMessageReceiver.Send("I cannot join you, your party is full", 2.0f);
             return false;
@@ -295,19 +272,19 @@ public class Party : GameStateEntity
         bool success = TryPay(npc.Cost);
         if (success)
         {
-            Hires.Add(npc);
-            OnHiresChanged?.Invoke(Hires);
+            _hires.Add(npc);
+            OnHiresChanged?.Invoke(_hires);
         }
         return success;
     }
 
     public bool DismissHire(NPC npc)
     {
-        if (!Hires.Contains(npc))
+        if (!_hires.Contains(npc))
             return false;
 
-        Hires.Remove(npc);
-        OnHiresChanged?.Invoke(Hires);
+        _hires.Remove(npc);
+        OnHiresChanged?.Invoke(_hires);
         return true;
     }
 
@@ -341,7 +318,7 @@ public class Party : GameStateEntity
         Armor armor = item.Data as Armor;
 
         int level = ActiveMember.Skillset.GetSkillLevel("Identify");
-        foreach (var hire in Hires)
+        foreach (var hire in _hires)
         {
             if (hire.Profession == Profession.Scholar)
                 level = 999;
@@ -363,7 +340,7 @@ public class Party : GameStateEntity
         Armor armor = item.Data as Armor;
 
         int level = ActiveMember.Skillset.GetSkillLevel("Repair");
-        foreach (var hire in Hires)
+        foreach (var hire in _hires)
         {
             if (hire.Profession == Profession.Smith && item.Data is Weapon)
                 level = 999;
@@ -394,7 +371,7 @@ public class Party : GameStateEntity
             return true;
 
         int level = ActiveMember.Skillset.GetSkillLevel("Disarm");
-        foreach(var hire in Hires)
+        foreach(var hire in _hires)
         {
             if (hire.Profession == Profession.Tinker)
                 level += 4;

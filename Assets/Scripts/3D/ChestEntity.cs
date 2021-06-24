@@ -17,6 +17,26 @@ public class ChestEntity : Entity3D
     public override IEnumerator Interact(PartyEntity party)
     {
         yield return new WaitForEndOfFrame();
-        OnInspectChest?.Invoke(_chest);
+
+        bool canOpen = true;
+        if (_chest.Data.LockLevel > 0)
+        {
+            canOpen = Party.Instance.TryDisarm(_chest.Trap);
+            if (canOpen)
+            {
+                Party.Instance.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+            }
+        }
+
+        if (canOpen)
+        {
+            SoundManager.Instance.PlayUISound("Chest");
+            OnInspectChest?.Invoke(_chest);
+        }
+    }
+
+    public static void DebugInspect(Chest chest)
+    {
+        OnInspectChest?.Invoke(chest);
     }
 }

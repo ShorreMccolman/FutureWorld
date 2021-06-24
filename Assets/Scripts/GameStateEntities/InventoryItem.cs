@@ -103,7 +103,7 @@ public class InventoryItem : GameStateEntity
         }
         else if (Enchantment != null)
         {
-            _effectiveValue = Enchantment.ModifiedValue(Data.Value);
+            _effectiveValue = Enchantment.GetModifiedValue(Data.Value);
         }
         else 
             _effectiveValue = Data.Value;

@@ -170,7 +170,7 @@ public class EnemyEntity : Entity3D, IPopable
 
     public void ShowPopup()
     {
-        HUD.Instance.Popups.ShowEnemy(Enemy);
+        Popups.ShowEnemy(Enemy);
     }
 
     void LateUpdate()

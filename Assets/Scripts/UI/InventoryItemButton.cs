@@ -65,7 +65,7 @@ public class InventoryItemButton : ItemButton {
         bool success = HUD.Instance.TryCombine(Item);
         if (success)
         {
-            HUD.Instance.Popups.Supress();
+            Popups.Supress();
         }
     }
 }

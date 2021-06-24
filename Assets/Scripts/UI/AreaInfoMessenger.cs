@@ -6,6 +6,6 @@ public class AreaInfoMessenger : MonoBehaviour, IPopable
 {
     public void ShowPopup()
     {
-        HUD.Instance.Popups.ShowText("New Sorpigal", "");
+        Popups.ShowText("New Sorpigal", "");
     }
 }

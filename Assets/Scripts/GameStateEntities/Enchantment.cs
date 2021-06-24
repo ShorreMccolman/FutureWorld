@@ -80,7 +80,7 @@ public class Enchantment : GameStateEntity
         return 0;
     }
 
-    public int ModifiedValue(int value)
+    public int GetModifiedValue(int value)
     {
         int newValue = value;
         if (Data.Type == EnchantmentType.Standard)

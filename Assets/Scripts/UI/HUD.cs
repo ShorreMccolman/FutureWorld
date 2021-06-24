@@ -16,9 +16,6 @@ public class HUD : Menu {
     public static HUD Instance;
     void Awake() { Instance = this; }
 
-    [SerializeField] Popups PopupObject;
-    public Popups Popups => PopupObject;
-
     [SerializeField] Text FPS;
     [SerializeField] GameObject DebugMenu;
     [SerializeField] GameObject SideMenu;
@@ -44,7 +41,6 @@ public class HUD : Menu {
     [SerializeField] SkillsMenu SkillsMenu;
     [SerializeField] InventoryMenu InventoryMenu;
     [SerializeField] AwardsMenu AwardsMenu;
-    [SerializeField] InventoryMenu ChestMenu;
     [SerializeField] ResidenceMenu ResidenceMenu;
     [SerializeField] MerchantMenu MerchantMenu;
     [SerializeField] NPCMenu NPCMenu;
@@ -92,6 +88,9 @@ public class HUD : Menu {
         Party.OnFundsChanged += UpdateFunds;
         Party.OnFoodChanged += UpdateFood;
         Party.OnHiresChanged += UpdateHires;
+        MenuManager.OnMenuOpened += MenuOpened;
+        MenuManager.OnMenusClosed += MenusClosed;
+        CharacterMenu.OnCharacterMenuOpen += CharacterMenuOpen;
         TimeManagement.OnControlChanged += UpdateCombatIndicator;
     }
 
@@ -111,6 +110,26 @@ public class HUD : Menu {
 
         float fps = 1 / Time.unscaledDeltaTime;
         FPS.text = "" + fps;
+    }
+
+    void CharacterMenuOpen(bool opened)
+    {
+        foreach (var obj in CharacterMenuObjects)
+            obj.SetActive(opened);
+    }
+
+    void MenuOpened(bool useVignette)
+    {
+        Vignette.enabled = useVignette;
+        _isOtherMenuOpen = true;
+    }
+
+    void MenusClosed()
+    {
+        Vignette.enabled = false;
+        _isOtherMenuOpen = false;
+
+        SideMenu.SetActive(true);
     }
 
     void UpdateCurrentMenu()
@@ -149,8 +168,7 @@ public class HUD : Menu {
         if (HeldItemButton != null)
             return;
 
-        if(_selectedMenu != null)
-            MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
+        MenuManager.Instance.CloseAllMenus();
 
         MenuManager.Instance.OpenMenu("System", true);
         foreach (var obj in CharacterMenuObjects)
@@ -242,23 +260,6 @@ public class HUD : Menu {
         _isCharacterMenuOpen = false;
         Vignette.enabled = false;
         SoundManager.Instance.PlayUISound("Button");
-    }
-
-    public void CloseAll()
-    {
-        MenuManager.Instance.CloseAllMenus();
-        foreach (var obj in CharacterMenuObjects)
-            obj.SetActive(false);
-        _isCharacterMenuOpen = false;
-        Vignette.enabled = false;
-        _isOtherMenuOpen = false;
-        PartyController.Instance.SetControlState(ControlState.Previous);
-    }
-
-    public void EnableSideMenu()
-    {
-        SideMenu.SetActive(true);
-        _isOtherMenuOpen = false;
     }
 
     public void ToggleSelectedCharacter()
@@ -586,7 +587,6 @@ public class HUD : Menu {
 
             HeldItemButton = invButton;
             HeldItemButton.transform.parent = HeldItemAnchor;
-            PartyController.Instance.SetControlState(ControlState.MouseControl, true);
 
             _party.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
         }
@@ -626,14 +626,6 @@ public class HUD : Menu {
         HeldItemButton.transform.parent = HeldItemAnchor;
         PartyController.Instance.SetControlState(ControlState.MouseControl, true);
         return true;
-    }
-
-    public void OpenChest(Chest chest)
-    {
-        MenuManager.Instance.OpenMenu("Chest");
-        ChestMenu.Setup(chest.Inventory);
-        _isOtherMenuOpen = true;
-        Vignette.enabled = true;
     }
 
     public void EnterResidence(Residency residency)

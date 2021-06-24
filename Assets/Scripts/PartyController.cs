@@ -48,7 +48,8 @@ public class PartyController : MonoBehaviour {
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
 
-        MenuManager.Instance.OnMenuLock += MenuEvent;
+        MenuManager.OnMenuOpened += MenuOpened;
+        MenuManager.OnMenusClosed += MenusClosed;
     }
 
     public void LoadParty(Party party)
@@ -65,7 +66,8 @@ public class PartyController : MonoBehaviour {
         _controlState = ControlState.LookControl;
         _previousControlState = ControlState.LookControl;
 
-        MenuManager.Instance.OnMenuLock += MenuEvent;
+        MenuManager.OnMenuOpened += MenuOpened;
+        MenuManager.OnMenusClosed += MenusClosed;
     }
 
     public void ReviveParty(Party party)
@@ -220,7 +222,7 @@ public class PartyController : MonoBehaviour {
         {
             if (_showingPopup)
             {
-                HUD.Instance.Popups.Close();
+                Popups.Close();
                 _showingPopup = false;
             }
         }
@@ -240,12 +242,14 @@ public class PartyController : MonoBehaviour {
         return false;
     }
 
-    public void MenuEvent(bool locked)
+    public void MenuOpened(bool useVignette)
     {
-        if (locked)
-            SetControlState(ControlState.MenuLock);
-        else
-            SetControlState(ControlState.Previous);
+        SetControlState(ControlState.MenuLock);
+    }
+
+    public void MenusClosed()
+    {
+        SetControlState(ControlState.Previous);
     }
 
     public void SetControlState(ControlState state, bool isForced = false)

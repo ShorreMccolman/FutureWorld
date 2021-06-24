@@ -8,7 +8,7 @@ public class VitalsInfoMessenger : MonoBehaviour, IInfoMessenger, IPopable
 
     public void ShowPopup()
     {
-        HUD.Instance.Popups.ShowVitals(Display);
+        Popups.ShowVitals(Display);
     }
 
     public string GetInfoMessage()
