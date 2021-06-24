@@ -2612,6 +2612,7 @@ GameObject:
   - component: {fileID: 112853902}
   - component: {fileID: 112853901}
   - component: {fileID: 112853900}
+  - component: {fileID: 112853899}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -2639,6 +2640,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 43}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &112853899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112853897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f835e21ee74feb24a89f72ac17674c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: Close
 --- !u!114 &112853900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14385,7 +14399,6 @@ MonoBehaviour:
   HireButtons:
   - {fileID: 1859761545}
   - {fileID: 1500605736}
-  InfoMessageLabel: {fileID: 176385482}
   FoodLabel: {fileID: 312149559}
   GoldLabel: {fileID: 521109062}
   Vignette: {fileID: 1310404049}
@@ -28139,6 +28152,7 @@ GameObject:
   - component: {fileID: 1481682538}
   - component: {fileID: 1481682540}
   - component: {fileID: 1481682539}
+  - component: {fileID: 1481682541}
   m_Layer: 5
   m_Name: ActionReport
   m_TagString: Untagged
@@ -28205,6 +28219,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481682537}
   m_CullTransparentMesh: 1
+--- !u!114 &1481682541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481682537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1bc1679592eb344acc47c412d34c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InfoMessageLabel: {fileID: 176385482}
 --- !u!1 &1482522674
 GameObject:
   m_ObjectHideFlags: 0
