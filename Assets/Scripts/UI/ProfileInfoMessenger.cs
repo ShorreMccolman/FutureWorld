@@ -17,10 +17,10 @@ public class ProfileInfoMessenger : MonoBehaviour, IPopable
                 body += "\n\n" + Party.Instance.ActiveMember.Profile.GetTrainingDetails();
                 break;
             case "attack":
-                body += "\n\nRecovery Time: " + Party.Instance.ActiveMember.Vitals.Recovery;
+                body += "\n\nRecovery Time: " + Party.Instance.ActiveMember.Vitals.Stats.Recovery;
                 break;
             case "shoot":
-                body += "\n\nRecovery Time: " + Party.Instance.ActiveMember.Vitals.RangedRecovery;
+                body += "\n\nRecovery Time: " + Party.Instance.ActiveMember.Vitals.Stats.RangedRecovery;
                 break;
         }
 

@@ -41,13 +41,13 @@ public class InteractableEntity : Entity3D
         {
             case InteractableType.Fountain:
                 if(!success)
-                    HUD.Instance.SendInfoMessage("Refreshing...", 2.0f);
+                    InfoMessageReceiver.Send("Refreshing...", 2.0f);
                 break;
             case InteractableType.Barrel:
                 if (success)
                     MouseoverName = "Empty barrel";
                 else
-                    HUD.Instance.SendInfoMessage("This barrel is empty", 2.0f);
+                    InfoMessageReceiver.Send("This barrel is empty", 2.0f);
                 break;
         }
 

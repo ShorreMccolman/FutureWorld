@@ -50,33 +50,37 @@ public class StatusEffect
     public string DisplayName;
     public bool NeedsHealing;
     public bool TicksUp;
+    public string ExpressionOverride;
+    public int OverridePriority;
 
-    public StatusEffect(StatusEffectOption option, string name, bool needsHealing, bool ticksUp)
+    public StatusEffect(StatusEffectOption option, string name, string expression, int priority, bool needsHealing, bool ticksUp)
     {
         Option = option;
         DisplayName = name;
+        ExpressionOverride = expression;
+        OverridePriority = priority;
         NeedsHealing = needsHealing;
         TicksUp = ticksUp;
     }
 
     public static List<StatusEffect> Effects = new List<StatusEffect>()
     {
-        { new StatusEffect(StatusEffectOption.Sleep, "Sleep", true, false) },
-        { new StatusEffect(StatusEffectOption.Rested, "Rested", false, false) },
-        { new StatusEffect(StatusEffectOption.Poison, "Poison", true, true) },
-        { new StatusEffect(StatusEffectOption.Disease, "Disease", true, true) },
-        { new StatusEffect(StatusEffectOption.Weak, "Weak", true, true) },
-        { new StatusEffect(StatusEffectOption.BoostedAC, "BoostedAC", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedStats, "BoostedStats", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedResistance, "BoostedResist", false, false) },
+        { new StatusEffect(StatusEffectOption.Sleep, "Sleep", GameConstants.EXPRESSION_SLEEP, 100, true, false) },
+        { new StatusEffect(StatusEffectOption.Rested, "Rested", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.Disease, "Disease", GameConstants.EXPRESSION_DISEASE, 99, true, true) },
+        { new StatusEffect(StatusEffectOption.Poison, "Poison", GameConstants.EXPRESSION_POISON, 98, true, true) },
+        { new StatusEffect(StatusEffectOption.Weak, "Weak", GameConstants.EXPRESSION_WEAK, 97, true, true) },
+        { new StatusEffect(StatusEffectOption.BoostedAC, "BoostedAC", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedStats, "BoostedStats", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedResistance, "BoostedResist", null, 0, false, false) },
 
-        { new StatusEffect(StatusEffectOption.BoostedMight, "BoostedMight", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedIntellect, "BoostedIntellect", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedPersonality, "BoostedPersonality", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedAccuracy, "BoostedAccuracy", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedSpeed, "BoostedSpeed", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedEndurance, "BoostedEndurance", false, false) },
-        { new StatusEffect(StatusEffectOption.BoostedLuck, "BoostedLuck", false, false) }
+        { new StatusEffect(StatusEffectOption.BoostedMight, "BoostedMight", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedIntellect, "BoostedIntellect", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedPersonality, "BoostedPersonality", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedAccuracy, "BoostedAccuracy", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedSpeed, "BoostedSpeed", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedEndurance, "BoostedEndurance", null, 0, false, false) },
+        { new StatusEffect(StatusEffectOption.BoostedLuck, "BoostedLuck", null, 0, false, false) }
 
     };
 }

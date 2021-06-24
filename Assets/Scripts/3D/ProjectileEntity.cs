@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectileEntity : Entity3D
 {
-    public Projectile Projectile { get { return State as Projectile; } }
+    public Projectile Projectile => State as Projectile;
 
     double _lifetime;
     float _relativeSpeed;
@@ -49,7 +49,7 @@ public class ProjectileEntity : Entity3D
                     if (enemy.Enemy.CurrentHP - damage <= 0)
                         msg = Projectile.Sender + " inflicts " + damage + " damage killing " + enemy.Enemy.Data.DisplayName + ".";
 
-                    HUD.Instance.SendInfoMessage(msg, 2.0f);
+                    InfoMessageReceiver.Send(msg, 2.0f);
 
                     enemy.Enemy.OnHit(damage);
                 }

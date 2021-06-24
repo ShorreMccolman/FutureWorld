@@ -41,7 +41,7 @@ public class RestMenu : Menu
     {
         if (isResting)
         {
-            HUD.Instance.SendInfoMessage("You are already resting!", 2.0f);
+            InfoMessageReceiver.Send("You are already resting!", 2.0f);
             return;
         }
 
@@ -85,7 +85,7 @@ public class RestMenu : Menu
     {
         if (isResting)
         {
-            HUD.Instance.SendInfoMessage("You are already resting!", 2.0f);
+            InfoMessageReceiver.Send("You are already resting!", 2.0f);
             return;
         }
 
@@ -100,7 +100,7 @@ public class RestMenu : Menu
     {
         if (isResting)
         {
-            HUD.Instance.SendInfoMessage("You are already resting!", 2.0f);
+            InfoMessageReceiver.Send("You are already resting!", 2.0f);
             return;
         }
 
@@ -111,7 +111,7 @@ public class RestMenu : Menu
     {
         if (isResting)
         {
-            HUD.Instance.SendInfoMessage("You are already resting!", 2.0f);
+            InfoMessageReceiver.Send("You are already resting!", 2.0f);
             return;
         }
 

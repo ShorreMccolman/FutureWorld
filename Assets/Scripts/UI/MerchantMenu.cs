@@ -258,7 +258,7 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        HUD.Instance.SendInfoMessage("Select the Item to Buy", 0, true);
+        InfoMessageReceiver.Send("Select the Item to Buy", 0, true);
 
         OnHover = HoverItemBuy;
 
@@ -295,7 +295,7 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        HUD.Instance.SendInfoMessage("Select the Item to Sell", 0, true);
+        InfoMessageReceiver.Send("Select the Item to Sell", 0, true);
 
         OnHover = HoverItemSell;
 
@@ -311,7 +311,7 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        HUD.Instance.SendInfoMessage("Select the Item to Identify", 0, true);
+        InfoMessageReceiver.Send("Select the Item to Identify", 0, true);
 
         OnHover = HoverItemIdentify;
 
@@ -327,7 +327,7 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        HUD.Instance.SendInfoMessage("Select the Item to Repair", 0, true);
+        InfoMessageReceiver.Send("Select the Item to Repair", 0, true);
 
         OnHover = HoverItemRepair;
 
@@ -343,7 +343,7 @@ public class MerchantMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        HUD.Instance.SendInfoMessage("Select the Item to Buy", 0, true);
+        InfoMessageReceiver.Send("Select the Item to Buy", 0, true);
 
         OnHover = HoverItemBuy;
 
@@ -446,7 +446,7 @@ public class MerchantMenu : ConversationMenu
 
         if (_inventoryMenuOpen)
         {
-            HUD.Instance.ReleaseInfoLock();
+            InfoMessageReceiver.ReleaseLock();
 
             PlayerInventoryDisplay.gameObject.SetActive(false);
 
@@ -470,7 +470,7 @@ public class MerchantMenu : ConversationMenu
 
         if (_inventoryMenuOpen)
         {
-            HUD.Instance.ReleaseInfoLock();
+            InfoMessageReceiver.ReleaseLock();
 
             PlayerInventoryDisplay.gameObject.SetActive(false);
 

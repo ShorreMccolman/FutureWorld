@@ -30,8 +30,6 @@ public class HUD : Menu {
 
     [SerializeField] HireButton[] HireButtons;
 
-    [SerializeField] Text InfoMessageLabel;
-
     [SerializeField] Text FoodLabel;
     [SerializeField] Text GoldLabel;
 
@@ -60,9 +58,6 @@ public class HUD : Menu {
 
     bool _isCharacterMenuOpen;
     bool _isOtherMenuOpen;
-    bool _showingTempMessage;
-    string _currentInfoMessage;
-    bool _infoMessageLock;
 
     public ItemButton HeldItemButton { get; private set; }
 
@@ -77,6 +72,7 @@ public class HUD : Menu {
                 _party.SetActiveMember(member);
                 break;
             }
+            member.Vitals.OnVitalsChanged += UpdateCurrentMenu;
         }
 
         for (int i = 0; i < CharacterVitalsUI.Length; i++)
@@ -85,8 +81,6 @@ public class HUD : Menu {
         }
 
         _selectedMenu = ProfileMenu;
-        _currentInfoMessage = "";
-        ResetInfoMessage();
 
         Vignette.enabled = false;
         foreach (var obj in CharacterMenuObjects)
@@ -117,6 +111,12 @@ public class HUD : Menu {
 
         float fps = 1 / Time.unscaledDeltaTime;
         FPS.text = "" + fps;
+    }
+
+    void UpdateCurrentMenu()
+    {
+        if(_isCharacterMenuOpen)
+            _selectedMenu.Setup(_party.ActiveMember);
     }
 
     void UpdateFood(int food)
@@ -609,7 +609,7 @@ public class HUD : Menu {
         if (_party.ActiveMember != null)
         {
             InventoryItem item = _party.ActiveMember.Inventory.AddItem(drop.Item);
-            SendInfoMessage("You found an item (" + item.Data.GetTypeDescription() + ")!", 2.0f);
+            InfoMessageReceiver.Send("You found an item (" + item.Data.GetTypeDescription() + ")!", 2.0f);
             if (item != null)
                 return true;
         }
@@ -674,7 +674,7 @@ public class HUD : Menu {
         SideMenu.SetActive(false);
     }
 
-    public bool TryConsume(InventoryItem item)
+    public bool TryCombine(InventoryItem item)
     {
         if (HeldItemButton != null && item.ID.Contains("bottle"))
         {
@@ -706,45 +706,5 @@ public class HUD : Menu {
         float rot = _party.Entity.transform.eulerAngles.y % 360;
         float translation = -rot * 256f / 360f;
         Compass.localPosition = new Vector3(translation, Compass.localPosition.y, Compass.localPosition.z);
-    }
-
-    public void ReleaseInfoLock()
-    {
-        _infoMessageLock = false;
-        _currentInfoMessage = "";
-        InfoMessageLabel.text = "";
-    }
-
-    public void SendInfoMessage(string msg, float duration = 0, bool setLock = false)
-    {
-        if(setLock)
-            _infoMessageLock = true;
-
-        if (duration == 0)
-        {
-            if (setLock || !_infoMessageLock)
-            {
-                _currentInfoMessage = msg;
-                if (!_showingTempMessage)
-                    ResetInfoMessage();
-            }
-        }
-        else
-        {
-            CancelInvoke("ResetInfoMessage");
-
-            InfoMessageLabel.color = Color.yellow;
-            InfoMessageLabel.text = msg;
-            _showingTempMessage = true;
-
-            Invoke("ResetInfoMessage", duration);
-        }
-    }
-
-    void ResetInfoMessage()
-    {
-        InfoMessageLabel.color = Color.white;
-        InfoMessageLabel.text = _currentInfoMessage;
-        _showingTempMessage = false;
     }
 }

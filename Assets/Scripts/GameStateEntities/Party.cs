@@ -234,9 +234,9 @@ public class Party : GameStateEntity
         UpdateFunds(amount - paid, 0);
 
         if(paid == 0)
-            HUD.Instance.SendInfoMessage("You found " + amount + " gold!", 2.0f);
+            InfoMessageReceiver.Send("You found " + amount + " gold!", 2.0f);
         else
-            HUD.Instance.SendInfoMessage("You found " + amount + " gold (followers take " + paid + ")!", 2.0f);
+            InfoMessageReceiver.Send("You found " + amount + " gold (followers take " + paid + ")!", 2.0f);
 
         SoundManager.Instance.PlayUISound("Coins");
     }
@@ -253,7 +253,7 @@ public class Party : GameStateEntity
     {
         if(Hires.Count == 2)
         {
-            HUD.Instance.SendInfoMessage("I cannot join you, your party is full", 2.0f);
+            InfoMessageReceiver.Send("I cannot join you, your party is full", 2.0f);
             return false;
         }
 
@@ -280,7 +280,7 @@ public class Party : GameStateEntity
     {
         if (CurrentFood < cost)
         {
-            HUD.Instance.SendInfoMessage("You don't have enough food to rest", 2.0f);
+            InfoMessageReceiver.Send("You don't have enough food to rest", 2.0f);
             return false;
         }
         UpdateFood(-cost);
@@ -290,7 +290,7 @@ public class Party : GameStateEntity
     public bool TryPay(int cost)
     {
         if (CurrentGold < cost) {
-            HUD.Instance.SendInfoMessage("You don't have enough gold...", 2.0f);
+            InfoMessageReceiver.Send("You don't have enough gold...", 2.0f);
             return false;
         }
 

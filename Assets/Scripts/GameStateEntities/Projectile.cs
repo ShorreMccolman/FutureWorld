@@ -11,7 +11,7 @@ public class Projectile : GameStateEntity
     public int Damage { get; protected set; }
     public bool IsFriendly { get; protected set; }
 
-    public float Speed { get { return _data.Speed; } }
+    public float Speed => _data.Speed;
 
     ProjectileData _data;
 

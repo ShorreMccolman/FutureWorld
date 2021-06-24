@@ -2,24 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*      Class switch statement for easy copy paste
-        switch(Class)
-        {
-            case CharacterClass.Knight:
-                break;
-            case CharacterClass.Paladin:
-                break;
-            case CharacterClass.Archer:
-                break;
-            case CharacterClass.Druid:
-                break;
-            case CharacterClass.Cleric:
-                break;
-            case CharacterClass.Sorcerer:
-                break;
-        }
- */
-
 public enum CharacterClass
 {
     Knight = 0,
@@ -40,18 +22,34 @@ public enum CharacterStat
     Accuracy = 5,
     Speed = 6,
     Luck = 7,
+
+    TotalHP = 10,
+    TotalSP = 11,
+    ArmorClass = 12,
+    Attack = 13,
+    DamageUpper = 14,
+    DamageLower = 15,
+    Recovery = 16,
+    RangedAttack = 17,
+    RangedDamageUpper = 18,
+    RangedDamageLower = 19,
+    RangedRecovery = 20,
+
+    FireResist = 40,
+    ElecResist = 41,
+    ColdResist = 42,
+    PoisonResist = 43,
+    MagicResist = 44,
+
     Random = 99
 }
 
 public class CharacterData
 {
-
     public int ID { get; private set; }
     public CharacterClass Class { get; private set; }
 
     bool didChange;
-    public bool DidChange { get { return didChange; } }
-
     bool hasBeenCreated;
 
     public int PortraitID { get; private set; }

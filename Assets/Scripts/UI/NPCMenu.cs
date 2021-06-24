@@ -23,7 +23,6 @@ public class NPCMenu : ConversationMenu
 
         NPCLabel.text = _currentNPC.DisplayName;
         NPCPortrait.sprite = _currentNPC.Portrait;
-        HUD.Instance.SendInfoMessage(_currentNPC.DisplayName);
 
         _advanceStepCounter = -1;
         _isHire = isHire;

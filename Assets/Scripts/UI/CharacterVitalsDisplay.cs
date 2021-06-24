@@ -30,8 +30,8 @@ public class CharacterVitalsDisplay : MonoBehaviour {
         member.Vitals.OnManaChange += UpdateSP;
         Party.OnMemberChanged += IndicateSelection;
 
-        UpdateSP(member.Vitals.CurrentHP, member.Vitals.EffectiveTotalHP);
-        UpdateSP(member.Vitals.CurrentMP, member.Vitals.EffectiveTotalMP);
+        UpdateSP(member.Vitals.CurrentHP, member.Vitals.Stats.EffectiveTotalHP);
+        UpdateSP(member.Vitals.CurrentSP, member.Vitals.Stats.EffectiveTotalSP);
         UpdateExpression(member.Vitals.EffectiveExpression);
         UpdateStatus(member.Vitals.IsReady());
         IndicateSelection(Party.Instance.ActiveMember);
@@ -72,6 +72,8 @@ public class CharacterVitalsDisplay : MonoBehaviour {
 
     void UpdateExpression(string expression)
     {
+        if (string.IsNullOrEmpty(expression))
+            expression = "neutral";
         Portrait.sprite = SpriteHandler.FetchSprite("Portraits", "Face" + Member.Profile.PortraitID + "_" + expression);
     }
 
@@ -93,5 +95,4 @@ public class CharacterVitalsDisplay : MonoBehaviour {
     {
         _clicking = false;
     }
-
 }

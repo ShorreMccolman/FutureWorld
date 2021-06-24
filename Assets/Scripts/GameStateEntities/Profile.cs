@@ -12,68 +12,81 @@ public enum PartyMemberState
     Eradicated
 }
 
-[System.Serializable]
-public struct Resistances
+public class PrimaryStats : EffectiveStats
 {
-    public int Fire;
-    public int Electricity;
-    public int Cold;
-    public int Poison;
-    public int Magic;
-    public int Physical;
+    public int Might => _dict[CharacterStat.Might].BaseValue;
+    public int Intellect => _dict[CharacterStat.Intellect].BaseValue;
+    public int Personality => _dict[CharacterStat.Personality].BaseValue;
+    public int Endurance => _dict[CharacterStat.Endurance].BaseValue;
+    public int Accuracy => _dict[CharacterStat.Accuracy].BaseValue;
+    public int Speed => _dict[CharacterStat.Speed].BaseValue;
+    public int Luck => _dict[CharacterStat.Luck].BaseValue;
 
-    public Resistances(int fire, int electricity, int cold, int poison, int magic, int physical)
+    public int EffectiveMight => Evaluate(CharacterStat.Might);
+    public int EffectiveIntellect => Evaluate(CharacterStat.Intellect);
+    public int EffectivePersonality => Evaluate(CharacterStat.Personality);
+    public int EffectiveEndurance => Evaluate(CharacterStat.Endurance);
+    public int EffectiveAccuracy => Evaluate(CharacterStat.Accuracy);
+    public int EffectiveSpeed => Evaluate(CharacterStat.Speed);
+    public int EffectiveLuck => Evaluate(CharacterStat.Luck);
+
+    public PrimaryStats(int might, int intellect, int personality, int endurance, int accuracy, int speed, int luck)
     {
-        Fire = fire;
-        Electricity = electricity;
-        Cold = cold;
-        Poison = poison;
-        Magic = magic;
-        Physical = physical;
+        _dict = new Dictionary<CharacterStat, EffectiveStat>()
+        {
+            {CharacterStat.Might, new EffectiveStat(CharacterStat.Might, might) },
+            {CharacterStat.Intellect, new EffectiveStat(CharacterStat.Intellect, intellect) },
+            {CharacterStat.Personality, new EffectiveStat(CharacterStat.Personality, personality) },
+            {CharacterStat.Endurance, new EffectiveStat(CharacterStat.Endurance, endurance) },
+            {CharacterStat.Accuracy, new EffectiveStat(CharacterStat.Accuracy, accuracy) },
+            {CharacterStat.Speed, new EffectiveStat(CharacterStat.Speed, speed) },
+            {CharacterStat.Luck, new EffectiveStat(CharacterStat.Luck, luck) }
+        };
+    }
+}
+
+public class Resistances : EffectiveStats, IResistance
+{
+    public int Fire => _dict[CharacterStat.FireResist].BaseValue;
+    public int Elec => _dict[CharacterStat.ElecResist].BaseValue;
+    public int Cold => _dict[CharacterStat.ColdResist].BaseValue;
+    public int Poison => _dict[CharacterStat.PoisonResist].BaseValue;
+    public int Magic => _dict[CharacterStat.MagicResist].BaseValue;
+
+    public int EffectiveFire => Evaluate(CharacterStat.FireResist);
+    public int EffectiveElec => Evaluate(CharacterStat.ElecResist);
+    public int EffectiveCold => Evaluate(CharacterStat.ColdResist);
+    public int EffectivePoison => Evaluate(CharacterStat.PoisonResist);
+    public int EffectiveMagic => Evaluate(CharacterStat.MagicResist);
+
+    public Resistances(int fire, int elec, int cold, int poison, int magic)
+    {
+        _dict = new Dictionary<CharacterStat, EffectiveStat>()
+        {
+            {CharacterStat.FireResist, new EffectiveStat(CharacterStat.FireResist, fire) },
+            {CharacterStat.ElecResist, new EffectiveStat(CharacterStat.ElecResist, elec) },
+            {CharacterStat.ColdResist, new EffectiveStat(CharacterStat.ColdResist, cold) },
+            {CharacterStat.PoisonResist, new EffectiveStat(CharacterStat.PoisonResist, poison) },
+            {CharacterStat.MagicResist, new EffectiveStat(CharacterStat.MagicResist, magic) }
+        };
     }
 
-    public Resistances(XmlNode node)
-    {
-        XmlNode resistanceNode = node.SelectSingleNode("Resistances");
-        Fire = int.Parse(resistanceNode.SelectSingleNode("Fire").InnerText);
-        Electricity = int.Parse(resistanceNode.SelectSingleNode("Electricity").InnerText);
-        Cold = int.Parse(resistanceNode.SelectSingleNode("Cold").InnerText);
-        Poison = int.Parse(resistanceNode.SelectSingleNode("Poison").InnerText);
-        Magic = int.Parse(resistanceNode.SelectSingleNode("Magic").InnerText);
-        Physical = int.Parse(resistanceNode.SelectSingleNode("Physical").InnerText);
-    }
-
-    public XmlNode ToXml(XmlDocument doc)
-    {
-        XmlNode element = doc.CreateElement("Resistances");
-        element.AppendChild(XmlHelper.Attribute(doc, "Fire", Fire));
-        element.AppendChild(XmlHelper.Attribute(doc, "Electricity", Electricity));
-        element.AppendChild(XmlHelper.Attribute(doc, "Cold", Cold));
-        element.AppendChild(XmlHelper.Attribute(doc, "Poison", Poison));
-        element.AppendChild(XmlHelper.Attribute(doc, "Magic", Magic));
-        element.AppendChild(XmlHelper.Attribute(doc, "Physical", Physical));
-        return element;
-    }
-
-    public int GetResistanceByType(AttackType type)
+    public int ResistanceForAttackType(AttackType type)
     {
         switch (type)
         {
             case AttackType.Fire:
-                return Fire;
+                return EffectiveFire;
             case AttackType.Electricity:
-                return Electricity;
+                return EffectiveElec;
             case AttackType.Cold:
-                return Cold;
+                return EffectiveCold;
             case AttackType.Poison:
-                return Poison;
+                return EffectivePoison;
             case AttackType.Magic:
-                return Magic;
-            case AttackType.Physical:
-                return Physical;
-            default:
-                return 0;
+                return EffectiveMagic;
         }
+        return 0;
     }
 }
 
@@ -83,120 +96,44 @@ public class Profile : GameStateEntity {
     public CharacterClass Class { get; private set; }
     public int PortraitID { get; private set; }
     public int SkillPoints { get; private set; }
-
     public int Age { get; private set; }
     public int Level { get; private set; }
     public int Experience { get; private set; }
 
-    public int Might { get; private set; }
-    public int Intellect { get; private set; }
-    public int Personality { get; private set; }
-    public int Endurance { get; private set; }
-    public int Accuracy { get; private set; }
-    public int Speed { get; private set; }
-    public int Luck { get; private set; }
+    PrimaryStats _stats;
+    public PrimaryStats Stats => _stats;
+
+    Resistances _resistances;
+    public Resistances Resistances => _resistances;
 
     string _quickSpell;
-    public string QuickSpell { get { return string.IsNullOrEmpty(_quickSpell) ? "None" : _quickSpell; } }
+    public string QuickSpell => string.IsNullOrEmpty(_quickSpell) ? "None" : _quickSpell;
 
-    public Resistances Resistances { get; private set; }
+    public string FullName => CharacterName + " the " + Class.ToString();
+
+    public int MaxHitPoints =>
+        GameConstants.BaseHPByCharacterClass[Class]
+        + GameConstants.HPScalingByCharacterClass_1[Class] * (Level - 1)
+        + GameConstants.EnduranceModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(Stats.EffectiveEndurance);
+    public int MaxSpellPoints =>
+        GameConstants.BaseMPByCharacterClass[Class]
+        + GameConstants.MPScalingByCharacterClass_1[Class] * (Level - 1)
+        + GameConstants.PersonalityModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(Stats.EffectivePersonality)
+        + GameConstants.IntellectModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(Stats.EffectiveIntellect);
+    public int BaseArmorClass => GameConstants.GetStatisticalEffect(Stats.EffectiveSpeed);
+    public int BaseAttack => GameConstants.GetStatisticalEffect(Stats.EffectiveAccuracy);
+    public int BaseDamage => GameConstants.GetStatisticalEffect(Stats.EffectiveMight);
+    public int BaseRangedAttack => GameConstants.GetStatisticalEffect(Stats.EffectiveAccuracy);
+    public int BaseRangedDamage => 0;
+    public int BaseResistance => GameConstants.GetStatisticalEffect(Stats.EffectiveLuck);
 
     Status _status;
     Equipment _equipment;
+    Skillset _skillset;
 
-    public int HitPoints()
-    {
-        int health = GameConstants.BaseHPByCharacterClass[Class];
-        health += GameConstants.HPScalingByCharacterClass_1[Class] * (Level - 1);
-        health += GameConstants.EnduranceModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(EffectiveEndurance);
-        return health;
-    }
+    public event System.Action OnStatsChanged;
 
-    public int SpellPoints()
-    {
-        int health = GameConstants.BaseMPByCharacterClass[Class];
-        health += GameConstants.MPScalingByCharacterClass_1[Class] * (Level - 1);
-        health += GameConstants.PersonalityModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(EffectivePersonality);
-        health += GameConstants.IntellectModByCharacterClass[Class] * GameConstants.GetStatisticalEffect(EffectiveIntellect);
-        return health;
-    }
-
-    public string FullName
-    {
-        get { return CharacterName + " the " + Class.ToString(); }
-    }
-
-    public int EffectiveMight
-    {
-        get { return _status.ModifyMight(Might + _equipment.MightBonus()); }
-    }
-
-    public int EffectiveEndurance
-    {
-        get { return _status.ModifyEndurance(Endurance + _equipment.EnduranceBonus()); }
-    }
-
-    public int EffectiveSpeed
-    {
-        get { return _status.ModifySpeed(Speed + _equipment.SpeedBonus()); }
-    }
-
-    public int EffectiveIntellect
-    {
-        get { return _status.ModifyIntellect(Intellect + _equipment.IntellectBonus()); }
-    }
-
-    public int EffectivePersonality
-    {
-        get { return _status.ModifyPersonality(Personality + _equipment.PersonalityBonus()); }
-    }
-
-    public int EffectiveAccuracy
-    {
-        get { return _status.ModifyAccuracy(Accuracy + _equipment.AccuracyBonus()); }
-    }
-
-    public int EffectiveLuck
-    {
-        get { return _status.ModifyLuck(Luck + _equipment.LuckBonus()); }
-    }
-
-    public int BaseArmorClass()
-    {
-        return GameConstants.GetStatisticalEffect(EffectiveSpeed);
-    }
-
-    public int BaseAttack()
-    {
-        return GameConstants.GetStatisticalEffect(EffectiveAccuracy);
-    }
-
-    public int BaseDamage()
-    {
-        return GameConstants.GetStatisticalEffect(EffectiveMight);
-    }
-
-    public int BaseRangedAttack()
-    {
-        return GameConstants.GetStatisticalEffect(EffectiveAccuracy);
-    }
-
-    public int BaseRangedDamage()
-    {
-        return 0;
-    }
-
-    public int BaseResistance()
-    {
-        return GameConstants.GetStatisticalEffect(EffectiveLuck);
-    }
-
-    public int EffectiveResistance(AttackType type)
-    {
-        return _status.ModifyResistance(type, Resistances.GetResistanceByType(type) + _equipment.ResistanceBonus(type));
-    }
-
-    public Profile(GameStateEntity parent, Status status, Equipment equipment, CharacterData data) : base(parent)
+    public Profile(GameStateEntity parent, Status status, Equipment equipment, Skillset skillset, CharacterData data) : base(parent)
     {
         CharacterName = data.Name;
         PortraitID = data.PortraitID;
@@ -205,20 +142,23 @@ public class Profile : GameStateEntity {
         Age = Random.Range(20, 35);
         Level = 1;
         Experience = Random.Range(250, 350);
-        Might = data.Might;
-        Intellect = data.Intellect;
-        Personality = data.Personality;
-        Endurance = data.Endurance;
-        Accuracy = data.Accuracy;
-        Speed = data.Speed;
-        Luck = data.Luck;
+
+        _stats = new PrimaryStats(data.Might, data.Intellect, data.Personality, data.Endurance, data.Accuracy, data.Speed, data.Luck);
+        _resistances = new Resistances(0, 0, 0, 0, 0);
+
         _quickSpell = "";
-        Resistances = new Resistances(0, 0, 0, 0, 0, 0);
+
         _status = status;
         _equipment = equipment;
+        _skillset = skillset;
+
+        _status.OnStatusChanged += UpdateEffectiveStats;
+        _equipment.OnEquipmentChanged += UpdateEffectiveStats;
+
+        UpdateEffectiveStats();
     }
 
-    public Profile(GameStateEntity parent, Status status, Equipment equipment, XmlNode node) : base(parent, node)
+    public Profile(GameStateEntity parent, Status status, Equipment equipment, Skillset skillset, XmlNode node) : base(parent, node)
     {
         XmlNode profileNode = node.SelectSingleNode("Profile");
         CharacterName = profileNode.SelectSingleNode("CharacterName").InnerText;
@@ -229,20 +169,34 @@ public class Profile : GameStateEntity {
         Level = int.Parse(profileNode.SelectSingleNode("Level").InnerText);
         Experience = int.Parse(profileNode.SelectSingleNode("Experience").InnerText);
 
-        Might = int.Parse(profileNode.SelectSingleNode("Might").InnerText);
-        Intellect = int.Parse(profileNode.SelectSingleNode("Intellect").InnerText);
-        Personality = int.Parse(profileNode.SelectSingleNode("Personality").InnerText);
-        Endurance = int.Parse(profileNode.SelectSingleNode("Endurance").InnerText);
-        Accuracy = int.Parse(profileNode.SelectSingleNode("Accuracy").InnerText);
-        Speed = int.Parse(profileNode.SelectSingleNode("Speed").InnerText);
-        Luck = int.Parse(profileNode.SelectSingleNode("Luck").InnerText);
-        
-        _quickSpell = profileNode.SelectSingleNode("QuickSpell").InnerText;
+        int might = int.Parse(profileNode.SelectSingleNode("Might").InnerText);
+        int intellect = int.Parse(profileNode.SelectSingleNode("Intellect").InnerText);
+        int personality = int.Parse(profileNode.SelectSingleNode("Personality").InnerText);
+        int endurance = int.Parse(profileNode.SelectSingleNode("Endurance").InnerText);
+        int accuracy = int.Parse(profileNode.SelectSingleNode("Accuracy").InnerText);
+        int speed = int.Parse(profileNode.SelectSingleNode("Speed").InnerText);
+        int luck = int.Parse(profileNode.SelectSingleNode("Luck").InnerText);
 
-        Resistances = new Resistances(profileNode);
+        _stats = new PrimaryStats(might, intellect, personality, endurance, accuracy, speed, luck);
+
+        int fire = int.Parse(profileNode.SelectSingleNode("Fire").InnerText);
+        int elec = int.Parse(profileNode.SelectSingleNode("Electricity").InnerText);
+        int cold = int.Parse(profileNode.SelectSingleNode("Cold").InnerText);
+        int poison = int.Parse(profileNode.SelectSingleNode("Poison").InnerText);
+        int magic = int.Parse(profileNode.SelectSingleNode("Magic").InnerText);
+
+        _resistances = new Resistances(fire, elec, cold, poison, magic);
+
+        _quickSpell = profileNode.SelectSingleNode("QuickSpell").InnerText;
 
         _status = status;
         _equipment = equipment;
+        _skillset = skillset;
+
+        _status.OnStatusChanged += UpdateEffectiveStats;
+        _equipment.OnEquipmentChanged += UpdateEffectiveStats;
+
+        UpdateEffectiveStats();
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -256,20 +210,37 @@ public class Profile : GameStateEntity {
         element.AppendChild(XmlHelper.Attribute(doc, "Level", Level));
         element.AppendChild(XmlHelper.Attribute(doc, "Experience", Experience));
 
-        element.AppendChild(XmlHelper.Attribute(doc, "Might", Might));
-        element.AppendChild(XmlHelper.Attribute(doc, "Intellect", Intellect));
-        element.AppendChild(XmlHelper.Attribute(doc, "Personality", Personality));
-        element.AppendChild(XmlHelper.Attribute(doc, "Endurance", Endurance));
-        element.AppendChild(XmlHelper.Attribute(doc, "Accuracy", Accuracy));
-        element.AppendChild(XmlHelper.Attribute(doc, "Speed", Speed));
-        element.AppendChild(XmlHelper.Attribute(doc, "Luck", Luck));
-        
-        element.AppendChild(XmlHelper.Attribute(doc, "QuickSpell", _quickSpell));
+        element.AppendChild(XmlHelper.Attribute(doc, "Might", Stats.Might));
+        element.AppendChild(XmlHelper.Attribute(doc, "Intellect", Stats.Intellect));
+        element.AppendChild(XmlHelper.Attribute(doc, "Personality", Stats.Personality));
+        element.AppendChild(XmlHelper.Attribute(doc, "Endurance", Stats.Endurance));
+        element.AppendChild(XmlHelper.Attribute(doc, "Accuracy", Stats.Accuracy));
+        element.AppendChild(XmlHelper.Attribute(doc, "Speed", Stats.Speed));
+        element.AppendChild(XmlHelper.Attribute(doc, "Luck", Stats.Luck));
 
-        element.AppendChild(Resistances.ToXml(doc));
+        element.AppendChild(XmlHelper.Attribute(doc, "Fire", Resistances.Fire));
+        element.AppendChild(XmlHelper.Attribute(doc, "Electricity", Resistances.Elec));
+        element.AppendChild(XmlHelper.Attribute(doc, "Cold", Resistances.Cold));
+        element.AppendChild(XmlHelper.Attribute(doc, "Poison", Resistances.Poison));
+        element.AppendChild(XmlHelper.Attribute(doc, "Magic", Resistances.Magic));
+
+        element.AppendChild(XmlHelper.Attribute(doc, "QuickSpell", _quickSpell));
 
         element.AppendChild(base.ToXml(doc));
         return element;
+    }
+
+    public void UpdateEffectiveStats()
+    {
+        _stats.Flush();
+        _equipment.ModifyStats(_stats);
+        _status.ModifyStats(_stats);
+
+        _resistances.Flush();
+        _equipment.ModifyStats(_resistances);
+        _status.ModifyStats(_resistances);
+
+        OnStatsChanged?.Invoke();
     }
 
     public int NeededXP
@@ -305,30 +276,8 @@ public class Profile : GameStateEntity {
 
     public void AddStatPoints(CharacterStat stat, int amount)
     {
-        switch(stat)
-        {
-            case CharacterStat.Might:
-                Might += amount;
-                return;
-            case CharacterStat.Endurance:
-                Endurance += amount;
-                return;
-            case CharacterStat.Speed:
-                Speed += amount;
-                return;
-            case CharacterStat.Accuracy:
-                Accuracy += amount;
-                return;
-            case CharacterStat.Intellect:
-                Intellect += amount;
-                return;
-            case CharacterStat.Personality:
-                Personality += amount;
-                return;
-            case CharacterStat.Luck:
-                Luck += amount;
-                return;
-        }
+        Stats.GetStat(stat).IncreaseBase(amount);
+        OnStatsChanged?.Invoke();
     }
 
     public void EarnXP(int value)

@@ -35,7 +35,6 @@ public class ResidenceMenu : ConversationMenu
         ResidentDialogObject.gameObject.SetActive(false);
 
         ResidencyLabel.text = _currentResidency.DisplayName;
-        HUD.Instance.SendInfoMessage(_currentResidency.DisplayName);
 
         Options = new List<ResidentOptionUI>();
         int yOffset = 100 * (_currentResidency.Residents.Count - 1);
@@ -408,7 +407,7 @@ public class ResidenceMenu : ConversationMenu
         
         if(success)
         {
-            HUD.Instance.SendInfoMessage("Thanks!", 2.0f);
+            InfoMessageReceiver.Send("Thanks!", 2.0f);
         }
     }
 
@@ -497,7 +496,7 @@ public class ResidenceMenu : ConversationMenu
         if(Party.Instance.CurrentFood >= _currentResident.Data.Services.FoodQuantity)
         {
             DisplayDialog("");
-            HUD.Instance.SendInfoMessage("Your packs are already full!", 2.0f);
+            InfoMessageReceiver.Send("Your packs are already full!", 2.0f);
         }
         else
         {
@@ -514,7 +513,7 @@ public class ResidenceMenu : ConversationMenu
         if (Party.Instance.TryPay(_currentResident.Data.Services.DrinkCost))
         {
             DisplayDialog("");
-            HUD.Instance.SendInfoMessage("Hic...", 2.0f);
+            InfoMessageReceiver.Send("Hic...", 2.0f);
             _hasAchievedSpecialCondition = true;
         }
     }
@@ -531,7 +530,7 @@ public class ResidenceMenu : ConversationMenu
         else
         {
             DisplayDialog("");
-            HUD.Instance.SendInfoMessage("Have a Drink first...", 2.0f);
+            InfoMessageReceiver.Send("Have a Drink first...", 2.0f);
         }
     }
 
@@ -542,11 +541,6 @@ public class ResidenceMenu : ConversationMenu
             DialogBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
         else
             DialogBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Dialog.preferredHeight + 10);
-    }
-
-    public void HoverBack()
-    {
-        HUD.Instance.SendInfoMessage("End Conversation");
     }
 
     public void Back()

@@ -58,11 +58,11 @@ public class Interactable : GameStateEntity
                     break;
                 case InteractableEffect.RestoreHP:
                     member.Vitals.GainHealthPoints(Data.Potency);
-                    HUD.Instance.SendInfoMessage("+" + Data.Potency + " Hit points restored.", 2.0f);
+                    InfoMessageReceiver.Send("+" + Data.Potency + " Hit points restored.", 2.0f);
                     break;
                 case InteractableEffect.RestoreMP:
                     member.Vitals.GainSpellPoints(Data.Potency);
-                    HUD.Instance.SendInfoMessage("+" + Data.Potency + " Spell points restored.", 2.0f);
+                    InfoMessageReceiver.Send("+" + Data.Potency + " Spell points restored.", 2.0f);
                     break;
                 case InteractableEffect.StatusEffect:
                     if (member.Status.HasCondition(Data.Option))
@@ -71,7 +71,7 @@ public class Interactable : GameStateEntity
                     {
                         member.Status.AddCondition(Data.Option, Data.Potency, Data.Duration * 60);
                         member.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-                        HUD.Instance.SendInfoMessage(MessageForOption(Data.Option, Data.Potency), 2.0f);
+                        InfoMessageReceiver.Send(MessageForOption(Data.Option, Data.Potency), 2.0f);
                     }
                     break;
                 case InteractableEffect.PermanentStat:
@@ -81,7 +81,7 @@ public class Interactable : GameStateEntity
                     {
                         member.Profile.AddStatPoints(Stat, Data.Potency);
                         member.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
-                        HUD.Instance.SendInfoMessage("+" + Data.Potency + " " + Stat.ToString() + " permanent.", 2.0f);
+                        InfoMessageReceiver.Send("+" + Data.Potency + " " + Stat.ToString() + " permanent.", 2.0f);
                         Stat = CharacterStat.None;
                     }
                     break;

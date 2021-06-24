@@ -62,7 +62,7 @@ public class InventoryItemButton : ItemButton {
 
     protected override void OnRightDown()
     {
-        bool success = HUD.Instance.TryConsume(Item);
+        bool success = HUD.Instance.TryCombine(Item);
         if (success)
         {
             HUD.Instance.Popups.Supress();

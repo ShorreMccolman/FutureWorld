@@ -20,7 +20,7 @@ public class ResidencyEntity : Entity3D
             HUD.Instance.EnterResidence(_residency);
         else
         {
-            HUD.Instance.SendInfoMessage("This place is open from " + _residency.Data.Hours.GetOpenHours(), 2.0f);
+            InfoMessageReceiver.Send("This place is open from " + _residency.Data.Hours.GetOpenHours(), 2.0f);
             Party.Instance.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_SAD, GameConstants.EXPRESSION_SAD_DURATION);
         }
     }

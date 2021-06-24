@@ -11,6 +11,7 @@ public abstract class Menu : MonoBehaviour {
     public string MenuTag;
 
     GameObject _contents;
+
     public GameObject Contents
     {
         get

@@ -61,6 +61,10 @@ public class Skillset : GameStateEntity
 {
     public List<InventorySkill> Skills { get; private set; }
 
+    CharacterClass _class;
+
+    public event System.Action OnSkillsChanged;
+
     public Skillset(GameStateEntity parent, CharacterData data) : base(parent)
     {
         Skills = new List<InventorySkill>();
@@ -69,6 +73,7 @@ public class Skillset : GameStateEntity
             InventorySkill skill = SkillDatabase.Instance.GetInventorySkill(id, this); 
             Skills.Add(skill);
         }
+        _class = data.Class;
     }
 
     public Skillset(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -80,6 +85,7 @@ public class Skillset : GameStateEntity
         {
             Skills.Add(new InventorySkill(this, skillNodes.Item(i)));
         }
+        _class = (CharacterClass)int.Parse(skillNode.SelectSingleNode("Class").InnerText);
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -89,6 +95,7 @@ public class Skillset : GameStateEntity
         {
             element.AppendChild(skill.ToXml(doc));
         }
+        element.AppendChild(XmlHelper.Attribute(doc, "Class", (int)_class));
         element.AppendChild(base.ToXml(doc));
         return element;
     }
@@ -140,6 +147,7 @@ public class Skillset : GameStateEntity
     {
         InventorySkill skill = GetSkillByID(ID);
         skill.IncreaseMastery();
+        OnSkillsChanged?.Invoke();
     }
 
     public int GetSkillLevel(string ID)
@@ -173,6 +181,7 @@ public class Skillset : GameStateEntity
     public void LearnSkill(Skill skill)
     {
         Skills.Add(new InventorySkill(this, skill));
+        OnSkillsChanged?.Invoke();
     }
 
     public bool CanEquip(Item item)
@@ -346,7 +355,7 @@ public class Skillset : GameStateEntity
         return damage;
     }
 
-    public int GetWeaponRecovery(WeaponType type, Enchantment enchantment)
+    public int GetWeaponRecovery(WeaponType type)
     {
         int value = GameConstants.RecoveryByWeaponType[type];
 
@@ -370,13 +379,10 @@ public class Skillset : GameStateEntity
                 break;
         }
 
-        if(enchantment != null)
-            value -= enchantment.StrengthOfOption(EnchantmentEffectOption.WeaponRecovery);
-
         return value;
     }
 
-    public int GetRecovery(ArmorType type, Enchantment enchantment)
+    public int GetRecovery(ArmorType type)
     {
         int value = GameConstants.RecoveryByArmorType[type];
 
@@ -409,15 +415,12 @@ public class Skillset : GameStateEntity
         return Mathf.Max(0, value);
     }
 
-    public int GetBonusHP(CharacterClass characterClass)
+    public void ModifyStats(EffectiveStats stats)
     {
-        int level = GetSkillLevel("Bodybuilding");
-        return level * GameConstants.HPScalingByCharacterClass_1[characterClass];
-    }
+        int bonus = GetSkillLevel("Bodybuilding") * GameConstants.HPScalingByCharacterClass_1[_class];
+        stats.GetStat(CharacterStat.TotalHP).AddToBonus(bonus);
 
-    public int GetBonusMP(CharacterClass characterClass)
-    {
-        int level = GetSkillLevel("Meditation");
-        return level * GameConstants.HPScalingByCharacterClass_1[characterClass];
+        bonus = GetSkillLevel("Meditation") * GameConstants.MPScalingByCharacterClass_1[_class];
+        stats.GetStat(CharacterStat.TotalSP).AddToBonus(bonus);
     }
 }

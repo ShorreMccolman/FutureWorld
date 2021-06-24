@@ -13,8 +13,8 @@ public class VitalsInfoMessenger : MonoBehaviour, IInfoMessenger, IPopable
 
     public string GetInfoMessage()
     {
-        string hp = Display.Member.Vitals.CurrentHP + " / " + Display.Member.Vitals.EffectiveTotalHP + " Hit Points";
-        string mp = Display.Member.Vitals.CurrentMP + " / " + Display.Member.Vitals.EffectiveTotalMP + " Spell Points";
+        string hp = Display.Member.Vitals.CurrentHP + " / " + Display.Member.Vitals.Stats.EffectiveTotalHP + " Hit Points";
+        string mp = Display.Member.Vitals.CurrentSP + " / " + Display.Member.Vitals.Stats.EffectiveTotalSP + " Spell Points";
 
         return hp + "     " + mp;
     }

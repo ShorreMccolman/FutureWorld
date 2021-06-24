@@ -60,7 +60,7 @@ public class SkillButton : MonoBehaviour, IPopable, IInfoMessenger, IPointerEnte
             _menu.UpdateDisplay();
         } else
         {
-            HUD.Instance.SendInfoMessage("You don't have enough skill points!", 2.0f);
+            InfoMessageReceiver.Send("You don't have enough skill points!", 2.0f);
         }
 
         int difference;

@@ -51,4 +51,54 @@ public class StatusCondition : GameStateEntity
         Duration += Effect.TicksUp ? delta : -delta;
         return Duration < 0;
     }
+
+    public void ModifyStats(EffectiveStats stats)
+    {
+        switch (Option)
+        {
+            case StatusEffectOption.Poison:
+                stats.GetStat(CharacterStat.Might).ReduceMultiplier(0.75f);
+                stats.GetStat(CharacterStat.Endurance).ReduceMultiplier(0.75f);
+                stats.GetStat(CharacterStat.Accuracy).ReduceMultiplier(0.75f);
+                stats.GetStat(CharacterStat.Speed).ReduceMultiplier(0.75f);
+
+                break;
+            case StatusEffectOption.Disease:
+                stats.GetStat(CharacterStat.Might).ReduceMultiplier(0.6f);
+                stats.GetStat(CharacterStat.Endurance).ReduceMultiplier(0.6f);
+                stats.GetStat(CharacterStat.Accuracy).ReduceMultiplier(0.6f);
+                stats.GetStat(CharacterStat.Speed).ReduceMultiplier(0.6f);
+
+                break;
+            case StatusEffectOption.BoostedResistance:
+                stats.GetStat(CharacterStat.FireResist).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.ElecResist).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.ColdResist).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.PoisonResist).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.MagicResist).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedMight:
+                stats.GetStat(CharacterStat.Might).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedIntellect:
+                stats.GetStat(CharacterStat.Intellect).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedPersonality:
+                stats.GetStat(CharacterStat.Personality).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedEndurance:
+                stats.GetStat(CharacterStat.Endurance).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedSpeed:
+                stats.GetStat(CharacterStat.Speed).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedAccuracy:
+                stats.GetStat(CharacterStat.Accuracy).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedLuck:
+                stats.GetStat(CharacterStat.Luck).AddToBonus(Potency);
+                break;
+
+        }
+    }
 }

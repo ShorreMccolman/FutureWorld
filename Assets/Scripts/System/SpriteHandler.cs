@@ -53,6 +53,7 @@ public static class SpriteHandler
     public static void PurgeTemp()
     {
         _tempDict.Clear();
+        Resources.UnloadUnusedAssets();
         System.GC.Collect();
     }
 }

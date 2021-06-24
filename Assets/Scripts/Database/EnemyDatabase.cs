@@ -27,6 +27,42 @@ public class EnemyCombatData
     public int Recovery;
 }
 
+public interface IResistance
+{
+    public int ResistanceForAttackType(AttackType type);
+}
+
+[System.Serializable]
+public struct EnemyResistance : IResistance
+{
+    public int Fire;
+    public int Elec;
+    public int Cold;
+    public int Poison;
+    public int Magic;
+    public int Physical;
+
+    public int ResistanceForAttackType(AttackType type)
+    {
+        switch(type)
+        {
+            case AttackType.Fire:
+                return Fire;
+            case AttackType.Electricity:
+                return Elec;
+            case AttackType.Cold:
+                return Cold;
+            case AttackType.Poison:
+                return Poison;
+            case AttackType.Magic:
+                return Magic;
+            case AttackType.Physical:
+                return Physical;
+        }
+        return 0;
+    }
+}
+
 public enum EnemyRank
 {
     Soldier,
@@ -55,7 +91,7 @@ public class EnemyData
     public string DropTag;
 
     public AttackData AttackData;
-    public Resistances Resistances;
+    public EnemyResistance Resistances;
     public EnemyCombatData CombatData;
 
     public string Spell;

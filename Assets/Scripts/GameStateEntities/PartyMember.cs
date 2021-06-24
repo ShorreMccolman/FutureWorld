@@ -26,7 +26,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         Skillset = new Skillset(this, data);
         SpellLog = new SpellLog(this, Skillset, data);
         History = new History(this, data);
-        Profile = new Profile(this, Status, Equipment, data);
+        Profile = new Profile(this, Status, Equipment, Skillset, data);
         Vitals = new Vitals(this, data, Status, Profile, Equipment, Skillset);
     }
 
@@ -38,7 +38,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         Skillset = new Skillset(this, node);
         SpellLog = new SpellLog(this, Skillset, node);
         History = new History(this, node);
-        Profile = new Profile(this, Status, Equipment, node);
+        Profile = new Profile(this, Status, Equipment, Skillset, node);
         Vitals = new Vitals(this, node, Status, Profile, Equipment, Skillset);
     }
 
@@ -107,7 +107,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
             {
                 value = 30;
             } 
-            else if (Vitals.CurrentHP < Vitals.EffectiveTotalHP || Vitals.CurrentMP < Vitals.EffectiveTotalMP)
+            else if (Vitals.CurrentHP < Vitals.Stats.EffectiveTotalHP || Vitals.CurrentSP < Vitals.Stats.EffectiveTotalSP)
             {
                 value = 10;
             }
@@ -198,7 +198,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
     }
     public bool TryHit(Enemy enemy, out int damage)
     {
-        bool hits = CombatHelper.ShouldHit(Vitals.EffectiveAttack, enemy.Data.ArmorClass);
+        bool hits = CombatHelper.ShouldHit(Vitals.Stats.EffectiveAttack, enemy.Data.ArmorClass);
 
         int dmg = 0;
         if(hits)
@@ -215,7 +215,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
             string msg = Profile.CharacterName + " hit " + enemy.Data.DisplayName + " for " + damage + " damage.";
             if(enemy.CurrentHP - damage <= 0)
                 msg = Profile.CharacterName + " inflicts " + damage + " damage killing " + enemy.Data.DisplayName + ".";
-            HUD.Instance.SendInfoMessage(msg, 2.0f);
+            InfoMessageReceiver.Send(msg, 2.0f);
 
             Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
             SoundManager.Instance.PlayUISound("Hit");
@@ -226,7 +226,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
             SoundManager.Instance.PlayUISound("Swing");
         }
 
-        Vitals.ApplyCooldown(Vitals.Recovery);
+        Vitals.ApplyCooldown(Vitals.Stats.Recovery);
 
         return hits;
     }
@@ -239,15 +239,15 @@ public class PartyMember : GameStateEntity, CombatEntity {
         if(Equipment.HasRangedWeapon())
         {
             projectile = ProjectileDatabase.Instance.GetProjectile("generic");
-            projectile.SetDamage(Profile.CharacterName, Vitals.EffectiveRangedAttack, Equipment.RollRangedDamage(Skillset));
+            projectile.SetDamage(Profile.CharacterName, Vitals.Stats.EffectiveRangedAttack, Equipment.RollRangedDamage(Skillset));
 
-            Vitals.ApplyCooldown(Vitals.RangedRecovery);
+            Vitals.ApplyCooldown(Vitals.Stats.RangedRecovery);
             Vitals.Express(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
             SoundManager.Instance.PlayUISound("Arrow");
         }
         else
         {
-            Vitals.ApplyCooldown(Vitals.Recovery);
+            Vitals.ApplyCooldown(Vitals.Stats.Recovery);
             SoundManager.Instance.PlayUISound("Swing");
         }
         return result;
@@ -255,14 +255,14 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public bool OnEnemyAttack(EnemyData enemy)
     {
-        float chanceToHit = (5 + (float)enemy.Level * 2) / (10 + (float)enemy.Level * 2 + (float)Vitals.EffectiveArmorClass);
+        float chanceToHit = (5 + (float)enemy.Level * 2) / (10 + (float)enemy.Level * 2 + (float)Vitals.Stats.EffectiveArmorClass);
         float rand = Random.Range(0f, 1f);
 
         bool hits = rand <= chanceToHit;
         if (hits)
         {
             int damage = enemy.AttackData.DamageRoll.Roll();
-            float chanceOfReduction = 1 - 30 / (30 + Profile.EffectiveResistance(enemy.AttackData.Type));
+            float chanceOfReduction = 1 - 30 / (30 + (Profile.Resistances.ResistanceForAttackType(enemy.AttackData.Type) + Profile.BaseResistance));
             damage = CombatHelper.ReduceDamage(damage, chanceOfReduction);
 
             Vitals.TakeDamage(damage);
@@ -274,7 +274,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public bool OnDamaged(AttackResult attack)
     {
-        float chanceOfReduction = 1 - 30 / (30 + Profile.EffectiveResistance(attack.Type));
+        float chanceOfReduction = 1 - 30 / (30 + Profile.Resistances.ResistanceForAttackType(attack.Type) + Profile.BaseResistance);
         int damage = CombatHelper.ReduceDamage(attack.Value, chanceOfReduction);
 
         Vitals.TakeDamage(damage);

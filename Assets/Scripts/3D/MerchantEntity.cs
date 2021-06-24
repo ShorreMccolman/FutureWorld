@@ -20,7 +20,7 @@ public class MerchantEntity : Entity3D
             HUD.Instance.EnterResidence(_merchant);
         else
         {
-            HUD.Instance.SendInfoMessage("This place is open from " + _merchant.Data.Hours.GetOpenHours(), 2.0f);
+            InfoMessageReceiver.Send("This place is open from " + _merchant.Data.Hours.GetOpenHours(), 2.0f);
             Party.Instance.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_SAD, GameConstants.EXPRESSION_SAD_DURATION);
         }
     }

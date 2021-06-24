@@ -235,7 +235,7 @@ public class PartyController : MonoBehaviour {
             MenuManager.Instance.CloseAllMenus();
         }
 
-        HUD.Instance.SendInfoMessage(message);
+        InfoMessageReceiver.Send(message);
 
         if (popable != null)
         {

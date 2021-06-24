@@ -15,6 +15,8 @@ public class Equipment : GameStateEntity
     public Dictionary<EquipSlot, InventoryItem> Weapons { get; private set; }
     public Dictionary<EquipSlot, InventoryItem> Armor { get; private set; }
 
+    public event System.Action OnEquipmentChanged;
+
     public Equipment(GameStateEntity parent, CharacterData data) : base(parent)
     {
         Weapons = new Dictionary<EquipSlot, InventoryItem>();
@@ -145,6 +147,7 @@ public class Equipment : GameStateEntity
         {
             InventoryItem item = Weapons[slot];
             Weapons.Remove(slot);
+            OnEquipmentChanged?.Invoke();
             return item;
         }
 
@@ -152,6 +155,7 @@ public class Equipment : GameStateEntity
         {
             InventoryItem item = Armor[slot];
             Armor.Remove(slot);
+            OnEquipmentChanged?.Invoke();
             return item;
         }
 
@@ -317,6 +321,7 @@ public class Equipment : GameStateEntity
             return false;
         }
 
+        OnEquipmentChanged?.Invoke();
         return true;
     }
 
@@ -343,6 +348,7 @@ public class Equipment : GameStateEntity
                 Weapons.Add(weapon.EquipSlot, item);
             }
 
+            OnEquipmentChanged?.Invoke();
             return true;
         }
 
@@ -380,6 +386,7 @@ public class Equipment : GameStateEntity
                 {
                     return false;
                 }
+                OnEquipmentChanged?.Invoke();
                 return true;
             }
 
@@ -387,6 +394,7 @@ public class Equipment : GameStateEntity
                 return false;
 
             Armor.Add(armor.EquipSlot, item);
+            OnEquipmentChanged?.Invoke();
             return true;
         }
 
@@ -405,6 +413,7 @@ public class Equipment : GameStateEntity
                 return false;
 
             Weapons.Remove(slot);
+            OnEquipmentChanged?.Invoke();
             return true;
         }
 
@@ -442,6 +451,7 @@ public class Equipment : GameStateEntity
                 {
                     return false;
                 }
+                OnEquipmentChanged?.Invoke();
                 return true;
             }
 
@@ -449,6 +459,7 @@ public class Equipment : GameStateEntity
                 return false;
 
             Armor.Remove(armor.EquipSlot);
+            OnEquipmentChanged?.Invoke();
             return true;
         }
 
@@ -736,7 +747,7 @@ public class Equipment : GameStateEntity
         int ac = 100;
         InventoryItem item = SlowestRecoveryWeapon();
         if(item != null)
-            ac = set.GetWeaponRecovery((item.Data as Weapon).Type, item.Enchantment);
+            ac = set.GetWeaponRecovery((item.Data as Weapon).Type);
 
         if (Armor.ContainsKey(EquipSlot.Body))
         {
@@ -744,7 +755,7 @@ public class Equipment : GameStateEntity
             if (armor.Data is Armor)
             {
                 Armor data = armor.Data as Armor;
-                ac += set.GetRecovery(data.Type, armor.Enchantment);
+                ac += set.GetRecovery(data.Type);
             }
         }
 
@@ -754,7 +765,7 @@ public class Equipment : GameStateEntity
             if (armor.Data is Armor)
             {
                 Armor data = armor.Data as Armor;
-                ac += set.GetRecovery(data.Type, armor.Enchantment);
+                ac += set.GetRecovery(data.Type);
             }
         }
 
@@ -769,7 +780,7 @@ public class Equipment : GameStateEntity
         {
             InventoryItem weapon = Weapons[EquipSlot.Ranged];
             Weapon data = weapon.Data as Weapon;
-            ac = set.GetWeaponRecovery(data.Type, weapon.Enchantment);
+            ac = set.GetWeaponRecovery(data.Type);
         }
 
         if (Armor.ContainsKey(EquipSlot.Body))
@@ -778,7 +789,7 @@ public class Equipment : GameStateEntity
             if (armor.Data is Armor)
             {
                 Armor data = armor.Data as Armor;
-                ac += set.GetRecovery(data.Type, armor.Enchantment);
+                ac += set.GetRecovery(data.Type);
             }
         }
 
@@ -788,7 +799,7 @@ public class Equipment : GameStateEntity
             if (armor.Data is Armor)
             {
                 Armor data = armor.Data as Armor;
-                ac += set.GetRecovery(data.Type, armor.Enchantment);
+                ac += set.GetRecovery(data.Type);
             }
         }
 
@@ -827,77 +838,9 @@ public class Equipment : GameStateEntity
         return null;
     }
 
-    public int MightBonus()
+    public void ModifyStats(EffectiveStats stats)
     {
-        int bonus = 0;
 
-        return bonus;
-    }
-
-    public int EnduranceBonus()
-    {
-        int bonus = 0;
-
-        return bonus;
-    }
-
-    public int IntellectBonus()
-    {
-        int bonus = 0;
-
-        return bonus;
-    }
-
-    public int PersonalityBonus()
-    {
-        int bonus = 0;
-
-        return bonus;
-    }
-
-    public int AccuracyBonus()
-    {
-        int bonus = 0;
-
-        return bonus;
-    }
-
-    public int SpeedBonus()
-    {
-        int bonus = 0;
-
-        return bonus;
-    }
-
-    public int LuckBonus()
-    {
-        int bonus = 0;
-
-        return bonus;
-    }
-
-    public int ResistanceBonus(AttackType type)
-    {
-        int bonus = 0;
-
-        return bonus;
-    }
-
-    public int GetBonusHP()
-    {
-        int bonus = 0;
-
-
-
-        return bonus;
-    }
-
-    public int GetBonusMP()
-    {
-        int bonus = 0;
-
-
-
-        return bonus;
+        
     }
 }

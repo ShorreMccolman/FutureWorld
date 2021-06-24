@@ -17,8 +17,8 @@ public class VitalsInfoPopup : MonoBehaviour
         int width = 500;
 
         Name.text = display.Member.Profile.FullName;
-        Body.text = "Hit Points: " + display.Member.Vitals.CurrentHP + " / " + display.Member.Vitals.EffectiveTotalHP +
-                    "\nSpell Points: " + display.Member.Vitals.CurrentMP + " / " + display.Member.Vitals.EffectiveTotalMP +
+        Body.text = "Hit Points: " + display.Member.Vitals.CurrentHP + " / " + display.Member.Vitals.Stats.EffectiveTotalHP +
+                    "\nSpell Points: " + display.Member.Vitals.CurrentSP + " / " + display.Member.Vitals.Stats.EffectiveTotalSP +
                     "\nCondition: " + display.Member.EffectiveStatusCondition() +
                     "\nQuick Spell: " + display.Member.Profile.QuickSpell;
 
