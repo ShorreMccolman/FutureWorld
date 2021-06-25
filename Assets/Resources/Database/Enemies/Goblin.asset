@@ -96,7 +96,7 @@ MonoBehaviour:
       Spell: fire_bolt
       Model: {fileID: 4535204003392886127, guid: 853b980c76fdae040912c85aba2b39a6,
         type: 3}
-      Portrait: {fileID: 21300000, guid: cd140afbcc0e4554f87a99259ef955fc, type: 3}
+      Portrait: {fileID: 21300000, guid: e7bec9565e7b4644281b90b168dce753, type: 3}
     Captain:
       ID: goblin_3
       DisplayName: Goblin Lord
