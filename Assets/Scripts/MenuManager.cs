@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
     public static event System.Action<bool> OnMenuOpened;
     public static event System.Action OnMenusClosed;
 
-    public void SwapMenu(string menuTag)
+    public void SwapMenu(string menuTag, bool useVignette)
     {
         foreach (var menu in _openMenuDict.Values)
         {
@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
             menu.Contents.SetActive(false);
         }
         _openMenuDict.Clear();
-        OpenMenu(menuTag, true);
+        OpenMenu(menuTag, useVignette);
     }
 
     public void CloseAllMenus()

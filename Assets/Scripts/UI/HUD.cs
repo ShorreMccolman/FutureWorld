@@ -33,20 +33,15 @@ public class HUD : Menu {
     [SerializeField] Image Vignette;
     [SerializeField] Image CombatIndicator;
 
-    [SerializeField] Image CharacterPortrait;
-    [SerializeField] Image CharacterPortraitArm;
-    [SerializeField] Image CharacterPortraitTwoArm;
-
     [SerializeField] ProfileMenu ProfileMenu;
     [SerializeField] SkillsMenu SkillsMenu;
     [SerializeField] InventoryMenu InventoryMenu;
     [SerializeField] AwardsMenu AwardsMenu;
+
     [SerializeField] ResidenceMenu ResidenceMenu;
     [SerializeField] MerchantMenu MerchantMenu;
     [SerializeField] NPCMenu NPCMenu;
-    [SerializeField] SpellsMenu SpellsMenu;
 
-    [SerializeField] CharacterEquipmentDisplay EquipmentDisplay;
     [SerializeField] Transform HeldItemAnchor;
 
     Party _party;
@@ -56,6 +51,8 @@ public class HUD : Menu {
     bool _isOtherMenuOpen;
 
     public ItemButton HeldItemButton { get; private set; }
+
+    public static event System.Action<PartyMember> OnSpellsPressed;
 
     public void InitParty(Party party)
     {
@@ -168,19 +165,12 @@ public class HUD : Menu {
         if (HeldItemButton != null)
             return;
 
-        MenuManager.Instance.CloseAllMenus();
-
-        MenuManager.Instance.OpenMenu("System", true);
-        foreach (var obj in CharacterMenuObjects)
-            obj.SetActive(false);
+        MenuManager.Instance.SwapMenu("System", true);
     }
 
     public void OpenQuests()
     {
-        if (_isOtherMenuOpen || _isCharacterMenuOpen)
-            return;
-
-        MenuManager.Instance.OpenMenu("Quests", true);
+        MenuManager.Instance.SwapMenu("Quests", true);
     }
 
     public void OpenNotes()
@@ -200,24 +190,15 @@ public class HUD : Menu {
 
     public void OpenSpells()
     {
-        if (_isOtherMenuOpen || _isCharacterMenuOpen)
-            return;
-
         if (_party.ActiveMember != null)
         {
-            SoundManager.Instance.PlayUISound("Page");
-            MenuManager.Instance.OpenMenu("Spells", true);
-            SpellsMenu.Setup(_party.ActiveMember);
+            OnSpellsPressed?.Invoke(_party.ActiveMember);
         }
     }
 
     public void OpenRest()
     {
-        if (_isOtherMenuOpen || _isCharacterMenuOpen)
-            return;
-
-        SideMenu.SetActive(false);
-        MenuManager.Instance.OpenMenu("Rest", true);
+        MenuManager.Instance.SwapMenu("Rest", false);
     }
 
     public void Profile()
@@ -234,32 +215,24 @@ public class HUD : Menu {
     {
         SwapMenu(InventoryMenu);
     }
+
     public void Awards()
     {
         SwapMenu(AwardsMenu);
     }
 
+    public void Close()
+    {
+        SoundManager.Instance.PlayUISound("Button");
+        MenuManager.Instance.CloseAllMenus();
+    }
+
     void SwapMenu(CharacterMenu menu)
     {
-        if (_selectedMenu != null)
-            MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
-
-        Vignette.enabled = true;
         _selectedMenu = menu;
         _selectedMenu.Setup(_party.ActiveMember);
         SoundManager.Instance.PlayUISound("Button");
-        MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true);
-    }
-
-    public void Close()
-    {
-        if (_selectedMenu != null)
-            MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
-        foreach (var obj in CharacterMenuObjects)
-            obj.SetActive(false);
-        _isCharacterMenuOpen = false;
-        Vignette.enabled = false;
-        SoundManager.Instance.PlayUISound("Button");
+        MenuManager.Instance.SwapMenu(menu.MenuTag, true);
     }
 
     public void ToggleSelectedCharacter()
@@ -283,24 +256,9 @@ public class HUD : Menu {
             if(_party.Members[cur].Vitals.IsReady() && _party.Members[cur].IsConcious())
             {
                 _party.SetActiveMember(_party.Members[cur]);
-
-                if(_isCharacterMenuOpen)
-                {
-                    _selectedMenu.Setup(_party.ActiveMember);
-                    EquipmentDisplay.Setup(_party.ActiveMember);
-                    RefreshCharacterSprite();
-                }
-
                 return;
             }
         }
-    }
-
-    void RefreshCharacterSprite()
-    {
-        CharacterPortrait.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Body" + _party.ActiveMember.Profile.PortraitID);
-        CharacterPortraitArm.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Arm" + _party.ActiveMember.Profile.PortraitID + "A");
-        CharacterPortraitTwoArm.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Arm" + _party.ActiveMember.Profile.PortraitID + "B");
     }
 
     public void SelectCharacter(PartyMember member, bool openMenu)
@@ -330,7 +288,7 @@ public class HUD : Menu {
             }
         }
 
-        if (openMenu || _isCharacterMenuOpen)
+        if (openMenu)
         {
             if (_party.ActiveMember != member)
             {
@@ -345,14 +303,8 @@ public class HUD : Menu {
         if (MenuManager.Instance.IsMenuOpen(new List<string>() { "Merchant", "Residence", "NPC", "Rest", "System", "Quests", "Spells" }))
             return;
 
-        _isCharacterMenuOpen = true;
         MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true);
         _selectedMenu.Setup(_party.ActiveMember);
-        Vignette.enabled = true;
-        foreach (var obj in CharacterMenuObjects)
-            obj.SetActive(true);
-        RefreshCharacterSprite();
-        EquipmentDisplay.Setup(_party.ActiveMember);
     }
 
     public InventoryItemButton CreateItemButton(Item item, Vector3 position, RectTransform parent)
@@ -462,8 +414,6 @@ public class HUD : Menu {
             Destroy(HeldItemButton.gameObject);
             HeldItemButton = null;
         }
-
-        EquipmentDisplay.Setup(_party.ActiveMember);
     }
 
     public void TryConsume(PartyMember member)
@@ -485,7 +435,7 @@ public class HUD : Menu {
             Destroy(HeldItemButton.gameObject);
         }
 
-        InventoryItemButton invButton = HUD.Instance.CreateItemButton(item.Data, Input.mousePosition, (RectTransform)HeldItemAnchor);
+        InventoryItemButton invButton = CreateItemButton(item.Data, Input.mousePosition, (RectTransform)HeldItemAnchor);
         invButton.Setup(item, InventoryMenu);
         invButton.ForceHold();
         HeldItemButton = invButton;
@@ -507,7 +457,7 @@ public class HUD : Menu {
             Transform parent = button.transform.parent;
             Destroy(button.gameObject);
 
-            InventoryItemButton invButton = HUD.Instance.CreateItemButton(button.Item.Data, pos, (RectTransform)parent);
+            InventoryItemButton invButton = CreateItemButton(button.Item.Data, pos, (RectTransform)parent);
             invButton.Setup(button.Item, InventoryMenu);
             invButton.ForceHold();
             button = invButton;
@@ -581,7 +531,7 @@ public class HUD : Menu {
                 return false;
             }
 
-            InventoryItemButton invButton = HUD.Instance.CreateItemButton(item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
+            InventoryItemButton invButton = CreateItemButton(item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
             invButton.Setup(item, InventoryMenu);
             invButton.ForceHold();
 
@@ -617,7 +567,7 @@ public class HUD : Menu {
         if (HeldItemButton != null)
             return false;
 
-        InventoryItemButton invButton = HUD.Instance.CreateItemButton(drop.Item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
+        InventoryItemButton invButton = CreateItemButton(drop.Item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
         InventoryItem invItem = drop.Item;
         invButton.Setup(invItem, InventoryMenu);
         invButton.ForceHold();

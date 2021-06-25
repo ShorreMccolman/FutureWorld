@@ -11,10 +11,12 @@ public abstract class CharacterMenu : Menu
     public override void OnOpen()
     {
         OnCharacterMenuOpen?.Invoke(true);
+        Party.OnMemberChanged += Setup;
     }
 
     public override void OnClose()
     {
         OnCharacterMenuOpen?.Invoke(false);
+        Party.OnMemberChanged -= Setup;
     }
 }

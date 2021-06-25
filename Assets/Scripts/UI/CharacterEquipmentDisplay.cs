@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class CharacterEquipmentDisplay : MonoBehaviour {
+public class CharacterEquipmentDisplay : Menu 
+{
+    [SerializeField] Image CharacterPortrait;
+    [SerializeField] Image CharacterPortraitArm;
+    [SerializeField] Image CharacterPortraitTwoArm;
 
     [SerializeField] RectTransform PrimaryAnchor;
     [SerializeField] RectTransform RangedAnchor;
@@ -36,8 +40,41 @@ public class CharacterEquipmentDisplay : MonoBehaviour {
 
     bool _popupOpen = false;
 
+    protected override void Init()
+    {
+        CharacterMenu.OnCharacterMenuOpen += OpenCharacterMenu;
+
+        base.Init();
+    }
+
+    void OpenCharacterMenu(bool opened)
+    {
+        if (opened && !Contents.activeSelf)
+        {
+            Setup(Party.Instance.ActiveMember);
+            Party.OnMemberChanged += Setup;
+            Contents.SetActive(true);
+        }
+        else if (!opened && Contents.activeSelf)
+        {
+            _member.Equipment.OnEquipmentChanged -= Refresh;
+            Party.OnMemberChanged -= Setup;
+            Contents.SetActive(false);
+        }
+    }
+
+    void Refresh()
+    {
+        Setup(_member);
+    }
+
     public void Setup(PartyMember member)
     {
+        if(_member != null)
+        {
+            _member.Equipment.OnEquipmentChanged -= Refresh;
+        }
+
         _member = member;
 
         foreach (var obj in _itemButtons)
@@ -70,6 +107,12 @@ public class CharacterEquipmentDisplay : MonoBehaviour {
         }
 
         RefreshOverlays();
+
+        CharacterPortrait.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Body" + member.Profile.PortraitID);
+        CharacterPortraitArm.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Arm" + member.Profile.PortraitID + "A");
+        CharacterPortraitTwoArm.sprite = SpriteHandler.FetchSprite("BodyPortraits", "Arm" + member.Profile.PortraitID + "B");
+
+        _member.Equipment.OnEquipmentChanged += Refresh;
     }
 
     void RefreshOverlays()

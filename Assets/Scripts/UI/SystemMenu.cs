@@ -6,7 +6,7 @@ public class SystemMenu : Menu {
 
 	public void SaveGame()
     {
-        MenuManager.Instance.SwapMenu("SaveMenu");
+        MenuManager.Instance.SwapMenu("SaveMenu", true);
     }
 
     public void NewGame()
@@ -16,7 +16,7 @@ public class SystemMenu : Menu {
 
     public void LoadGame()
     {
-        MenuManager.Instance.SwapMenu("LoadMenu");
+        MenuManager.Instance.SwapMenu("LoadMenu", true);
     }
 
     public void Controls()

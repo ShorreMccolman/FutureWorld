@@ -14,8 +14,17 @@ public class SpellsMenu : Menu
     int _selectedSchoolIndex;
     int _selectedSpellIndex;
 
+    protected override void Init()
+    {
+        HUD.OnSpellsPressed += Setup;
+
+        base.Init();
+    }
+
     public void Setup(PartyMember member)
     {
+        MenuManager.Instance.OpenMenu(MenuTag, true);
+
         _member = member;
         _selectedSpellIndex = -1;
         _selectedSchoolIndex = -1;
@@ -27,7 +36,7 @@ public class SpellsMenu : Menu
 
         for (int i=0;i<SchoolButtons.Length;i++)
         {
-            if (member.Skillset.KnowsSkill(((SpellSchool)i).ToString()))
+            if (_member.Skillset.KnowsSkill(((SpellSchool)i).ToString()))
             {
                 SchoolButtons[i].Setup(this, i);
                 if (_selectedSchoolIndex == -1)

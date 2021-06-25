@@ -87,7 +87,10 @@ public class PartyController : MonoBehaviour {
         if (Entity == null)
             return;
 
-        _intendedTarget = null;
+        foreach (var member in Party.Instance.Members)
+        {
+            member.Vitals.TickExpression(Time.deltaTime);
+        }
 
         if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
@@ -96,11 +99,6 @@ public class PartyController : MonoBehaviour {
         else if(Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
         {
             OnReleaseClick?.Invoke();
-        }
-
-        foreach (var member in Party.Instance.Members)
-        {
-            member.Vitals.TickExpression(Time.deltaTime);
         }
 
         bool hoveringUI = false;
@@ -126,6 +124,7 @@ public class PartyController : MonoBehaviour {
             TryFindPopable(ref popable, result.gameObject);
         });
 
+        _intendedTarget = null;
         if (_controlState != ControlState.MenuLock)
         {
             Vector3 point = Entity.Camera.ScreenToViewportPoint(Input.mousePosition);
@@ -179,9 +178,9 @@ public class PartyController : MonoBehaviour {
                 {
                     TryAttack();
                 }
-                else if (Input.GetKeyDown(KeyCode.R))
+                else if (Input.GetKeyDown(KeyCode.C))
                 {
-                    HUD.Instance.OpenRest();
+                    TryCast();
                 }
                 else if (Input.GetKeyDown(KeyCode.Q))
                 {
@@ -206,9 +205,24 @@ public class PartyController : MonoBehaviour {
         {
             HUD.Instance.ToggleSelectedCharacter();
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            HUD.Instance.OpenRest();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            HUD.Instance.OpenSpells();
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            HUD.Instance.OpenQuests();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            MenuManager.Instance.CloseAllMenus();
+            if (MenuManager.Instance.IsMenuOpen())
+                MenuManager.Instance.CloseAllMenus();
+            else
+                HUD.Instance.OpenSystem();
         }
 
         InfoMessageReceiver.Send(message);
@@ -321,16 +335,9 @@ public class PartyController : MonoBehaviour {
         }
     }
 
-    public List<Enemy> GetActiveEnemies()
+    public void TryCast()
     {
-        List<Enemy> enemies = new List<Enemy>();
-        foreach (Entity3D ent in _longRange)
-        {
-            EnemyEntity enemy = ent as EnemyEntity;
-            if (enemy != null)
-                enemies.Add(enemy.Enemy);
-        }
-        return enemies;
+
     }
 
     IEnumerator AttackRoutine()
@@ -391,6 +398,17 @@ public class PartyController : MonoBehaviour {
         }
     }
 
+    public List<Enemy> GetActiveEnemies()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+        foreach (Entity3D ent in _longRange)
+        {
+            EnemyEntity enemy = ent as EnemyEntity;
+            if (enemy != null)
+                enemies.Add(enemy.Enemy);
+        }
+        return enemies;
+    }
     Entity3D GetNearestTargetable(out bool shortRange)
     {
         Entity3D target;
