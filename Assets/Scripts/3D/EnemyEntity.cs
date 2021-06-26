@@ -102,14 +102,27 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         AttackBehaviour attack = new AttackBehaviour(this, this, Party.Instance.Entity.transform);
         FleeBehaviour flee = new FleeBehaviour(this, Party.Instance.Entity.transform);
 
-        AI.AddTransition(idle, zigZag, () => _range < Range.Out && _isVisible);
+        AI.AddTransition(idle, zigZag, () => _range < Range.Out);
         AI.AddTransition(zigZag, idle, () => _range > Range.Long);
         AI.AddTransition(zigZag, pursue, () => _range < Range.Long);
         AI.AddTransition(pursue, zigZag, () => _range > Range.Mid);
         AI.AddTransition(pursue, attack, () => _range < Range.Mid);
         AI.AddTransition(attack, pursue, () => _range > Range.Close && !Enemy.MovementLocked);
 
-        AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.25f, 2);
+        switch(Enemy.Data.CombatData.AIType)
+        {
+            case EnemyAIType.Wimp:
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.5f, 2);
+                break;
+            case EnemyAIType.Normal:
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.33f, 2);
+                break;
+            case EnemyAIType.Aggressive:
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.1f, 2);
+                break;
+            case EnemyAIType.Suicidal:
+                break;
+        }
 
         if (Enemy.IsHostile)
         {
