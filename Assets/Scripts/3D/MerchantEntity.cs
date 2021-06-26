@@ -15,13 +15,6 @@ public class MerchantEntity : Entity3D
     public override IEnumerator Interact(PartyEntity party)
     {
         yield return new WaitForEndOfFrame();
-
-        if(_merchant.Data.Hours.IsOpen(TimeManagement.Instance.GetCurrentHour()))
-            HUD.Instance.EnterResidence(_merchant);
-        else
-        {
-            InfoMessageReceiver.Send("This place is open from " + _merchant.Data.Hours.GetOpenHours(), 2.0f);
-            Party.Instance.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_SAD, GameConstants.EXPRESSION_SAD_DURATION);
-        }
+        _merchant.TryEnterResidence();
     }
 }

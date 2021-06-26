@@ -10,91 +10,49 @@ public enum SphereLevel
     Three = 3
 }
 
-public class Entity3D : MonoBehaviour
+public abstract class Entity3D : MonoBehaviour
 {
     public GameStateEntity State { get; protected set; }
-
     public string MouseoverName { get; protected set; }
     public bool IsTargetable { get; protected set; }
     public bool IgnoreInteraction { get; protected set; }
 
-    void Start()
-    {
-        GameController.Instance.EntityUpdate += EntityUpdate;
-    }
+    protected bool _isVisible = false;
 
-    void OnTriggerEnter(Collider other)
-    {
-        PlayerSphere entity = other.GetComponent<PlayerSphere>();
-        if (entity != null && !IgnoreInteraction)
-        {
-            OnEnterSphere(entity.Party, entity.SphereLevel);
-        }
-    }
+    public static event System.Action<Entity3D> OnEntityDestroyed;
 
-    void OnTriggerExit(Collider other)
+    public virtual void EnterSphere(SphereLevel level)
     {
-        PlayerSphere entity = other.GetComponent<PlayerSphere>();
-        if (entity != null && !IgnoreInteraction)
+        if (level == SphereLevel.Three)
         {
-            OnExitSphere(entity.Party, entity.SphereLevel);
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+            _isVisible = true;
         }
     }
 
-    public virtual void OnEnterSphere(Party party, SphereLevel level)
+    public virtual void ExitSphere(SphereLevel level)
     {
-        if (IgnoreInteraction)
-            return;
-
-        if(level == SphereLevel.Zero)
+        if (level == SphereLevel.Three)
         {
-            PartyController.Instance.ShortRange(this, true);
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+            _isVisible = false;
         }
-        else if (level == SphereLevel.One)
-        {
-            PartyController.Instance.MidRange(this, true);
-        } 
-        else if (level == SphereLevel.Two)
-        {
-            PartyController.Instance.LongRange(this, true);
-        }
-    }
-
-    public virtual void OnExitSphere(Party party, SphereLevel level)
-    {
-        if (IgnoreInteraction)
-            return;
-
-        if (level == SphereLevel.Zero)
-        {
-            PartyController.Instance.ShortRange(this, false);
-        }
-        else if (level == SphereLevel.One)
-        {
-            PartyController.Instance.MidRange(this, false);
-        }
-        else if (level == SphereLevel.Two)
-        {
-            PartyController.Instance.LongRange(this, false);
-        }
-    }
-
-    public virtual void EntityUpdate()
-    {
-
     }
 
     public virtual IEnumerator Interact(PartyEntity party)
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
     }
 
     public void Kill()
     {
-        PartyController.Instance.ShortRange(this, false);
-        PartyController.Instance.MidRange(this, false);
-
-        GameController.Instance.EntityUpdate -= EntityUpdate;
+        OnEntityDestroyed?.Invoke(this);
         Destroy(this.gameObject);
     }
 }

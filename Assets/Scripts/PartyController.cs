@@ -26,7 +26,6 @@ public class PartyController : MonoBehaviour {
     ControlState _controlState;
     ControlState _previousControlState;
     List<Entity3D> _shortRange = new List<Entity3D>();
-    List<Entity3D> _midRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
     bool _isInteracting;
     bool _showingPopup;
@@ -50,12 +49,13 @@ public class PartyController : MonoBehaviour {
 
         MenuManager.OnMenuOpened += MenuOpened;
         MenuManager.OnMenusClosed += MenusClosed;
+        Entity3D.OnEntityDestroyed += RemoveFromRange;
+        PlayerSphere.OnEntityEnteredSphere += EntityEnteredSphere;
+        PlayerSphere.OnEntityExitedSphere += EntityExitedSphere;
     }
 
     public void LoadParty(Party party)
     {
-        Instance = this;
-
         GameObject obj = Instantiate(PartyEntityObject);
         party.CreateEntity(obj);
         _party = party;
@@ -68,6 +68,9 @@ public class PartyController : MonoBehaviour {
 
         MenuManager.OnMenuOpened += MenuOpened;
         MenuManager.OnMenusClosed += MenusClosed;
+        Entity3D.OnEntityDestroyed += RemoveFromRange;
+        PlayerSphere.OnEntityEnteredSphere += EntityEnteredSphere;
+        PlayerSphere.OnEntityExitedSphere += EntityExitedSphere;
     }
 
     public void ReviveParty(Party party)
@@ -127,9 +130,9 @@ public class PartyController : MonoBehaviour {
         _intendedTarget = null;
         if (_controlState != ControlState.MenuLock)
         {
-            Vector3 point = Entity.Camera.ScreenToViewportPoint(Input.mousePosition);
-            if (point.x <= 1 && point.y >= 0)
-            {
+            //Vector3 point = Entity.Camera.ScreenToViewportPoint(Input.mousePosition);
+            //if (point.x <= 1 && point.y >= 0)
+            //{
                 Ray ray = Entity.Camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
@@ -148,7 +151,7 @@ public class PartyController : MonoBehaviour {
                         }
                     }
                 }
-            }
+            //}
 
             if (_isInteracting)
                 return;
@@ -203,7 +206,7 @@ public class PartyController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            HUD.Instance.ToggleSelectedCharacter();
+            _party.ToggleSelectedCharacter();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -256,7 +259,7 @@ public class PartyController : MonoBehaviour {
         return false;
     }
 
-    public void MenuOpened(bool useVignette)
+    public void MenuOpened(bool useVignette, bool hideSide)
     {
         SetControlState(ControlState.MenuLock);
     }
@@ -278,37 +281,41 @@ public class PartyController : MonoBehaviour {
             _previousControlState = state;
     }
 
-    public void LongRange(Entity3D entity, bool add)
+    public void EntityEnteredSphere(SphereLevel level, Entity3D entity)
     {
-        if (entity is PartyEntity)
-            return;
-
-        if (add && !_longRange.Contains(entity))
+        if(level == SphereLevel.Zero && !_shortRange.Contains(entity))
+        {
+            _shortRange.Add(entity);
+        }
+        else if (level == SphereLevel.Two && !_longRange.Contains(entity))
+        {
             _longRange.Add(entity);
-        else if (!add && _longRange.Contains(entity))
+        }
+    }
+
+    public void EntityExitedSphere(SphereLevel level, Entity3D entity)
+    {
+        if (level == SphereLevel.Zero && _shortRange.Contains(entity))
+        {
+            _shortRange.Remove(entity);
+        }
+        else if (level == SphereLevel.Two && _longRange.Contains(entity))
+        {
+            _longRange.Remove(entity);
+        }
+    }
+
+    public void RemoveFromRange(Entity3D entity)
+    {
+        if (_shortRange.Contains(entity))
+            _shortRange.Remove(entity);
+        if (_longRange.Contains(entity))
             _longRange.Remove(entity);
     }
 
-    public void MidRange(Entity3D entity, bool add)
+    public void TryCast()
     {
-        if (entity is PartyEntity)
-            return;
 
-        if (add && !_midRange.Contains(entity))
-            _midRange.Add(entity);
-        else if (!add && _midRange.Contains(entity))
-            _midRange.Remove(entity);
-    }
-
-    public void ShortRange(Entity3D entity, bool add)
-    {
-        if (entity is PartyEntity)
-            return;
-
-        if (add && !_shortRange.Contains(entity))
-            _shortRange.Add(entity);
-        else if (!add && _shortRange.Contains(entity))
-            _shortRange.Remove(entity);
     }
 
     public void TryAttack()
@@ -333,11 +340,6 @@ public class PartyController : MonoBehaviour {
 
             StartCoroutine(AttackRoutine());
         }
-    }
-
-    public void TryCast()
-    {
-
     }
 
     IEnumerator AttackRoutine()
@@ -372,7 +374,7 @@ public class PartyController : MonoBehaviour {
                     if(projectile != null)
                     {
                         projectile.Setup(((target.transform.position + Vector3.up ) - Entity.transform.position).normalized, true);
-                        DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.GetSpeed());
+                        DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.MoveSpeed);
                     }
                 }
 
@@ -386,7 +388,7 @@ public class PartyController : MonoBehaviour {
                 if (projectile != null)
                 {
                     projectile.Setup(Entity.transform.forward.normalized, true);
-                    DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.GetSpeed());
+                    DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.MoveSpeed);
                 }
             }
 

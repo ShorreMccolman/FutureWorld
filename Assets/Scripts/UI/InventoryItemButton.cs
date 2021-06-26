@@ -68,4 +68,20 @@ public class InventoryItemButton : ItemButton {
             Popups.Supress();
         }
     }
+
+    public static InventoryItemButton Create(Item item, Vector3 position, RectTransform parent)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>("UI/InventoryItemButton"), parent);
+
+        RectTransform rt = (RectTransform)obj.transform;
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x * item.Width, rt.sizeDelta.y * item.Height);
+
+        float halfDown = (float)(item.Height / 2f) - 0.5f;
+        float halfOver = (float)(item.Width / 2f) - 0.5f;
+
+        obj.transform.position = position;
+
+        InventoryItemButton btn = obj.GetComponent<InventoryItemButton>();
+        return btn;
+    }
 }

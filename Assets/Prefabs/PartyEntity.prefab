@@ -57,6 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c657e3f1f7b8793448cbed166c28bbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 1
 --- !u!1 &335223770
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c657e3f1f7b8793448cbed166c28bbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 0
 --- !u!1 &1572429490
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c657e3f1f7b8793448cbed166c28bbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 2
 --- !u!1 &1253512606139482
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,9 +209,9 @@ Transform:
   - {fileID: 335223771}
   - {fileID: 54794699}
   - {fileID: 1572429491}
+  - {fileID: 6150643331057736492}
   - {fileID: 1279212919271991835}
   - {fileID: 3402740104098217829}
-  - {fileID: 6150643331057736492}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -242,11 +245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f0781fff137eb4883e3fa0388b2c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sphere0: {fileID: 2207919293689961495}
-  _sphere1: {fileID: 3952606504422861025}
-  _sphere2: {fileID: 4019638647380180295}
-  _sphere3: {fileID: 6741052963553492050}
-  m_dropPosition: {fileID: 6354033738829268211}
+  _dropPosition: {fileID: 0}
+  _camera: {fileID: 20761827927461848}
   MapCam: {fileID: 7376492998890519941}
   _mouseLook:
     XSensitivity: 2
@@ -257,10 +257,10 @@ MonoBehaviour:
     smooth: 0
     smoothTime: 5
     lockCursor: 1
-  m_IsWalking: 0
-  m_WalkSpeed: 6
-  m_RunSpeed: 10
-  m_RunstepLenghten: 0.7
+  _isWalking: 0
+  _walkSpeed: 5
+  _runSpeed: 8
+  _runstepLenghten: 0.5
   m_JumpSpeed: 6
   m_StickToGroundForce: 10
   m_GravityMultiplier: 2
@@ -388,7 +388,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -667,7 +667,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1279212919271991835}
   - component: {fileID: 7376492998890519941}
-  - component: {fileID: 4879817803052904177}
   - component: {fileID: 3695922043326335591}
   m_Layer: 8
   m_Name: Map
@@ -688,7 +687,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4448723845902762}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!20 &7376492998890519941
 Camera:
@@ -733,14 +732,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4879817803052904177
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3324396941850267915}
-  m_Enabled: 1
 --- !u!114 &3695922043326335591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,7 +805,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4448723845902762}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &1826603711402924882
 SphereCollider:
@@ -841,6 +832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c657e3f1f7b8793448cbed166c28bbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 3
 --- !u!1 &5130570142448842863
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,7 +862,7 @@ Transform:
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children: []
   m_Father: {fileID: 4448723845902762}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -90, y: -90, z: 0}
 --- !u!212 &4846681736507746139
 SpriteRenderer:

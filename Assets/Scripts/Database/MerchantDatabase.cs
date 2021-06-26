@@ -28,23 +28,25 @@ public class StoreHours
     public int OpenHour;
     public int CloseHour;
 
-    public bool IsOpen(int hour)
+    public bool IsStoreOpen(int currentHour)
     {
         if (OpenHour == CloseHour)
             return true;
         else if (OpenHour > CloseHour)
-            return hour >= OpenHour || hour < CloseHour;
+            return currentHour >= OpenHour || currentHour < CloseHour;
         else
-            return hour >= OpenHour && hour < CloseHour;
+            return currentHour >= OpenHour && currentHour < CloseHour;
     }
 
-    public string GetOpenHours()
+
+    public string GetStoreHoursString()
     {
         string result;
 
         bool isAM = true;
         int value = OpenHour;
-        if (OpenHour >= 12) {
+        if (OpenHour >= 12)
+        {
             isAM = false;
             value -= 12;
         }

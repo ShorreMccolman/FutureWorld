@@ -6,14 +6,14 @@ public class ChestMenu : InventoryMenu
 {
     protected override void Init()
     {
-        ChestEntity.OnInspectChest += Setup;
+        Chest.OnInspectChest += Setup;
 
         base.Init();
     }
 
     public void Setup(Chest chest)
     {
-        MenuManager.Instance.OpenMenu(MenuTag, true);
+        MenuManager.Instance.OpenMenu(MenuTag, true, false);
 
         _inventory = chest.Inventory;
         SetupInventory();

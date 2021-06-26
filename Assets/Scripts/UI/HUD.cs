@@ -23,7 +23,6 @@ public class HUD : Menu {
     [SerializeField] Transform Compass;
 
     [SerializeField] CharacterVitalsDisplay[] CharacterVitalsUI;
-    [SerializeField] GameObject[] CharacterMenuObjects;
 
     [SerializeField] HireButton[] HireButtons;
 
@@ -38,17 +37,10 @@ public class HUD : Menu {
     [SerializeField] InventoryMenu InventoryMenu;
     [SerializeField] AwardsMenu AwardsMenu;
 
-    [SerializeField] ResidenceMenu ResidenceMenu;
-    [SerializeField] MerchantMenu MerchantMenu;
-    [SerializeField] NPCMenu NPCMenu;
-
     [SerializeField] Transform HeldItemAnchor;
 
     Party _party;
     CharacterMenu _selectedMenu;
-
-    bool _isCharacterMenuOpen;
-    bool _isOtherMenuOpen;
 
     public ItemButton HeldItemButton { get; private set; }
 
@@ -76,8 +68,6 @@ public class HUD : Menu {
         _selectedMenu = ProfileMenu;
 
         Vignette.enabled = false;
-        foreach (var obj in CharacterMenuObjects)
-            obj.SetActive(false);
 
         FoodLabel.text = _party.CurrentFood.ToString();
         GoldLabel.text = _party.CurrentGold.ToString();
@@ -87,7 +77,6 @@ public class HUD : Menu {
         Party.OnHiresChanged += UpdateHires;
         MenuManager.OnMenuOpened += MenuOpened;
         MenuManager.OnMenusClosed += MenusClosed;
-        CharacterMenu.OnCharacterMenuOpen += CharacterMenuOpen;
         TimeManagement.OnControlChanged += UpdateCombatIndicator;
     }
 
@@ -109,29 +98,21 @@ public class HUD : Menu {
         FPS.text = "" + fps;
     }
 
-    void CharacterMenuOpen(bool opened)
-    {
-        foreach (var obj in CharacterMenuObjects)
-            obj.SetActive(opened);
-    }
-
-    void MenuOpened(bool useVignette)
+    void MenuOpened(bool useVignette, bool hideSidemenu)
     {
         Vignette.enabled = useVignette;
-        _isOtherMenuOpen = true;
+        SideMenu.SetActive(!hideSidemenu);
     }
 
     void MenusClosed()
     {
         Vignette.enabled = false;
-        _isOtherMenuOpen = false;
-
         SideMenu.SetActive(true);
     }
 
     void UpdateCurrentMenu()
     {
-        if(_isCharacterMenuOpen)
+        if(_selectedMenu.IsOpen)
             _selectedMenu.Setup(_party.ActiveMember);
     }
 
@@ -165,12 +146,12 @@ public class HUD : Menu {
         if (HeldItemButton != null)
             return;
 
-        MenuManager.Instance.SwapMenu("System", true);
+        MenuManager.Instance.SwapMenu("System", true, false);
     }
 
     public void OpenQuests()
     {
-        MenuManager.Instance.SwapMenu("Quests", true);
+        MenuManager.Instance.SwapMenu("Quests", true, false);
     }
 
     public void OpenNotes()
@@ -198,7 +179,7 @@ public class HUD : Menu {
 
     public void OpenRest()
     {
-        MenuManager.Instance.SwapMenu("Rest", false);
+        MenuManager.Instance.SwapMenu("Rest", false, true);
     }
 
     public void Profile()
@@ -224,41 +205,16 @@ public class HUD : Menu {
     public void Close()
     {
         SoundManager.Instance.PlayUISound("Button");
-        MenuManager.Instance.CloseAllMenus();
+        MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
     }
 
     void SwapMenu(CharacterMenu menu)
     {
+        MenuManager.Instance.CloseMenu(_selectedMenu.MenuTag);
         _selectedMenu = menu;
         _selectedMenu.Setup(_party.ActiveMember);
         SoundManager.Instance.PlayUISound("Button");
-        MenuManager.Instance.SwapMenu(menu.MenuTag, true);
-    }
-
-    public void ToggleSelectedCharacter()
-    {
-        if (_party.ActiveMember == null)
-            return;
-
-        int member = -1;
-        for (int i=0;i<4;i++)
-        {
-            if(_party.Members[i].Equals(_party.ActiveMember))
-            {
-                member = i;
-            }
-        }
-
-        int index = member;
-        for(int i=1;i<4;i++)
-        {
-            int cur = (index + i) % 4;
-            if(_party.Members[cur].Vitals.IsReady() && _party.Members[cur].IsConcious())
-            {
-                _party.SetActiveMember(_party.Members[cur]);
-                return;
-            }
-        }
+        MenuManager.Instance.OpenMenu(menu.MenuTag, true, false);
     }
 
     public void SelectCharacter(PartyMember member, bool openMenu)
@@ -303,24 +259,8 @@ public class HUD : Menu {
         if (MenuManager.Instance.IsMenuOpen(new List<string>() { "Merchant", "Residence", "NPC", "Rest", "System", "Quests", "Spells" }))
             return;
 
-        MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true);
+        MenuManager.Instance.OpenMenu(_selectedMenu.MenuTag, true, false);
         _selectedMenu.Setup(_party.ActiveMember);
-    }
-
-    public InventoryItemButton CreateItemButton(Item item, Vector3 position, RectTransform parent)
-    {
-        GameObject obj = Instantiate(Resources.Load<GameObject>("UI/InventoryItemButton"), parent);
-
-        RectTransform rt = (RectTransform)obj.transform;
-        rt.sizeDelta = new Vector2(rt.sizeDelta.x * item.Width, rt.sizeDelta.y * item.Height);
-
-        float halfDown = (float)(item.Height / 2f) - 0.5f;
-        float halfOver = (float)(item.Width / 2f) - 0.5f;
-
-        obj.transform.position = position;
-
-        InventoryItemButton btn = obj.GetComponent<InventoryItemButton>();
-        return btn;
     }
 
     public void TryEquipRing(int slot)
@@ -401,7 +341,7 @@ public class HUD : Menu {
     {
         if (returned != null)
         {
-            InventoryItemButton invButton = CreateItemButton(returned.Data, HeldItemButton.transform.position, (RectTransform)HeldItemAnchor);
+            InventoryItemButton invButton = InventoryItemButton.Create(returned.Data, HeldItemButton.transform.position, (RectTransform)HeldItemAnchor);
             invButton.Setup(returned, InventoryMenu);
             invButton.ForceHold();
 
@@ -435,7 +375,7 @@ public class HUD : Menu {
             Destroy(HeldItemButton.gameObject);
         }
 
-        InventoryItemButton invButton = CreateItemButton(item.Data, Input.mousePosition, (RectTransform)HeldItemAnchor);
+        InventoryItemButton invButton = InventoryItemButton.Create(item.Data, Input.mousePosition, (RectTransform)HeldItemAnchor);
         invButton.Setup(item, InventoryMenu);
         invButton.ForceHold();
         HeldItemButton = invButton;
@@ -457,7 +397,7 @@ public class HUD : Menu {
             Transform parent = button.transform.parent;
             Destroy(button.gameObject);
 
-            InventoryItemButton invButton = CreateItemButton(button.Item.Data, pos, (RectTransform)parent);
+            InventoryItemButton invButton = InventoryItemButton.Create(button.Item.Data, pos, (RectTransform)parent);
             invButton.Setup(button.Item, InventoryMenu);
             invButton.ForceHold();
             button = invButton;
@@ -472,45 +412,12 @@ public class HUD : Menu {
 
     public void DropItem()
     {
-        if (HeldItemButton == null || _isCharacterMenuOpen || _isOtherMenuOpen)
+        if (HeldItemButton == null)
             return;
 
         DropController.Instance.DropItem(HeldItemButton.Item, _party.DropPosition);
         Destroy(HeldItemButton.gameObject);
         HeldItemButton = null;
-    }
-
-    public bool SellItem(InventoryItem item, int price)
-    {
-        bool success = _party.TryPay(-price);
-        if(success)
-        {
-            success = _party.ActiveMember.Inventory.RemoveItem(item);
-        }
-
-        return success;
-    }
-
-    public bool IdentifyItem(InventoryItem item, int price)
-    {
-        bool success = _party.TryPay(price);
-        if (success)
-        {
-            success = item.TryIdentify(100000);
-        }
-
-        return success;
-    }
-
-    public bool RepairItem(InventoryItem item, int price)
-    {
-        bool success = _party.TryPay(price);
-        if (success)
-        {
-            success = item.TryRepair(100000);
-        }
-
-        return success;
     }
 
     public bool PurchaseItem(InventoryItem item, int price)
@@ -531,7 +438,7 @@ public class HUD : Menu {
                 return false;
             }
 
-            InventoryItemButton invButton = CreateItemButton(item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
+            InventoryItemButton invButton = InventoryItemButton.Create(item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
             invButton.Setup(item, InventoryMenu);
             invButton.ForceHold();
 
@@ -548,72 +455,19 @@ public class HUD : Menu {
         return success;
     }
 
-    public bool PickupDrop(ItemDrop drop)
+    public bool TryHold(InventoryItem item)
     {
-        if(drop.Item.Data is Gold)
-        {
-            _party.CollectGold(drop.Item);
-            return true;
-        }
-
-        if (_party.ActiveMember != null)
-        {
-            InventoryItem item = _party.ActiveMember.Inventory.AddItem(drop.Item);
-            InfoMessageReceiver.Send("You found an item (" + item.Data.GetTypeDescription() + ")!", 2.0f);
-            if (item != null)
-                return true;
-        }
-
         if (HeldItemButton != null)
             return false;
 
-        InventoryItemButton invButton = CreateItemButton(drop.Item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
-        InventoryItem invItem = drop.Item;
-        invButton.Setup(invItem, InventoryMenu);
+        InventoryItemButton invButton = InventoryItemButton.Create(item.Data, HeldItemAnchor.transform.position, (RectTransform)HeldItemAnchor);
+        invButton.Setup(item, InventoryMenu);
         invButton.ForceHold();
 
         HeldItemButton = invButton;
         HeldItemButton.transform.parent = HeldItemAnchor;
         PartyController.Instance.SetControlState(ControlState.MouseControl, true);
         return true;
-    }
-
-    public void EnterResidence(Residency residency)
-    {
-        PartyController.Instance.SetControlState(ControlState.MenuLock);
-        MenuManager.Instance.OpenMenu("Residence");
-        SoundManager.Instance.PlayUISound("Open");
-        ResidenceMenu.Setup(residency);
-        _isOtherMenuOpen = true;
-        SideMenu.SetActive(false);
-    }
-
-    public void EnterResidence(Merchant merchant)
-    {
-        PartyController.Instance.SetControlState(ControlState.MenuLock);
-        MenuManager.Instance.OpenMenu("Merchant");
-        SoundManager.Instance.PlayUISound("Open");
-        MerchantMenu.Setup(merchant);
-        _isOtherMenuOpen = true;
-        SideMenu.SetActive(false);
-    }
-
-    public void Converse(NPC npc)
-    {
-        PartyController.Instance.SetControlState(ControlState.MenuLock);
-        MenuManager.Instance.OpenMenu("NPC");
-        NPCMenu.Setup(npc);
-        _isOtherMenuOpen = true;
-        SideMenu.SetActive(false);
-    }
-
-    public void ConverseWithHire(NPC npc)
-    {
-        PartyController.Instance.SetControlState(ControlState.MenuLock);
-        MenuManager.Instance.OpenMenu("NPC");
-        NPCMenu.Setup(npc, true);
-        _isOtherMenuOpen = true;
-        SideMenu.SetActive(false);
     }
 
     public bool TryCombine(InventoryItem item)

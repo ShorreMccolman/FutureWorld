@@ -10,10 +10,13 @@ public class Party : GameStateEntity
 
     public PartyMember ActiveMember { get; private set; }
     public string CurrentLocationID { get; private set; }
-    public int CurrentReputation { get; private set; }
-
-    public float CurrentTime { get; private set; }
     public QuestLog QuestLog { get; private set; }
+
+    float _currentTime;
+    public float CurrentTime => _currentTime;
+
+    int _currentReputation;
+    public int CurrentReputation => _currentReputation;
 
     int _currentFood;
     public int CurrentFood => _currentFood;
@@ -55,11 +58,11 @@ public class Party : GameStateEntity
         QuestLog = new QuestLog(this);
         _hires = new List<NPC>();
 
-        CurrentReputation = 0;
+        _currentReputation = 0;
         _currentFood = 7;
         _currentGold = 200;
         _currentBalance = 0;
-        CurrentTime = 0;
+        _currentTime = 0;
         _visitedLocations = new List<string>();
         _monthlyKills = new List<string>();
     }
@@ -69,11 +72,11 @@ public class Party : GameStateEntity
         Init();
 
         CurrentLocationID = node.SelectSingleNode("LocationID").InnerText;
-        CurrentReputation = int.Parse(node.SelectSingleNode("Reputation").InnerText);
+        _currentReputation = int.Parse(node.SelectSingleNode("Reputation").InnerText);
         _currentFood = int.Parse(node.SelectSingleNode("Food").InnerText);
         _currentGold = int.Parse(node.SelectSingleNode("Gold").InnerText);
         _currentBalance = int.Parse(node.SelectSingleNode("Balance").InnerText);
-        CurrentTime = float.Parse(node.SelectSingleNode("Time").InnerText);
+        _currentTime = float.Parse(node.SelectSingleNode("Time").InnerText);
         QuestLog = new QuestLog(this, node.SelectSingleNode("QuestLog"));
         Populate<PartyMember>(ref _members, typeof(Party), node, "Members", "PartyMember");
         Populate<NPC>(ref _hires, typeof(Party), node, "Hires", "NPC");
@@ -96,12 +99,12 @@ public class Party : GameStateEntity
     {
         XmlNode element = doc.CreateElement("Party");
         element.AppendChild(XmlHelper.Attribute(doc, "LocationID", CurrentLocationID));
-        element.AppendChild(XmlHelper.Attribute(doc, "Reputation", CurrentReputation));
-        element.AppendChild(XmlHelper.Attribute(doc, "Food", CurrentFood));
-        element.AppendChild(XmlHelper.Attribute(doc, "Gold", CurrentGold));
-        element.AppendChild(XmlHelper.Attribute(doc, "Balance", CurrentBalance));
-        element.AppendChild(XmlHelper.Attribute(doc, "Time", CurrentTime));
-        element.AppendChild(XmlHelper.Attribute(doc, "Members", Members));
+        element.AppendChild(XmlHelper.Attribute(doc, "Reputation", _currentReputation));
+        element.AppendChild(XmlHelper.Attribute(doc, "Food", _currentFood));
+        element.AppendChild(XmlHelper.Attribute(doc, "Gold", _currentGold));
+        element.AppendChild(XmlHelper.Attribute(doc, "Balance", _currentBalance));
+        element.AppendChild(XmlHelper.Attribute(doc, "Time", _currentTime));
+        element.AppendChild(XmlHelper.Attribute(doc, "Members", _members));
         if(_hires.Count > 0)
             element.AppendChild(XmlHelper.Attribute(doc, "Hires", _hires));
         element.AppendChild(QuestLog.ToXml(doc));
@@ -121,9 +124,9 @@ public class Party : GameStateEntity
 
     public void Tick(float tick)
     {
-        System.DateTime dt = TimeManagement.Instance.GetDT(CurrentTime);
-        CurrentTime += tick;
-        System.DateTime newDT = TimeManagement.Instance.GetDT(CurrentTime);
+        System.DateTime dt = TimeManagement.Instance.GetDT(_currentTime);
+        _currentTime += tick;
+        System.DateTime newDT = TimeManagement.Instance.GetDT(_currentTime);
 
         if(dt.Month < newDT.Month)
         {
@@ -173,6 +176,32 @@ public class Party : GameStateEntity
         OnFoodChanged?.Invoke(_currentFood);
     }
 
+    public void ToggleSelectedCharacter()
+    {
+        if (ActiveMember == null)
+            return;
+
+        int member = -1;
+        for (int i = 0; i < 4; i++)
+        {
+            if (Members[i].Equals(ActiveMember))
+            {
+                member = i;
+            }
+        }
+
+        int index = member;
+        for (int i = 1; i < 4; i++)
+        {
+            int cur = (index + i) % 4;
+            if (Members[cur].Vitals.IsReady() && Members[cur].IsConcious())
+            {
+                SetActiveMember(Members[cur]);
+                return;
+            }
+        }
+    }
+
     public void SetActiveMember(PartyMember member)
     {
         ActiveMember = member;
@@ -186,8 +215,8 @@ public class Party : GameStateEntity
 
     public void Deposit(int quantity)
     {
-        if (quantity > CurrentGold)
-            quantity = CurrentGold;
+        if (quantity > _currentGold)
+            quantity = _currentGold;
 
         UpdateFunds(-quantity, quantity);
         ActiveMember.Vitals.Express(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
@@ -198,8 +227,8 @@ public class Party : GameStateEntity
         if (CurrentBalance == 0)
             return;
 
-        if (quantity > CurrentBalance)
-            quantity = CurrentBalance;
+        if (quantity > _currentBalance)
+            quantity = _currentBalance;
 
         UpdateFunds(quantity, -quantity);
         ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
@@ -207,7 +236,7 @@ public class Party : GameStateEntity
 
     void EnemyDeath(Enemy enemy)
     {
-        foreach(var member in Members)
+        foreach(var member in _members)
         {
             if (member.IsConcious())
                 member.Profile.EarnXP(enemy.Data.Experience);
@@ -310,6 +339,39 @@ public class Party : GameStateEntity
         return true;
     }
 
+    public bool BarterSellItem(InventoryItem item, int price)
+    {
+        bool success = TryPay(-price);
+        if (success)
+        {
+            success = ActiveMember.Inventory.RemoveItem(item);
+        }
+
+        return success;
+    }
+
+    public bool BarterIdentifyItem(InventoryItem item, int price)
+    {
+        bool success = TryPay(price);
+        if (success)
+        {
+            success = item.TryIdentify(100000);
+        }
+
+        return success;
+    }
+
+    public bool BarterRepairItem(InventoryItem item, int price)
+    {
+        bool success = TryPay(price);
+        if (success)
+        {
+            success = item.TryRepair(100000);
+        }
+
+        return success;
+    }
+
     public bool TryIdentify(InventoryItem item)
     {
         if (item.IsIdentified)
@@ -396,6 +458,31 @@ public class Party : GameStateEntity
             ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
         }
 
+        return success;
+    }
+
+    public bool PickupDrop(ItemDrop drop)
+    {
+        if (drop.Item.Data is Gold)
+        {
+            CollectGold(drop.Item);
+            return true;
+        }
+
+        if (ActiveMember != null)
+        {
+            InventoryItem item = ActiveMember.Inventory.AddItem(drop.Item);
+            if (item != null)
+            {
+                InfoMessageReceiver.Send("You found an item (" + item.Data.GetTypeDescription() + ")!", 2.0f);
+                ActiveMember.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+                return true;
+            }
+        }
+
+        bool success = HUD.Instance.TryHold(drop.Item);
+        if(success)
+            InfoMessageReceiver.Send("You found an item (" + drop.Item.Data.GetTypeDescription() + ")!", 2.0f);
         return success;
     }
 

@@ -23,8 +23,17 @@ public class ResidenceMenu : ConversationMenu
     int _advanceStepCounter = -1;
     bool _hasTrained;
 
+    protected override void Init()
+    {
+        Residency.OnResidenceEntered += Setup;
+
+        base.Init();
+    }
+
     public void Setup(Residency residency)
     {
+        MenuManager.Instance.OpenMenu(MenuTag, false, true);
+
         _currentResidency = residency;
 
         _hasAchievedSpecialCondition = false;

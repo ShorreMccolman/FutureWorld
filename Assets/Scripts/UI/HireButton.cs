@@ -19,7 +19,7 @@ public class HireButton : MonoBehaviour, IInfoMessenger
 
     public void OnClick()
     {
-        HUD.Instance.ConverseWithHire(_npc);
+        _npc.Converse(true);
     }
 
     public string GetInfoMessage()

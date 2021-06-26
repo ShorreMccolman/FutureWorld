@@ -95,7 +95,7 @@ public class InventoryMenu : CharacterMenu, ISlotable {
             float halfOver = (float)(item.Data.Width / 2f) - 0.5f;
 
             Vector3 pos = _gridButtons[item.Slot].transform.position + Vector3.down * halfDown * Anchor.rect.height + Vector3.right * halfOver * Anchor.rect.width;
-            InventoryItemButton button = HUD.Instance.CreateItemButton(item.Data, pos, Anchor);
+            InventoryItemButton button = InventoryItemButton.Create(item.Data, pos, Anchor);
             button.Setup(item, this);
 
             _itemButtons.Add(button.gameObject);

@@ -34,7 +34,7 @@ public class DebugMenu : MonoBehaviour
         string[] split = input.Split('/');
 
         Chest chest = new Chest(new SpawnQuantities(split));
-        ChestEntity.DebugInspect(chest);
+        chest.Inspect();
     }
 
     public void AddToInventory()

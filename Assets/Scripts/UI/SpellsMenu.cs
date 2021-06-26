@@ -23,7 +23,7 @@ public class SpellsMenu : Menu
 
     public void Setup(PartyMember member)
     {
-        MenuManager.Instance.OpenMenu(MenuTag, true);
+        MenuManager.Instance.SwapMenu(MenuTag, true, false);
 
         _member = member;
         _selectedSpellIndex = -1;

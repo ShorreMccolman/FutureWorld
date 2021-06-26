@@ -7,9 +7,11 @@ using System.Xml;
 public class Merchant : GameStateEntity
 {
     public MerchantData Data { get; protected set; }
-    public string DisplayName { get { return Data.MerchantName + " the " + GameConstants.MerchantTitleForStoreType[Data.StoreType]; } }
+    public string DisplayName => Data.MerchantName + " the " + GameConstants.MerchantTitleForStoreType[Data.StoreType];
     public InventoryItem[] BuyItems { get; protected set; }
     public InventoryItem[] SpecialItems { get; protected set; }
+
+    public static event System.Action<Merchant> OnMerchantEntered;
 
     public Merchant(MerchantData data) : base(null)
     {
@@ -208,6 +210,20 @@ public class Merchant : GameStateEntity
         {
             if (SpecialItems[i] == item)
                 SpecialItems[i] = null;
+        }
+    }
+
+    public void TryEnterResidence()
+    {
+        if (Data.Hours.IsStoreOpen(TimeManagement.Instance.GetCurrentHour()))
+        {
+            SoundManager.Instance.PlayUISound("Open");
+            OnMerchantEntered?.Invoke(this);
+        }
+        else
+        {
+            InfoMessageReceiver.Send("This place is open from " + Data.Hours.GetStoreHoursString(), 2.0f);
+            Party.Instance.ActiveMember.Vitals.Express(GameConstants.EXPRESSION_SAD, GameConstants.EXPRESSION_SAD_DURATION);
         }
     }
 }

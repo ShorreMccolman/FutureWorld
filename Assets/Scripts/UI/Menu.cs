@@ -12,20 +12,15 @@ public abstract class Menu : MonoBehaviour {
 
     GameObject _contents;
 
-    public GameObject Contents
-    {
-        get
-        {
-            if (_contents == null)
-                _contents = transform.GetChild(0).gameObject;
-            return _contents;
-        }
-    }
+    public GameObject Contents => _contents;
+    public bool IsOpen => _contents.activeSelf;
 
     void Awake()
     {
-        if (Contents.activeSelf)
-            Contents.SetActive(false);
+        _contents = transform.GetChild(0).gameObject;
+
+        if (_contents.activeSelf)
+            _contents.SetActive(false);
     }
 
     void Start()

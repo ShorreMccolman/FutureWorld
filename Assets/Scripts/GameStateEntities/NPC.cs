@@ -23,6 +23,8 @@ public class NPC : GameStateEntity
 
     NPCData _data;
 
+    public static event System.Action<NPC, bool> OnNPCConverse;
+
     public NPC(NPCData data, Enemy enemy) : base(enemy)
     {
         int rand = Random.Range(0, GameConstants.RandomNPCNamesFemale.Length);
@@ -78,5 +80,10 @@ public class NPC : GameStateEntity
         element.AppendChild(XmlHelper.Attribute(doc, "Topics", Topics));
         element.AppendChild(base.ToXml(doc));
         return element;
+    }
+
+    public void Converse(bool isHire)
+    {
+        OnNPCConverse?.Invoke(this, isHire);
     }
 }

@@ -10,30 +10,26 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(AudioSource))]
 public class PartyEntity : Entity3D
 {
-    public Party Party { get { return State as Party; } }
+    public Party Party => State as Party;
 
-    [SerializeField] private PlayerSphere _sphere0;
-    [SerializeField] private PlayerSphere _sphere1;
-    [SerializeField] private PlayerSphere _sphere2;
-    [SerializeField] private PlayerSphere _sphere3;
+    [SerializeField] Transform _dropPosition;
+    public Transform DropPosition => _dropPosition;
 
-    [SerializeField] private Transform m_dropPosition;
-    public Transform DropPosition { get { return m_dropPosition; } }
+    [SerializeField] Camera _camera;
+    public Camera Camera => _camera;
 
-    public Camera Camera { get; protected set; }
-    [SerializeField] public Camera MapCam;
+    [SerializeField] Camera MapCam;
 
     PartyController _controller;
+
     float _currentMoveSpeed;
-    public float GetSpeed() { return _currentMoveSpeed; }
+    public float MoveSpeed => _currentMoveSpeed;
 
-    [SerializeField] private MouseLook _mouseLook;
-    public MouseLook MouseLook { get { return _mouseLook; } }
-
-    [SerializeField] private bool m_IsWalking;
-    [SerializeField] private float m_WalkSpeed;
-    [SerializeField] private float m_RunSpeed;
-    [SerializeField] [Range(0f, 1f)] private float m_RunstepLenghten;
+    [SerializeField] MouseLook _mouseLook;
+    [SerializeField] private bool _isWalking;
+    [SerializeField] private float _walkSpeed;
+    [SerializeField] private float _runSpeed;
+    [SerializeField] [Range(0f, 1f)] private float _runstepLenghten;
     [SerializeField] private float m_JumpSpeed;
     [SerializeField] private float m_StickToGroundForce;
     [SerializeField] private float m_GravityMultiplier;
@@ -66,7 +62,6 @@ public class PartyEntity : Entity3D
         State = party;
 
         m_CharacterController = GetComponent<CharacterController>();
-        Camera = Camera.main;
         m_OriginalCameraPosition = Camera.transform.localPosition;
         m_FovKick.Setup(Camera);
         m_HeadBob.Setup(Camera, m_StepInterval);
@@ -79,11 +74,6 @@ public class PartyEntity : Entity3D
 
         _mouseLook.Init(transform, Camera.transform);
         _mouseLook.SetCursorLock(true);
-
-        _sphere0.Setup(party, SphereLevel.Zero);
-        _sphere1.Setup(party, SphereLevel.One);
-        _sphere2.Setup(party, SphereLevel.Two);
-        _sphere3.Setup(party, SphereLevel.Three);
 
         MapCam.pixelRect = new Rect(new Vector2(Screen.width - 250f, Screen.height - 250f), new Vector2(250f, 250f));
         MapCam.enabled = false;
@@ -100,7 +90,7 @@ public class PartyEntity : Entity3D
         if (_controller.ControlState == ControlState.MenuLock)
             return;
 
-        m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
+        _isWalking = !Input.GetKey(KeyCode.LeftShift);
 
         if(_controller.ControlState == ControlState.LookControl)
             _mouseLook.LookRotation(transform, Camera.transform);
@@ -193,7 +183,7 @@ public class PartyEntity : Entity3D
         {
             Camera.transform.localPosition =
                 m_HeadBob.DoHeadBob(m_CharacterController.velocity.magnitude +
-                                  (speed * (m_IsWalking ? 1f : m_RunstepLenghten)));
+                                  (speed * (_isWalking ? 1f : _runstepLenghten)));
             newCameraPosition = Camera.transform.localPosition;
             newCameraPosition.y = Camera.transform.localPosition.y - m_JumpBob.Offset();
         }
@@ -222,7 +212,7 @@ public class PartyEntity : Entity3D
     {
         if (m_CharacterController.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
         {
-            m_StepCycle += (m_CharacterController.velocity.magnitude + (speed * (m_IsWalking ? 1f : m_RunstepLenghten))) *
+            m_StepCycle += (m_CharacterController.velocity.magnitude + (speed * (_isWalking ? 1f : 1 + _runstepLenghten))) *
                          Time.fixedDeltaTime;
         }
 
@@ -258,10 +248,10 @@ public class PartyEntity : Entity3D
         float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float vertical = CrossPlatformInputManager.GetAxis("Vertical");
 
-        bool waswalking = m_IsWalking;
+        bool waswalking = _isWalking;
 
         // set the desired speed to be walking or running
-        speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
+        speed = _isWalking ? _walkSpeed : _runSpeed;
         m_Input = new Vector2(horizontal, vertical);
 
         // normalize input if it exceeds 1 in combined length:
@@ -272,10 +262,10 @@ public class PartyEntity : Entity3D
 
         // handle speed change to give an fov kick
         // only if the player is going to a run, is running and the fovkick is to be used
-        if (m_IsWalking != waswalking && m_UseFovKick && m_CharacterController.velocity.sqrMagnitude > 0)
+        if (_isWalking != waswalking && m_UseFovKick && m_CharacterController.velocity.sqrMagnitude > 0)
         {
             StopAllCoroutines();
-            StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
+            StartCoroutine(!_isWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
         }
     }
 

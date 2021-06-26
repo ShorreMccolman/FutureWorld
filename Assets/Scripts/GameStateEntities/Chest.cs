@@ -73,6 +73,8 @@ public class Chest : GameStateEntity
 
     public ChestData Data { get; protected set; }
 
+    public static event System.Action<Chest> OnInspectChest;
+
     // USE FOR DEBUG ONLY
     public Chest(SpawnQuantities quantities) : base(Party.Instance)
     {
@@ -102,5 +104,20 @@ public class Chest : GameStateEntity
         element.AppendChild(base.ToXml(doc));
 
         return element;
+    }
+
+    public void Inspect()
+    {
+        bool canOpen = true;
+        if (Data.LockLevel > 0)
+        {
+            canOpen = Party.Instance.TryDisarm(Trap);
+        }
+
+        if (canOpen)
+        {
+            SoundManager.Instance.PlayUISound("Chest");
+            OnInspectChest?.Invoke(this);
+        }
     }
 }

@@ -20,8 +20,7 @@ public class NPCEntity : EnemyEntity
         else
         {
             yield return new WaitForEndOfFrame();
-
-            HUD.Instance.Converse(Enemy.NPC);
+            Enemy.NPC.Converse(false);
         }
     }
 }

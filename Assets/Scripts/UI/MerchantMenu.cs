@@ -24,8 +24,17 @@ public class MerchantMenu : ConversationMenu
 
     ItemEvent OnHover;
 
+    protected override void Init()
+    {
+        Merchant.OnMerchantEntered += Setup;
+
+        base.Init();
+    }
+
     public void Setup(Merchant merchant)
     {
+        MenuManager.Instance.OpenMenu(MenuTag, false, true);
+
         _currentMerchant = merchant;
 
         StoreLabel.text = merchant.Data.StoreName;
@@ -404,7 +413,7 @@ public class MerchantMenu : ConversationMenu
         else
             value = Mathf.RoundToInt(value / 3.5f);
 
-        bool success = HUD.Instance.SellItem(item, value);
+        bool success = Party.Instance.BarterSellItem(item, value);
         return success;
     }
 
@@ -419,7 +428,7 @@ public class MerchantMenu : ConversationMenu
 
         value = Mathf.RoundToInt(value * 0.2f);
 
-        bool success = HUD.Instance.IdentifyItem(item, value);
+        bool success = Party.Instance.BarterIdentifyItem(item, value);
         return success;
     }
 
@@ -434,7 +443,7 @@ public class MerchantMenu : ConversationMenu
 
         value = Mathf.RoundToInt(value * 0.2f);
 
-        bool success = HUD.Instance.RepairItem(item, value);
+        bool success = Party.Instance.BarterRepairItem(item, value);
         return success;
     }
 

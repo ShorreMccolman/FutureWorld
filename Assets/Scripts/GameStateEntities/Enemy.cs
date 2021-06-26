@@ -26,6 +26,8 @@ public class Enemy : GameStateEntity, CombatEntity
 
     public NPC NPC { get; protected set; }
 
+    public event System.Action OnEnemyReady;
+
     public Enemy(EnemyData data, NPCData npc = null) : base(null)
     {
         Data = data;
@@ -35,6 +37,8 @@ public class Enemy : GameStateEntity, CombatEntity
         IsHostile = Data.IsHostile;
         if(npc != null)
             NPC = new NPC(npc, this);
+
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public Enemy(XmlNode node) : base(null, node)
@@ -48,6 +52,7 @@ public class Enemy : GameStateEntity, CombatEntity
         {
             NPC = new NPC(this, npc);
         }
+        TimeManagement.Instance.OnTick += Tick;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -77,19 +82,16 @@ public class Enemy : GameStateEntity, CombatEntity
         MoveCooldown = 3f;
     }
 
-    public bool TickCooldown(float delta)
+    public void Tick(float delta)
     {
-        if (CurrentHP < 0)
-            return false;
-
-        bool wasOn = Cooldown > 0;
-        if (!wasOn)
-            return false;
-
-        Cooldown -= delta;
-        if (Cooldown < 0)
-            Cooldown = 0;
-        return Cooldown <= 0;
+        if(Cooldown > 0)
+        {
+            Cooldown -= delta;
+            if(Cooldown <= 0)
+            {
+                OnEnemyReady?.Invoke();
+            }
+        }
     }
 
     public float GetCooldown()
@@ -115,6 +117,8 @@ public class Enemy : GameStateEntity, CombatEntity
         CurrentHP -= damage;
         if(CurrentHP <= 0)
         {
+            TimeManagement.Instance.OnTick -= Tick;
+
             EnemyEntity ee = Entity as EnemyEntity;
             ee.OnDeath();
         }

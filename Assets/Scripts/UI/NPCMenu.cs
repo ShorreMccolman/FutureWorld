@@ -15,8 +15,17 @@ public class NPCMenu : ConversationMenu
     int _advanceStepCounter;
     bool _isHire;
 
-    public void Setup(NPC npc, bool isHire = false)
+    protected override void Init()
     {
+        NPC.OnNPCConverse += Setup;
+
+        base.Init();
+    }
+
+    public void Setup(NPC npc, bool isHire)
+    {
+        MenuManager.Instance.OpenMenu(MenuTag, false, true);
+
         _currentNPC = npc;
 
         DialogOptions = new List<OptionButton>();
@@ -39,33 +48,18 @@ public class NPCMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        GameObject obj;
-        DialogOptionButton UI;
-
-        obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-        UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup(_currentNPC.Topics[0].Header, 0, DisplayTopic);
-        DialogOptions.Add(UI);
+        AddButton(_currentNPC.Topics[0].Header, 0, DisplayTopic);
 
         if (_isHire)
         {
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Dismiss " + _currentNPC.Name, Dismiss, true);
-            DialogOptions.Add(UI);
+            AddButton("Dismiss " + _currentNPC.Name, Dismiss, true);
         }
         else
         {
-            obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-            UI = obj.GetComponent<DialogOptionButton>();
-            UI.Setup("Join", ShowJoin, true);
-            DialogOptions.Add(UI);
+            AddButton("Join", ShowJoin, true);
         }
 
-        obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-        UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup(_currentNPC.Topics[1].Header, 1, DisplayTopic);
-        DialogOptions.Add(UI);
+        AddButton(_currentNPC.Topics[1].Header, 1, DisplayTopic);
 
         StaggerOptions();
     }
@@ -83,18 +77,8 @@ public class NPCMenu : ConversationMenu
             Destroy(option.gameObject);
         DialogOptions.Clear();
 
-        GameObject obj;
-        DialogOptionButton UI;
-
-        obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-        UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup("More Information", ShowInfo, true);
-        DialogOptions.Add(UI);
-
-        obj = Instantiate(DialogOptionPrefab, DialogAnchor);
-        UI = obj.GetComponent<DialogOptionButton>();
-        UI.Setup("Hire", Hire, true);
-        DialogOptions.Add(UI);
+        AddButton("More Information", ShowInfo, true);
+        AddButton("Hire", Hire, true);
 
         StaggerOptions();
 

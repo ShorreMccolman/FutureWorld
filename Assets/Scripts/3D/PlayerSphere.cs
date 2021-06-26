@@ -4,12 +4,28 @@ using UnityEngine;
 
 public class PlayerSphere : MonoBehaviour
 {
-    public SphereLevel SphereLevel { get; protected set;}
-    public Party Party { get; protected set; }
+    [SerializeField] SphereLevel Level;
 
-    public void Setup(Party party, SphereLevel level)
+    public static event System.Action<SphereLevel,Entity3D> OnEntityEnteredSphere;
+    public static event System.Action<SphereLevel, Entity3D> OnEntityExitedSphere;
+
+    void OnTriggerEnter(Collider other)
     {
-        Party = party;
-        SphereLevel = level;
+        Entity3D entity = other.GetComponent<Entity3D>();
+        if (entity != null && !entity.IgnoreInteraction)
+        {
+            entity.EnterSphere(Level);
+            OnEntityEnteredSphere?.Invoke(Level, entity);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Entity3D entity = other.GetComponent<Entity3D>();
+        if (entity != null && !entity.IgnoreInteraction)
+        {
+            entity.ExitSphere(Level);
+            OnEntityExitedSphere?.Invoke(Level, entity);
+        }
     }
 }

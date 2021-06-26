@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ItemDropEntity : Entity3D
 {
-
     [SerializeField] private Transform anchor;
 
     ItemDrop _drop;
@@ -18,7 +17,7 @@ public class ItemDropEntity : Entity3D
 
     public override IEnumerator Interact(PartyEntity party)
     {
-        bool success = HUD.Instance.PickupDrop(_drop);
+        bool success = party.Party.PickupDrop(_drop);
         yield return new WaitForEndOfFrame();
         if (success)
         {

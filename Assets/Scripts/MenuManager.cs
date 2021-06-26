@@ -10,10 +10,10 @@ public class MenuManager : MonoBehaviour
     Dictionary<string, Menu> _menuDict = new Dictionary<string, Menu>();
     Dictionary<string, Menu> _openMenuDict = new Dictionary<string, Menu>();
 
-    public static event System.Action<bool> OnMenuOpened;
+    public static event System.Action<bool, bool> OnMenuOpened;
     public static event System.Action OnMenusClosed;
 
-    public void SwapMenu(string menuTag, bool useVignette)
+    public void SwapMenu(string menuTag, bool useVignette, bool hideSide)
     {
         foreach (var menu in _openMenuDict.Values)
         {
@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
             menu.Contents.SetActive(false);
         }
         _openMenuDict.Clear();
-        OpenMenu(menuTag, useVignette);
+        OpenMenu(menuTag, useVignette, hideSide);
     }
 
     public void CloseAllMenus()
@@ -51,7 +51,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void OpenMenu(string menuTag, bool useVignette = false)
+    public void OpenMenu(string menuTag, bool useVignette = false, bool hideSide = true)
     {
         if(!_menuDict.ContainsKey(menuTag))
         {
@@ -66,7 +66,7 @@ public class MenuManager : MonoBehaviour
             _menuDict[menuTag].OnOpen();
         }
 
-        OnMenuOpened?.Invoke(useVignette);
+        OnMenuOpened?.Invoke(useVignette, hideSide);
     }
 
     public Menu GetMenu(string menuTag)

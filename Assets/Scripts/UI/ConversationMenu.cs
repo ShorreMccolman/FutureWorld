@@ -28,6 +28,15 @@ public class ConversationMenu : Menu
         TimeManagement.Instance.SetTimeControl(TimeControl.Auto);
     }
 
+    public void AddButton(string dialog, ClickEvent clickEvent, bool useInfoMessage)
+    {
+        GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);
+
+        OptionButton UI = obj.GetComponent<DialogOptionButton>();
+        UI.Setup(dialog, clickEvent, useInfoMessage);
+        DialogOptions.Add(UI);
+    }
+
     public void AddButton(string dialog, ClickEvent clickEvent = null)
     {
         GameObject obj = Instantiate(DialogOptionPrefab, DialogAnchor);

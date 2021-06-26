@@ -90,8 +90,6 @@ public class CharacterCreator : Menu
             if (sprite.name.Contains("neutral"))
                 _portraitSprites.Add(sprite);
         }
-
-        Debug.Log("Loaded " + _portraitSprites.Count + " portraits");
     }
 
     public Sprite GetPortrait(int ID)

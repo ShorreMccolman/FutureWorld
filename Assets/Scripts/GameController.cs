@@ -51,9 +51,6 @@ public class GameController : MonoBehaviour {
     ProfilePopupInfoDatabase ProfileInfoDB;
 
     bool _isPaused;
-
-    public delegate void UpdateDel();
-    public UpdateDel EntityUpdate;
     
 	void Start ()
     {
@@ -63,7 +60,6 @@ public class GameController : MonoBehaviour {
 
     void Init()
     {
-        Debug.Log("Inititalizing Game Controller");
         DontDestroyOnLoad(this.gameObject);
 
         ItemDB = new ItemDatabase();
@@ -80,12 +76,6 @@ public class GameController : MonoBehaviour {
         TopicDB = new TopicDatabase();
         InteractableDB = new InteractableDatabase();
         ProfileInfoDB = new ProfilePopupInfoDatabase();
-    }
-
-    void Update()
-    {
-        if(!_isPaused && EntityUpdate != null)
-            EntityUpdate();
     }
 
     void StartGameSequence()
