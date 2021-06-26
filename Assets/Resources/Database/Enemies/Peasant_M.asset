@@ -42,7 +42,7 @@ MonoBehaviour:
         Missile: 0
       Resistances:
         Fire: 0
-        Electricity: 0
+        Elec: 0
         Cold: 0
         Poison: 0
         Magic: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 2
         AIType: 1
-        MoveSpeed: 0.8
+        MoveSpeed: 1
         Recovery: 100
       Spell: 
       Model: {fileID: 4867477839066132292, guid: e29ca8651eb6891488d53a6636a97194,
@@ -82,7 +82,7 @@ MonoBehaviour:
         Missile: 0
       Resistances:
         Fire: 0
-        Electricity: 0
+        Elec: 0
         Cold: 0
         Poison: 0
         Magic: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 2
         AIType: 1
-        MoveSpeed: 0.8
+        MoveSpeed: 1
         Recovery: 100
       Spell: 
       Model: {fileID: 5108826970524621664, guid: 81b66c98ac94e0349a016eda3117a45e,
@@ -122,7 +122,7 @@ MonoBehaviour:
         Missile: 0
       Resistances:
         Fire: 0
-        Electricity: 0
+        Elec: 0
         Cold: 0
         Poison: 0
         Magic: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 2
         AIType: 1
-        MoveSpeed: 0.8
+        MoveSpeed: 1
         Recovery: 100
       Spell: 
       Model: {fileID: 2184457143570436650, guid: 45e907171e134194aa85052c283a667c,
