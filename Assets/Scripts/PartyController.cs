@@ -18,6 +18,7 @@ public class PartyController : MonoBehaviour {
 
     [SerializeField] Transform NewGameSpawn;
     [SerializeField] GameObject PartyEntityObject;
+    [SerializeField] GameObject BloodParticle;
 
     public PartyEntity Entity { get; private set; }
 
@@ -130,28 +131,24 @@ public class PartyController : MonoBehaviour {
         _intendedTarget = null;
         if (_controlState != ControlState.MenuLock)
         {
-            //Vector3 point = Entity.Camera.ScreenToViewportPoint(Input.mousePosition);
-            //if (point.x <= 1 && point.y >= 0)
-            //{
-                Ray ray = Entity.Camera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+            Ray ray = Entity.Camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.tag == "Interactable")
                 {
-                    if (hit.collider.tag == "Interactable")
+                    _intendedTarget = hit.collider.GetComponent<Entity3D>();
+                    if (_intendedTarget == null)
+                        _intendedTarget = hit.collider.GetComponentInParent<Entity3D>();
+
+                    TryFindPopable(ref popable, _intendedTarget.gameObject);
+
+                    if (_intendedTarget != null && message == "")
                     {
-                        _intendedTarget = hit.collider.GetComponent<Entity3D>();
-                        if (_intendedTarget == null)
-                            _intendedTarget = hit.collider.GetComponentInParent<Entity3D>();
-
-                        TryFindPopable(ref popable, _intendedTarget.gameObject);
-
-                        if (_intendedTarget != null && message == "")
-                        {
-                            message = _intendedTarget.MouseoverName;
-                        }
+                        message = _intendedTarget.MouseoverName;
                     }
                 }
-            //}
+            }
 
             if (_isInteracting)
                 return;
@@ -362,6 +359,15 @@ public class PartyController : MonoBehaviour {
                     bool hit = attacker.TryHit(enemy, out damage);
                     if (hit)
                     {
+                        Vector3 pos = Entity.transform.position;
+                        Vector3 dir = enemy.Entity.transform.position + Vector3.up * Random.Range(1.0f, 1.5f) - pos;
+                        Ray ray = new Ray(pos, dir);
+                        RaycastHit rayhit;
+                        if (Physics.Raycast(ray, out rayhit))
+                        {
+                            GameObject part = Instantiate(BloodParticle, rayhit.point, Quaternion.LookRotation(-dir));
+                        }
+
                         enemy.OnHit(damage);
                     }
                 }

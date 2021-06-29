@@ -18,7 +18,14 @@ public class EnemySpawn : Spawn
     {
         EnemyFamilyData data = EnemyDatabase.Instance.GetFamily(EnemyFamilyID);
 
-        int numberOfEnemies = Random.Range(data.MinAppearance, data.MaxAppearance + 1);
+        int numberOfEnemies = data.MinAppearance;
+        for(int i=data.MinAppearance;i<data.MaxAppearance;i++)
+        {
+            float rand = Random.Range(0, 1f);
+            if (rand <= 0.33f)
+                numberOfEnemies++;
+        }
+
         List<EnemyData> spawns = new List<EnemyData>();
         for (int i = 0; i < numberOfEnemies; i++)
         {

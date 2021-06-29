@@ -96,7 +96,7 @@ public class PartyEntity : Entity3D
             _mouseLook.LookRotation(transform, Camera.transform);
     
         // the jump state needs to read here to make sure it is not missed
-        if (!m_Jump && !TimeManagement.IsCombatMode)
+        if (!m_Jump && !TimeManagement.IsCombatMode && m_CharacterController.isGrounded)
         {
             m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
         }

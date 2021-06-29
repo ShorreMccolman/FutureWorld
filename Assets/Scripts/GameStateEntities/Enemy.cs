@@ -115,6 +115,7 @@ public class Enemy : GameStateEntity, CombatEntity
     {
         IsHostile = true;
         CurrentHP -= damage;
+
         if(CurrentHP <= 0)
         {
             TimeManagement.Instance.OnTick -= Tick;

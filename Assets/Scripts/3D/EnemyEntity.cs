@@ -112,13 +112,13 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         switch(Enemy.Data.CombatData.AIType)
         {
             case EnemyAIType.Wimp:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.5f, 2);
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.5f && !Enemy.MovementLocked, 2); 
                 break;
             case EnemyAIType.Normal:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.33f, 2);
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.33f && !Enemy.MovementLocked, 2);
                 break;
             case EnemyAIType.Aggressive:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.1f, 2);
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.1f && !Enemy.MovementLocked, 2);
                 break;
             case EnemyAIType.Suicidal:
                 break;

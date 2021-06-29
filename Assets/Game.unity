@@ -15198,6 +15198,8 @@ MonoBehaviour:
   NewGameSpawn: {fileID: 567064561}
   PartyEntityObject: {fileID: 1253512606139482, guid: e772fbcfb66710d47b74f010be7e33d1,
     type: 3}
+  BloodParticle: {fileID: 5142120855663994061, guid: ac7f1209a8e1bdc4f83d3faa0b4b8784,
+    type: 3}
 --- !u!4 &684852754
 Transform:
   m_ObjectHideFlags: 0
@@ -28194,7 +28196,7 @@ Transform:
   - {fileID: 393250121}
   - {fileID: 1133329691}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1487778153
 PrefabInstance:
@@ -40875,7 +40877,7 @@ PrefabInstance:
     - target: {fileID: 36748344187657643, guid: cf604016af0ae3e428445b1676827840,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 36748344187657643, guid: cf604016af0ae3e428445b1676827840,
         type: 3}
@@ -41215,7 +41217,7 @@ PrefabInstance:
     - target: {fileID: 6272316668168667653, guid: b12e92a92dc073448846553deee4fa42,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6272316668168667653, guid: b12e92a92dc073448846553deee4fa42,
         type: 3}
@@ -41314,11 +41316,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4448723845902762, guid: e772fbcfb66710d47b74f010be7e33d1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00092077255
+      value: -0.52
       objectReference: {fileID: 0}
     - target: {fileID: 4448723845902762, guid: e772fbcfb66710d47b74f010be7e33d1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 726.41
+      value: 713.161
       objectReference: {fileID: 0}
     - target: {fileID: 4448723845902762, guid: e772fbcfb66710d47b74f010be7e33d1, type: 3}
       propertyPath: m_LocalRotation.w
