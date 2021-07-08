@@ -16,9 +16,9 @@ public class TimeManagement : MonoBehaviour
 
     [SerializeField] Transform LightAnchor;
     [SerializeField] Light DayLight;
-    [SerializeField] Material DayBox;
     [SerializeField] Light NightLight;
-    [SerializeField] Material NightBox;
+    [SerializeField] Material DaySky;
+    [SerializeField] Material NightSky;
 
     event System.Action OnFinish;
     public static event System.Action<float> OnTick;
@@ -137,24 +137,14 @@ public class TimeManagement : MonoBehaviour
 
     void UpdateEnvironment(float tick)
     {
-        //_timeToUpdate -= tick;
+        float hour = GetCurrentHourFractional();
 
-        //if (_timeToUpdate <= 0)
-        //{
-        //    float hour = GetCurrentHourFractional();
-
-        //    bool isDay = hour > 6 && hour < 21;
-        //    Light light = isDay ? DayLight : NightLight;
-        //    Material box = isDay ? DayBox : NightBox;
-        //    if (RenderSettings.sun != light)
-        //    {
-        //        RenderSettings.sun = light;
-        //        RenderSettings.skybox = box;
-        //        RenderSettings.ambientIntensity = isDay ? 0.8f : 0.5f;
-        //    }
-
-        //    _timeToUpdate = 10 * 60;
-        //}
+        bool isDay = hour > 5 && hour < 21;
+        Material box = isDay ? DaySky : NightSky;
+        if (RenderSettings.skybox != box)
+        {
+            RenderSettings.skybox = box;
+        }
 
         float rot = tick * 360f / (24f * 60f * 60f);
         LightAnchor.Rotate(new Vector3(0, 0, rot));
