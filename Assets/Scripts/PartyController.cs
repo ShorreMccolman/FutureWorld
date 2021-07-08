@@ -400,7 +400,10 @@ public class PartyController : MonoBehaviour {
         {
             EnemyEntity enemy = ent as EnemyEntity;
             if (enemy != null)
-                enemies.Add(enemy.Enemy);
+            {
+                if(enemy.Enemy.IsAlive())
+                    enemies.Add(enemy.Enemy);
+            }
         }
         return enemies;
     }

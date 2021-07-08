@@ -110,7 +110,7 @@ public class ResidenceMenu : ConversationMenu
         } 
         else if (resident.Data.IsService)
         {
-            if (!Party.Instance.ActiveMember.IsActive() && !resident.Data.Services.IsTemple)
+            if (!Party.Instance.ActiveMember.IsAlive() && !resident.Data.Services.IsTemple)
             {
                 AddButton(Party.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything");
             } 

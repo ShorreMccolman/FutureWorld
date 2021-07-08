@@ -8,6 +8,7 @@ public class ProjectileEntity : Entity3D
 
     double _lifetime;
     float _relativeSpeed;
+    bool _alive;
 
     bool inMotion;
 
@@ -17,6 +18,7 @@ public class ProjectileEntity : Entity3D
         _lifetime = 5.0f;
         _relativeSpeed = relativeSpeed;
         inMotion = true;
+        _alive = true;
         IgnoreInteraction = true;
     }
 
@@ -35,22 +37,19 @@ public class ProjectileEntity : Entity3D
                 bool hits = CombatHelper.ShouldHit(Projectile.Attack, enemy.Enemy.Data.ArmorClass);
 
                 int damage = 0;
-                if (hits)
+                if (hits && _alive)
                 {
+                    _alive = false;
+
                     damage = Projectile.Damage;
                     float chanceOfReduction = 1 - 30 / (30 + enemy.Enemy.Data.Resistances.Physical);
                     damage = CombatHelper.ReduceDamage(damage, chanceOfReduction);
 
-                }
-
-                if (hits)
-                {
                     string msg = Projectile.Sender + " shoots " + enemy.Enemy.Data.DisplayName + " for " + damage + " damage.";
                     if (enemy.Enemy.CurrentHP - damage <= 0)
                         msg = Projectile.Sender + " inflicts " + damage + " damage killing " + enemy.Enemy.Data.DisplayName + ".";
 
                     InfoMessageReceiver.Send(msg, 2.0f);
-
                     enemy.Enemy.OnHit(damage);
                 }
 

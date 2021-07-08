@@ -51,7 +51,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 1
         AIType: 1
-        MoveSpeed: 2
+        MoveSpeed: 2.5
         Recovery: 100
       Spell: 
       Model: {fileID: 3047186970050578528, guid: 49bc9cdea1701c649882601ea25631fd,
@@ -91,7 +91,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 1
         AIType: 0
-        MoveSpeed: 2
+        MoveSpeed: 2.5
         Recovery: 100
       Spell: fire_bolt
       Model: {fileID: 4535204003392886127, guid: 853b980c76fdae040912c85aba2b39a6,
@@ -131,7 +131,7 @@ MonoBehaviour:
         Flies: 0
         MoveType: 0
         AIType: 2
-        MoveSpeed: 2
+        MoveSpeed: 2.5
         Recovery: 90
       Spell: fire_bolt
       Model: {fileID: 7335701647072218439, guid: 50ec1ca842c71c84e91f85bf64836f08,

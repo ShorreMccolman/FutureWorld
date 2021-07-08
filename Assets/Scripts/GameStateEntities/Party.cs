@@ -151,7 +151,7 @@ public class Party : GameStateEntity
 
     void MemberReady(PartyMember member)
     {
-        if (member.IsActive())
+        if (member.IsAlive())
         {
             if (!TurnController.Instance.IsTurnBasedEnabled)
             {
@@ -215,7 +215,7 @@ public class Party : GameStateEntity
         for (int i = 1; i < 4; i++)
         {
             int cur = (index + i) % 4;
-            if (Members[cur].Vitals.IsReady() && Members[cur].IsActive())
+            if (Members[cur].Vitals.IsReady() && Members[cur].IsAlive())
             {
                 SetActiveMember(Members[cur]);
                 return;
@@ -259,7 +259,7 @@ public class Party : GameStateEntity
     {
         foreach(var member in _members)
         {
-            if (member.IsActive())
+            if (member.IsAlive())
                 member.Profile.EarnXP(enemy.Data.Experience);
         }
 

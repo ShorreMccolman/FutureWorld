@@ -17,7 +17,7 @@ public class CombatPriority
 
     public void Add(CombatEntity member)
     {
-        if (!member.IsActive())
+        if (!member.IsAlive())
             return;
 
         if (_queue.Contains(member))

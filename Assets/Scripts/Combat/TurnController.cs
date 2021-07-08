@@ -37,7 +37,7 @@ public class TurnController : MonoBehaviour
             Vitals.OnMemberKnockout -= OnKnockout;
             EnemyEntity.OnEnemyDeath -= OnKnockout;
 
-            StopCoroutine(Combat());
+            StopAllCoroutines();
         }
     }
 
@@ -89,7 +89,7 @@ public class TurnController : MonoBehaviour
                 yield return null;
 
             next.ActivateTurn();
-            while(next.WaitForTurn() && next.IsActive())
+            while(next.WaitForTurn() && next.IsAlive())
             {
                 yield return null;
             }

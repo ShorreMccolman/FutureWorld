@@ -119,13 +119,13 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         switch (Enemy.Data.CombatData.AIType)
         {
             case EnemyAIType.Wimp:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.5f && _canMove && !Enemy.MovementLocked, 2); 
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.3f && _canMove && !Enemy.MovementLocked, 2); 
                 break;
             case EnemyAIType.Normal:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.33f && _canMove && !Enemy.MovementLocked, 2);
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.175f && _canMove && !Enemy.MovementLocked, 2);
                 break;
             case EnemyAIType.Aggressive:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.1f && _canMove && !Enemy.MovementLocked, 2);
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.05f && _canMove && !Enemy.MovementLocked, 2);
                 break;
             case EnemyAIType.Suicidal:
                 break;
@@ -172,6 +172,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
     void ToggleTB(bool enable)
     {
         _turnBased = enable;
+        _canMove = !enable;
     }
 
     void ToggleCanMove(bool enable)

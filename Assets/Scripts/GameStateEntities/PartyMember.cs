@@ -74,7 +74,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         return "";
     }
 
-    public bool IsActive()
+    public bool IsAlive()
     {
         if (Vitals.Condition != PartyMemberState.Concious)
             return false;
@@ -92,7 +92,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public void ToggleCombat(bool enable)
     {
-        if (!IsActive())
+        if (!IsAlive())
             return;
 
         if (enable)
