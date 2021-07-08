@@ -8571,6 +8571,7 @@ GameObject:
   m_Component:
   - component: {fileID: 372353794}
   - component: {fileID: 372353793}
+  - component: {fileID: 372353795}
   m_Layer: 0
   m_Name: TimeManager
   m_TagString: Untagged
@@ -8609,6 +8610,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &372353795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372353792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b9c31a7d16ff84184902bde20bd185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &375228082
 GameObject:
   m_ObjectHideFlags: 0
@@ -40938,6 +40951,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 154.18503
+      objectReference: {fileID: 0}
+    - target: {fileID: 36748344309628598, guid: cf604016af0ae3e428445b1676827840,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 36748345479744673, guid: cf604016af0ae3e428445b1676827840,
         type: 3}

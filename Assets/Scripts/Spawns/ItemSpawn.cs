@@ -19,7 +19,20 @@ public class ItemSpawn : Spawn
     {
         Item data;
         if (!string.IsNullOrEmpty(ItemID))
+        {
+            if(ItemID == "herb")
+            {
+                int rand = Random.Range(0, 3);
+                if (rand == 0)
+                    ItemID = "herb_red";
+                else if (rand == 1)
+                    ItemID = "herb_blue";
+                else if (rand == 2)
+                    ItemID = "herb_yellow";
+            }
+
             data = ItemDatabase.Instance.GetItem(ItemID);
+        }
         else
             data = ItemDatabase.Instance.GetItemByTreasureLevel(ItemLevel);
         InventoryItem item = new InventoryItem(null, data, ItemLevel);

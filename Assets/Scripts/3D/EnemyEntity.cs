@@ -13,21 +13,11 @@ public enum Range
     Inactive
 }
 
-public enum AIState
-{
-    Passive,
-    Alert,
-    Pursuit,
-    Combat,
-    Flee
-}
-
 public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
 {
     public Enemy Enemy => State as Enemy;
 
     protected bool _isActive;
-    protected AIState _aiState;
     protected Range _range;
 
     protected Transform _target;
@@ -41,6 +31,9 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
 
     protected Vector3 _origin;
     protected float _stuckDuration;
+
+    bool _turnBased;
+    bool _canMove;
 
     public static event System.Action<Enemy> OnEnemyDeath;
     public static event System.Action<Enemy> OnEnemyPickup;
@@ -72,7 +65,6 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         EnemyAnimReceiver receiver = GetComponentInChildren<EnemyAnimReceiver>();
         receiver.Setup(enemy);
 
-        _aiState = AIState.Passive;
         _range = Range.Out;
         _isActive = true;
         for(int i=0;i<transform.childCount;i++)
@@ -90,6 +82,8 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         SetupBehaviour();
 
         Enemy.OnEnemyReady += EnemyReady;
+        TurnController.OnTurnBasedToggled += ToggleTB;
+        TurnController.OnEnemyMoveToggled += ToggleCanMove;
     }
 
     void SetupBehaviour()
@@ -102,23 +96,36 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         AttackBehaviour attack = new AttackBehaviour(this, this, Party.Instance.Entity.transform);
         FleeBehaviour flee = new FleeBehaviour(this, Party.Instance.Entity.transform);
 
-        AI.AddTransition(idle, zigZag, () => _range < Range.Out);
-        AI.AddTransition(zigZag, idle, () => _range > Range.Long);
-        AI.AddTransition(zigZag, pursue, () => _range < Range.Long);
-        AI.AddTransition(pursue, zigZag, () => _range > Range.Mid);
-        AI.AddTransition(pursue, attack, () => _range < Range.Mid);
-        AI.AddTransition(attack, pursue, () => _range > Range.Close && !Enemy.MovementLocked);
+        TBIdleBehaviour tbIdle = new TBIdleBehaviour(this, Party.Instance.Entity.transform);
+        TBPassBehaviour tbPass = new TBPassBehaviour(this, this, Party.Instance.Entity.transform);
 
-        switch(Enemy.Data.CombatData.AIType)
+        AI.AddTransition(idle, zigZag, () => _range < Range.Out && !_turnBased);
+        AI.AddTransition(zigZag, idle, () => _range > Range.Long && !_turnBased);
+        AI.AddTransition(zigZag, pursue, () => _range < Range.Long && !_turnBased);
+        AI.AddTransition(pursue, zigZag, () => _range > Range.Mid && !_turnBased);
+        AI.AddTransition(pursue, attack, () => _range < Range.Mid && !_turnBased);
+        AI.AddTransition(attack, pursue, () => _range > Range.Close && !Enemy.MovementLocked && !_turnBased);
+
+
+        AI.AddTransition(tbIdle, () => _range < Range.Out && Enemy.IsHostile && !_canMove && !Enemy.AwaitingTurn && _turnBased);
+        AI.AddTransition(tbIdle, pursue, () => _canMove && _range > Range.Close && _turnBased);
+        AI.AddTransition(pursue, tbIdle, () => _canMove && _range == Range.Close && _turnBased);
+        AI.AddTransition(tbIdle, attack, () => Enemy.AwaitingTurn && _range == Range.Close && _turnBased);
+        AI.AddTransition(tbIdle, tbPass, () => Enemy.AwaitingTurn && _range > Range.Close && _turnBased);
+
+        AI.AddTransition(tbIdle, idle, () => !_turnBased);
+
+
+        switch (Enemy.Data.CombatData.AIType)
         {
             case EnemyAIType.Wimp:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.5f && !Enemy.MovementLocked, 2); 
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.5f && _canMove && !Enemy.MovementLocked, 2); 
                 break;
             case EnemyAIType.Normal:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.33f && !Enemy.MovementLocked, 2);
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.33f && _canMove && !Enemy.MovementLocked, 2);
                 break;
             case EnemyAIType.Aggressive:
-                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.1f && !Enemy.MovementLocked, 2);
+                AI.AddTransition(flee, () => Enemy.CurrentHP < Enemy.Data.HitPoints * 0.1f && _canMove && !Enemy.MovementLocked, 2);
                 break;
             case EnemyAIType.Suicidal:
                 break;
@@ -136,10 +143,11 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
             WatchBehaviour watch = new WatchBehaviour(this, Party.Instance.Entity.transform);
 
             AI.AddTransition(idle, () => Enemy.IsHostile);
+            AI.AddTransition(watch, () => _turnBased);
 
             AI.AddTransition(roam, roam, () => _stuckDuration > 2.0f);
             AI.AddTransition(roam, watch, () => _range < Range.Mid);
-            AI.AddTransition(watch, roam, () => _range > Range.Close);
+            AI.AddTransition(watch, roam, () => _range > Range.Close && !_turnBased);
 
             AI.SetState(roam);
         }
@@ -159,6 +167,16 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
             Rotate();
             Move();
         }
+    }
+
+    void ToggleTB(bool enable)
+    {
+        _turnBased = enable;
+    }
+
+    void ToggleCanMove(bool enable)
+    {
+        _canMove = enable;
     }
 
     public void EnemyReady()
@@ -205,6 +223,14 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         {
             _target = Party.Instance.Entity.transform;
             _range = Range.Mid;
+        }
+    }
+
+    public void TryDodge()
+    {
+        if (_isAttackReady)
+        {
+            Enemy.DoDodge();
         }
     }
 

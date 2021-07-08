@@ -17,7 +17,7 @@ public class RestMenu : Menu
     {
         isResting = false;
         UpdateDisplay();
-        TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.OnTick += Tick;
         TimeManagement.Instance.SetTimeControl(TimeControl.Manual);
     }
 
@@ -120,7 +120,7 @@ public class RestMenu : Menu
 
     public override void OnClose()
     {
-        TimeManagement.Instance.OnTick -= Tick;
+        TimeManagement.OnTick -= Tick;
         TimeManagement.Instance.CommitManualTick();
     }
 }

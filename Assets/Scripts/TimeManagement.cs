@@ -5,8 +5,7 @@ using UnityEngine;
 public enum TimeControl
 {
     Auto,
-    Manual,
-    Combat
+    Manual
 }
 
 public class TimeManagement : MonoBehaviour
@@ -21,27 +20,17 @@ public class TimeManagement : MonoBehaviour
     [SerializeField] Light NightLight;
     [SerializeField] Material NightBox;
 
-    public event System.Action OnFinish;
-    public event System.Action<float> OnTick;
-    public event System.Action<float> OnCombatTick;
+    event System.Action OnFinish;
+    public static event System.Action<float> OnTick;
 
     public static event System.Action<TimeControl> OnControlChanged;
-
-    public static bool IsCombatMode => Instance._control == TimeControl.Combat;
-    public MemberPriority CombatPriority;
 
     TimeControl _control;
     Party _party;
     System.DateTime _dt;
 
     float _manualDuration;
-    float _combatDuration;
     bool _isComitting;
-    float _timeToUpdate;
-    bool _enemiesMoving;
-
-    List<CombatEntity> ActiveEnemies;
-    List<CombatEntity> ReadyMembers;
 
     public void StartTiming(Party party)
     {
@@ -49,12 +38,7 @@ public class TimeManagement : MonoBehaviour
         _control = TimeControl.Auto;
         _isComitting = false;
 
-        ReadyMembers = new List<CombatEntity>();
-
         InitEnvironment(party.CurrentTime);
-
-        _timeToUpdate = 0;
-        OnTick += UpdateEnvironment;
     }
 
     void Update()
@@ -89,45 +73,6 @@ public class TimeManagement : MonoBehaviour
                     _isComitting = false;
                 }
             }
-        } 
-        else if (_control == TimeControl.Combat)
-        {
-            if(_enemiesMoving)
-            {
-                _enemiesMoving = false;
-                List<CombatEntity> finished = new List<CombatEntity>();
-                foreach(var enemy in ActiveEnemies)
-                {
-                    if(enemy.MoveCooldown <= 0)
-                    {
-                        finished.Add(enemy);
-                    }
-                }
-                foreach (var enemy in finished)
-                    ActiveEnemies.Remove(enemy);
-
-                if (ActiveEnemies.Count > 0)
-                    _enemiesMoving = true;
-                else
-                    CombatStep();
-            }
-            else if (_combatDuration > 0)
-            {
-                OnTick?.Invoke(_combatDuration);
-                _combatDuration = 0;
-                CombatStep();
-            }
-        }
-    }
-
-    public void ToggleCombatMode()
-    {
-        if(IsCombatMode)
-        {
-            SetTimeControl(TimeControl.Auto);
-        } else
-        {
-            SetTimeControl(TimeControl.Combat);
         }
     }
 
@@ -138,72 +83,28 @@ public class TimeManagement : MonoBehaviour
 
         _control = control;
         OnControlChanged?.Invoke(control);
-
-        if(IsCombatMode)
-        {
-            CombatPriority = new MemberPriority();
-
-            foreach(var member in Party.Instance.Members)
-                CombatPriority.Add(member);
-
-            foreach (var enemy in PartyController.Instance.GetActiveEnemies())
-                CombatPriority.Add(enemy);
-
-            CombatStep();
-        }
     }
 
-    public void EntityAttack(CombatEntity attacker)
+    public void ProgressManuallySeconds(float seconds, System.Action finishEvent = null)
     {
-        ReadyMembers.Remove(attacker);
-        if(_control == TimeControl.Combat)
-            CombatStep();
-    }
-
-    void CombatStep()
-    {
-        if(ReadyMembers.Count > 0)
+        if (seconds <= 0)
         {
+            finishEvent?.Invoke();
             return;
         }
 
-        ActiveEnemies = new List<CombatEntity>();
-        ReadyMembers = new List<CombatEntity>();
-
-        float cooldown;
-        while(CombatPriority.NextCooldown(out cooldown))
-        {
-            CombatEntity next = CombatPriority.Get();
-            if(next is Enemy)
-            {
-                ActiveEnemies.Add(next);
-            } 
-            else
-            {
-                ReadyMembers.Add(next);
-            }
-        }
-
-        if (ActiveEnemies.Count > 0)
-        {
-            _enemiesMoving = true;
-            foreach (var enemy in ActiveEnemies)
-            {
-                enemy.CombatStep();
-            }
-        } 
-        else if (ReadyMembers.Count > 0)
-        {
-
-        } 
-        else
-        {
-            _combatDuration = cooldown;
-        }
+        _manualDuration = seconds;
+        OnFinish = finishEvent;
     }
 
     public void ProgressManually(float minutes, System.Action finishEvent = null)
     {
+        if(minutes <= 0)
+        {
+            finishEvent?.Invoke();
+            return;
+        }
+
         _manualDuration = minutes * 60;
         OnFinish = finishEvent;
     }
@@ -230,11 +131,13 @@ public class TimeManagement : MonoBehaviour
         //    RenderSettings.skybox = box;
         //    RenderSettings.ambientIntensity = isDay ? 0.8f : 0.5f;
         //}
+
+        OnTick += UpdateEnvironment;
     }
 
     void UpdateEnvironment(float tick)
     {
-        _timeToUpdate -= tick;
+        //_timeToUpdate -= tick;
 
         //if (_timeToUpdate <= 0)
         //{

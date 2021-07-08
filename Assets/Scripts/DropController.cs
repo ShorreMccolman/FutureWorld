@@ -89,14 +89,14 @@ public class DropController : MonoBehaviour {
         }
     }
 
-    public void SpawnProjectile(Transform location, Projectile proj, float speed)
+    public void SpawnProjectile(Vector3 location, Quaternion direction, Projectile proj, float speed)
     {
         GameObject obj = Instantiate(ProjectileEntityObject);
 
         ProjectileEntity ent = obj.GetComponent<ProjectileEntity>();
         ent.Setup(proj, speed);
 
-        proj.CreateEntity(obj, location);
+        proj.CreateEntity(obj, location, direction);
     }
 
     public void LoadEnemies(XmlNodeList nodes)

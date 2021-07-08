@@ -14,11 +14,8 @@ public class PartyMember : GameStateEntity, CombatEntity {
     public History History { get; private set; }
     public Status Status { get; private set; }
     public Vitals Vitals { get; private set; }
-
-    float _cooldown;
-
-    public float MoveCooldown { get; set; }
-    public void CombatStep() { }
+    
+    public bool AwaitingTurn { get; private set; }
 
     public PartyMember(GameStateEntity parent, CharacterData data) : base(parent)
     {
@@ -30,9 +27,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         History = new History(this, data);
         Profile = new Profile(this, Status, Equipment, Skillset, data);
         Vitals = new Vitals(this, data, Status, Profile, Equipment, Skillset);
-        _cooldown = Vitals.Stats.EffectiveRecovery;
-
-        TimeManagement.Instance.OnTick += Tick;
+        TurnController.OnTurnBasedToggled += ToggleCombat;
     }
 
     public PartyMember(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -45,9 +40,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         History = new History(this, node);
         Profile = new Profile(this, Status, Equipment, Skillset, node);
         Vitals = new Vitals(this, node, Status, Profile, Equipment, Skillset);
-        _cooldown = float.Parse(node.SelectSingleNode("Cooldown").InnerText);
-
-        TimeManagement.Instance.OnTick += Tick;
+        TurnController.OnTurnBasedToggled += ToggleCombat;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -61,14 +54,8 @@ public class PartyMember : GameStateEntity, CombatEntity {
         element.AppendChild(SpellLog.ToXml(doc));
         element.AppendChild(Status.ToXml(doc));
         element.AppendChild(History.ToXml(doc));
-        element.AppendChild(XmlHelper.Attribute(doc, "Cooldown", _cooldown));
         element.AppendChild(base.ToXml(doc));
         return element;
-    }
-
-    void Tick(float delta)
-    {
-
     }
 
     public string EffectiveStatusCondition()
@@ -87,7 +74,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         return "";
     }
 
-    public bool IsConcious()
+    public bool IsActive()
     {
         if (Vitals.Condition != PartyMemberState.Concious)
             return false;
@@ -96,6 +83,33 @@ public class PartyMember : GameStateEntity, CombatEntity {
             return false;
 
         return true;
+    }
+
+    public string GetName()
+    {
+        return Profile.CharacterName;
+    }
+
+    public void ToggleCombat(bool enable)
+    {
+        if (!IsActive())
+            return;
+
+        if (enable)
+            Vitals.ApplyCooldown(Vitals.Stats.EffectiveRecovery);
+        else
+            Vitals.ApplyCooldown(0.1f);
+    }
+
+    public void ActivateTurn()
+    {
+        Party.Instance.SetActiveMember(this);
+        AwaitingTurn = true;
+    }
+
+    public bool WaitForTurn()
+    {
+        return AwaitingTurn;
     }
 
     public void FullHeal()
@@ -148,7 +162,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public float GetCooldown()
     {
-        return Vitals.Cooldown;
+        return Mathf.Max(0,Vitals.Cooldown);
     }
 
     public void Rest(float duration)
@@ -240,8 +254,8 @@ public class PartyMember : GameStateEntity, CombatEntity {
             SoundManager.Instance.PlayUISound("Swing");
         }
 
-        Vitals.ApplyCooldown(Vitals.Stats.Recovery);
-
+        Vitals.ApplyCooldown(Vitals.Stats.EffectiveRecovery);
+        AwaitingTurn = false;
         return hits;
     }
 
@@ -255,15 +269,16 @@ public class PartyMember : GameStateEntity, CombatEntity {
             projectile = ProjectileDatabase.Instance.GetProjectile("generic");
             projectile.SetDamage(Profile.CharacterName, Vitals.Stats.EffectiveRangedAttack, Equipment.RollRangedDamage(Skillset));
 
-            Vitals.ApplyCooldown(Vitals.Stats.RangedRecovery);
+            Vitals.ApplyCooldown(Vitals.Stats.EffectiveRangedRecovery);
             Vitals.Express(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
             SoundManager.Instance.PlayUISound("Arrow");
         }
         else
         {
-            Vitals.ApplyCooldown(Vitals.Stats.Recovery);
+            Vitals.ApplyCooldown(Vitals.Stats.EffectiveRecovery);
             SoundManager.Instance.PlayUISound("Swing");
         }
+        AwaitingTurn = false;
         return result;
     }
 

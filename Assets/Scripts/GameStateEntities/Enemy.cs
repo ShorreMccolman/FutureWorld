@@ -5,26 +5,26 @@ using System.Xml;
 
 public interface CombatEntity
 {
-    float MoveCooldown { get; set; }
+    string GetName();
     float GetCooldown();
-    void CombatStep();
+    bool IsActive();
+
+    bool WaitForTurn();
+    void ActivateTurn();
 }
 
 public class Enemy : GameStateEntity, CombatEntity
 {
     public int CurrentHP { get; protected set; }
-
     public EnemyData Data { get; private set; }
-
     public float Cooldown { get; private set; }
-
-    public float MoveCooldown { get; set; }
+    public bool IsHostile { get; protected set; }
+    public NPC NPC { get; protected set; }
 
     public bool MovementLocked { get; private set; }
+    public bool AwaitingTurn { get; private set; }
 
-    public bool IsHostile { get; protected set; }
-
-    public NPC NPC { get; protected set; }
+    public bool IsActive() { return CurrentHP > 0; }
 
     public event System.Action OnEnemyReady;
 
@@ -33,12 +33,12 @@ public class Enemy : GameStateEntity, CombatEntity
         Data = data;
         CurrentHP = Data.HitPoints;
         Cooldown = data.CombatData.Recovery;
-        MoveCooldown = 0;
         IsHostile = Data.IsHostile;
         if(npc != null)
             NPC = new NPC(npc, this);
 
-        TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.OnTick += Tick;
+        TurnController.OnTurnBasedToggled += ToggleCombat;
     }
 
     public Enemy(XmlNode node) : base(null, node)
@@ -52,7 +52,8 @@ public class Enemy : GameStateEntity, CombatEntity
         {
             NPC = new NPC(this, npc);
         }
-        TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.OnTick += Tick;
+        TurnController.OnTurnBasedToggled += ToggleCombat;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -77,9 +78,22 @@ public class Enemy : GameStateEntity, CombatEntity
         return Data.Portrait;
     }
 
-    public void CombatStep()
+    public void ToggleCombat(bool enable)
     {
-        MoveCooldown = 3f;
+        if (enable)
+            Cooldown = Data.CombatData.Recovery;
+        else
+            Cooldown = 0.1f;
+    }
+
+    public void ActivateTurn()
+    {
+        AwaitingTurn = true;
+    }
+
+    public bool WaitForTurn()
+    {
+        return AwaitingTurn;
     }
 
     public void Tick(float delta)
@@ -94,21 +108,32 @@ public class Enemy : GameStateEntity, CombatEntity
         }
     }
 
-    public float GetCooldown()
-    {
-        return Cooldown;
-    }
-
     public void LockMovement(bool isLocked)
     {
         MovementLocked = isLocked;
-        MoveCooldown = 0;
+    }
+
+    public string GetName()
+    {
+        return Data.DisplayName;
+    }
+
+    public float GetCooldown()
+    {
+        return Mathf.Max(0,Cooldown);
+    }
+
+    public void DoDodge()
+    {
+        Cooldown = Data.CombatData.Recovery;
+        AwaitingTurn = false;
     }
 
     public void DoAttack()
     {
         Party.Instance.EnemyAttack(Data);
         Cooldown = Data.CombatData.Recovery;
+        AwaitingTurn = false;
     }
 
     public void OnHit(int damage)
@@ -118,7 +143,8 @@ public class Enemy : GameStateEntity, CombatEntity
 
         if(CurrentHP <= 0)
         {
-            TimeManagement.Instance.OnTick -= Tick;
+            TimeManagement.OnTick -= Tick;
+            TurnController.OnTurnBasedToggled -= ToggleCombat;
 
             EnemyEntity ee = Entity as EnemyEntity;
             ee.OnDeath();

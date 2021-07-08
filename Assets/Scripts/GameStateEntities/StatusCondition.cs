@@ -20,7 +20,7 @@ public class StatusCondition : GameStateEntity
         Duration = duration;
         Potency = 0;
 
-        TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.OnTick += Tick;
     }
 
     public StatusCondition(GameStateEntity parent, StatusEffect data, int potency, float duration) : base(parent)
@@ -30,7 +30,7 @@ public class StatusCondition : GameStateEntity
         Duration = duration;
         Potency = potency;
 
-        TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.OnTick += Tick;
     }
 
     public StatusCondition(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -41,7 +41,7 @@ public class StatusCondition : GameStateEntity
         Potency = int.Parse(node.SelectSingleNode("Potency").InnerText);
         Effect = StatusEffectDatabase.Instance.GetEffect(Option);
 
-        TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.OnTick += Tick;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -66,7 +66,7 @@ public class StatusCondition : GameStateEntity
 
     public void Terminate()
     {
-        TimeManagement.Instance.OnTick -= Tick;
+        TimeManagement.OnTick -= Tick;
     }
 
     public void ModifyStats(EffectiveStats stats)

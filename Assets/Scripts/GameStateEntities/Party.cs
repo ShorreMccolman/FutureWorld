@@ -33,7 +33,8 @@ public class Party : GameStateEntity
     List<NPC> _hires;
     List<string> _visitedLocations;
     List<string> _monthlyKills;
-    MemberPriority _priorityQueue;
+    CombatPriority _priorityQueue;
+    public CombatPriority Priority => _priorityQueue;
 
     public static event System.Action<PartyMember> OnMemberChanged;
     public static event System.Action<int, int> OnFundsChanged;
@@ -86,13 +87,14 @@ public class Party : GameStateEntity
     {
         Instance = this;
 
-        _priorityQueue = new MemberPriority();
+        _priorityQueue = new CombatPriority();
 
         EnemyEntity.OnEnemyDeath += EnemyDeath;
         EnemyEntity.OnEnemyPickup += PickupEnemy;
         Vitals.OnMemberKnockout += MemberUnready;
         Vitals.OnMemberReady += MemberReady;
-        TimeManagement.Instance.OnTick += Tick;
+        TimeManagement.OnTick += Tick;
+        TurnController.OnTurnBasedToggled += TBToggled;
     }
 
     public override XmlNode ToXml(XmlDocument doc)
@@ -134,22 +136,41 @@ public class Party : GameStateEntity
         }
     }
 
+    void TBToggled(bool enabled)
+    {
+        if(!enabled)
+        {
+            _priorityQueue.Clear();
+            foreach(var member in Members)
+            {
+                if (member.GetCooldown() == 0)
+                    _priorityQueue.Add(member);
+            }
+        }
+    }
+
     void MemberReady(PartyMember member)
     {
-        if (member.IsConcious())
+        if (member.IsActive())
         {
-            if (ActiveMember == null)
-                SetActiveMember(member);
+            if (!TurnController.Instance.IsTurnBasedEnabled)
+            {
+                if (ActiveMember == null)
+                    SetActiveMember(member);
 
-            _priorityQueue.Add(member);
+                _priorityQueue.Add(member);
+            }
         }
     }
 
     public void MemberUnready(PartyMember member)
     {
-        _priorityQueue.Flush(member);
-        if (ActiveMember == member)
-            Party.Instance.SetActiveMember(_priorityQueue.Get() as PartyMember);
+        if (!TurnController.Instance.IsTurnBasedEnabled)
+        {
+            _priorityQueue.Flush(member);
+            if (ActiveMember == member)
+                Party.Instance.SetActiveMember(_priorityQueue.Get() as PartyMember);
+        }
     }
 
     public PartyMember GetAttacker()
@@ -157,7 +178,7 @@ public class Party : GameStateEntity
         PartyMember attacker = null;
         if (ActiveMember.Vitals.IsReady())
             attacker = ActiveMember;
-        else if (_priorityQueue.IsReady())
+        else if (_priorityQueue.IsReady() && !TurnController.Instance.IsTurnBasedEnabled)
             attacker = _priorityQueue.Get() as PartyMember;
 
         return attacker;
@@ -194,7 +215,7 @@ public class Party : GameStateEntity
         for (int i = 1; i < 4; i++)
         {
             int cur = (index + i) % 4;
-            if (Members[cur].Vitals.IsReady() && Members[cur].IsConcious())
+            if (Members[cur].Vitals.IsReady() && Members[cur].IsActive())
             {
                 SetActiveMember(Members[cur]);
                 return;
@@ -238,7 +259,7 @@ public class Party : GameStateEntity
     {
         foreach(var member in _members)
         {
-            if (member.IsConcious())
+            if (member.IsActive())
                 member.Profile.EarnXP(enemy.Data.Experience);
         }
 

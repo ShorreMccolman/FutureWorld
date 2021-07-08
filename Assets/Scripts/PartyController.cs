@@ -196,7 +196,7 @@ public class PartyController : MonoBehaviour {
                 }
                 else if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    TimeManagement.Instance.ToggleCombatMode();
+                    TurnController.Instance.ToggleCombatMode();
                 }
             }
         }
@@ -317,26 +317,13 @@ public class PartyController : MonoBehaviour {
 
     public void TryAttack()
     {
-        if(TimeManagement.IsCombatMode)
-        {
-            if (_party.ActiveMember == null)
-                return;
+        if (_party.ActiveMember == null)
+            return;
 
-            if (_isInteracting)
-                return;
+        if (_isInteracting)
+            return;
 
-            StartCoroutine(AttackRoutine());
-        } 
-        else
-        {
-            if (_party.ActiveMember == null)
-                return;
-
-            if (_isInteracting)
-                return;
-
-            StartCoroutine(AttackRoutine());
-        }
+        StartCoroutine(AttackRoutine());
     }
 
     IEnumerator AttackRoutine()
@@ -379,8 +366,9 @@ public class PartyController : MonoBehaviour {
 
                     if(projectile != null)
                     {
-                        projectile.Setup(((target.transform.position + Vector3.up ) - Entity.transform.position).normalized, true);
-                        DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.MoveSpeed);
+                        Vector3 lookdir = (target.transform.position + Vector3.up - Entity.transform.position).normalized;
+                        projectile.Setup(lookdir, true);
+                        DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
                     }
                 }
 
@@ -394,7 +382,7 @@ public class PartyController : MonoBehaviour {
                 if (projectile != null)
                 {
                     projectile.Setup(Entity.transform.forward.normalized, true);
-                    DropController.Instance.SpawnProjectile(Entity.transform, projectile, Entity.MoveSpeed);
+                    DropController.Instance.SpawnProjectile(Entity.transform.position, Entity.transform.rotation, projectile, Entity.MoveSpeed);
                 }
             }
 
@@ -402,7 +390,6 @@ public class PartyController : MonoBehaviour {
             _isInteracting = false;
 
             Party.Instance.MemberUnready(attacker);
-            TimeManagement.Instance.EntityAttack(attacker);
         }
     }
 

@@ -149,7 +149,7 @@ public class Vitals : GameStateEntity
             OnMemberReady?.Invoke(Parent as PartyMember);
             OnConditionChange?.Invoke(true, Condition);
             
-            TimeManagement.Instance.OnTick -= Tick;
+            TimeManagement.OnTick -= Tick;
         }
     }
 
@@ -246,9 +246,10 @@ public class Vitals : GameStateEntity
 
     public void ApplyCooldown(float cooldown)
     {
+        if(Cooldown <= 0)
+            TimeManagement.OnTick += Tick;
         Cooldown = cooldown;
         OnConditionChange?.Invoke(false, Condition);
-        TimeManagement.Instance.OnTick += Tick;
     }
 
     public void GainHealthPoints(int amount)

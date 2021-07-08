@@ -27,7 +27,7 @@ public class ZigZagBehaviour : IBehaviourState
 
         Vector3 levelPosition = new Vector3(_target.position.x, _actor.Transform.position.y, _target.position.z);
         Vector3 targetVec = (levelPosition - _actor.Transform.position);
-        float zigAngle = _movingRight ? 45f : -45f;
+        float zigAngle = _movingRight ? 30f : -30f;
         Quaternion targetRotation = Quaternion.LookRotation(targetVec) * Quaternion.Euler(0, zigAngle, 0);
         _actor.SetTargetDirection(targetRotation);
 

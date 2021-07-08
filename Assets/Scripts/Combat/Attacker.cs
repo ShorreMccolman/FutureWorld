@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IAttacker
 {
     void TryAttack();
+    void TryDodge();
 }

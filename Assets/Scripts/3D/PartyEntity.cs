@@ -96,7 +96,7 @@ public class PartyEntity : Entity3D
             _mouseLook.LookRotation(transform, Camera.transform);
     
         // the jump state needs to read here to make sure it is not missed
-        if (!m_Jump && !TimeManagement.IsCombatMode && m_CharacterController.isGrounded)
+        if (!m_Jump && !TurnController.Instance.IsTurnBasedEnabled && m_CharacterController.isGrounded)
         {
             m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
         }
@@ -121,7 +121,7 @@ public class PartyEntity : Entity3D
         if (_controller.ControlState == ControlState.MenuLock)
             return;
 
-        if (TimeManagement.IsCombatMode)
+        if (TurnController.Instance.IsTurnBasedEnabled)
             CombatControl();
         else
             StandardControls();

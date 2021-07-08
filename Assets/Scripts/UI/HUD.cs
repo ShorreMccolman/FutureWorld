@@ -77,7 +77,7 @@ public class HUD : Menu {
         Party.OnHiresChanged += UpdateHires;
         MenuManager.OnMenuOpened += MenuOpened;
         MenuManager.OnMenusClosed += MenusClosed;
-        TimeManagement.OnControlChanged += UpdateCombatIndicator;
+        TurnController.OnTurnBasedToggled += UpdateCombatIndicator;
     }
 
     void Update()
@@ -136,9 +136,9 @@ public class HUD : Menu {
         }
     }
 
-    void UpdateCombatIndicator(TimeControl control)
+    void UpdateCombatIndicator(bool enable)
     {
-        CombatIndicator.gameObject.SetActive(control == TimeControl.Combat);
+        CombatIndicator.gameObject.SetActive(enable);
     }
 
     public void OpenSystem()
