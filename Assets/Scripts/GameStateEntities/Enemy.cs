@@ -7,7 +7,7 @@ public interface CombatEntity
 {
     string GetName();
     float GetCooldown();
-    bool IsAlive();
+    bool IsConcious();
 
     bool WaitForTurn();
     void ActivateTurn();
@@ -24,7 +24,7 @@ public class Enemy : GameStateEntity, CombatEntity
     public bool MovementLocked { get; private set; }
     public bool AwaitingTurn { get; private set; }
 
-    public bool IsAlive() => CurrentHP > 0;
+    public bool IsConcious() => CurrentHP > 0;
 
     public event System.Action OnEnemyReady;
 

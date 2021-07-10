@@ -258,8 +258,8 @@ MonoBehaviour:
     smoothTime: 5
     lockCursor: 1
   _isWalking: 0
-  _walkSpeed: 5
-  _runSpeed: 8
+  _walkSpeed: 6
+  _runSpeed: 10
   _runstepLenghten: 0.5
   m_JumpSpeed: 6
   m_StickToGroundForce: 10

@@ -13,7 +13,7 @@ public class NPCEntity : EnemyEntity
 
     public override IEnumerator Interact(PartyEntity party)
     {
-        if (!_isActive)
+        if (!_isAlive)
         {
             yield return base.Interact(party);
         } 

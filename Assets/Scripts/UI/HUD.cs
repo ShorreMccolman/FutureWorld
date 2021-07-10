@@ -30,6 +30,9 @@ public class HUD : Menu {
     [SerializeField] Text GoldLabel;
 
     [SerializeField] Image Vignette;
+
+    [SerializeField] Sprite HoldSprite;
+    [SerializeField] Sprite WaitSprite;
     [SerializeField] Image CombatIndicator;
 
     [SerializeField] ProfileMenu ProfileMenu;
@@ -68,6 +71,7 @@ public class HUD : Menu {
         _selectedMenu = ProfileMenu;
 
         Vignette.enabled = false;
+        CombatIndicator.enabled = false;
 
         FoodLabel.text = _party.CurrentFood.ToString();
         GoldLabel.text = _party.CurrentGold.ToString();
@@ -78,6 +82,7 @@ public class HUD : Menu {
         MenuManager.OnMenuOpened += MenuOpened;
         MenuManager.OnMenusClosed += MenusClosed;
         TurnController.OnTurnBasedToggled += UpdateCombatIndicator;
+        TurnController.OnEnemyMoveToggled += UpdateCombatIndicatorWait;
     }
 
     void Update()
@@ -138,7 +143,14 @@ public class HUD : Menu {
 
     void UpdateCombatIndicator(bool enable)
     {
-        CombatIndicator.gameObject.SetActive(enable);
+        CombatIndicator.enabled = enable;
+        if (enable)
+            CombatIndicator.sprite = HoldSprite;
+    }
+
+    void UpdateCombatIndicatorWait(bool enable)
+    {
+        CombatIndicator.sprite = enable ? WaitSprite : HoldSprite;
     }
 
     public void OpenSystem()
@@ -233,7 +245,7 @@ public class HUD : Menu {
             return;
         }
 
-        if (member.Vitals.IsReady())
+        if (!TurnController.Instance.IsTurnBasedEnabled || _selectedMenu.IsOpen)
         {
             if (_party.ActiveMember != member) {
                 _party.SetActiveMember(member);

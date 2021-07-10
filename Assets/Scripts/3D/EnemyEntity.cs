@@ -17,7 +17,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
 {
     public Enemy Enemy => State as Enemy;
 
-    protected bool _isActive;
+    protected bool _isAlive;
     protected Range _range;
 
     protected Transform _target;
@@ -66,7 +66,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         receiver.Setup(enemy);
 
         _range = Range.Out;
-        _isActive = true;
+        _isAlive = true;
         for(int i=0;i<transform.childCount;i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
@@ -155,14 +155,14 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
 
     void Update()
     {
-        if (_isActive)
+        if (_isAlive)
         {
             AI.Update();
         }
     }
     void FixedUpdate()
     {
-        if (_isActive && _isVisible)
+        if (_isAlive && _isVisible)
         {
             Rotate();
             Move();
@@ -255,7 +255,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         _controller.enabled = false;
         _dropCollider.enabled = true;
 
-        _isActive = false;
+        _isAlive = false;
         IsTargetable = false;
 
         OnEnemyDeath?.Invoke(Enemy);
@@ -263,7 +263,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
 
     public override IEnumerator Interact(PartyEntity party)
     {
-        if (!_isActive)
+        if (!_isAlive)
         {
             yield return new WaitForEndOfFrame();
 

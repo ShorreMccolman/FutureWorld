@@ -166,7 +166,7 @@ public class PartyEntity : Entity3D
         }
         m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
-        ProgressStepCycle(_currentMoveSpeed);
+        ProgressStepCycle(_currentMoveSpeed * 0.75f);
         UpdateCameraPosition(_currentMoveSpeed);
 
         _mouseLook.UpdateCursorLock();

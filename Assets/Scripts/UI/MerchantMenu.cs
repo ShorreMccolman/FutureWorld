@@ -85,7 +85,7 @@ public class MerchantMenu : ConversationMenu
         {
             AddButton("You must be a member of this guild to study here.");
         }
-        else if (!Party.Instance.ActiveMember.IsAlive())
+        else if (!Party.Instance.ActiveMember.IsConcious())
         {
             AddButton(Party.Instance.ActiveMember.Profile.CharacterName + " is in no condition to do anything");
         } 

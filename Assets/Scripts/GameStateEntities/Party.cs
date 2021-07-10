@@ -138,48 +138,43 @@ public class Party : GameStateEntity
 
     void TBToggled(bool enabled)
     {
-        if(!enabled)
-        {
-            _priorityQueue.Clear();
-            foreach(var member in Members)
-            {
-                if (member.GetCooldown() == 0)
-                    _priorityQueue.Add(member);
-            }
-        }
+        _priorityQueue.Clear();
     }
 
     void MemberReady(PartyMember member)
     {
-        if (member.IsAlive())
+        if (member.IsConcious())
         {
             if (!TurnController.Instance.IsTurnBasedEnabled)
             {
                 if (ActiveMember == null)
                     SetActiveMember(member);
-
-                _priorityQueue.Add(member);
+                else
+                    _priorityQueue.Add(member);
             }
         }
     }
 
     public void MemberUnready(PartyMember member)
     {
-        if (!TurnController.Instance.IsTurnBasedEnabled)
+        _priorityQueue.Flush(member);
+        if (ActiveMember == member)
         {
-            _priorityQueue.Flush(member);
-            if (ActiveMember == member)
-                Party.Instance.SetActiveMember(_priorityQueue.Get() as PartyMember);
+            PartyMember next = _priorityQueue.GetIfReady() as PartyMember;
+            SetActiveMember(next);
         }
     }
 
     public PartyMember GetAttacker()
     {
         PartyMember attacker = null;
-        if (ActiveMember.Vitals.IsReady())
+        if (ActiveMember != null && ActiveMember.Vitals.IsReady())
             attacker = ActiveMember;
-        else if (_priorityQueue.IsReady() && !TurnController.Instance.IsTurnBasedEnabled)
-            attacker = _priorityQueue.Get() as PartyMember;
+        else if (!TurnController.Instance.IsTurnBasedEnabled)
+        {
+            attacker = _priorityQueue.GetIfReady() as PartyMember;
+            SetActiveMember(attacker);
+        }
 
         return attacker;
     }
@@ -215,7 +210,7 @@ public class Party : GameStateEntity
         for (int i = 1; i < 4; i++)
         {
             int cur = (index + i) % 4;
-            if (Members[cur].Vitals.IsReady() && Members[cur].IsAlive())
+            if (Members[cur].Vitals.IsReady() && Members[cur].IsConcious())
             {
                 SetActiveMember(Members[cur]);
                 return;
@@ -259,7 +254,7 @@ public class Party : GameStateEntity
     {
         foreach(var member in _members)
         {
-            if (member.IsAlive())
+            if (member.IsConcious())
                 member.Profile.EarnXP(enemy.Data.Experience);
         }
 

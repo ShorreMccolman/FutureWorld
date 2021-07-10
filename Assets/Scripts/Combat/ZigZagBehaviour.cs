@@ -21,7 +21,7 @@ public class ZigZagBehaviour : IBehaviourState
         _changeDirectionTimer -= Time.deltaTime;
         if (_changeDirectionTimer <= 0)
         {
-            _changeDirectionTimer = Random.Range(6f, 8f);
+            _changeDirectionTimer = Random.Range(3f, 4f);
             _movingRight = !_movingRight;
         }
 

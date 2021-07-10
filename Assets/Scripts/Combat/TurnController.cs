@@ -15,6 +15,7 @@ public class TurnController : MonoBehaviour
 
     CombatPriority _combatPriority;
     List<CombatEntity> _turnEntities;
+    CombatEntity _activeCombatEntity;
 
     public static event System.Action<bool> OnTurnBasedToggled;
     public static event System.Action<bool> OnEnemyMoveToggled;
@@ -28,17 +29,25 @@ public class TurnController : MonoBehaviour
             TimeManagement.Instance.SetTimeControl(TimeControl.Manual);
             Vitals.OnMemberKnockout += OnKnockout;
             EnemyEntity.OnEnemyDeath += OnKnockout;
+            MenuManager.OnMenusClosed += ResetActiveMember;
 
-            DetermineCombatPriority();
+            _turnEntities = new List<CombatEntity>();
+            StartCoroutine(Combat());
         }
         else
         {
             TimeManagement.Instance.SetTimeControl(TimeControl.Auto);
             Vitals.OnMemberKnockout -= OnKnockout;
             EnemyEntity.OnEnemyDeath -= OnKnockout;
+            MenuManager.OnMenusClosed -= ResetActiveMember;
 
             StopAllCoroutines();
         }
+    }
+
+    void ResetActiveMember()
+    {
+        Party.Instance.SetActiveMember(_activeCombatEntity as PartyMember);
     }
 
     void OnKnockout(CombatEntity entity)
@@ -51,11 +60,8 @@ public class TurnController : MonoBehaviour
         _combatPriority = new CombatPriority();
         _turnEntities = new List<CombatEntity>();
 
-        while(Party.Instance.Priority.IsReady())
-            _turnEntities.Add(Party.Instance.Priority.Get());
-
         foreach(var member in Party.Instance.Members)
-            if(!_turnEntities.Contains(member))
+            if(member.IsConcious())
                 _turnEntities.Add(member);
 
         _turnEntities.AddRange(PartyController.Instance.GetActiveEnemies());
@@ -64,8 +70,6 @@ public class TurnController : MonoBehaviour
         {
             _combatPriority.Add(ent);
         }
-
-        StartCoroutine(Combat());
     }
 
     void PartyMemberRevived(PartyMember member)
@@ -82,30 +86,35 @@ public class TurnController : MonoBehaviour
     {
         while(true)
         {
-            CombatEntity next = _combatPriority.Get();
+            if (_turnEntities.Count == 0)
+            {
+                DetermineCombatPriority();
+
+                if (_turnEntities.Find(x => x is Enemy) != null)
+                {
+                    OnEnemyMoveToggled?.Invoke(true);
+                    yield return new WaitForSeconds(2.0f);
+                    OnEnemyMoveToggled?.Invoke(false);
+                }
+            }
+
+            _activeCombatEntity = _combatPriority.Get();
             _waiting = true;
-            TimeManagement.Instance.ProgressManuallySeconds(next.GetCooldown(), FinishWaiting);
+            TimeManagement.Instance.ProgressManuallySeconds(_activeCombatEntity.GetCooldown(), FinishWaiting);
             while(_waiting)
                 yield return null;
 
-            next.ActivateTurn();
-            while(next.WaitForTurn() && next.IsAlive())
+            _activeCombatEntity.ActivateTurn();
+            while(_activeCombatEntity.WaitForTurn() && _activeCombatEntity.IsConcious())
             {
                 yield return null;
             }
-            Party.Instance.SetActiveMember(null);
 
-            if (_turnEntities.Contains(next))
-                _turnEntities.Remove(next);
-            _combatPriority.Add(next);
+            if (_turnEntities.Contains(_activeCombatEntity))
+                _turnEntities.Remove(_activeCombatEntity);
+            _combatPriority.Add(_activeCombatEntity);
 
-            if(_turnEntities.Count == 0)
-            {
-                OnEnemyMoveToggled?.Invoke(true);
-                yield return new WaitForSeconds(2.0f);
-                OnEnemyMoveToggled?.Invoke(false);
-                _turnEntities.AddRange(_combatPriority.Participants);
-            }
+            yield return null;
         }
     }
 }

@@ -23,18 +23,23 @@ public class PartyController : MonoBehaviour {
     public PartyEntity Entity { get; private set; }
 
     public ControlState ControlState => _controlState;
-    Party _party;
     ControlState _controlState;
     ControlState _previousControlState;
+
+
     List<Entity3D> _shortRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
+
     bool _isInteracting;
     bool _showingPopup;
     Entity3D _intendedTarget;
+    Party _party;
 
     public delegate void InputEvent();
     public InputEvent OnPressClick;
     public InputEvent OnReleaseClick;
+
+    public static event System.Action OnNearbyEnemiesChanged;
 
     public void NewParty(Party party)
     {
@@ -283,10 +288,12 @@ public class PartyController : MonoBehaviour {
         if(level == SphereLevel.Zero && !_shortRange.Contains(entity))
         {
             _shortRange.Add(entity);
+            OnNearbyEnemiesChanged?.Invoke();
         }
         else if (level == SphereLevel.Two && !_longRange.Contains(entity))
         {
             _longRange.Add(entity);
+            OnNearbyEnemiesChanged?.Invoke();
         }
     }
 
@@ -295,10 +302,12 @@ public class PartyController : MonoBehaviour {
         if (level == SphereLevel.Zero && _shortRange.Contains(entity))
         {
             _shortRange.Remove(entity);
+            OnNearbyEnemiesChanged?.Invoke();
         }
         else if (level == SphereLevel.Two && _longRange.Contains(entity))
         {
             _longRange.Remove(entity);
+            OnNearbyEnemiesChanged?.Invoke();
         }
     }
 
@@ -308,6 +317,8 @@ public class PartyController : MonoBehaviour {
             _shortRange.Remove(entity);
         if (_longRange.Contains(entity))
             _longRange.Remove(entity);
+
+        OnNearbyEnemiesChanged?.Invoke();
     }
 
     public void TryCast()
@@ -317,16 +328,13 @@ public class PartyController : MonoBehaviour {
 
     public void TryAttack()
     {
-        if (_party.ActiveMember == null)
-            return;
-
         if (_isInteracting)
             return;
 
-        StartCoroutine(AttackRoutine());
+        Attack();
     }
 
-    IEnumerator AttackRoutine()
+    void Attack()
     {
         PartyMember attacker = _party.GetAttacker();
 
@@ -386,11 +394,42 @@ public class PartyController : MonoBehaviour {
                 }
             }
 
-            yield return null;
             _isInteracting = false;
 
             Party.Instance.MemberUnready(attacker);
         }
+    }
+
+    public bool AreEnemiesInArea()
+    {
+        foreach (var ent in _longRange)
+        {
+            EnemyEntity enemy = ent as EnemyEntity;
+            if (enemy != null)
+            {
+                if (enemy.Enemy.IsHostile && enemy.Enemy.IsConcious())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public bool AreEnemiesInRange()
+    {
+        foreach (var ent in _shortRange)
+        {
+            EnemyEntity enemy = ent as EnemyEntity;
+            if (enemy != null)
+            {
+                if (enemy.Enemy.IsHostile && enemy.Enemy.IsConcious())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public List<Enemy> GetActiveEnemies()
@@ -398,15 +437,16 @@ public class PartyController : MonoBehaviour {
         List<Enemy> enemies = new List<Enemy>();
         foreach (Entity3D ent in _longRange)
         {
-            EnemyEntity enemy = ent as EnemyEntity;
-            if (enemy != null)
+            EnemyEntity entity = ent as EnemyEntity;
+            if (entity != null)
             {
-                if(enemy.Enemy.IsAlive())
-                    enemies.Add(enemy.Enemy);
+                if(entity.Enemy.IsConcious() && entity.Enemy.IsHostile)
+                    enemies.Add(entity.Enemy);
             }
         }
         return enemies;
     }
+
     Entity3D GetNearestTargetable(out bool shortRange)
     {
         Entity3D target;

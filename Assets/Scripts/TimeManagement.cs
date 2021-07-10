@@ -32,6 +32,8 @@ public class TimeManagement : MonoBehaviour
     float _manualDuration;
     bool _isComitting;
 
+    float _manualPace = 6 * 60 * 60;
+
     public void StartTiming(Party party)
     {
         _party = party;
@@ -55,7 +57,7 @@ public class TimeManagement : MonoBehaviour
             {
                 bool isFinished = false;
 
-                float tick = Time.deltaTime * 6 * 60 * 60;
+                float tick = Time.deltaTime * _manualPace;
                 if (_manualDuration - tick <= 0 || _isComitting)
                 {
                     tick = _manualDuration;
@@ -87,6 +89,7 @@ public class TimeManagement : MonoBehaviour
 
     public void ProgressManuallySeconds(float seconds, System.Action finishEvent = null)
     {
+        _manualPace = 2 * 30;
         if (seconds <= 0)
         {
             finishEvent?.Invoke();
@@ -99,7 +102,8 @@ public class TimeManagement : MonoBehaviour
 
     public void ProgressManually(float minutes, System.Action finishEvent = null)
     {
-        if(minutes <= 0)
+        _manualPace = 6 * 60 * 60;
+        if (minutes <= 0)
         {
             finishEvent?.Invoke();
             return;

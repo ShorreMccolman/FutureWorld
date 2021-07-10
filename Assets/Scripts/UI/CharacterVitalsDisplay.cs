@@ -35,11 +35,24 @@ public class CharacterVitalsDisplay : MonoBehaviour {
         UpdateExpression(member.Vitals.EffectiveExpression);
         UpdateStatus(member.Vitals.IsReady());
         IndicateSelection(Party.Instance.ActiveMember);
+
+        PartyController.OnNearbyEnemiesChanged += NearbyEnemiesChanged;
     }
 
     private void UpdateStatus(bool isReady, PartyMemberState state = PartyMemberState.Concious)
     {
-        ReadyIndicator.color = isReady ? Color.green : Color.grey;
+        Color color = Color.green;
+        if (PartyController.Instance.AreEnemiesInRange())
+            color = Color.red;
+        else if (PartyController.Instance.AreEnemiesInArea())
+            color = Color.yellow;
+
+        ReadyIndicator.color = isReady ? color : Color.grey;
+    }
+
+    private void NearbyEnemiesChanged()
+    {
+        UpdateStatus(Member.Vitals.IsReady(), Member.Vitals.Condition);
     }
 
     void UpdateSP(int sp, int max)

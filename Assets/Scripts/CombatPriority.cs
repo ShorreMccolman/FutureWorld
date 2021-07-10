@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class CombatPriority
 
     public void Add(CombatEntity member)
     {
-        if (!member.IsAlive())
+        if (!member.IsConcious())
             return;
 
         if (_queue.Contains(member))
@@ -46,9 +47,24 @@ public class CombatPriority
         return cooldown <= 0;
     }
 
+    public CombatEntity GetIfReady()
+    {
+        if (_queue.Count == 0)
+            return null;
+
+        CombatEntity member = _queue[0];
+        if (member.GetCooldown() <= 0)
+        {
+            _queue.Remove(member);
+            return member;
+        }
+
+        return null;
+    }
+
     public CombatEntity Get()
     {
-        if (!IsReady())
+        if (_queue.Count == 0)
             return null;
 
         CombatEntity member = _queue[0];
