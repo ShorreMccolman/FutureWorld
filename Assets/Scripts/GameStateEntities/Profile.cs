@@ -107,7 +107,7 @@ public class Profile : GameStateEntity {
     public Resistances Resistances => _resistances;
 
     string _quickSpell;
-    public string QuickSpell => string.IsNullOrEmpty(_quickSpell) ? "None" : _quickSpell;
+    public string QuickSpell => _quickSpell;
 
     public string FullName => CharacterName + " the " + Class.ToString();
 

@@ -224,6 +224,17 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
         return false;
     }
+
+    public bool TryCastQuickSpell()
+    {
+        return TryCast(Profile.QuickSpell);
+    }
+
+    public bool TryCast(string spell)
+    {
+        return false;
+    }
+
     public bool TryHit(Enemy enemy, out int damage)
     {
         bool hits = CombatHelper.ShouldHit(Vitals.Stats.EffectiveAttack, enemy.Data.ArmorClass);
@@ -237,6 +248,9 @@ public class PartyMember : GameStateEntity, CombatEntity {
         }
 
         damage = Status.ModifyFinalDamage(dmg);
+
+        if (damage <= 0)
+            hits = false;
 
         if (hits)
         {
@@ -256,18 +270,21 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
         Vitals.ApplyCooldown(Vitals.Stats.EffectiveRecovery);
         AwaitingTurn = false;
+        Party.Instance.MemberUnready(this);
         return hits;
     }
 
-    public bool TryShoot(EnemyEntity target, out Projectile projectile)
+    public bool TryShoot(Entity3D target, Vector3 origin, Vector3 direction, float moveSpeed)
     {
         bool result = false;
-        projectile = null;
 
         if(Equipment.HasRangedWeapon())
         {
-            projectile = ProjectileDatabase.Instance.GetProjectile("generic");
+            Projectile projectile = ProjectileDatabase.Instance.GetProjectile("generic");
             projectile.SetDamage(Profile.CharacterName, Vitals.Stats.EffectiveRangedAttack, Equipment.RollRangedDamage(Skillset));
+
+            projectile.Setup(direction, true);
+            DropController.Instance.SpawnProjectile(origin, Quaternion.LookRotation(direction), projectile, moveSpeed);
 
             Vitals.ApplyCooldown(Vitals.Stats.EffectiveRangedRecovery);
             Vitals.Express(GameConstants.EXPRESSION_UNSURE, GameConstants.EXPRESSION_UNSURE_DURATION);
@@ -279,6 +296,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
             SoundManager.Instance.PlayUISound("Swing");
         }
         AwaitingTurn = false;
+        Party.Instance.MemberUnready(this);
         return result;
     }
 

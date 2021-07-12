@@ -76,8 +76,7 @@ public class SpellsMenu : Menu
         }
         SchoolButtons[index].SetHighlight(true);
 
-        SchoolIcon.sprite = SchoolButtons[_selectedSchoolIndex].Icon.sprite;
-
+        SchoolIcon.sprite = SpriteHandler.FetchSprite("Spells", ((SpellSchool)_selectedSchoolIndex).ToString());
         for (int i = 0; i < SpellButtons.Length; i++)
         {
             if(_member.SpellLog.KnowsSpell((SpellSchool)index, i))

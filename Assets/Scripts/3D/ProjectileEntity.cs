@@ -45,12 +45,15 @@ public class ProjectileEntity : Entity3D
                     float chanceOfReduction = 1 - 30 / (30 + enemy.Enemy.Data.Resistances.Physical);
                     damage = CombatHelper.ReduceDamage(damage, chanceOfReduction);
 
-                    string msg = Projectile.Sender + " shoots " + enemy.Enemy.Data.DisplayName + " for " + damage + " damage.";
-                    if (enemy.Enemy.CurrentHP - damage <= 0)
-                        msg = Projectile.Sender + " inflicts " + damage + " damage killing " + enemy.Enemy.Data.DisplayName + ".";
+                    if (damage > 0)
+                    {
+                        string msg = Projectile.Sender + " shoots " + enemy.Enemy.Data.DisplayName + " for " + damage + " damage.";
+                        if (enemy.Enemy.CurrentHP - damage <= 0)
+                            msg = Projectile.Sender + " inflicts " + damage + " damage killing " + enemy.Enemy.Data.DisplayName + ".";
 
-                    InfoMessageReceiver.Send(msg, 2.0f);
-                    enemy.Enemy.OnHit(damage);
+                        InfoMessageReceiver.Send(msg, 2.0f);
+                        enemy.Enemy.OnHit(damage);
+                    }
                 }
 
                 _lifetime = 1.0f;

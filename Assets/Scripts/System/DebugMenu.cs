@@ -70,7 +70,7 @@ public class DebugMenu : MonoBehaviour
             item = ItemDatabase.Instance.GetInventoryItem(input);
         }
         item.TryIdentify(100000);
-        DropController.Instance.DropItem(item, PartyController.Instance.Entity.DropPosition);
+        DropController.Instance.DropItem(item, Party.Instance.DropPosition);
     }
 
     public void AddGold()

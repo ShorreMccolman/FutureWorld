@@ -56,7 +56,7 @@ public class ProfileMenu : CharacterMenu
         Armorclass.text = Label(member.Vitals.Stats.EffectiveArmorClass, member.Vitals.Stats.ArmorClass);
 
         Condition.text = member.EffectiveStatusCondition();
-        QuickSpell.text = member.Profile.QuickSpell;
+        QuickSpell.text = SpellDatabase.Instance.GetSpellName(member.Profile.QuickSpell);
 
         Age.text = Label(member.Profile.Age);
         Level.text = Label(member.Profile.Level);

@@ -323,7 +323,21 @@ public class PartyController : MonoBehaviour {
 
     public void TryCast()
     {
+        if (_isInteracting)
+            return;
 
+        PartyMember attacker = _party.GetAttacker();
+
+        if (attacker != null)
+        {
+            if(string.IsNullOrEmpty(attacker.Profile.QuickSpell))
+            {
+                TryAttack();
+                return;
+            }
+
+            //attacker.CastQuickSpell();
+        }
     }
 
     public void TryAttack()
@@ -331,24 +345,17 @@ public class PartyController : MonoBehaviour {
         if (_isInteracting)
             return;
 
-        Attack();
-    }
-
-    void Attack()
-    {
         PartyMember attacker = _party.GetAttacker();
 
         if (attacker != null)
         {
-            _isInteracting = true;
-
             bool shortRange;
             Entity3D target = GetNearestTargetable(out shortRange);
             if (target != null)
             {
                 Enemy enemy = target.State as Enemy;
 
-                if(shortRange)
+                if (shortRange)
                 {
                     int damage;
                     bool hit = attacker.TryHit(enemy, out damage);
@@ -360,6 +367,7 @@ public class PartyController : MonoBehaviour {
                         RaycastHit rayhit;
                         if (Physics.Raycast(ray, out rayhit))
                         {
+                            // TODO create some kind of pooling system
                             GameObject part = Instantiate(BloodParticle, rayhit.point, Quaternion.LookRotation(-dir));
                         }
 
@@ -368,35 +376,15 @@ public class PartyController : MonoBehaviour {
                 }
                 else
                 {
-                    Projectile projectile;
-                    _isInteracting = true;
-                    attacker.TryShoot(target as EnemyEntity, out projectile);
-
-                    if(projectile != null)
-                    {
-                        Vector3 lookdir = (target.transform.position + Vector3.up - Entity.transform.position).normalized;
-                        projectile.Setup(lookdir, true);
-                        DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
-                    }
+                    Vector3 lookdir = (target.transform.position + Vector3.up - Entity.transform.position).normalized;
+                    attacker.TryShoot(target, Entity.transform.position, lookdir, Entity.MoveSpeed);
                 }
 
             }
             else
             {
-                Projectile projectile;
-                _isInteracting = true;
-                attacker.TryShoot(null, out projectile);
-
-                if (projectile != null)
-                {
-                    projectile.Setup(Entity.transform.forward.normalized, true);
-                    DropController.Instance.SpawnProjectile(Entity.transform.position, Entity.transform.rotation, projectile, Entity.MoveSpeed);
-                }
+                attacker.TryShoot(target, Entity.transform.position, Entity.transform.forward.normalized, Entity.MoveSpeed);
             }
-
-            _isInteracting = false;
-
-            Party.Instance.MemberUnready(attacker);
         }
     }
 

@@ -115,12 +115,11 @@ public class Party : GameStateEntity
         return element;
     }
 
-    public Transform DropPosition
+    public Vector3 DropPosition
     {
         get
         {
-            PartyEntity pe = Entity as PartyEntity;
-            return pe.DropPosition;
+            return Entity.transform.position + Entity.transform.forward * 3f;
         }
     }
 

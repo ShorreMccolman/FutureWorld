@@ -12,9 +12,6 @@ public class PartyEntity : Entity3D
 {
     public Party Party => State as Party;
 
-    [SerializeField] Transform _dropPosition;
-    public Transform DropPosition => _dropPosition;
-
     [SerializeField] Camera _camera;
     public Camera Camera => _camera;
 

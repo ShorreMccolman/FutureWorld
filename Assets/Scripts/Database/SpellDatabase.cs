@@ -59,6 +59,19 @@ public class SpellDatabase
         }
     }
 
+    public string GetSpellName(string ID)
+    {
+        foreach (var dict in _spellDict.Values)
+        {
+            if (dict.ContainsKey(ID))
+            {
+                return dict[ID].DisplayName;
+            }
+        }
+
+        return "None";
+    }
+
     public SpellData GetSpell(string ID)
     {
         foreach(var dict in _spellDict.Values)

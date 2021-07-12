@@ -16,8 +16,10 @@ public static class CombatHelper
         for(int i=0;i<4;i++)
         {
             float rand = Random.Range(0f, 1f);
-            if (rand < chanceOfReduction)
-                damage /= 2;
+            if (rand <= chanceOfReduction)
+            {
+                damage = Mathf.CeilToInt( damage * 0.5f);
+            }
             else
                 break;
         }

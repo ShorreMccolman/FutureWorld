@@ -18,12 +18,12 @@ MonoBehaviour:
     Number: 0
     DisplayName: Wizard's Eye
     School: 1
-    Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Icon: {fileID: 21300000, guid: e8f93c6f936bcaf42b72f6b1c8c52d0d, type: 3}
   - ID: static_charge
     Number: 1
     DisplayName: Static Charge
     School: 1
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: cb8bfc79ef73ace4c8b05f8d8db46c27, type: 3}
   - ID: protect_elec
     Number: 2
     DisplayName: Protection from Electricity
