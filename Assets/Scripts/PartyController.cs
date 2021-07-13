@@ -336,7 +336,12 @@ public class PartyController : MonoBehaviour {
                 return;
             }
 
-            //attacker.CastQuickSpell();
+            bool success = attacker.TryCastQuickSpell();
+            if(!success)
+            {
+                TryAttack();
+                return;
+            }
         }
     }
 

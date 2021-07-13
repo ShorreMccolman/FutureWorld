@@ -232,6 +232,8 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public bool TryCast(string spell)
     {
+        SpellData data = SpellDatabase.Instance.GetSpell(spell);
+
         return false;
     }
 
