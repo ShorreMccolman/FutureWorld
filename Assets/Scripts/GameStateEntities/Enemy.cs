@@ -131,7 +131,10 @@ public class Enemy : GameStateEntity, CombatEntity
 
     public void DoAttack()
     {
-        Party.Instance.EnemyAttack(Data);
+        List<PartyMember> validTargets = Party.Instance.Members.FindAll(x => x.Vitals.Condition == PartyMemberState.Concious);
+        PartyMember member = validTargets[Random.Range(0, validTargets.Count)];
+        if(member != null)
+            member.OnEnemyAttack(Data);
         Cooldown = Data.CombatData.Recovery;
         AwaitingTurn = false;
     }

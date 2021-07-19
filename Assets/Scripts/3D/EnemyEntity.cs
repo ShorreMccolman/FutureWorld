@@ -15,6 +15,8 @@ public enum Range
 
 public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
 {
+    [SerializeField] MapIcon MapIcon;
+
     public Enemy Enemy => State as Enemy;
 
     protected bool _isAlive;
@@ -75,6 +77,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         _rotateSpeed = 6f;
         _isAttackReady = enemy.Cooldown <= 0;
         _origin = transform.position;
+        MapIcon.gameObject.SetActive(false);
 
         MouseoverName = enemy.Data.DisplayName;
         IsTargetable = true;
@@ -84,6 +87,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         Enemy.OnEnemyReady += EnemyReady;
         TurnController.OnTurnBasedToggled += ToggleTB;
         TurnController.OnEnemyMoveToggled += ToggleCanMove;
+        Party.OnWizardEyeChanged += ToggleWizardEye;
     }
 
     void SetupBehaviour()
@@ -173,6 +177,11 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
     {
         _turnBased = enable;
         _canMove = !enable;
+    }
+
+    protected void ToggleWizardEye(bool enabled, SkillProficiency proficiency)
+    {
+        MapIcon.gameObject.SetActive(enabled);
     }
 
     void ToggleCanMove(bool enable)

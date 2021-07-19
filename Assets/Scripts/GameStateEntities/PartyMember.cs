@@ -186,7 +186,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
                     Vitals.GainHealthPoints(consumable.Potency);
                     return true;
                 case ConsumeEffect.RestoreMP:
-                    Vitals.GainSpellPoints(consumable.Potency);
+                    Vitals.AdjustSpellPoints(consumable.Potency);
                     return true;
                 case ConsumeEffect.BoostAC:
                     Status.AddCondition(StatusEffectOption.BoostedAC, 60.0f);
@@ -227,14 +227,25 @@ public class PartyMember : GameStateEntity, CombatEntity {
 
     public bool TryCastQuickSpell()
     {
-        return TryCast(Profile.QuickSpell);
+        SpellData data = SpellDatabase.Instance.GetSpell(Profile.QuickSpell);
+        return TryCast(data);
     }
 
-    public bool TryCast(string spell)
+    public bool TryCast(SpellData data)
     {
-        SpellData data = SpellDatabase.Instance.GetSpell(spell);
+        if (data == null)
+            return false;
 
-        return false;
+        InventorySkill skill = Skillset.GetSkillByID(data.School.ToString());
+        int cost = data.Behaviour.AdjustCost(data.SPCost, skill);
+
+        if (data == null || Vitals.CurrentSP < cost)
+            return false;
+
+        data.Behaviour.Cast(skill);
+        Vitals.AdjustSpellPoints(-cost);
+        Vitals.ApplyCooldown(Vitals.Stats.EffectiveRecovery);
+        return true;
     }
 
     public bool TryHit(Enemy enemy, out int damage)

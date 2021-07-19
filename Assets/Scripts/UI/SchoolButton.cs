@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SchoolButton : MonoBehaviour
+public class SchoolButton : MonoBehaviour, IInfoMessenger
 {
+    [SerializeField] string InfoPopup;
     [SerializeField] Image Bg;
     public Image Icon;
 
@@ -28,5 +29,10 @@ public class SchoolButton : MonoBehaviour
     public void SetHighlight(bool isHighlighted)
     {
         Bg.color = isHighlighted ? new Color(190, 181, 121) : Color.grey;
+    }
+
+    public string GetInfoMessage()
+    {
+        return InfoPopup;
     }
 }

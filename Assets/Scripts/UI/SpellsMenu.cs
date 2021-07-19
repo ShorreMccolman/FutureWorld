@@ -12,7 +12,7 @@ public class SpellsMenu : Menu
 
     PartyMember _member;
     int _selectedSchoolIndex;
-    int _selectedSpellIndex;
+    SpellData _selectedSpell;
 
     protected override void Init()
     {
@@ -24,9 +24,9 @@ public class SpellsMenu : Menu
     public void Setup(PartyMember member)
     {
         MenuManager.Instance.SwapMenu(MenuTag, true, false);
+        Party.Instance.SetMemberLock(true);
 
         _member = member;
-        _selectedSpellIndex = -1;
         _selectedSchoolIndex = -1;
 
         foreach (var button in SchoolButtons)
@@ -52,9 +52,7 @@ public class SpellsMenu : Menu
 
     public void SetQuickSpell()
     {
-        if (_selectedSpellIndex == -1)
-            return;
-
+        Party.Instance.ActiveMember.Profile.SetQuickSpell(_selectedSpell);
         CloseMenu();
     }
 
@@ -86,31 +84,32 @@ public class SpellsMenu : Menu
         }
     }
 
-    public void SelectSpellButton(int index)
+    public void SelectSpellButton(SpellButton button, SpellData data)
     {
-        if(_selectedSpellIndex == index)
+        if(_selectedSpell == data)
         {
             CloseMenu();
+            Party.Instance.ActiveMember.TryCast(data);
         }
         else
         {
-            if (_selectedSpellIndex >= 0)
-                SpellButtons[_selectedSpellIndex].SetHighlight(false);
-
-            _selectedSpellIndex = index;
-
-            SpellButtons[_selectedSpellIndex].SetHighlight(true);
+            _selectedSpell = data;
+            foreach (var b in SpellButtons)
+                b.SetHighlight(false);
+            button.SetHighlight(true);
         }
     }
 
     public void SelectSchoolButton(int index)
     {
-        _selectedSpellIndex = -1;
+        _selectedSpell = null;
         SetupSchool(index);
     }
 
     public override void OnClose()
     {
+        Party.Instance.SetMemberLock(false);
+
         foreach (var button in SpellButtons)
             button.gameObject.SetActive(false);
 

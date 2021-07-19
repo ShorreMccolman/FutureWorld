@@ -26,7 +26,6 @@ public class PartyController : MonoBehaviour {
     ControlState _controlState;
     ControlState _previousControlState;
 
-
     List<Entity3D> _shortRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
 

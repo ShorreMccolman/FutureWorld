@@ -16,21 +16,55 @@ MonoBehaviour:
   Spells:
   - ID: spirit_arrow
     Number: 0
+    SPCost: 1
     DisplayName: Spirit Arrow
+    Description: Fires an ectoplasmic bolt of negative spiritual energy at a single
+      target.  Spirit arrow can miss, but a higher skill in Spirit Magic increases
+      your chances of hitting.  The arrow causes 1-6 points of damage.
+    MasteryDescriptions:
+    - Moderate recovery
+    - Faster recovery
+    - Casting cost 0
     School: 4
-    Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Icon: {fileID: 21300000, guid: 4e65908d70134c7419d7fe7067318a36, type: 3}
+    Behaviour: {fileID: 0}
   - ID: bless
     Number: 1
+    SPCost: 2
     DisplayName: Bless
+    Description: "Blessed characters have an increased chance to hit monsters in
+      hand to hand combat and with missiles.  A character\u2019s bonus to hit is
+      increased by 5 + 1 per point of skill in Spirit Magic."
+    MasteryDescriptions:
+    - Duration 1 hour + 5 minutes per point of skill
+    - Spell affects entire party
+    - Duration 1 hour + 15 minutes per point of skill
     School: 4
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: 607c63ae1688c5647bd6733836f9306e, type: 3}
+    Behaviour: {fileID: 0}
   - ID: healing_touch
     Number: 2
+    SPCost: 3
     DisplayName: Healing Touch
+    Description: Cheaply heals a single character of 3-7 hit points.  Skill increases
+      the recovery rate of this spell.
+    MasteryDescriptions:
+    - Heals 3-7 points of damage
+    - Heals 5-9 points of damage
+    - Heals 7-11 points of damage
     School: 4
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: lucky_day
     Number: 3
+    SPCost: 4
     DisplayName: Lucky Day
+    Description: "Temporarily increases a single character\u2019s Luck statistic
+      by 10 points plus 2 per point of skill in Spirit Magic."
+    MasteryDescriptions:
+    - Increases luck by 10 points plus 2 per point of skill
+    - Increases luck by 10 points plus 3 per point of skill
+    - Spell affects entire party
     School: 4
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}

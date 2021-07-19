@@ -61,7 +61,7 @@ public class Interactable : GameStateEntity
                     InfoMessageReceiver.Send("+" + Data.Potency + " Hit points restored.", 2.0f);
                     break;
                 case InteractableEffect.RestoreMP:
-                    member.Vitals.GainSpellPoints(Data.Potency);
+                    member.Vitals.AdjustSpellPoints(Data.Potency);
                     InfoMessageReceiver.Send("+" + Data.Potency + " Spell points restored.", 2.0f);
                     break;
                 case InteractableEffect.StatusEffect:

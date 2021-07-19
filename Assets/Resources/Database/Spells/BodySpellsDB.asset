@@ -16,21 +16,56 @@ MonoBehaviour:
   Spells:
   - ID: cure_weakness
     Number: 0
+    SPCost: 1
     DisplayName: Cure Weakness
+    Description: "Cures the weak condition from a character if you cast this spell
+      in time.  The greater the skill and rank in Body Magic the longer the character
+      could have been weak before the \u201Cpoint of no return\u201D is reached. 
+      After that, the only way to cure the condition short of Divine Intervention
+      is to visit a temple."
+    MasteryDescriptions:
+    - Works if weak less than 3 minutes per point of skill
+    - Works if weak less than 1 hour per point of skill
+    - Works if weak less than 1 day per point of skill
     School: 6
-    Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Icon: {fileID: 21300000, guid: 3721d5b1ab477864e990c625dda7c93d, type: 3}
+    Behaviour: {fileID: 0}
   - ID: first_aid
     Number: 1
+    SPCost: 2
     DisplayName: First Aid
+    Description: Cures 5 hit points on a single target when cast.  Recovery is reduced
+      by an amount equal to the caster's skill in Body Magic.
+    MasteryDescriptions:
+    - Cures 5 hit points
+    - Cures 7 hit points
+    - Cures 10 hit points
     School: 6
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: 538380fda0342cc459cf986465d6596f, type: 3}
+    Behaviour: {fileID: 0}
   - ID: protect_poison
     Number: 2
+    SPCost: 3
     DisplayName: Protection from Poison
+    Description: "Increases all your characters\u2019 resistance to poison by an
+      amount equal to your skill in Body Magic."
+    MasteryDescriptions:
+    - 1 point resistance per point of skill
+    - 2 points resistance per point of skill
+    - 3 points resistance per point of skill
     School: 6
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: harm
     Number: 3
+    SPCost: 4
     DisplayName: Harm
+    Description: Directly inflicts magical damage upon a single creature.  Harm does
+      8 points of damage plus 1-2 per point of skill in Body Magic.
+    MasteryDescriptions:
+    - Moderate recovery rate
+    - Faster recovery rate
+    - Fastest recovery rate
     School: 6
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}

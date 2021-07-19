@@ -61,6 +61,7 @@ public class HUD : Menu {
                 break;
             }
             member.Vitals.OnVitalsChanged += UpdateCurrentMenu;
+            member.Profile.OnProfileChanged += UpdateCurrentMenu;
         }
 
         for (int i = 0; i < CharacterVitalsUI.Length; i++)

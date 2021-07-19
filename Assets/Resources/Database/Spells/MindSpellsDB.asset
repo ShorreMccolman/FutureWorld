@@ -16,21 +16,57 @@ MonoBehaviour:
   Spells:
   - ID: meditation
     Number: 0
+    SPCost: 1
     DisplayName: Meditation
+    Description: "Temporarily increases a single character\u2019s Intellect and Personality
+      statistics by 10 points plus 2 per point of skill in Mind Magic."
+    MasteryDescriptions:
+    - Increases Intellect and Personality by 10 points plus 2 per point of skill
+    - Increases Intellect and Personality by 10 points plus 3 per point of skill
+    - Spell affects entire party
     School: 5
     Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Behaviour: {fileID: 0}
   - ID: remove_fear
     Number: 1
+    SPCost: 2
     DisplayName: Remove Fear
+    Description: "Removes the afraid condition from a character if you cast this
+      spell in time.  The greater the skill and rank in Mind Magic the longer the
+      condition could have been present before the \u201Cpoint of no return\u201D
+      is reached.  After that, the only way to remove the condition short of Divine
+      Intervention is to visit a temple."
+    MasteryDescriptions:
+    - Works if afraid less than 3 minutes per point of skill
+    - Works if afraid less than 1 hour per point of skill
+    - Works if afraid less than 1 day per point of skill
     School: 5
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: mind_blast
     Number: 2
+    SPCost: 3
     DisplayName: Mind Blast
+    Description: "Fires a bolt of mental force damaging to a single targets\u2019
+      nervous system.  Mind Blast does 5 points of damage plus 1-2 per point of skill
+      in Mind Magic."
+    MasteryDescriptions:
+    - Moderate recovery rate
+    - Faster recovery rate
+    - Fastest recovery rate
     School: 5
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: precision
     Number: 3
+    SPCost: 4
     DisplayName: Precision
+    Description: "Temporarily increases a single character\u2019s Accuracy statistic
+      by 10 points plus 2 per point of skill in Mind Magic."
+    MasteryDescriptions:
+    - Increases Accuracy by 10 points plus 2 per point of skill
+    - Increases Accuracy by 10 points plus 3 per point of skill
+    - Spell affects entire party
     School: 5
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}

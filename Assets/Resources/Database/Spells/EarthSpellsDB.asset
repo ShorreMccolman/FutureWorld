@@ -16,21 +16,60 @@ MonoBehaviour:
   Spells:
   - ID: stun
     Number: 0
+    SPCost: 1
     DisplayName: Stun
+    Description: Slaps a monster with magical force, forcing it to recover from the
+      stun spell before it can do anything else.  Stun also knocks monsters back
+      a little, giving you a chance to get away while the getting is good.  The greater
+      your skill in Earth Magic, the greater the effect of the spell.
+    MasteryDescriptions:
+    - Normal effect
+    - Stronger effect
+    - Strongest effect
     School: 3
     Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Behaviour: {fileID: 0}
   - ID: magic_arrow
     Number: 1
+    SPCost: 2
     DisplayName: Magic Arrow
+    Description: Creates and fires a single magical arrow.  Unlike most spells, this
+      spell is inaccurate and has the same chance of hitting as a regular arrow (using
+      your Earth Magic skill as a bonus to hit).  Also unlike most spells, Magic
+      Arrow is free to cast when you become a Master of Earth.  The arrow does 3-8
+      points of damage.
+    MasteryDescriptions:
+    - Casting cost 2 spell points
+    - Casting cost 1spell point.  Quicker recovery rate
+    - Casting cost 0 spell points.  Quickest recovery rate
     School: 3
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: protect_magic
     Number: 2
+    SPCost: 3
     DisplayName: Protection from Magic
+    Description: "Increases all your characters\u2019 resistance to magic by an amount
+      equal to your skill in Earth Magic."
+    MasteryDescriptions:
+    - 1 point resistance per point of skill
+    - 2 points resistance per point of skill
+    - 3 points resistance per point of skill
     School: 3
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: deadly_swarm
     Number: 3
+    SPCost: 4
     DisplayName: Deadly Swarm
+    Description: Summons a swarm of biting, stinging insects to bedevil a single
+      target.  The swarm only does 5 points of damage plus 1-3 per point of skill
+      in Earth Magic, but it never misses and the damage is physical, making resistance
+      to this spell unlikely.
+    MasteryDescriptions:
+    - Moderate recovery rate
+    - Faster recovery rate
+    - Fastest recovery rate
     School: 3
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}

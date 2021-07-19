@@ -257,7 +257,7 @@ public class Vitals : GameStateEntity
         UpdateHP(CurrentHP + amount);
     }
 
-    public void GainSpellPoints(int amount)
+    public void AdjustSpellPoints(int amount)
     {
         UpdateSP(CurrentSP + amount);
     }

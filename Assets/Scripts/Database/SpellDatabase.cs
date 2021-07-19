@@ -24,9 +24,14 @@ public class SpellData
 {
     public string ID;
     public int Number;
+    public int SPCost;
     public string DisplayName;
+    [TextArea(minLines: 2, maxLines: 15)]
+    public string Description;
+    public string[] MasteryDescriptions;
     public SpellSchool School;
     public Sprite Icon;
+    public SpellBehaviour Behaviour;
 }
 
 public class SpellDatabase
@@ -74,6 +79,9 @@ public class SpellDatabase
 
     public SpellData GetSpell(string ID)
     {
+        if (string.IsNullOrEmpty(ID))
+            return null;
+
         foreach(var dict in _spellDict.Values)
         {
             if (dict.ContainsKey(ID))

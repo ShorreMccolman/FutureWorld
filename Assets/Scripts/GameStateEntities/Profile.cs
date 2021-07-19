@@ -132,6 +132,7 @@ public class Profile : GameStateEntity {
     Skillset _skillset;
 
     public event System.Action OnStatsChanged;
+    public event System.Action OnProfileChanged;
 
     public Profile(GameStateEntity parent, Status status, Equipment equipment, Skillset skillset, CharacterData data) : base(parent)
     {
@@ -267,11 +268,13 @@ public class Profile : GameStateEntity {
     {
         Level++;
         SkillPoints += GameConstants.SKILL_POINTS_PER_LEVEL;
+        OnProfileChanged?.Invoke();
     }
 
     public void AddSkillPoints(int amount)
     {
         SkillPoints += amount;
+        OnProfileChanged?.Invoke();
     }
 
     public void AddStatPoints(CharacterStat stat, int amount)
@@ -283,6 +286,7 @@ public class Profile : GameStateEntity {
     public void EarnXP(int value)
     {
         Experience += value;
+        OnProfileChanged?.Invoke();
     }
 
     public bool CanUpgradeSkill(InventorySkill skill, out int difference)
@@ -300,5 +304,15 @@ public class Profile : GameStateEntity {
         skill.Upgrade();
         SkillPoints -= skill.Level;
         return true;
+    }
+
+    public void SetQuickSpell(SpellData spell)
+    {
+        if (spell == null)
+            _quickSpell = "";
+        else
+            _quickSpell = spell.ID;
+
+        OnProfileChanged?.Invoke();
     }
 }

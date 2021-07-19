@@ -16,21 +16,58 @@ MonoBehaviour:
   Spells:
   - ID: torch_light
     Number: 0
+    SPCost: 1
     DisplayName: Torch Light
+    Description: Torch light increases the radius of light surrounding your party
+      in the dark.
+    MasteryDescriptions:
+    - Duration 1 hour per point of skill
+    - Brighter light
+    - Brightest light
     School: 0
     Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Behaviour: {fileID: 0}
   - ID: fire_arrow
     Number: 1
+    SPCost: 2
     DisplayName: Fire Arrow
+    Description: Creates and fires a single flaming arrow.  Unlike most spells, this
+      spell is notoriously inaccurate and has the same chance of hitting as a regular
+      arrow (using your Fire skill as a bonus to hit).  The arrow does 1-8 points
+      of damage when it hits.
+    MasteryDescriptions:
+    - Casting cost 2 spell points
+    - Casting cost 1spell point.  Quicker recovery rate
+    - Casting cost 0 spell points.  Quickest recovery rate
     School: 0
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: protect_fire
     Number: 2
+    SPCost: 3
     DisplayName: Protection from Fire
+    Description: "Increases all your characters\u2019 resistance to fire by an amount
+      equal to your skill in Fire Magic and lasts one hour per point of skill in
+      Fire Magic."
+    MasteryDescriptions:
+    - 1 point resistance per point of skill
+    - 2 points resistance per point of skill
+    - 3 points resistance per point of skill
     School: 0
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: 2b52138bf53663b42962bda6559dca81, type: 3}
+    Behaviour: {fileID: 0}
   - ID: fire_bolt
     Number: 3
+    SPCost: 4
     DisplayName: Fire Bolt
+    Description: "Launches a burst of fire at a single target.  Damage is 1-4 points
+      of damage per point of skill in Fire Magic, but casting cost is low.  Firebolt
+      is safe and effective\u2014the \u201COld Reliable\u201D of the Sorcerer\u2019s
+      arsenal."
+    MasteryDescriptions:
+    - Moderate recovery rate
+    - Faster recovery rate
+    - Fastest recovery rate
     School: 0
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}

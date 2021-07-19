@@ -34,12 +34,19 @@ public class Party : GameStateEntity
     List<string> _visitedLocations;
     List<string> _monthlyKills;
     CombatPriority _priorityQueue;
-    public CombatPriority Priority => _priorityQueue;
+
+    bool _memberLock;
+
+    float _wizDuration;
+    float _torchDuration;
+    float _wWalkDuration;
+    float _flyDuration;
 
     public static event System.Action<PartyMember> OnMemberChanged;
     public static event System.Action<int, int> OnFundsChanged;
     public static event System.Action<int> OnFoodChanged;
     public static event System.Action<List<NPC>> OnHiresChanged;
+    public static event System.Action<bool, SkillProficiency> OnWizardEyeChanged;
 
     public Party(CharacterData[] characterData) : base(null)
     {
@@ -91,7 +98,7 @@ public class Party : GameStateEntity
 
         EnemyEntity.OnEnemyDeath += EnemyDeath;
         EnemyEntity.OnEnemyPickup += PickupEnemy;
-        Vitals.OnMemberKnockout += MemberUnready;
+        Vitals.OnMemberKnockout += MemberKnockout;
         Vitals.OnMemberReady += MemberReady;
         TimeManagement.OnTick += Tick;
         TurnController.OnTurnBasedToggled += TBToggled;
@@ -152,6 +159,19 @@ public class Party : GameStateEntity
                     _priorityQueue.Add(member);
             }
         }
+    }
+
+    public void MemberKnockout(PartyMember member)
+    {
+        bool alive = false;
+        foreach (var m in Members)
+            if (m.IsConcious())
+                alive = true;
+
+        if(alive)
+            MemberUnready(member);
+        else
+            GameController.Instance.TriggerDeath();
     }
 
     public void MemberUnready(PartyMember member)
@@ -217,8 +237,16 @@ public class Party : GameStateEntity
         }
     }
 
+    public void SetMemberLock(bool enable)
+    {
+        _memberLock = enable;
+    }
+
     public void SetActiveMember(PartyMember member)
     {
+        if (_memberLock)
+            return;
+
         ActiveMember = member;
         OnMemberChanged?.Invoke(member);
     }
@@ -525,28 +553,20 @@ public class Party : GameStateEntity
         return success;
     }
 
-    public bool IsDead()
+    public void WizardsEye(float duration, SkillProficiency proficiency)
     {
-        foreach(var member in Members)
-        {
-            if (member.Vitals.Condition == PartyMemberState.Concious)
-                return false;
-        }
-
-        return true;
+        _wizDuration = duration;
+        TimeManagement.OnTick += TickEye;
+        OnWizardEyeChanged?.Invoke(true, proficiency);
     }
 
-    public bool EnemyAttack(EnemyData data)
+    void TickEye(float tick)
     {
-        List<PartyMember> validTargets = Members.FindAll(x => x.Vitals.Condition == PartyMemberState.Concious);
-        PartyMember member = validTargets[Random.Range(0, validTargets.Count)];
-        bool success = member.OnEnemyAttack(data);
-
-        if (success)
+        _wizDuration -= tick;
+        if(_wizDuration <= 0)
         {
-            if (IsDead())
-                GameController.Instance.TriggerDeath();
+            OnWizardEyeChanged?.Invoke(false, SkillProficiency.Novice);
+            TimeManagement.OnTick -= TickEye;
         }
-        return success;
     }
 }

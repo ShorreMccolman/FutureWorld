@@ -12,6 +12,7 @@ public class Popups : MonoBehaviour
     [SerializeField] GenericInfoPopup Generic;
     [SerializeField] EnemyInfoPopup Enemies;
     [SerializeField] ScrollPopup Scrolls;
+    [SerializeField] SpellInfoPopup Spells;
 
     bool _supressed;
 
@@ -56,6 +57,15 @@ public class Popups : MonoBehaviour
         }
     }
 
+    public static void ShowSpell(SpellData spell)
+    {
+        if (!Instance._supressed)
+        {
+            Instance.Spells.gameObject.SetActive(true);
+            Instance.Spells.UpdateUI(spell);
+        }
+    }
+
     public static void ShowItem(InventoryItem item)
     {
         if (!Instance._supressed)
@@ -89,5 +99,7 @@ public class Popups : MonoBehaviour
         Instance.Vitals.gameObject.SetActive(false);
         Instance.Generic.gameObject.SetActive(false);
         Instance.Enemies.gameObject.SetActive(false);
+        Instance.Scrolls.gameObject.SetActive(false);
+        Instance.Spells.gameObject.SetActive(false);
     }
 }

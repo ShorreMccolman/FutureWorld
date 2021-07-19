@@ -16,21 +16,59 @@ MonoBehaviour:
   Spells:
   - ID: awakening
     Number: 0
+    SPCost: 1
     DisplayName: Awakening
+    Description: Automatically awakens all of your characters from a normal sleep
+      and will awaken them from a magical sleep if they haven't had the sleep condition
+      for too long.  The greater your skill in Water Magic, the longer the sleep
+      condition could have been present before this spell becomes ineffective.
+    MasteryDescriptions:
+    - "Works if asleep less than 3 minutes per point of skill\t"
+    - Works if asleep less than 1 hour per point of skill
+    - Works if asleep less than 1 day per point of skill
     School: 2
-    Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Icon: {fileID: 21300000, guid: 5df08f2ec09e7f8439ae75c420ec1ad9, type: 3}
+    Behaviour: {fileID: 0}
   - ID: cold_beam
     Number: 1
+    SPCost: 2
     DisplayName: Cold Beam
+    Description: Targets a single monster with a field of extreme cold for an instant. 
+      It only does 2-6 points of damage, but it always hits.  The more skill you
+      have in Water Magic, the faster you will recover from casting Cold Beam.  Masters
+      of Water can cast this spell without cost.
+    MasteryDescriptions:
+    - Casting cost 2 spell points
+    - Casting cost 1 spell point.  Quicker recovery rate
+    - Casting cost 0 spell points.  Quickest recovery rate
     School: 2
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: a2791a2ee333ac940bc1f4149e9e5e3c, type: 3}
+    Behaviour: {fileID: 0}
   - ID: protect_cold
     Number: 2
+    SPCost: 3
     DisplayName: Protection from Cold
+    Description: "Increases all your characters\u2019 resistance to Cold by an amount
+      equal to your skill in Water Magic.  This spell lasts for one hour per point
+      of skill in Water Magic."
+    MasteryDescriptions:
+    - 1 point resistance per point of skill
+    - 2 points resistance per point of skill
+    - 3 points resistance per point of skill
     School: 2
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
   - ID: poison_spray
     Number: 3
+    SPCost: 4
     DisplayName: Poison Spray
+    Description: Sprays poison at monsters directly in front of your characters. 
+      Damage is low, but few monsters have resistance to poison, so it usually works. 
+      Each shot does 2 points of damage plus 1-2 per point of skill in Water Magic.
+    MasteryDescriptions:
+    - Moderate recovery rate and 1 shot
+    - Faster recovery rate and 3 shots
+    - Fastest recovery rate and 5 shots
     School: 2
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Behaviour: {fileID: 0}
