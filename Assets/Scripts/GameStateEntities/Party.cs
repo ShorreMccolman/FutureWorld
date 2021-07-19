@@ -553,6 +553,16 @@ public class Party : GameStateEntity
         return success;
     }
 
+    public Dictionary<string, float> GetPartySpells()
+    {
+        Dictionary<string, float> spells = new Dictionary<string, float>();
+        if(_wizDuration > 0)
+        {
+            spells.Add("Wizard Eye", _wizDuration);
+        }
+        return spells;
+    }
+
     public void WizardsEye(float duration, SkillProficiency proficiency)
     {
         _wizDuration = duration;

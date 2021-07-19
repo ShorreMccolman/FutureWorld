@@ -33,6 +33,7 @@ public class PartyController : MonoBehaviour {
     bool _showingPopup;
     Entity3D _intendedTarget;
     Party _party;
+    IPopable _currentPop;
 
     public delegate void InputEvent();
     public InputEvent OnPressClick;
@@ -233,8 +234,12 @@ public class PartyController : MonoBehaviour {
 
         if (popable != null)
         {
-            popable.ShowPopup();
-            _showingPopup = true;
+            if (popable != _currentPop)
+            {
+                popable.ShowPopup();
+                _showingPopup = true;
+                _currentPop = popable;
+            }
         }
         else
         {
@@ -242,6 +247,7 @@ public class PartyController : MonoBehaviour {
             {
                 Popups.Close();
                 _showingPopup = false;
+                _currentPop = null;
             }
         }
     }
