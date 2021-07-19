@@ -78453,20 +78453,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5130570142448842863, guid: e772fbcfb66710d47b74f010be7e33d1,
-        type: 3}
-      propertyPath: m_Name
-      value: MapIcon
-      objectReference: {fileID: 0}
-    - target: {fileID: 7376492998890519941, guid: e772fbcfb66710d47b74f010be7e33d1,
-        type: 3}
-      propertyPath: m_HDR
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7376492998890519941, guid: e772fbcfb66710d47b74f010be7e33d1,
-        type: 3}
-      propertyPath: m_AllowMSAA
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e772fbcfb66710d47b74f010be7e33d1, type: 3}

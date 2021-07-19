@@ -42,7 +42,9 @@ MonoBehaviour:
     BaseDamage: 0
   - ID: spear_2
     DisplayName: Stout Spear
-    Description: Stouts
+    Description: This spear has a reinforced steel tip to help it penetrate tough
+      armor and hides. Like all spears, it can be used in one or both hands (+1D9
+      if used two-handed).
     Chances:
       L1: 5
       L2: 5
@@ -67,7 +69,9 @@ MonoBehaviour:
     BaseDamage: 2
   - ID: halberd_1
     DisplayName: Halberd
-    Description: Stouts
+    Description: Combination poleax and spear, the halberd can inflict terrible wounds,
+      but recovers slowly from swings. This one is of average quality and workmanship
+      (+1D6 if used two-handed).
     Chances:
       L1: 0
       L2: 5
@@ -92,7 +96,10 @@ MonoBehaviour:
     BaseDamage: 0
   - ID: trident_1
     DisplayName: Trident
-    Description: Stouts
+    Description: Common war tridents, like this one, are good quality weapons issued
+      by the Imperial Regnan Navy to facilitate the collection of Imperial tariffs
+      on the high seas. Most merchants and other governments refer to this activity
+      as piracy (+1D6 if used two-handed).
     Chances:
       L1: 5
       L2: 10

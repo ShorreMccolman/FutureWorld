@@ -43,7 +43,8 @@ MonoBehaviour:
     BaseDamage: 0
   - ID: club_2
     DisplayName: Spiked Club
-    Description: in the club
+    Description: An improvement over the simple club, this spiked club will inflict
+      nastier wounds.
     Chances:
       L1: 5
       L2: 5

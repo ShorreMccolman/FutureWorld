@@ -245,7 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f0781fff137eb4883e3fa0388b2c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dropPosition: {fileID: 0}
   _camera: {fileID: 20761827927461848}
   MapCam: {fileID: 7376492998890519941}
   _mouseLook:
@@ -540,7 +539,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 887
   m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -716,17 +715,17 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 40
+  orthographic size: 50
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294965183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -844,7 +843,7 @@ GameObject:
   - component: {fileID: 3402740104098217829}
   - component: {fileID: 4846681736507746139}
   m_Layer: 10
-  m_Name: New Sprite
+  m_Name: MapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

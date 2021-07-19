@@ -59,6 +59,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
     {
         State = enemy;
         GameObject obj = Instantiate(enemy.Data.Model, transform);
+        CullingObjects.Add(obj);
 
         _controller = GetComponent<CharacterController>();
         _dropCollider = GetComponent<SphereCollider>();
@@ -69,10 +70,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
 
         _range = Range.Out;
         _isAlive = true;
-        for(int i=0;i<transform.childCount;i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(false);
-        }
+        obj.SetActive(false);
 
         _rotateSpeed = 6f;
         _isAttackReady = enemy.Cooldown <= 0;
@@ -179,7 +177,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         _canMove = !enable;
     }
 
-    protected void ToggleWizardEye(bool enabled, SkillProficiency proficiency)
+    void ToggleWizardEye(bool enabled, SkillProficiency proficiency)
     {
         MapIcon.gameObject.SetActive(enabled);
     }

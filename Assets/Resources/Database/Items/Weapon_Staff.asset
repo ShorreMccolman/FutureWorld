@@ -42,7 +42,10 @@ MonoBehaviour:
     BaseDamage: 0
   - ID: staff_2
     DisplayName: Emerald Staff
-    Description: Even more staff
+    Description: Magically light and hard, this staff is made of a rare wood stripped
+      from the Elves during the Timber War in 600 A.S. The emerald at the end of
+      it is real, and probably serves as a magical reservoir from which the staff
+      draws its strength.
     Chances:
       L1: 0
       L2: 5

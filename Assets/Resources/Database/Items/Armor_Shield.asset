@@ -16,7 +16,7 @@ MonoBehaviour:
   Items:
   - ID: shield_small_1
     DisplayName: Wooden Shield
-    Description: Wooden shield for who knows what
+    Description: A small wooden shield designed to protect mostly against arrows.
     Chances:
       L1: 15
       L2: 15
@@ -30,14 +30,16 @@ MonoBehaviour:
     Height: 2
     startWithSkill: Shield
     sprite: {fileID: 21300000, guid: 6ffabcc86f8be53459a1e2d38b8b7c02, type: 3}
+    equipSprite: {fileID: 0}
     model: {fileID: 100000, guid: efa0b4412a459fb42a985ec158044170, type: 3}
-    Pivot: 0
+    EquipOffset: {x: 0, y: 0, z: 0}
     EquipSlot: 9
     Type: 4
     AC: 4
   - ID: shield_small_2
     DisplayName: Bronze Shield
-    Description: Bronze shield for who knows what
+    Description: Bronze shields are lighter than iron shields of the same size, but
+      aren't nearly as strong.
     Chances:
       L1: 5
       L2: 10
@@ -51,14 +53,16 @@ MonoBehaviour:
     Height: 2
     startWithSkill: 
     sprite: {fileID: 21300000, guid: f66dd8bf3864a6146a7b4562a2bb6e0d, type: 3}
+    equipSprite: {fileID: 0}
     model: {fileID: 100000, guid: efa0b4412a459fb42a985ec158044170, type: 3}
-    Pivot: 0
+    EquipOffset: {x: 0, y: 0, z: 0}
     EquipSlot: 9
     Type: 4
     AC: 8
   - ID: shield_big_1
     DisplayName: Kite Shield
-    Description: Kite shield for flying out in the wind
+    Description: Formed of stretched hides over a wooden frame, this simple shield
+      provides basic protection against physical attacks.
     Chances:
       L1: 10
       L2: 10
@@ -72,8 +76,9 @@ MonoBehaviour:
     Height: 5
     startWithSkill: 
     sprite: {fileID: 21300000, guid: 3f59a37b10609c64a8e0f569d5ebf71a, type: 3}
+    equipSprite: {fileID: 0}
     model: {fileID: 100000, guid: efa0b4412a459fb42a985ec158044170, type: 3}
-    Pivot: 0
+    EquipOffset: {x: 0, y: 0, z: 0}
     EquipSlot: 9
     Type: 4
     AC: 6

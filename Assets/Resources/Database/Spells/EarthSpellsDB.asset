@@ -27,7 +27,7 @@ MonoBehaviour:
     - Stronger effect
     - Strongest effect
     School: 3
-    Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Icon: {fileID: 21300000, guid: 735449522ef27e04daae73d381a6cbee, type: 3}
     Behaviour: {fileID: 0}
   - ID: magic_arrow
     Number: 1

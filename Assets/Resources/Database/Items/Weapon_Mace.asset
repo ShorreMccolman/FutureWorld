@@ -43,7 +43,8 @@ MonoBehaviour:
     BaseDamage: 0
   - ID: mace_2
     DisplayName: Wicked Mace
-    Description: Wicked
+    Description: Solidly designed to inflict fatal injuries, even through armor.
+      The balance is a little top heavy, but the craftsmanship is good.
     Chances:
       L1: 5
       L2: 10
@@ -68,7 +69,8 @@ MonoBehaviour:
     BaseDamage: 2
   - ID: hammer_1
     DisplayName: Hammer
-    Description: Smash
+    Description: A graceless and unimaginative weapon, hammers are slow, but hit
+      very hard. This one is of common construction and materials.
     Chances:
       L1: 10
       L2: 10

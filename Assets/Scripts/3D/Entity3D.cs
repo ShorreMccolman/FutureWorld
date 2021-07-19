@@ -17,6 +17,8 @@ public abstract class Entity3D : MonoBehaviour
     public bool IsTargetable { get; protected set; }
     public bool IgnoreInteraction { get; protected set; }
 
+    protected List<GameObject> CullingObjects = new List<GameObject>();
+
     protected bool _isVisible = false;
 
     public static event System.Action<Entity3D> OnEntityDestroyed;
@@ -25,10 +27,8 @@ public abstract class Entity3D : MonoBehaviour
     {
         if (level == SphereLevel.Three)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(true);
-            }
+            foreach (var obj in CullingObjects)
+                obj.SetActive(true);
             _isVisible = true;
         }
     }
@@ -37,10 +37,8 @@ public abstract class Entity3D : MonoBehaviour
     {
         if (level == SphereLevel.Three)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
+            foreach (var obj in CullingObjects)
+                obj.SetActive(false);
             _isVisible = false;
         }
     }
