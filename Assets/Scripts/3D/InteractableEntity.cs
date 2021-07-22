@@ -31,6 +31,9 @@ public class InteractableEntity : Entity3D
                 else
                     MouseoverName = "Barrel of " + GameConstants.ColorForStat[_interactable.Stat] + " liquid";
                 break;
+            case InteractableType.Well:
+                MouseoverName = "Well";
+                break;
         }
     }
 
@@ -48,6 +51,10 @@ public class InteractableEntity : Entity3D
                     MouseoverName = "Empty barrel";
                 else
                     InfoMessageReceiver.Send("This barrel is empty", 2.0f);
+                break;
+            case InteractableType.Well:
+                if (!success)
+                    InfoMessageReceiver.Send("Refreshing...", 2.0f);
                 break;
         }
 

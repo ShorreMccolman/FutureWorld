@@ -42,7 +42,7 @@ public class ProjectileEntity : Entity3D
                     _alive = false;
 
                     damage = Projectile.Damage;
-                    float chanceOfReduction = 1 - 30 / (30 + enemy.Enemy.Data.Resistances.Physical);
+                    float chanceOfReduction = 1 - 30 / (30 + enemy.Enemy.Data.Resistances.ResistanceForAttackType(Projectile.DamageType));
                     damage = CombatHelper.ReduceDamage(damage, chanceOfReduction);
 
                     if (damage > 0)

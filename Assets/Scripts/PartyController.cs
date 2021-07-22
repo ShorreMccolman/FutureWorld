@@ -26,6 +26,8 @@ public class PartyController : MonoBehaviour {
     ControlState _controlState;
     ControlState _previousControlState;
 
+    SpellBehaviour _queuedSpell;
+
     List<Entity3D> _shortRange = new List<Entity3D>();
     List<Entity3D> _longRange = new List<Entity3D>();
 
@@ -34,6 +36,7 @@ public class PartyController : MonoBehaviour {
     Entity3D _intendedTarget;
     Party _party;
     IPopable _currentPop;
+    bool _frozen;
 
     public delegate void InputEvent();
     public InputEvent OnPressClick;
@@ -58,6 +61,7 @@ public class PartyController : MonoBehaviour {
         Entity3D.OnEntityDestroyed += RemoveFromRange;
         PlayerSphere.OnEntityEnteredSphere += EntityEnteredSphere;
         PlayerSphere.OnEntityExitedSphere += EntityExitedSphere;
+        TimeManagement.OnTimeFreezeChanged += (bool enabled) => _frozen = enabled;
     }
 
     public void LoadParty(Party party)
@@ -77,6 +81,7 @@ public class PartyController : MonoBehaviour {
         Entity3D.OnEntityDestroyed += RemoveFromRange;
         PlayerSphere.OnEntityEnteredSphere += EntityEnteredSphere;
         PlayerSphere.OnEntityExitedSphere += EntityExitedSphere;
+        TimeManagement.OnTimeFreezeChanged += (bool enabled) => _frozen = enabled;
     }
 
     public void ReviveParty(Party party)
@@ -158,53 +163,100 @@ public class PartyController : MonoBehaviour {
             if (_isInteracting)
                 return;
 
-            if (_controlState != ControlState.MenuLock)
+            if (_frozen)
+                CheckFrozenInputs();
+            else if (_controlState != ControlState.MenuLock)
+                CheckOOCInputs(hoveringUI);
+        }
+
+        CheckGenericInputs();
+
+        InfoMessageReceiver.Send(message);
+
+        if (popable != null)
+        {
+            if (popable != _currentPop)
             {
-                if (Input.GetMouseButtonDown(0) && _intendedTarget != null && !hoveringUI)
-                {
-                    if (_intendedTarget is NPCEntity)
-                    {
-                        TryInteraction();
-                    }
-                    else if (_intendedTarget is EnemyEntity)
-                    {
-                        TryAttack();
-                    }
-                    else
-                    {
-                        TryInteraction();
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.E))
-                {
-                    TryInteraction();
-                }
-                else if (Input.GetKeyDown(KeyCode.F))
-                {
-                    TryAttack();
-                }
-                else if (Input.GetKeyDown(KeyCode.C))
-                {
-                    TryCast();
-                }
-                else if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    switch (_controlState)
-                    {
-                        case ControlState.LookControl:
-                            SetControlState(ControlState.MouseControl);
-                            break;
-                        case ControlState.MouseControl:
-                            SetControlState(ControlState.LookControl);
-                            break;
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.Return))
-                {
-                    TurnController.Instance.ToggleCombatMode();
-                }
+                popable.ShowPopup();
+                _showingPopup = true;
+                _currentPop = popable;
             }
         }
+        else
+        {
+            if (_showingPopup)
+            {
+                Popups.Close();
+                _showingPopup = false;
+                _currentPop = null;
+            }
+        }
+    }
+
+    void CheckFrozenInputs()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (_intendedTarget != null)
+                _queuedSpell.CastFinal(_intendedTarget.State as CombatEntity);
+            else
+                _queuedSpell.CastFinal(null);
+
+            _queuedSpell = null;
+        }
+    }
+
+    void CheckOOCInputs(bool hoveringUI)
+    {
+        if (Input.GetMouseButtonDown(0) && _intendedTarget != null && !hoveringUI)
+        {
+            if (_intendedTarget is NPCEntity)
+            {
+                TryInteraction();
+            }
+            else if (_intendedTarget is EnemyEntity)
+            {
+                TryAttack();
+            }
+            else
+            {
+                TryInteraction();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            TryInteraction();
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            TryAttack();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            TryCast();
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            switch (_controlState)
+            {
+                case ControlState.LookControl:
+                    SetControlState(ControlState.MouseControl);
+                    break;
+                case ControlState.MouseControl:
+                    SetControlState(ControlState.LookControl);
+                    break;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            TurnController.Instance.ToggleCombatMode();
+        }
+    }
+
+    void CheckGenericInputs()
+    {
+        if (_frozen)
+            return;
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -229,27 +281,6 @@ public class PartyController : MonoBehaviour {
             else
                 HUD.Instance.OpenSystem();
         }
-
-        InfoMessageReceiver.Send(message);
-
-        if (popable != null)
-        {
-            if (popable != _currentPop)
-            {
-                popable.ShowPopup();
-                _showingPopup = true;
-                _currentPop = popable;
-            }
-        }
-        else
-        {
-            if (_showingPopup)
-            {
-                Popups.Close();
-                _showingPopup = false;
-                _currentPop = null;
-            }
-        }
     }
 
     bool TryFindPopable(ref IPopable popable, GameObject obj)
@@ -264,6 +295,12 @@ public class PartyController : MonoBehaviour {
             }
         }
         return false;
+    }
+
+    public void QueueSpell(SpellBehaviour spell)
+    {
+        SpellBehaviour bh = Instantiate(spell);
+        _queuedSpell = bh;
     }
 
     public void MenuOpened(bool useVignette, bool hideSide)
@@ -332,21 +369,34 @@ public class PartyController : MonoBehaviour {
             return;
 
         PartyMember attacker = _party.GetAttacker();
-
         if (attacker != null)
         {
-            if(string.IsNullOrEmpty(attacker.Profile.QuickSpell))
-            {
-                TryAttack();
-                return;
-            }
-
             bool success = attacker.TryCastQuickSpell();
-            if(!success)
+            if (!success)
             {
                 TryAttack();
                 return;
             }
+        }
+    }
+
+    public void CastProjectile(Projectile projectile)
+    {
+        bool shortRange;
+        Entity3D target = GetNearestTargetable(out shortRange);
+        if (target != null)
+        {
+            Vector3 lookdir = (target.transform.position + Vector3.up - Entity.transform.position).normalized;
+            projectile.Setup(lookdir, true);
+            DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
+            SoundManager.Instance.PlayUISound("Arrow");
+        } 
+        else
+        {
+            Vector3 lookdir = Entity.transform.forward.normalized;
+            projectile.Setup(lookdir, true);
+            DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
+            SoundManager.Instance.PlayUISound("Arrow");
         }
     }
 

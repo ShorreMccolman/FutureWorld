@@ -55,6 +55,16 @@ public class Interactable : GameStateEntity
             switch(Data.Effect)
             {
                 case InteractableEffect.Charity:
+                    if(Party.Instance.CurrentGold > 0)
+                    {
+                        _timesUsed--;
+                        canUse = false;
+                    }
+                    else
+                    {
+                        Party.Instance.CollectGold(200, true);
+                        member.Vitals.Express(GameConstants.EXPRESSION_HAPPY, GameConstants.EXPRESSION_HAPPY_DURATION);
+                    }
                     break;
                 case InteractableEffect.RestoreHP:
                     member.Vitals.GainHealthPoints(Data.Potency);

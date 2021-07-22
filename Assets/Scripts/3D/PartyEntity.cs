@@ -16,8 +16,7 @@ public class PartyEntity : Entity3D
     public Camera Camera => _camera;
 
     [SerializeField] Camera MapCam;
-
-    PartyController _controller;
+    [SerializeField] Light _torchLight;
 
     float _currentMoveSpeed;
     public float MoveSpeed => _currentMoveSpeed;
@@ -53,6 +52,7 @@ public class PartyEntity : Entity3D
     private bool m_Jumping;
     private bool m_Interacting;
     private AudioSource m_AudioSource;
+    PartyController _controller;
 
     public void Init(Party party)
     {
@@ -75,6 +75,8 @@ public class PartyEntity : Entity3D
         MapCam.pixelRect = new Rect(new Vector2(Screen.width - 250f, Screen.height - 250f), new Vector2(250f, 250f));
         MapCam.enabled = false;
         MapCam.enabled = true;
+
+        Party.OnTorchChanged += TorchLight;
     }
 
     public void SetControls(ControlState state)
@@ -127,6 +129,33 @@ public class PartyEntity : Entity3D
     private void CombatControl()
     {
 
+    }
+
+    void TorchLight(bool enabled, SkillProficiency proficiency)
+    {
+        if(enabled)
+        {
+            _torchLight.enabled = true;
+            switch(proficiency)
+            {
+                case SkillProficiency.Novice:
+                    _torchLight.intensity = 1f;
+                    _torchLight.range = 20;
+                    break;
+                case SkillProficiency.Expert:
+                    _torchLight.intensity = 1.5f;
+                    _torchLight.range = 25;
+                    break;
+                case SkillProficiency.Master:
+                    _torchLight.intensity = 2f;
+                    _torchLight.range = 30;
+                    break;
+            }
+        } 
+        else
+        {
+            _torchLight.enabled = false;
+        }
     }
 
     private void StandardControls()

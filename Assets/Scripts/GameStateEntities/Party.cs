@@ -46,7 +46,9 @@ public class Party : GameStateEntity
     public static event System.Action<int, int> OnFundsChanged;
     public static event System.Action<int> OnFoodChanged;
     public static event System.Action<List<NPC>> OnHiresChanged;
+
     public static event System.Action<bool, SkillProficiency> OnWizardEyeChanged;
+    public static event System.Action<bool, SkillProficiency> OnTorchChanged;
 
     public Party(CharacterData[] characterData) : base(null)
     {
@@ -556,11 +558,32 @@ public class Party : GameStateEntity
     public Dictionary<string, float> GetPartySpells()
     {
         Dictionary<string, float> spells = new Dictionary<string, float>();
+        if(_torchDuration > 0)
+        {
+            spells.Add("Torch Light", _torchDuration);
+        }
         if(_wizDuration > 0)
         {
             spells.Add("Wizard Eye", _wizDuration);
         }
         return spells;
+    }
+
+    public void TorchLight(float duration, SkillProficiency proficiency)
+    {
+        _torchDuration = duration;
+        TimeManagement.OnTick += TickTorch;
+        OnTorchChanged?.Invoke(true, proficiency);
+    }
+
+    void TickTorch(float tick)
+    {
+        _torchDuration -= tick;
+        if (_torchDuration <= 0)
+        {
+            OnTorchChanged?.Invoke(false, SkillProficiency.Novice);
+            TimeManagement.OnTick -= TickTorch;
+        }
     }
 
     public void WizardsEye(float duration, SkillProficiency proficiency)

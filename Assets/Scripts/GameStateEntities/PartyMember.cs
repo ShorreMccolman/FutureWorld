@@ -242,7 +242,7 @@ public class PartyMember : GameStateEntity, CombatEntity {
         if (data == null || Vitals.CurrentSP < cost)
             return false;
 
-        data.Behaviour.Cast(skill);
+        data.Behaviour.Cast(this, skill);
         Vitals.AdjustSpellPoints(-cost);
         Vitals.ApplyCooldown(Vitals.Stats.EffectiveRecovery);
         return true;

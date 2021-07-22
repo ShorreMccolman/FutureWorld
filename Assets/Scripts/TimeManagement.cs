@@ -20,10 +20,13 @@ public class TimeManagement : MonoBehaviour
     [SerializeField] Material DaySky;
     [SerializeField] Material NightSky;
 
+    [SerializeField] Texture2D TargetCursorTex;
+
     event System.Action OnFinish;
     public static event System.Action<float> OnTick;
 
     public static event System.Action<TimeControl> OnControlChanged;
+    public static event System.Action<bool> OnTimeFreezeChanged;
 
     TimeControl _control;
     Party _party;
@@ -33,6 +36,8 @@ public class TimeManagement : MonoBehaviour
     bool _isComitting;
 
     float _manualPace = 6 * 60 * 60;
+
+    Dictionary<Animator, float> _animationSpeedDict = new Dictionary<Animator, float>();
 
     public void StartTiming(Party party)
     {
@@ -264,5 +269,30 @@ public class TimeManagement : MonoBehaviour
 
         string time = hour + ":" + minute + (date.Hour < 12 ? " am" : " pm");
         return time;
+    }
+
+    public void FreezeTime()
+    {
+        Animator[] anims = FindObjectsOfType<Animator>();
+        foreach (var anim in anims)
+        {
+            _animationSpeedDict.Add(anim, anim.speed);
+            anim.speed = 0f;
+        }
+        Time.timeScale = 0f;
+        OnTimeFreezeChanged?.Invoke(true);
+
+        Cursor.SetCursor(TargetCursorTex, new Vector2(32f, 32f), CursorMode.Auto);
+    }
+
+    public void UnfreezeTime()
+    {
+        foreach (var anim in _animationSpeedDict.Keys)
+        {
+            anim.speed = _animationSpeedDict[anim];
+        }
+        Time.timeScale = 1f;
+        OnTimeFreezeChanged?.Invoke(false);
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 }

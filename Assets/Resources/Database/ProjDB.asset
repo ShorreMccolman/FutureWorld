@@ -15,4 +15,5 @@ MonoBehaviour:
   Projectiles:
   - ID: generic
     Speed: 10
-    model: {fileID: 0}
+    model: {fileID: 3666990375783373759, guid: 6f985eec1df827e4fb6d6925e56d2872, type: 3}
+    DamageType: 0

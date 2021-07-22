@@ -10,8 +10,9 @@ public class Projectile : GameStateEntity
     public int Attack { get; protected set; }
     public int Damage { get; protected set; }
     public bool IsFriendly { get; protected set; }
-
+    public AttackType DamageType => _data.DamageType;
     public float Speed => _data.Speed;
+    public GameObject Prefab => _data.model;
 
     ProjectileData _data;
 

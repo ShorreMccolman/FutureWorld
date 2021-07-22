@@ -16,7 +16,8 @@ public enum RefreshPeriod
 public enum InteractableType
 {
     Fountain,
-    Barrel
+    Barrel,
+    Well
 }
 
 [System.Serializable]

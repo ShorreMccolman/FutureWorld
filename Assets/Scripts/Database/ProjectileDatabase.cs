@@ -8,6 +8,7 @@ public class ProjectileData
     public string ID;
     public float Speed;
     public GameObject model;
+    public AttackType DamageType;
 }
 
 public class ProjectileDatabase

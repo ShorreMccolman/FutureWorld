@@ -4,13 +4,12 @@ using UnityEngine;
 
 public enum AttackType
 {
-    None,
+    Physical,
     Fire,
     Electricity,
     Cold,
     Poison,
-    Magic,
-    Physical
+    Magic
 }
 
 [System.Serializable]
