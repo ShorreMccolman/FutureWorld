@@ -43,3 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f2db22a84ed1949955bcb0df52a8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DisplayName: Static Charge
+  ProjectileID: static_charge
+  NoviceRecovery: 100
+  ExpertRecovery: 90
+  MasterRecovery: 80
+  ExpertCost: 1
+  MasterCost: 0
+  Roll:
+    Rolls: 2
+    Sides: 3
+  UsesSkillForHit: 0

@@ -170,6 +170,7 @@ public class Vitals : GameStateEntity
         _stats = new VitalStats(hp, sp, ac, attack, upper, lower, rec, rattack, rupper, rlower, rrec);
         _equipment.ModifyStats(_stats);
         _skillset.ModifyStats(_stats);
+        _status.ModifyStats(_stats);
 
         OnVitalsChanged?.Invoke();
     }

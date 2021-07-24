@@ -47,9 +47,13 @@ public class ProjectileEntity : Entity3D
 
                     if (damage > 0)
                     {
-                        string msg = Projectile.Sender + " shoots " + enemy.Enemy.Data.DisplayName + " for " + damage + " damage.";
-                        if (enemy.Enemy.CurrentHP - damage <= 0)
+                        string msg;
+                        if(Projectile.IsSpell)
+                            msg = Projectile.Sender + " hits " + enemy.Enemy.Data.DisplayName + " for " + damage + " damage.";
+                        else if (enemy.Enemy.CurrentHP - damage <= 0)
                             msg = Projectile.Sender + " inflicts " + damage + " damage killing " + enemy.Enemy.Data.DisplayName + ".";
+                        else
+                            msg = Projectile.Sender + " shoots " + enemy.Enemy.Data.DisplayName + " for " + damage + " damage.";
 
                         InfoMessageReceiver.Send(msg, 2.0f);
                         enemy.Enemy.OnHit(damage);

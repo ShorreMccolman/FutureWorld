@@ -66,7 +66,7 @@ public class ItemButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             Image.color = Color.white;
     }
 
-    public void ShowPopup()
+    public virtual void ShowPopup()
     {
         if (Item.IsBroken)
         {

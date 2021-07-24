@@ -13,14 +13,4 @@ MonoBehaviour:
   m_Name: LightSpellsDB
   m_EditorClassIdentifier: 
   School: 7
-  Spells:
-  - ID: torch_light
-    Number: 0
-    DisplayName: Torch Light
-    School: 7
-    Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
-  - ID: fire_arrow
-    Number: 1
-    DisplayName: Fire Arrow
-    School: 7
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+  Spells: []

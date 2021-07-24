@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e27619946cf29469a097049cddbcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DisplayName: Torch Light

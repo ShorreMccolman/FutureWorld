@@ -17,3 +17,29 @@ MonoBehaviour:
     Speed: 10
     model: {fileID: 3666990375783373759, guid: 6f985eec1df827e4fb6d6925e56d2872, type: 3}
     DamageType: 0
+    IsSpell: 0
+  - ID: flame_arrow
+    Speed: 10
+    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    DamageType: 1
+    IsSpell: 1
+  - ID: static_charge
+    Speed: 8
+    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    DamageType: 2
+    IsSpell: 1
+  - ID: cold_beam
+    Speed: 8
+    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    DamageType: 3
+    IsSpell: 1
+  - ID: magic_arrow
+    Speed: 10
+    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    DamageType: 5
+    IsSpell: 1
+  - ID: spirit_arrow
+    Speed: 10
+    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    DamageType: 5
+    IsSpell: 1

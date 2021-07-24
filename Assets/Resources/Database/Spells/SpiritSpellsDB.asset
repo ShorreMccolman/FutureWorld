@@ -27,7 +27,8 @@ MonoBehaviour:
     - Casting cost 0
     School: 4
     Icon: {fileID: 21300000, guid: 4e65908d70134c7419d7fe7067318a36, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 2093742482296045276, guid: 217901e6bc0eb9a4f8b03012c5c2a607,
+      type: 3}
   - ID: bless
     Number: 1
     SPCost: 2
@@ -41,7 +42,8 @@ MonoBehaviour:
     - Duration 1 hour + 15 minutes per point of skill
     School: 4
     Icon: {fileID: 21300000, guid: 607c63ae1688c5647bd6733836f9306e, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 3904494227936115579, guid: 29d2b1cb80db9ac4d8471a56b4463bd7,
+      type: 3}
   - ID: healing_touch
     Number: 2
     SPCost: 3

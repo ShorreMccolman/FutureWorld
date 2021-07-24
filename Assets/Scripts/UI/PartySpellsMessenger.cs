@@ -18,7 +18,7 @@ public class PartySpellsMessenger : MonoBehaviour, IPopable
             {
                 float mins = spells[key] / 60;
                 float seconds = spells[key] % 60;
-                text += key + "    " + (int)mins + " mins " + (int)seconds + " seconds";
+                text += key + "    " + (int)mins + " mins " + (int)seconds + " seconds\n";
             }
         }
 

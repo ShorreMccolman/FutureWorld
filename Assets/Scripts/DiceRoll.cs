@@ -7,16 +7,18 @@ public struct DiceRoll
 {
     public int Rolls;
     public int Sides;
+    public int Baseline;
 
-    public DiceRoll(int sides, int rolls)
+    public DiceRoll(int sides, int rolls, int baseline = 0)
     {
         Sides = sides;
         Rolls = rolls;
+        Baseline = baseline;
     }
 
     public int Roll()
     {
-        int value = 0;
+        int value = Baseline;
         for (int i = 0; i < Rolls; i++)
         {
             value += Random.Range(1, Sides + 1);
@@ -26,7 +28,7 @@ public struct DiceRoll
 
     public int RollHigh()
     {
-        int value = 0;
+        int value = Baseline;
         for (int i = 0; i < Rolls; i++)
         {
             value += Sides;
@@ -36,8 +38,7 @@ public struct DiceRoll
 
     public int RollLow()
     {
-        int value = 0;
-
+        int value = Baseline;
         for (int i = 0; i < Rolls; i++)
         {
             value += 1;

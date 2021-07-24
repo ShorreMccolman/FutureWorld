@@ -6,6 +6,9 @@ public static class CombatHelper
 {
     public static bool ShouldHit(int attack, int armorClass)
     {
+        if (attack == int.MaxValue)
+            return true;
+
         float chanceToHit = (float)(15 + 2 * attack) / (float)(30 + 2 * attack + armorClass);
         float rand = Random.Range(0f, 1f);
         return rand <= chanceToHit;

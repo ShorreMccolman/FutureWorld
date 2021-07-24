@@ -7,8 +7,8 @@ public class WizardEye : SpellBehaviour
 {
     public override float GetRecovery(SkillProficiency proficiency) => 60f;
 
-    protected override void OnCast()
+    protected override void OnCast(CombatEntity caster, int power, SkillProficiency proficiency)
     {
-        Party.Instance.WizardsEye(_potency * 60 * 60, _proficiency);
+        Party.Instance.WizardsEye(power * 60 * 60, proficiency);
     }
 }

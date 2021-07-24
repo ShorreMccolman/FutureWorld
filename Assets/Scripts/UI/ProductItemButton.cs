@@ -25,6 +25,15 @@ public class ProductItemButton : ItemButton
         }
     }
 
+    public override void ShowPopup()
+    {
+        Magic magic = Item.Data as Magic;
+        if(magic != null)
+            Popups.ShowSpell(SpellDatabase.Instance.GetSpell(magic.Type, magic.SpellNumber));
+        else
+            base.ShowPopup();
+    }
+
     protected override void OnHover()
     {
         _ui.GetMenu().HoverItem(Item);

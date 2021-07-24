@@ -6,6 +6,8 @@ public class PortraitInfoMessenger : MonoBehaviour, IInfoMessenger, IPopable
 {
     [SerializeField] CharacterVitalsDisplay Display;
 
+    public PartyMember Member => Display.Member;
+
     public void ShowPopup()
     {
         if (HUD.Instance.HeldItemButton != null)

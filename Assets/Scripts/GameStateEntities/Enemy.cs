@@ -9,6 +9,8 @@ public interface CombatEntity
     float GetCooldown();
     bool IsConcious();
 
+    Entity3D GetEntity();
+
     bool WaitForTurn();
     void ActivateTurn();
 }
@@ -24,6 +26,7 @@ public class Enemy : GameStateEntity, CombatEntity
     public bool MovementLocked { get; private set; }
     public bool AwaitingTurn { get; private set; }
 
+    public Entity3D GetEntity() => Entity;
     public bool IsConcious() => CurrentHP > 0;
 
     public event System.Action OnEnemyReady;

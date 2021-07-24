@@ -28,7 +28,8 @@ MonoBehaviour:
     - Works if asleep less than 1 day per point of skill
     School: 2
     Icon: {fileID: 21300000, guid: 5df08f2ec09e7f8439ae75c420ec1ad9, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -7659345147404470087, guid: 1628494f1aecd4142a34a82099bbbc0e,
+      type: 3}
   - ID: cold_beam
     Number: 1
     SPCost: 2
@@ -43,7 +44,8 @@ MonoBehaviour:
     - Casting cost 0 spell points.  Quickest recovery rate
     School: 2
     Icon: {fileID: 21300000, guid: a2791a2ee333ac940bc1f4149e9e5e3c, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 2093742482296045276, guid: 2a02cecb0240e0049acd5676bcf2c2dc,
+      type: 3}
   - ID: protect_cold
     Number: 2
     SPCost: 3

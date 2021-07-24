@@ -107,27 +107,26 @@ using UnityEngine;
 [System.Serializable]
 public class SpellBehaviour : MonoBehaviour
 {
-    protected CombatEntity _caster;
-    public string GetCasterName => _caster.GetName();
+    [SerializeField] protected string DisplayName;
 
-    protected int _potency;
-    protected SkillProficiency _proficiency;
-
-    public virtual bool IsRanged => false;
-    public virtual bool TargetsFriendly => false;
     public virtual float GetRecovery(SkillProficiency proficiency) => 100f;
-
-    public virtual bool IsTargetValid(CombatEntity target) { return false; }
+    public virtual bool IsTargetValid(CombatEntity entity) { return false; }
     public virtual int AdjustCost(int cost, InventorySkill skill) { return cost; }
+
     public void Cast(CombatEntity caster, InventorySkill skill) 
     {
-        _caster = caster;
-        _potency = skill.Level;
-        _proficiency = skill.Proficiency;
-
-        OnCast();
+        OnCast(caster, skill.Level, skill.Proficiency);
     }
+    protected virtual void OnCast(CombatEntity caster, int power, SkillProficiency proficiency) { }
+    public virtual void CastTarget(CombatEntity target) { }
 
-    protected virtual void OnCast() { }
-    public virtual void CastFinal(CombatEntity target) { }
+    protected CombatEntity _caster;
+    protected int _potency;
+    protected SkillProficiency _proficiency;
+    public void Setup(CombatEntity caster, int power, SkillProficiency proficiency)
+    {
+        _caster = caster;
+        _potency = power;
+        _proficiency = proficiency;
+    }
 }

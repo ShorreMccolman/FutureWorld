@@ -44,7 +44,8 @@ MonoBehaviour:
     - Casting cost 0 spell points.  Quickest recovery rate
     School: 3
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 2093742482296045276, guid: 62fccc86f9c23704096af9bad6c3b775,
+      type: 3}
   - ID: protect_magic
     Number: 2
     SPCost: 3

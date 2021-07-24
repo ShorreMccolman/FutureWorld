@@ -85,6 +85,8 @@ public class PartyMember : GameStateEntity, CombatEntity {
         return true;
     }
 
+    public Entity3D GetEntity() => PartyController.Instance.Entity;
+
     public string GetName()
     {
         return Profile.CharacterName;
@@ -239,9 +241,9 @@ public class PartyMember : GameStateEntity, CombatEntity {
         InventorySkill skill = Skillset.GetSkillByID(data.School.ToString());
         int cost = data.Behaviour.AdjustCost(data.SPCost, skill);
 
-        if (data == null || Vitals.CurrentSP < cost)
+        if (Vitals.CurrentSP < cost)
             return false;
-
+        
         data.Behaviour.Cast(this, skill);
         Vitals.AdjustSpellPoints(-cost);
         Vitals.ApplyCooldown(Vitals.Stats.EffectiveRecovery);

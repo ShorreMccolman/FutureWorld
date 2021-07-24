@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9714afbca1e26994da9f2b7b0710114a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DisplayName: Wizard Eye

@@ -22,7 +22,7 @@ public class VitalsInfoPopup : MonoBehaviour
                     "\nCondition: " + display.Member.EffectiveStatusCondition() +
                     "\nQuick Spell: " + SpellDatabase.Instance.GetSpellName(display.Member.Profile.QuickSpell);
 
-        Spells.text = "None";
+        Spells.text = display.Member.Status.GetActiveSpells();
 
         Image.sprite = display.Sprite;
         Image.SetNativeSize();

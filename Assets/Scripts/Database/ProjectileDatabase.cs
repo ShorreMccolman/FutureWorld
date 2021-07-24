@@ -9,6 +9,7 @@ public class ProjectileData
     public float Speed;
     public GameObject model;
     public AttackType DamageType;
+    public bool IsSpell;
 }
 
 public class ProjectileDatabase

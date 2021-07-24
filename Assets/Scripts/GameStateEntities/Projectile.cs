@@ -13,6 +13,7 @@ public class Projectile : GameStateEntity
     public AttackType DamageType => _data.DamageType;
     public float Speed => _data.Speed;
     public GameObject Prefab => _data.model;
+    public bool IsSpell => _data.IsSpell;
 
     ProjectileData _data;
 

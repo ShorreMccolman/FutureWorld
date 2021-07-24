@@ -169,7 +169,8 @@ public class PartyController : MonoBehaviour {
                 CheckOOCInputs(hoveringUI);
         }
 
-        CheckGenericInputs();
+        if(!_frozen)
+            CheckGenericInputs();
 
         InfoMessageReceiver.Send(message);
 
@@ -197,11 +198,39 @@ public class PartyController : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (_intendedTarget != null)
-                _queuedSpell.CastFinal(_intendedTarget.State as CombatEntity);
-            else
-                _queuedSpell.CastFinal(null);
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
 
+            PartyMember member = null;
+            results.ForEach((result) => {
+                PortraitInfoMessenger messenger = result.gameObject.GetComponent<PortraitInfoMessenger>();
+                if (messenger != null)
+                {
+                    member = messenger.Member;
+                }
+            });
+
+            if (member != null && _queuedSpell.IsTargetValid(member))
+            {
+                _queuedSpell.CastTarget(member);
+                _queuedSpell = null;
+                TimeManagement.Instance.UnfreezeTime();
+            }
+            else if (_intendedTarget != null && _queuedSpell.IsTargetValid(_intendedTarget.State as CombatEntity))
+            {
+                _queuedSpell.CastTarget(_intendedTarget.State as CombatEntity);
+                _queuedSpell = null;
+                TimeManagement.Instance.UnfreezeTime();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TimeManagement.Instance.UnfreezeTime();
+            Destroy(_queuedSpell.gameObject);
             _queuedSpell = null;
         }
     }
@@ -297,9 +326,11 @@ public class PartyController : MonoBehaviour {
         return false;
     }
 
-    public void QueueSpell(SpellBehaviour spell)
+    public void QueueSpell(SpellBehaviour spell, CombatEntity caster, int power, SkillProficiency proficiency)
     {
+        TimeManagement.Instance.FreezeTime();
         SpellBehaviour bh = Instantiate(spell);
+        bh.Setup(caster, power, proficiency);
         _queuedSpell = bh;
     }
 
@@ -380,10 +411,12 @@ public class PartyController : MonoBehaviour {
         }
     }
 
-    public void CastProjectile(Projectile projectile)
+    public void CastProjectile(Projectile projectile, Entity3D target = null)
     {
         bool shortRange;
-        Entity3D target = GetNearestTargetable(out shortRange);
+        if(target == null)
+            target = GetNearestTargetable(out shortRange);
+
         if (target != null)
         {
             Vector3 lookdir = (target.transform.position + Vector3.up - Entity.transform.position).normalized;

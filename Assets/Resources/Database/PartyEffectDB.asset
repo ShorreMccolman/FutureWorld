@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfca8eca95acc224797571355b071839, type: 3}
+  m_Name: PartyEffectDB
+  m_EditorClassIdentifier: 
+  Effects:
+  - DisplayName: Wizard's Eye
+    Option: 21
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+  - DisplayName: Torch Light
+    Option: 22
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+  - DisplayName: Prot Fire
+    Option: 15
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+  - DisplayName: Prot Elec
+    Option: 16
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+  - DisplayName: Prot Cold
+    Option: 17
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+  - DisplayName: Prot Pois
+    Option: 18
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+  - DisplayName: Prot Magic
+    Option: 19
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1

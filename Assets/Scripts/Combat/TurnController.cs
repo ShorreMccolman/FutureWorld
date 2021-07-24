@@ -84,6 +84,7 @@ public class TurnController : MonoBehaviour
 
     IEnumerator Combat()
     {
+        float waitTime = 0.8f;
         while(true)
         {
             if (_turnEntities.Count == 0)
@@ -93,10 +94,11 @@ public class TurnController : MonoBehaviour
                 if (_turnEntities.Find(x => x is Enemy) != null)
                 {
                     OnEnemyMoveToggled?.Invoke(true);
-                    yield return new WaitForSeconds(2.0f);
+                    yield return new WaitForSeconds(waitTime);
                     OnEnemyMoveToggled?.Invoke(false);
                 }
             }
+            waitTime = 2.0f;
 
             _activeCombatEntity = _combatPriority.Get();
             _waiting = true;

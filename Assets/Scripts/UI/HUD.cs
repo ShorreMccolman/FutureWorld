@@ -44,6 +44,7 @@ public class HUD : Menu {
 
     Party _party;
     CharacterMenu _selectedMenu;
+    bool _frozen;
 
     public ItemButton HeldItemButton { get; private set; }
 
@@ -84,6 +85,7 @@ public class HUD : Menu {
         MenuManager.OnMenusClosed += MenusClosed;
         TurnController.OnTurnBasedToggled += UpdateCombatIndicator;
         TurnController.OnEnemyMoveToggled += UpdateCombatIndicatorWait;
+        TimeManagement.OnTimeFreezeChanged += (bool enable) => _frozen = enable;
     }
 
     void Update()
@@ -232,6 +234,9 @@ public class HUD : Menu {
 
     public void SelectCharacter(PartyMember member, bool openMenu)
     {
+        if (_frozen)
+            return;
+
         if (HeldItemButton != null)
         {
             InventoryItem item = member.Inventory.AddItem(HeldItemButton.Item);

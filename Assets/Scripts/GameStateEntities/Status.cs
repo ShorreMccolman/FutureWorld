@@ -46,6 +46,24 @@ public class Status : GameStateEntity
         return status;
     }
 
+    public string GetActiveSpells()
+    {
+        string text = "";
+        foreach(var condition in _conditions)
+        {
+            if(condition.Effect.IsActiveSpell)
+            {
+                float mins = condition.Duration / 60;
+                float seconds = condition.Duration % 60;
+                text += condition.Effect.DisplayName + "    " + (int)mins + " mins " + (int)seconds + " seconds\n";
+            }
+        }
+        if (string.IsNullOrEmpty(text))
+            text = "None";
+
+        return text;
+    }
+
     public void OverrideExpression(ref string expression)
     {
         int currentPriority = 0;
@@ -113,6 +131,8 @@ public class Status : GameStateEntity
                 AddCondition(StatusEffectOption.Weak, 0);
                 break;
         }
+
+        OnStatusChanged?.Invoke();
     }
 
     public void AddCondition(StatusEffectOption option, int potency, float duration, bool update = true)
@@ -171,6 +191,21 @@ public class Status : GameStateEntity
             if (update)
                 OnStatusChanged?.Invoke();
         }
+    }
+
+    public bool TryRemoveNegativeCondition(StatusEffectOption option, float expiry)
+    {
+        if (!HasCondition(option))
+            return false;
+
+        StatusCondition condition = _conditions.Find(x => x.Option == option);
+        if(condition.Duration <= expiry)
+        {
+            RemoveCondition(option);
+            return true;
+        }
+
+        return false;
     }
 
     public void SwapConditions(StatusEffectOption remove, StatusEffectOption add, float duration, bool update = true)

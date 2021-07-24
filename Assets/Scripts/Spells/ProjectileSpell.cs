@@ -10,9 +10,10 @@ public class ProjectileSpell : SpellBehaviour
     [SerializeField] int ExpertRecovery;
     [SerializeField] int MasterRecovery;
 
-    [SerializeField] DiceRoll Roll;
+    [SerializeField] int ExpertCost;
+    [SerializeField] int MasterCost;
 
-    [SerializeField] int ProficiencyDiscount;
+    [SerializeField] DiceRoll Roll;
     [SerializeField] bool UsesSkillForHit;
 
     public override float GetRecovery(SkillProficiency proficiency) => 
@@ -21,41 +22,49 @@ public class ProjectileSpell : SpellBehaviour
 
     public override int AdjustCost(int cost, InventorySkill skill)
     {
-        int adjusted = cost;
         switch(skill.Proficiency)
         {
             case SkillProficiency.Expert:
-                adjusted -= ProficiencyDiscount;
-                break;
+                return ExpertCost;
             case SkillProficiency.Master:
-                adjusted -= ProficiencyDiscount * 2;
-                break;
+                return MasterCost;
         }
-        return adjusted;
+        return cost;
     }
 
     public override bool IsTargetValid(CombatEntity target)
     {
+        if (target == null)
+            return false;
+
         return target is Enemy;
     }
 
-    protected override void OnCast()
+    protected override void OnCast(CombatEntity caster, int power, SkillProficiency proficiency)
+    {
+        if (TurnController.Instance.IsTurnBasedEnabled)
+        {
+            PartyController.Instance.QueueSpell(this, caster, power, proficiency);
+        }
+        else
+        {
+            PartyController.Instance.CastProjectile(MakeProjectile(DisplayName));
+        }
+    }
+
+    public override void CastTarget(CombatEntity target)
+    {
+        PartyController.Instance.CastProjectile(MakeProjectile(DisplayName), target.GetEntity());
+        Destroy(this.gameObject);
+    }
+
+    Projectile MakeProjectile(string name)
     {
         Projectile projectile = ProjectileDatabase.Instance.GetProjectile(ProjectileID);
         int attack = int.MaxValue;
         if (UsesSkillForHit)
             attack = _potency;
-        projectile.SetDamage(_caster.GetName(), attack, Roll.Roll());
-
-        PartyController.Instance.CastProjectile(projectile);
-
-        //TimeManagement.Instance.FreezeTime();
-        //PartyController.Instance.QueueSpell(this);
+        projectile.SetDamage(name, attack, Roll.Roll());
+        return projectile;
     }
-
-    //public override void CastFinal(CombatEntity target)
-    //{
-    //    TimeManagement.Instance.UnfreezeTime();
-    //    Destroy(this.gameObject);
-    //}
 }

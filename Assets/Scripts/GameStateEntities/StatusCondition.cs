@@ -92,6 +92,21 @@ public class StatusCondition : GameStateEntity
                 stats.GetStat(CharacterStat.PoisonResist).AddToBonus(Potency);
                 stats.GetStat(CharacterStat.MagicResist).AddToBonus(Potency);
                 break;
+            case StatusEffectOption.BoostedFireR:
+                stats.GetStat(CharacterStat.FireResist).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedElecR:
+                stats.GetStat(CharacterStat.ElecResist).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedColdR:
+                stats.GetStat(CharacterStat.ColdResist).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedPoisR:
+                stats.GetStat(CharacterStat.PoisonResist).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.BoostedMagicR:
+                stats.GetStat(CharacterStat.MagicResist).AddToBonus(Potency);
+                break;
             case StatusEffectOption.BoostedAC:
                 stats.GetStat(CharacterStat.ArmorClass).AddToBonus(Potency);
                 break;
@@ -124,6 +139,10 @@ public class StatusCondition : GameStateEntity
                 break;
             case StatusEffectOption.BoostedLuck:
                 stats.GetStat(CharacterStat.Luck).AddToBonus(Potency);
+                break;
+            case StatusEffectOption.Bless:
+                stats.GetStat(CharacterStat.RangedAttack).AddToBonus(Potency);
+                stats.GetStat(CharacterStat.Attack).AddToBonus(Potency);
                 break;
         }
     }

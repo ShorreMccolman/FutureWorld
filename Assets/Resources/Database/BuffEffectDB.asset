@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfca8eca95acc224797571355b071839, type: 3}
+  m_Name: BuffEffectDB
+  m_EditorClassIdentifier: 
+  Effects:
+  - DisplayName: mig
+    Option: 8
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: per
+    Option: 9
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: int
+    Option: 10
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: end
+    Option: 11
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: acc
+    Option: 12
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: spe
+    Option: 13
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: luck
+    Option: 14
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: AC
+    Option: 5
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: sta
+    Option: 6
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0
+  - DisplayName: res
+    Option: 7
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 0

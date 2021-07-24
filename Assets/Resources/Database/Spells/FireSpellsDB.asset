@@ -31,7 +31,7 @@ MonoBehaviour:
   - ID: fire_arrow
     Number: 1
     SPCost: 2
-    DisplayName: Fire Arrow
+    DisplayName: Flame Arrow
     Description: Creates and fires a single flaming arrow.  Unlike most spells, this
       spell is notoriously inaccurate and has the same chance of hitting as a regular
       arrow (using your Fire skill as a bonus to hit).  The arrow does 1-8 points
@@ -42,7 +42,8 @@ MonoBehaviour:
     - Casting cost 0 spell points.  Quickest recovery rate
     School: 0
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 2093742482296045276, guid: db2bb85c4b9a5a1429512558166d097a,
+      type: 3}
   - ID: protect_fire
     Number: 2
     SPCost: 3

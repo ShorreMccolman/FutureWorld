@@ -291,6 +291,7 @@ public class TimeManagement : MonoBehaviour
         {
             anim.speed = _animationSpeedDict[anim];
         }
+        _animationSpeedDict.Clear();
         Time.timeScale = 1f;
         OnTimeFreezeChanged?.Invoke(false);
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
