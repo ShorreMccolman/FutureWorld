@@ -21,7 +21,8 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
-  - DisplayName: Torch Light
+    OverridedEffects: 
+  - DisplayName: Wizard's Eye
     Option: 22
     ExpressionOverride: 
     OverridePriority: 0
@@ -29,6 +30,43 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    OverridedEffects: 15000000
+  - DisplayName: Wizard's Eye
+    Option: 23
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+    OverridedEffects: 1500000016000000
+  - DisplayName: Torch Light
+    Option: 24
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+    OverridedEffects: 
+  - DisplayName: Torch Light
+    Option: 25
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+    OverridedEffects: 18000000
+  - DisplayName: Torch Light
+    Option: 26
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 1
+    NeedsHealing: 0
+    TicksUp: 0
+    IsActiveSpell: 1
+    OverridedEffects: 1800000019000000
   - DisplayName: Prot Fire
     Option: 15
     ExpressionOverride: 
@@ -37,6 +75,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    OverridedEffects: 
   - DisplayName: Prot Elec
     Option: 16
     ExpressionOverride: 
@@ -45,6 +84,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    OverridedEffects: 
   - DisplayName: Prot Cold
     Option: 17
     ExpressionOverride: 
@@ -53,6 +93,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    OverridedEffects: 
   - DisplayName: Prot Pois
     Option: 18
     ExpressionOverride: 
@@ -61,6 +102,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    OverridedEffects: 
   - DisplayName: Prot Magic
     Option: 19
     ExpressionOverride: 
@@ -69,3 +111,4 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    OverridedEffects: 

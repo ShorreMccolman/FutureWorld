@@ -31,7 +31,11 @@ public enum StatusEffectOption
     MagicSleep,
 
     WizardEye,
+    WizardEyeExpert,
+    WizardEyeMaster,
     TorchLight,
+    TorchLightExpert,
+    TorchLightMaster,
     Bless,
 }
 
@@ -49,6 +53,8 @@ public class StatusEffect
     public bool TicksUp;
 
     public bool IsActiveSpell;
+
+    public List<StatusEffectOption> OverridedEffects = new List<StatusEffectOption>();
 }
 
 public class StatusEffectDatabase

@@ -9,10 +9,14 @@ public class Status : GameStateEntity
 
     public event System.Action OnStatusChanged;
 
-    public Status(GameStateEntity parent) : base(parent)
+    public static event System.Action<bool, SkillProficiency> OnWizardEyeChanged;
+    public static event System.Action<bool, SkillProficiency> OnTorchChanged;
+
+    public Status(GameStateEntity parent, bool needsRest = true) : base(parent)
     {
         _conditions = new List<StatusCondition>();
-        AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION, false);
+        if(needsRest)
+            AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION, false);
     }
 
     public Status(GameStateEntity parent, XmlNode node) : base(parent, node)
@@ -46,12 +50,12 @@ public class Status : GameStateEntity
         return status;
     }
 
-    public string GetActiveSpells()
+    public string GetActiveSpells(bool partySpells = false)
     {
         string text = "";
         foreach(var condition in _conditions)
         {
-            if(condition.Effect.IsActiveSpell)
+            if(condition.Effect.IsActiveSpell && ((partySpells && condition.Effect.EffectsParty) || (!partySpells && !condition.Effect.EffectsParty)))
             {
                 float mins = condition.Duration / 60;
                 float seconds = condition.Duration % 60;
@@ -122,13 +126,24 @@ public class Status : GameStateEntity
         switch(condition.Effect.Option)
         {
             default:
-                OnStatusChanged?.Invoke();
                 break;
             case StatusEffectOption.Sleep:
                 AddCondition(StatusEffectOption.Rested, GameConstants.REST_DURATION);
                 break;
             case StatusEffectOption.Rested:
                 AddCondition(StatusEffectOption.Weak, 0);
+                break;
+
+            case StatusEffectOption.WizardEye:
+            case StatusEffectOption.WizardEyeExpert:
+            case StatusEffectOption.WizardEyeMaster:
+                OnWizardEyeChanged?.Invoke(false, SkillProficiency.Novice);
+                break;
+
+            case StatusEffectOption.TorchLight:
+            case StatusEffectOption.TorchLightExpert:
+            case StatusEffectOption.TorchLightMaster:
+                OnTorchChanged?.Invoke(false, SkillProficiency.Novice);
                 break;
         }
 
@@ -149,7 +164,7 @@ public class Status : GameStateEntity
         StatusCondition condition = StatusEffectDatabase.Instance.GetStatusCondition(option, this, potency, duration);
         condition.OnConditionComplete += CompleteCondition;
         _conditions.Add(condition);
-
+        OnAddCondition(option);
         if (update)
             OnStatusChanged?.Invoke();
     }
@@ -165,10 +180,43 @@ public class Status : GameStateEntity
             }
         }
         StatusCondition condition = StatusEffectDatabase.Instance.GetStatusCondition(option, this, duration);
+        foreach (var effect in condition.Effect.OverridedEffects)
+            RemoveCondition(effect, false);
+
         condition.OnConditionComplete += CompleteCondition;
         _conditions.Add(condition);
+        OnAddCondition(option);
         if (update)
             OnStatusChanged?.Invoke();
+    }
+
+    void OnAddCondition(StatusEffectOption option)
+    {
+        switch (option)
+        {
+            default:
+                break;
+
+            case StatusEffectOption.WizardEye:
+                OnWizardEyeChanged?.Invoke(true, SkillProficiency.Novice);
+                break;
+            case StatusEffectOption.WizardEyeExpert:
+                OnWizardEyeChanged?.Invoke(true, SkillProficiency.Expert);
+                break;
+            case StatusEffectOption.WizardEyeMaster:
+                OnWizardEyeChanged?.Invoke(true, SkillProficiency.Master);
+                break;
+
+            case StatusEffectOption.TorchLight:
+                OnTorchChanged?.Invoke(true, SkillProficiency.Novice);
+                break;
+            case StatusEffectOption.TorchLightExpert:
+                OnTorchChanged?.Invoke(true, SkillProficiency.Expert);
+                break;
+            case StatusEffectOption.TorchLightMaster:
+                OnTorchChanged?.Invoke(true, SkillProficiency.Master);
+                break;
+        }
     }
 
     public void RemoveCondition(StatusEffectOption option, bool update = true)

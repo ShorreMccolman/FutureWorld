@@ -11,6 +11,7 @@ public class Party : GameStateEntity
     public PartyMember ActiveMember { get; private set; }
     public string CurrentLocationID { get; private set; }
     public QuestLog QuestLog { get; private set; }
+    public Status Status { get; private set; }
 
     float _currentTime;
     public float CurrentTime => _currentTime;
@@ -37,18 +38,10 @@ public class Party : GameStateEntity
 
     bool _memberLock;
 
-    float _wizDuration;
-    float _torchDuration;
-    float _wWalkDuration;
-    float _flyDuration;
-
     public static event System.Action<PartyMember> OnMemberChanged;
     public static event System.Action<int, int> OnFundsChanged;
     public static event System.Action<int> OnFoodChanged;
     public static event System.Action<List<NPC>> OnHiresChanged;
-
-    public static event System.Action<bool, SkillProficiency> OnWizardEyeChanged;
-    public static event System.Action<bool, SkillProficiency> OnTorchChanged;
 
     public Party(CharacterData[] characterData) : base(null)
     {
@@ -62,6 +55,8 @@ public class Party : GameStateEntity
             PartyMember member = new PartyMember(this, character);
             Members.Add(member);
         }
+
+        Status = new Status(this, false);
 
         Members[0].Inventory.AddItem(ItemDatabase.Instance.GetInventoryItem("letter_1"));
 
@@ -90,6 +85,7 @@ public class Party : GameStateEntity
         QuestLog = new QuestLog(this, node.SelectSingleNode("QuestLog"));
         Populate<PartyMember>(ref _members, typeof(Party), node, "Members", "PartyMember");
         Populate<NPC>(ref _hires, typeof(Party), node, "Hires", "NPC");
+        Status = new Status(this, node.SelectSingleNode("Status"));
     }
 
     void Init()
@@ -116,7 +112,8 @@ public class Party : GameStateEntity
         element.AppendChild(XmlHelper.Attribute(doc, "Balance", _currentBalance));
         element.AppendChild(XmlHelper.Attribute(doc, "Time", _currentTime));
         element.AppendChild(XmlHelper.Attribute(doc, "Members", _members));
-        if(_hires.Count > 0)
+        element.AppendChild(Status.ToXml(doc));
+        if (_hires.Count > 0)
             element.AppendChild(XmlHelper.Attribute(doc, "Hires", _hires));
         element.AppendChild(QuestLog.ToXml(doc));
         element.AppendChild(base.ToXml(doc));
@@ -553,53 +550,5 @@ public class Party : GameStateEntity
         }
 
         return success;
-    }
-
-    public Dictionary<string, float> GetPartySpells()
-    {
-        Dictionary<string, float> spells = new Dictionary<string, float>();
-        if(_torchDuration > 0)
-        {
-            spells.Add("Torch Light", _torchDuration);
-        }
-        if(_wizDuration > 0)
-        {
-            spells.Add("Wizard Eye", _wizDuration);
-        }
-        return spells;
-    }
-
-    public void TorchLight(float duration, SkillProficiency proficiency)
-    {
-        _torchDuration = duration;
-        TimeManagement.OnTick += TickTorch;
-        OnTorchChanged?.Invoke(true, proficiency);
-    }
-
-    void TickTorch(float tick)
-    {
-        _torchDuration -= tick;
-        if (_torchDuration <= 0)
-        {
-            OnTorchChanged?.Invoke(false, SkillProficiency.Novice);
-            TimeManagement.OnTick -= TickTorch;
-        }
-    }
-
-    public void WizardsEye(float duration, SkillProficiency proficiency)
-    {
-        _wizDuration = duration;
-        TimeManagement.OnTick += TickEye;
-        OnWizardEyeChanged?.Invoke(true, proficiency);
-    }
-
-    void TickEye(float tick)
-    {
-        _wizDuration -= tick;
-        if(_wizDuration <= 0)
-        {
-            OnWizardEyeChanged?.Invoke(false, SkillProficiency.Novice);
-            TimeManagement.OnTick -= TickEye;
-        }
     }
 }

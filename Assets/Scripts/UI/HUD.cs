@@ -85,7 +85,13 @@ public class HUD : Menu {
         MenuManager.OnMenusClosed += MenusClosed;
         TurnController.OnTurnBasedToggled += UpdateCombatIndicator;
         TurnController.OnEnemyMoveToggled += UpdateCombatIndicatorWait;
-        TimeManagement.OnTimeFreezeChanged += (bool enable) => _frozen = enable;
+        TimeManagement.OnTimeFreezeChanged += Freeze;
+    }
+
+    void Freeze(bool enable)
+    {
+        Debug.LogError(enable);
+        _frozen = enable;
     }
 
     void Update()

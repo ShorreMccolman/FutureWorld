@@ -8,6 +8,10 @@ public class TorchLight : SpellBehaviour
 
     protected override void OnCast(CombatEntity caster, int power, SkillProficiency proficiency)
     {
-        Party.Instance.TorchLight(power * 60 * 60, proficiency);
+        StatusEffectOption option = proficiency == SkillProficiency.Novice ? StatusEffectOption.TorchLight :
+                            proficiency == SkillProficiency.Expert ? StatusEffectOption.TorchLightExpert :
+                                                                     StatusEffectOption.TorchLightMaster;
+
+        Party.Instance.Status.AddCondition(option, power * 60 * 60);
     }
 }

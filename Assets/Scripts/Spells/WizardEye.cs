@@ -9,6 +9,10 @@ public class WizardEye : SpellBehaviour
 
     protected override void OnCast(CombatEntity caster, int power, SkillProficiency proficiency)
     {
-        Party.Instance.WizardsEye(power * 60 * 60, proficiency);
+        StatusEffectOption option = proficiency == SkillProficiency.Novice ? StatusEffectOption.WizardEye : 
+                                    proficiency == SkillProficiency.Expert ? StatusEffectOption.WizardEyeExpert : 
+                                                                             StatusEffectOption.WizardEyeMaster;
+
+        Party.Instance.Status.AddCondition(option, power * 60 * 60);
     }
 }

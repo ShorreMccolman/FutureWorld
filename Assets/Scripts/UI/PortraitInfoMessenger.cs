@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class PortraitInfoMessenger : MonoBehaviour, IInfoMessenger, IPopable
+public class PortraitInfoMessenger : MonoBehaviour, IInfoMessenger, IPopable, IPointerDownHandler
 {
     [SerializeField] CharacterVitalsDisplay Display;
 
@@ -34,5 +35,13 @@ public class PortraitInfoMessenger : MonoBehaviour, IInfoMessenger, IPopable
     public string GetInfoMessage()
     {
         return Display.Member.Profile.FullName + ": " + Display.Member.EffectiveStatusCondition();
+    }
+
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            Display.MenuClick();
+        }
     }
 }

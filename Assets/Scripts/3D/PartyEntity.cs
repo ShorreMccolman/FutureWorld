@@ -76,7 +76,7 @@ public class PartyEntity : Entity3D
         MapCam.enabled = false;
         MapCam.enabled = true;
 
-        Party.OnTorchChanged += TorchLight;
+        Status.OnTorchChanged += TorchLight;
     }
 
     public void SetControls(ControlState state)

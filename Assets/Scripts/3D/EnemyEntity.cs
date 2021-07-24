@@ -85,7 +85,7 @@ public class EnemyEntity : Entity3D, IPopable, IMoveable, IAttacker
         Enemy.OnEnemyReady += EnemyReady;
         TurnController.OnTurnBasedToggled += ToggleTB;
         TurnController.OnEnemyMoveToggled += ToggleCanMove;
-        Party.OnWizardEyeChanged += ToggleWizardEye;
+        Status.OnWizardEyeChanged += ToggleWizardEye;
     }
 
     void SetupBehaviour()

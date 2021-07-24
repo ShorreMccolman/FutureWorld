@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - DisplayName: Bless
-    Option: 23
+    Option: 27
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    OverridedEffects: 
