@@ -23,6 +23,7 @@ public class HUD : Menu {
     [SerializeField] Transform Compass;
 
     [SerializeField] CharacterVitalsDisplay[] CharacterVitalsUI;
+    [SerializeField] Image[] StatusIcons;
 
     [SerializeField] HireButton[] HireButtons;
 
@@ -69,6 +70,8 @@ public class HUD : Menu {
         {
             CharacterVitalsUI[i].Init(party.Members[i]);
         }
+        foreach (var icon in StatusIcons)
+            icon.enabled = false;
 
         _selectedMenu = ProfileMenu;
 
@@ -81,17 +84,12 @@ public class HUD : Menu {
         Party.OnFundsChanged += UpdateFunds;
         Party.OnFoodChanged += UpdateFood;
         Party.OnHiresChanged += UpdateHires;
+        Party.Instance.Status.OnStatusIconChanged += StatusIconChange;
         MenuManager.OnMenuOpened += MenuOpened;
         MenuManager.OnMenusClosed += MenusClosed;
         TurnController.OnTurnBasedToggled += UpdateCombatIndicator;
         TurnController.OnEnemyMoveToggled += UpdateCombatIndicatorWait;
-        TimeManagement.OnTimeFreezeChanged += Freeze;
-    }
-
-    void Freeze(bool enable)
-    {
-        Debug.LogError(enable);
-        _frozen = enable;
+        TimeManagement.OnTimeFreezeChanged += (bool enable) => _frozen = enable;
     }
 
     void Update()
@@ -148,6 +146,14 @@ public class HUD : Menu {
         {
             HireButtons[i].Setup(hires[i]);
         }
+    }
+
+    void StatusIconChange(int index, bool effectsParty, bool enable)
+    {
+        if (!effectsParty || index < 0 || index >= StatusIcons.Length)
+            return;
+
+        StatusIcons[index].enabled = enable;
     }
 
     void UpdateCombatIndicator(bool enable)

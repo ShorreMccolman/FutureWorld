@@ -53,6 +53,7 @@ public class StatusEffect
     public bool TicksUp;
 
     public bool IsActiveSpell;
+    public int IconSlot = -1;
 
     public List<StatusEffectOption> OverridedEffects = new List<StatusEffectOption>();
 }

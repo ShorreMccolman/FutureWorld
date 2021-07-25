@@ -21,6 +21,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: -1
     OverridedEffects: 
   - DisplayName: Wizard's Eye
     Option: 22
@@ -30,6 +31,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: -1
     OverridedEffects: 15000000
   - DisplayName: Wizard's Eye
     Option: 23
@@ -39,6 +41,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: -1
     OverridedEffects: 1500000016000000
   - DisplayName: Torch Light
     Option: 24
@@ -48,6 +51,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: -1
     OverridedEffects: 
   - DisplayName: Torch Light
     Option: 25
@@ -57,6 +61,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: -1
     OverridedEffects: 18000000
   - DisplayName: Torch Light
     Option: 26
@@ -66,6 +71,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: -1
     OverridedEffects: 1800000019000000
   - DisplayName: Prot Fire
     Option: 15
@@ -75,6 +81,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: 0
     OverridedEffects: 
   - DisplayName: Prot Elec
     Option: 16
@@ -84,6 +91,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: 1
     OverridedEffects: 
   - DisplayName: Prot Cold
     Option: 17
@@ -93,6 +101,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: 2
     OverridedEffects: 
   - DisplayName: Prot Pois
     Option: 18
@@ -102,6 +111,7 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: 3
     OverridedEffects: 
   - DisplayName: Prot Magic
     Option: 19
@@ -111,4 +121,5 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: 4
     OverridedEffects: 

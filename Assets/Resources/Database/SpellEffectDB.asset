@@ -21,4 +21,5 @@ MonoBehaviour:
     NeedsHealing: 0
     TicksUp: 0
     IsActiveSpell: 1
+    IconSlot: 0
     OverridedEffects: 

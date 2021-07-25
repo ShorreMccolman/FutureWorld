@@ -13,6 +13,7 @@ public class CharacterVitalsDisplay : MonoBehaviour {
     [SerializeField] Image HealthFill;
     [SerializeField] Slider ManaSlider;
     [SerializeField] Image ManaFill;
+    [SerializeField] Image[] StatusIcons;
 
     public PartyMember Member { get; private set; }
 
@@ -29,6 +30,10 @@ public class CharacterVitalsDisplay : MonoBehaviour {
         member.Vitals.OnHealthChange += UpdateHP;
         member.Vitals.OnManaChange += UpdateSP;
         Party.OnMemberChanged += IndicateSelection;
+        member.Status.OnStatusIconChanged += StatusIconChange;
+
+        foreach (var icon in StatusIcons)
+            icon.enabled = false;
 
         UpdateSP(member.Vitals.CurrentHP, member.Vitals.Stats.EffectiveTotalHP);
         UpdateSP(member.Vitals.CurrentSP, member.Vitals.Stats.EffectiveTotalSP);
@@ -53,6 +58,14 @@ public class CharacterVitalsDisplay : MonoBehaviour {
     private void NearbyEnemiesChanged()
     {
         UpdateStatus(Member.Vitals.IsReady(), Member.Vitals.Condition);
+    }
+
+    void StatusIconChange(int index, bool effectsParty, bool enable)
+    {
+        if (effectsParty || index < 0 || index >= StatusIcons.Length)
+            return;
+
+        StatusIcons[index].enabled = enable;
     }
 
     void UpdateSP(int sp, int max)

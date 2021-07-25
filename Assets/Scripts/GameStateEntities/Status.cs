@@ -7,6 +7,7 @@ public class Status : GameStateEntity
 {
     List<StatusCondition> _conditions;
 
+    public event System.Action<int, bool, bool> OnStatusIconChanged;
     public event System.Action OnStatusChanged;
 
     public static event System.Action<bool, SkillProficiency> OnWizardEyeChanged;
@@ -147,6 +148,8 @@ public class Status : GameStateEntity
                 break;
         }
 
+        if (condition.Effect.IconSlot != -1)
+            OnStatusIconChanged?.Invoke(condition.Effect.IconSlot, condition.Effect.EffectsParty, false);
         OnStatusChanged?.Invoke();
     }
 
@@ -165,6 +168,8 @@ public class Status : GameStateEntity
         condition.OnConditionComplete += CompleteCondition;
         _conditions.Add(condition);
         OnAddCondition(option);
+        if(condition.Effect.IconSlot != -1)
+            OnStatusIconChanged?.Invoke(condition.Effect.IconSlot, condition.Effect.EffectsParty, true);
         if (update)
             OnStatusChanged?.Invoke();
     }
@@ -186,6 +191,8 @@ public class Status : GameStateEntity
         condition.OnConditionComplete += CompleteCondition;
         _conditions.Add(condition);
         OnAddCondition(option);
+        if (condition.Effect.IconSlot != -1)
+            OnStatusIconChanged?.Invoke(condition.Effect.IconSlot, condition.Effect.EffectsParty, true);
         if (update)
             OnStatusChanged?.Invoke();
     }
@@ -236,6 +243,8 @@ public class Status : GameStateEntity
             _conditions[index].OnConditionComplete -= CompleteCondition;
             _conditions[index].Terminate();
             _conditions.RemoveAt(index);
+            if (_conditions[index].Effect.IconSlot != -1)
+                OnStatusIconChanged?.Invoke(_conditions[index].Effect.IconSlot, _conditions[index].Effect.EffectsParty, false);
             if (update)
                 OnStatusChanged?.Invoke();
         }
