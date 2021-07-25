@@ -256,7 +256,7 @@ public class Status : GameStateEntity
             return false;
 
         StatusCondition condition = _conditions.Find(x => x.Option == option);
-        if(condition.Duration <= expiry)
+        if(condition.Lifetime > expiry)
         {
             RemoveCondition(option);
             return true;

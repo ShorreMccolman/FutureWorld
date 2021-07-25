@@ -8,6 +8,7 @@ public class StatusCondition : GameStateEntity
 {
     public StatusEffectOption Option { get; private set; }
     public StatusEffect Effect { get; private set; }
+    public float Lifetime { get; private set; }
     public float Duration { get; private set; }
     public int Potency { get; private set; }
 
@@ -18,6 +19,7 @@ public class StatusCondition : GameStateEntity
         Option = data.Option;
         Effect = data;
         Duration = duration;
+        Lifetime = 0;
         Potency = 0;
 
         TimeManagement.OnTick += Tick;
@@ -56,11 +58,15 @@ public class StatusCondition : GameStateEntity
 
     public void Tick(float delta)
     {
-        Duration += Effect.TicksUp ? delta : -delta;
+        Lifetime += delta;
 
-        if(!Effect.TicksUp && Duration < 0)
+        if(Effect.IsTemporary)
         {
-            OnConditionComplete?.Invoke(this);
+            Duration -= delta;
+            if (Duration < 0)
+            {
+                OnConditionComplete?.Invoke(this);
+            }
         }
     }
 

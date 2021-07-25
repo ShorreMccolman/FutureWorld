@@ -51,14 +51,16 @@ MonoBehaviour:
     SPCost: 3
     DisplayName: Protection from Magic
     Description: "Increases all your characters\u2019 resistance to magic by an amount
-      equal to your skill in Earth Magic."
+      equal to your skill in Earth Magic. This spell lasts for one hour per point
+      of skill in Earth Magic."
     MasteryDescriptions:
     - 1 point resistance per point of skill
     - 2 points resistance per point of skill
     - 3 points resistance per point of skill
     School: 3
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -3969211400123517817, guid: c0e447ab134256844adaf7e2a86a9e6c,
+      type: 3}
   - ID: deadly_swarm
     Number: 3
     SPCost: 4

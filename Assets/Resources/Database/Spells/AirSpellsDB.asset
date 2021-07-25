@@ -49,14 +49,16 @@ MonoBehaviour:
     SPCost: 3
     DisplayName: Protection from Electricity
     Description: "Increases all your characters\u2019 resistance to Electricity by
-      an amount equal to your skill in Air Magic."
+      an amount equal to your skill in Air Magic. This spell lasts for one hour per
+      point of skill in Air Magic."
     MasteryDescriptions:
     - 1 point resistance per point of skill
     - 2 points resistance per point of skill
     - 3 points resistance per point of skill
     School: 1
     Icon: {fileID: 21300000, guid: 89b38e789cf726f4d98d044370c23af8, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -3969211400123517817, guid: cf79fbd6c64001843acbd8f3a3d0c0ef,
+      type: 3}
   - ID: sparks
     Number: 3
     SPCost: 4

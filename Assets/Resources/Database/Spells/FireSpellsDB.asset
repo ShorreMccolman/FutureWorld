@@ -57,7 +57,8 @@ MonoBehaviour:
     - 3 points resistance per point of skill
     School: 0
     Icon: {fileID: 21300000, guid: 2b52138bf53663b42962bda6559dca81, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -3969211400123517817, guid: 97702b43c6db9984f9ffe13f47e80a02,
+      type: 3}
   - ID: fire_bolt
     Number: 3
     SPCost: 4

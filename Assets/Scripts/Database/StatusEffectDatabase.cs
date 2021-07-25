@@ -3,40 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum StatusEffectOption
 {
-    Sleep,
-    Rested,
+    None = 0,
+    Sleep = 1,
+    Rested = 2,
 
-    Poison,
-    Disease,
-    Weak,
+    Weak = 10,
+    Fear = 11,
+    Poison = 12,
+    Disease = 13,
+    Paralysis = 14,
+    Curse = 15,
+    MagicSleep = 16,
+    MagicWeak = 17,
+    Stoned = 18,
+    Insane = 19,
+    Dead = 20,
+    Incinerated = 21,
 
-    BoostedAC,
-    BoostedStats,
-    BoostedResistance,
+    BoostedAC = 100,
+    BoostedStats = 101,
+    BoostedResistance = 102,
+    BoostedMight = 103,
+    BoostedPersonality = 104,
+    BoostedIntellect = 105,
+    BoostedEndurance = 106,
+    BoostedAccuracy = 107,
+    BoostedSpeed = 108,
+    BoostedLuck = 109,
+    BoostedFireR = 110,
+    BoostedElecR = 111,
+    BoostedColdR = 112,
+    BoostedPoisR = 113,
+    BoostedMagicR = 114,
 
-    BoostedMight,
-    BoostedPersonality,
-    BoostedIntellect,
-    BoostedEndurance,
-    BoostedAccuracy,
-    BoostedSpeed,
-    BoostedLuck,
-
-    BoostedFireR,
-    BoostedElecR,
-    BoostedColdR,
-    BoostedPoisR,
-    BoostedMagicR,
-
-    MagicSleep,
-
-    WizardEye,
-    WizardEyeExpert,
-    WizardEyeMaster,
-    TorchLight,
-    TorchLightExpert,
-    TorchLightMaster,
-    Bless,
+    WizardEye = 200,
+    WizardEyeExpert = 202,
+    WizardEyeMaster = 203,
+    TorchLight = 204,
+    TorchLightExpert = 205,
+    TorchLightMaster = 206,
+    Bless = 207,
+    Haste = 208,
+    Feather = 209,
+    MagicShield = 210,
+    Jumping = 211,
+    Flying = 212,
+    WaterWalking = 213,
+    StoneSkin = 214,
+    Guardian = 215,
+    Heroism = 216,
+    Lucky = 217,
+    Meditation = 218,
+    Precision = 219,
+    Speed = 220,
+    Power = 221,
+    ProtFire = 222,
+    ProtElec = 223,
+    ProtCold = 224,
+    ProtPois = 225,
+    ProtMagic = 226,
 }
 
 [System.Serializable]
@@ -50,7 +75,7 @@ public class StatusEffect
 
     public bool EffectsParty;
     public bool NeedsHealing;
-    public bool TicksUp;
+    public bool IsTemporary;
 
     public bool IsActiveSpell;
     public int IconSlot = -1;

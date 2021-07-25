@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   School: 2
   Spells:
-  - ID: awakening
+  - ID: awaken
     Number: 0
     SPCost: 1
-    DisplayName: Awakening
+    DisplayName: Awaken
     Description: Automatically awakens all of your characters from a normal sleep
       and will awaken them from a magical sleep if they haven't had the sleep condition
       for too long.  The greater your skill in Water Magic, the longer the sleep
@@ -59,7 +59,8 @@ MonoBehaviour:
     - 3 points resistance per point of skill
     School: 2
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -3969211400123517817, guid: 288bd16a8a6a9b14383e55afb7475494,
+      type: 3}
   - ID: poison_spray
     Number: 3
     SPCost: 4
