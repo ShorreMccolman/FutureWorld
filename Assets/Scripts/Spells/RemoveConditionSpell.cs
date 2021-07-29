@@ -8,7 +8,7 @@ public class RemoveConditionSpell : SpellBehaviour
     [SerializeField] StatusEffectOption Secondary;
     [SerializeField] StatusEffectOption SideEffect;
 
-    public override float GetRecovery(SkillProficiency proficiency) => 140f;
+    public override float GetRecovery(InventorySkill skill) => 140f;
 
     public override bool IsTargetValid(CombatEntity target)
     {

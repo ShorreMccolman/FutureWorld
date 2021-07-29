@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bless : SpellBehaviour
 {
-    public override float GetRecovery(SkillProficiency proficiency) => 
-        proficiency == SkillProficiency.Novice ? 140f : 100f;
+    public override float GetRecovery(InventorySkill skill) => 
+        skill.Proficiency == SkillProficiency.Novice ? 140f : 100f;
 
     public override bool IsTargetValid(CombatEntity target)
     {

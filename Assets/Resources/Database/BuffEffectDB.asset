@@ -14,82 +14,152 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - DisplayName: mig
-    Option: 8
+    Option: 103
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: per
-    Option: 9
+    Option: 104
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: int
-    Option: 10
+    Option: 105
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: end
-    Option: 11
+    Option: 106
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: acc
-    Option: 12
+    Option: 107
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: spe
-    Option: 13
+    Option: 108
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: luck
-    Option: 14
+    Option: 109
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: AC
-    Option: 5
+    Option: 100
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: sta
-    Option: 6
+    Option: 101
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: res
-    Option: 7
+    Option: 102
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: fire
+    Option: 110
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    IsTemporary: 1
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: elec
+    Option: 111
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    IsTemporary: 1
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: cold
+    Option: 112
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    IsTemporary: 1
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: pois
+    Option: 113
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    IsTemporary: 1
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: magic
+    Option: 114
+    ExpressionOverride: 
+    OverridePriority: 0
+    EffectsParty: 0
+    NeedsHealing: 0
+    IsTemporary: 1
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 

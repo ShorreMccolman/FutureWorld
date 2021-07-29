@@ -29,7 +29,8 @@ MonoBehaviour:
     - Works if weak less than 1 day per point of skill
     School: 6
     Icon: {fileID: 21300000, guid: 3721d5b1ab477864e990c625dda7c93d, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 7131675996358057144, guid: 571b87bcfa29a5a489c7ada4fa58d759,
+      type: 3}
   - ID: first_aid
     Number: 1
     SPCost: 2

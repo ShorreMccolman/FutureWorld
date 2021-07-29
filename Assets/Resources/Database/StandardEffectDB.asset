@@ -14,50 +14,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - DisplayName: Sleep
-    Option: 0
-    ExpressionOverride: sleep
-    OverridePriority: 100
-    EffectsParty: 0
-    NeedsHealing: 1
-    TicksUp: 0
-    IsActiveSpell: 0
-  - DisplayName: Sleep
-    Option: 20
-    ExpressionOverride: sleep
-    OverridePriority: 100
-    EffectsParty: 0
-    NeedsHealing: 1
-    TicksUp: 1
-    IsActiveSpell: 0
-  - DisplayName: Rested
     Option: 1
+    ExpressionOverride: sleep
+    OverridePriority: 100
+    EffectsParty: 0
+    NeedsHealing: 1
+    IsTemporary: 1
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: Sleep
+    Option: 16
+    ExpressionOverride: sleep
+    OverridePriority: 100
+    EffectsParty: 0
+    NeedsHealing: 1
+    IsTemporary: 0
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: Rested
+    Option: 2
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 0
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: Disease
-    Option: 3
+    Option: 13
     ExpressionOverride: disease
     OverridePriority: 99
     EffectsParty: 0
     NeedsHealing: 1
-    TicksUp: 1
+    IsTemporary: 0
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: Poison
-    Option: 2
+    Option: 12
     ExpressionOverride: poison
     OverridePriority: 98
     EffectsParty: 0
     NeedsHealing: 1
-    TicksUp: 1
+    IsTemporary: 0
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
   - DisplayName: Weak
-    Option: 4
+    Option: 10
     ExpressionOverride: weak
     OverridePriority: 97
     EffectsParty: 0
     NeedsHealing: 1
-    TicksUp: 1
+    IsTemporary: 0
     IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 
+  - DisplayName: Weak
+    Option: 17
+    ExpressionOverride: weak
+    OverridePriority: 97
+    EffectsParty: 0
+    NeedsHealing: 1
+    IsTemporary: 1
+    IsActiveSpell: 0
+    IconSlot: -1
+    OverridedEffects: 

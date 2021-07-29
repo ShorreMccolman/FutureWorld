@@ -72,5 +72,6 @@ MonoBehaviour:
     - Faster recovery rate
     - Fastest recovery rate
     School: 0
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
-    Behaviour: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 233186ca76d0e5e47900855c92573b7d, type: 3}
+    Behaviour: {fileID: 2093742482296045276, guid: a4b9848a39a58624c80a4fbff403f948,
+      type: 3}

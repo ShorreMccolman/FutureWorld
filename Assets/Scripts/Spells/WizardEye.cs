@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class WizardEye : SpellBehaviour
 {
-    public override float GetRecovery(SkillProficiency proficiency) => 60f;
+    public override float GetRecovery(InventorySkill skill) => 60f;
 
     protected override void OnCast(CombatEntity caster, int power, SkillProficiency proficiency)
     {

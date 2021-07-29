@@ -28,7 +28,7 @@ MonoBehaviour:
     - Works if asleep less than 1 day per point of skill
     School: 2
     Icon: {fileID: 21300000, guid: 5df08f2ec09e7f8439ae75c420ec1ad9, type: 3}
-    Behaviour: {fileID: -7659345147404470087, guid: 1628494f1aecd4142a34a82099bbbc0e,
+    Behaviour: {fileID: 8068966090629600764, guid: 1628494f1aecd4142a34a82099bbbc0e,
       type: 3}
   - ID: cold_beam
     Number: 1

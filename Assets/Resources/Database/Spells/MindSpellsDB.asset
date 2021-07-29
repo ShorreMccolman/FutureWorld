@@ -42,7 +42,8 @@ MonoBehaviour:
     - Works if afraid less than 1 day per point of skill
     School: 5
     Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 7131675996358057144, guid: 4d03a11a5bb07a048b01c4370d932e5f,
+      type: 3}
   - ID: mind_blast
     Number: 2
     SPCost: 3

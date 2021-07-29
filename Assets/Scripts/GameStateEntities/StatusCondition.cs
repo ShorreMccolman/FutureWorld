@@ -91,6 +91,7 @@ public class StatusCondition : GameStateEntity
                 stats.GetStat(CharacterStat.Accuracy).ReduceMultiplier(0.6f);
                 stats.GetStat(CharacterStat.Speed).ReduceMultiplier(0.6f);
                 break;
+
             case StatusEffectOption.BoostedResistance:
                 stats.GetStat(CharacterStat.FireResist).AddToBonus(Potency);
                 stats.GetStat(CharacterStat.ElecResist).AddToBonus(Potency);
@@ -98,18 +99,23 @@ public class StatusCondition : GameStateEntity
                 stats.GetStat(CharacterStat.PoisonResist).AddToBonus(Potency);
                 stats.GetStat(CharacterStat.MagicResist).AddToBonus(Potency);
                 break;
+            case StatusEffectOption.ProtFire:
             case StatusEffectOption.BoostedFireR:
                 stats.GetStat(CharacterStat.FireResist).AddToBonus(Potency);
                 break;
+            case StatusEffectOption.ProtElec:
             case StatusEffectOption.BoostedElecR:
                 stats.GetStat(CharacterStat.ElecResist).AddToBonus(Potency);
                 break;
+            case StatusEffectOption.ProtCold:
             case StatusEffectOption.BoostedColdR:
                 stats.GetStat(CharacterStat.ColdResist).AddToBonus(Potency);
                 break;
+            case StatusEffectOption.ProtPois:
             case StatusEffectOption.BoostedPoisR:
                 stats.GetStat(CharacterStat.PoisonResist).AddToBonus(Potency);
                 break;
+            case StatusEffectOption.ProtMagic:
             case StatusEffectOption.BoostedMagicR:
                 stats.GetStat(CharacterStat.MagicResist).AddToBonus(Potency);
                 break;
@@ -146,6 +152,7 @@ public class StatusCondition : GameStateEntity
             case StatusEffectOption.BoostedLuck:
                 stats.GetStat(CharacterStat.Luck).AddToBonus(Potency);
                 break;
+
             case StatusEffectOption.Bless:
                 stats.GetStat(CharacterStat.RangedAttack).AddToBonus(Potency);
                 stats.GetStat(CharacterStat.Attack).AddToBonus(Potency);

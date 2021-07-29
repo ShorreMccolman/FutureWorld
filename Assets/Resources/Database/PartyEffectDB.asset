@@ -14,112 +14,112 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - DisplayName: Wizard's Eye
-    Option: 21
+    Option: 200
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: -1
     OverridedEffects: 
   - DisplayName: Wizard's Eye
-    Option: 22
+    Option: 202
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: -1
-    OverridedEffects: 15000000
+    OverridedEffects: c8000000
   - DisplayName: Wizard's Eye
-    Option: 23
+    Option: 203
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: -1
-    OverridedEffects: 1500000016000000
+    OverridedEffects: c8000000ca000000
   - DisplayName: Torch Light
-    Option: 24
+    Option: 204
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: -1
     OverridedEffects: 
   - DisplayName: Torch Light
-    Option: 25
+    Option: 205
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: -1
-    OverridedEffects: 18000000
+    OverridedEffects: cc000000
   - DisplayName: Torch Light
-    Option: 26
+    Option: 206
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: -1
-    OverridedEffects: 1800000019000000
+    OverridedEffects: cc000000cd000000
   - DisplayName: Prot Fire
-    Option: 15
+    Option: 222
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: 0
     OverridedEffects: 
   - DisplayName: Prot Elec
-    Option: 16
+    Option: 223
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: 1
     OverridedEffects: 
   - DisplayName: Prot Cold
-    Option: 17
+    Option: 224
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: 2
     OverridedEffects: 
   - DisplayName: Prot Pois
-    Option: 18
+    Option: 225
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: 3
     OverridedEffects: 
   - DisplayName: Prot Magic
-    Option: 19
+    Option: 226
     ExpressionOverride: 
     OverridePriority: 0
     EffectsParty: 1
     NeedsHealing: 0
-    TicksUp: 0
+    IsTemporary: 1
     IsActiveSpell: 1
     IconSlot: 4
     OverridedEffects: 

@@ -109,8 +109,8 @@ public class SpellBehaviour : MonoBehaviour
 {
     [SerializeField] protected string DisplayName;
 
-    public virtual float GetRecovery(SkillProficiency proficiency) => 100f;
     public virtual bool IsTargetValid(CombatEntity entity) { return false; }
+    public virtual float GetRecovery(InventorySkill skill) => 100f;
     public virtual int AdjustCost(int cost, InventorySkill skill) { return cost; }
 
     public void Cast(CombatEntity caster, InventorySkill skill) 

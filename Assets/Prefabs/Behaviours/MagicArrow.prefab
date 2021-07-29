@@ -48,6 +48,8 @@ MonoBehaviour:
   NoviceRecovery: 100
   ExpertRecovery: 90
   MasterRecovery: 80
+  UseAdjustedCosts: 1
+  NoviceCost: 2
   ExpertCost: 1
   MasterCost: 0
   Roll:
@@ -55,3 +57,4 @@ MonoBehaviour:
     Sides: 6
     Baseline: 2
   UsesSkillForHit: 1
+  RollsPerSkillPoint: 0

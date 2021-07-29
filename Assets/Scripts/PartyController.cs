@@ -411,7 +411,7 @@ public class PartyController : MonoBehaviour {
         }
     }
 
-    public void CastProjectile(Projectile projectile, Entity3D target = null)
+    public void CastProjectile(Projectile projectile, Entity3D target = null, int quantity = 1)
     {
         bool shortRange;
         if(target == null)

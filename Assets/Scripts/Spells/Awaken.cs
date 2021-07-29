@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Awaken : SpellBehaviour
 {
-    public override float GetRecovery(SkillProficiency proficiency) => 60f;
+    public override float GetRecovery(InventorySkill skill) => 60f;
 
     protected override void OnCast(CombatEntity caster, int power, SkillProficiency proficiency)
     {

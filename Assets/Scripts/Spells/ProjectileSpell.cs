@@ -10,20 +10,28 @@ public class ProjectileSpell : SpellBehaviour
     [SerializeField] int ExpertRecovery;
     [SerializeField] int MasterRecovery;
 
+    [SerializeField] bool UseAdjustedCosts;
+    [SerializeField] int NoviceCost;
     [SerializeField] int ExpertCost;
     [SerializeField] int MasterCost;
 
     [SerializeField] DiceRoll Roll;
     [SerializeField] bool UsesSkillForHit;
+    [SerializeField] bool RollsPerSkillPoint;
 
-    public override float GetRecovery(SkillProficiency proficiency) => 
-        proficiency == SkillProficiency.Novice ? NoviceRecovery : 
-        proficiency == SkillProficiency.Expert ? ExpertRecovery : MasterRecovery;
+    public override float GetRecovery(InventorySkill skill) => 
+        skill.Proficiency == SkillProficiency.Novice ? NoviceRecovery : 
+        skill.Proficiency == SkillProficiency.Expert ? ExpertRecovery : MasterRecovery;
 
     public override int AdjustCost(int cost, InventorySkill skill)
     {
+        if (!UseAdjustedCosts)
+            return cost;
+
         switch(skill.Proficiency)
         {
+            case SkillProficiency.Novice:
+                return NoviceCost;
             case SkillProficiency.Expert:
                 return ExpertCost;
             case SkillProficiency.Master:
@@ -64,7 +72,19 @@ public class ProjectileSpell : SpellBehaviour
         int attack = int.MaxValue;
         if (UsesSkillForHit)
             attack = _potency;
-        projectile.SetDamage(name, attack, Roll.Roll());
+
+        int damage = 0;
+        if (RollsPerSkillPoint)
+        {
+            for(int i=0;i<_potency;i++)
+            {
+                damage += Roll.Roll();
+            }
+        }
+        else
+            damage = Roll.Roll();
+
+        projectile.SetDamage(name, attack, damage);
         return projectile;
     }
 }

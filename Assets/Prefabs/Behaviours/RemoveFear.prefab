@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6052001853590797225}
-  - component: {fileID: 2093742482296045276}
+  - component: {fileID: 7131675996358057144}
   m_Layer: 0
-  m_Name: SpiritArrow
+  m_Name: RemoveFear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2093742482296045276
+--- !u!114 &7131675996358057144
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,21 +40,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5187201974437551396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21f2db22a84ed1949955bcb0df52a8c2, type: 3}
+  m_Script: {fileID: 11500000, guid: da26987c556451a46814df11affe305b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisplayName: Spirit Arrow
-  ProjectileID: spirit_arrow
-  NoviceRecovery: 90
-  ExpertRecovery: 80
-  MasterRecovery: 80
-  UseAdjustedCosts: 1
-  NoviceCost: 1
-  ExpertCost: 1
-  MasterCost: 0
-  Roll:
-    Rolls: 1
-    Sides: 6
-    Baseline: 0
-  UsesSkillForHit: 1
-  RollsPerSkillPoint: 0
+  DisplayName: Remove Fear
+  Option: 11
+  Secondary: 0
+  SideEffect: 0

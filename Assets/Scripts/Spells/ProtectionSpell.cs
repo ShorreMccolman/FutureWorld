@@ -6,7 +6,7 @@ public class ProtectionSpell : SpellBehaviour
 {
     [SerializeField] StatusEffectOption EffectOption;
 
-    public override float GetRecovery(SkillProficiency proficiency) => 120f;
+    public override float GetRecovery(InventorySkill skill) => 120f;
 
     protected override void OnCast(CombatEntity caster, int power, SkillProficiency proficiency)
     {

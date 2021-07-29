@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6052001853590797225}
   - component: {fileID: 2093742482296045276}
   m_Layer: 0
-  m_Name: SpiritArrow
+  m_Name: FireBolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,18 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f2db22a84ed1949955bcb0df52a8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisplayName: Spirit Arrow
-  ProjectileID: spirit_arrow
-  NoviceRecovery: 90
-  ExpertRecovery: 80
-  MasterRecovery: 80
-  UseAdjustedCosts: 1
-  NoviceCost: 1
-  ExpertCost: 1
+  DisplayName: Fire Bolt
+  ProjectileID: fire_bolt
+  NoviceRecovery: 110
+  ExpertRecovery: 100
+  MasterRecovery: 90
+  UseAdjustedCosts: 0
+  NoviceCost: 0
+  ExpertCost: 0
   MasterCost: 0
   Roll:
     Rolls: 1
-    Sides: 6
+    Sides: 4
     Baseline: 0
-  UsesSkillForHit: 1
-  RollsPerSkillPoint: 0
+  UsesSkillForHit: 0
+  RollsPerSkillPoint: 1

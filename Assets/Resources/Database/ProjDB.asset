@@ -43,3 +43,8 @@ MonoBehaviour:
     model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
     DamageType: 5
     IsSpell: 1
+  - ID: fire_bolt
+    Speed: 8
+    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    DamageType: 1
+    IsSpell: 1
