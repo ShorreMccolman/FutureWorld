@@ -74,4 +74,5 @@ MonoBehaviour:
     - Fastest recovery rate and 5 shots
     School: 2
     Icon: {fileID: 21300000, guid: eb56562be7b99464a87900df9dc7f915, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -3549603116392683778, guid: e4bd5a358e061c64c946e659418cbca4,
+      type: 3}

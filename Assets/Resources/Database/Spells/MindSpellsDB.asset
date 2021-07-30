@@ -26,7 +26,8 @@ MonoBehaviour:
     - Spell affects entire party
     School: 5
     Icon: {fileID: 21300000, guid: 0d3452eb371ae5244bf5054227d3c3eb, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -408822697240830063, guid: 6bd942bb23d04d14c9e66cfebf03a2eb,
+      type: 3}
   - ID: remove_fear
     Number: 1
     SPCost: 2
@@ -57,7 +58,8 @@ MonoBehaviour:
     - Fastest recovery rate
     School: 5
     Icon: {fileID: 21300000, guid: e61220ddf2655ca48bc5afc52ccbeba3, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: 2093742482296045276, guid: de470491441b0f543a9633350a315982,
+      type: 3}
   - ID: precision
     Number: 3
     SPCost: 4
@@ -70,4 +72,5 @@ MonoBehaviour:
     - Spell affects entire party
     School: 5
     Icon: {fileID: 21300000, guid: 1b6a12bf4fb11a441bb910edea75f052, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -408822697240830063, guid: a35242311a3e30d438ea415ef380b5f2,
+      type: 3}

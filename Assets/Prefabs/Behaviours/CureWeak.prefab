@@ -46,4 +46,4 @@ MonoBehaviour:
   DisplayName: Cure Weakness
   Option: 10
   Secondary: 17
-  SideEffect: 0
+  SideEffect: 2

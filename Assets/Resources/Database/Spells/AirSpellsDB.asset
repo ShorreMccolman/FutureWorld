@@ -73,4 +73,5 @@ MonoBehaviour:
     - Fastest recovery rate, 7 sparks
     School: 1
     Icon: {fileID: 21300000, guid: cdb08647963c9b547b19fd9609050f19, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -928983790956893658, guid: 990b31b7786bb13448a02a30c6303c14,
+      type: 3}

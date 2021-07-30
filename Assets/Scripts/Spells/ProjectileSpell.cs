@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class ProjectileSpell : SpellBehaviour
 {
-    [SerializeField] string ProjectileID;
+    [SerializeField] protected string ProjectileID;
     [SerializeField] int NoviceRecovery;
     [SerializeField] int ExpertRecovery;
     [SerializeField] int MasterRecovery;
@@ -15,7 +15,7 @@ public class ProjectileSpell : SpellBehaviour
     [SerializeField] int ExpertCost;
     [SerializeField] int MasterCost;
 
-    [SerializeField] DiceRoll Roll;
+    [SerializeField] protected DiceRoll Roll;
     [SerializeField] bool UsesSkillForHit;
     [SerializeField] bool RollsPerSkillPoint;
 
@@ -56,30 +56,27 @@ public class ProjectileSpell : SpellBehaviour
         }
         else
         {
-            PartyController.Instance.CastProjectile(MakeProjectile(DisplayName));
+            PartyController.Instance.CastProjectile(MakeProjectile(DisplayName, power, proficiency));
         }
     }
 
     public override void CastTarget(CombatEntity target)
     {
-        PartyController.Instance.CastProjectile(MakeProjectile(DisplayName), target.GetEntity());
+        PartyController.Instance.CastProjectile(MakeProjectile(DisplayName, _potency, _proficiency), target.GetEntity());
         Destroy(this.gameObject);
     }
 
-    Projectile MakeProjectile(string name)
+    protected virtual Projectile MakeProjectile(string name, int potency, SkillProficiency proficiency)
     {
         Projectile projectile = ProjectileDatabase.Instance.GetProjectile(ProjectileID);
         int attack = int.MaxValue;
         if (UsesSkillForHit)
-            attack = _potency;
+            attack = potency;
 
         int damage = 0;
         if (RollsPerSkillPoint)
         {
-            for(int i=0;i<_potency;i++)
-            {
-                damage += Roll.Roll();
-            }
+            damage = Roll.MultiRoll(potency);
         }
         else
             damage = Roll.Roll();

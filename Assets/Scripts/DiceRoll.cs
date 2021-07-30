@@ -16,6 +16,19 @@ public struct DiceRoll
         Baseline = baseline;
     }
 
+    public int MultiRoll(int multiple)
+    {
+        int value = Baseline;
+        for (int j = 0; j < multiple; j++)
+        {
+            for (int i = 0; i < Rolls; i++)
+            {
+                value += Random.Range(1, Sides + 1);
+            }
+        }
+        return value;
+    }
+
     public int Roll()
     {
         int value = Baseline;

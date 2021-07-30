@@ -10,6 +10,7 @@ public class ProjectileData
     public GameObject model;
     public AttackType DamageType;
     public bool IsSpell;
+    public StatusEffectOption OnHitEffect;
 }
 
 public class ProjectileDatabase
@@ -36,6 +37,17 @@ public class ProjectileDatabase
             foreach(var proj in db.GetProjectiles())
                 _projDict.Add(proj.ID, proj);
         }
+    }
+
+    public ProjectileData GetProjectileData(string id)
+    {
+        if (!_projDict.ContainsKey(id))
+        {
+            Debug.LogError("Could not find projectile with ID " + id);
+            return null;
+        }
+
+        return _projDict[id];
     }
 
     public Projectile GetProjectile(string id)

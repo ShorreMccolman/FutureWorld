@@ -423,6 +423,20 @@ public class PartyController : MonoBehaviour {
             projectile.Setup(lookdir, true);
             DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
             SoundManager.Instance.PlayUISound("Arrow");
+
+            if (quantity > 1)
+            {
+                for (int i = 0; i < quantity / 2; i++)
+                {
+                    Vector3 dir = Quaternion.AngleAxis(30 * i, Vector3.up) * lookdir;
+                    projectile.Setup(lookdir, true);
+                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
+
+                    dir = Quaternion.AngleAxis(-30 * i, Vector3.up) * lookdir;
+                    projectile.Setup(lookdir, true);
+                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
+                }
+            }
         } 
         else
         {
@@ -430,6 +444,20 @@ public class PartyController : MonoBehaviour {
             projectile.Setup(lookdir, true);
             DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
             SoundManager.Instance.PlayUISound("Arrow");
+
+            if (quantity > 1)
+            {
+                for (int i = 0; i < quantity / 2; i++)
+                {
+                    Vector3 dir = Quaternion.AngleAxis(30 * i, Vector3.up) * lookdir;
+                    projectile.Setup(lookdir, true);
+                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
+
+                    dir = Quaternion.AngleAxis(-30 * i, Vector3.up) * lookdir;
+                    projectile.Setup(lookdir, true);
+                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
+                }
+            }
         }
     }
 

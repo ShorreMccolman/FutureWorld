@@ -40,8 +40,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 5187201974437551396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54bf01712c2f804989cf346f1d916bb, type: 3}
+  m_Script: {fileID: 11500000, guid: abac4ddab1b042846b59eca73f9f56ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DisplayName: Sparks
   ProjectileID: spark
+  NoviceRecovery: 110
+  ExpertRecovery: 100
+  MasterRecovery: 90
+  UseAdjustedCosts: 0
+  NoviceCost: 0
+  ExpertCost: 0
+  MasterCost: 0
+  Roll:
+    Rolls: 1
+    Sides: 1
+    Baseline: 0
+  UsesSkillForHit: 0
+  RollsPerSkillPoint: 0
+  NoviceShots: 3
+  ExpertShots: 5
+  MasterShots: 7
+  BaseDamage: 2

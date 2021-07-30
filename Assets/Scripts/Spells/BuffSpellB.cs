@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bless : SpellBehaviour
+public class BuffSpellB : SpellBehaviour
 {
+    [SerializeField] StatusEffectOption Option;
+
     public override float GetRecovery(InventorySkill skill) => 
         skill.Proficiency == SkillProficiency.Novice ? 140f : 100f;
 
@@ -34,6 +36,6 @@ public class Bless : SpellBehaviour
     void BlessEntity(CombatEntity entity, int power, SkillProficiency proficiency)
     {
         PartyMember member = entity as PartyMember;
-        member.Status.AddCondition(StatusEffectOption.Bless, 5 + power, 60 * 60 + power * 60 * (proficiency == SkillProficiency.Novice ? 3 : 15));
+        member.Status.AddCondition(Option, 5 + power, 60 * 60 + power * 60 * (proficiency == SkillProficiency.Novice ? 3 : 15));
     }
 }

@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6052001853590797225}
-  - component: {fileID: 3904494227936115579}
+  - component: {fileID: -3549603116392683778}
   m_Layer: 0
-  m_Name: Bless
+  m_Name: PoisonSpray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3904494227936115579
+--- !u!114 &-3549603116392683778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,8 +40,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 5187201974437551396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a402eb0939fb59438c4060b00f312f2, type: 3}
+  m_Script: {fileID: 11500000, guid: abac4ddab1b042846b59eca73f9f56ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisplayName: Bless
-  Option: 207
+  DisplayName: Poison Spray
+  ProjectileID: poison_spray
+  NoviceRecovery: 110
+  ExpertRecovery: 100
+  MasterRecovery: 90
+  UseAdjustedCosts: 0
+  NoviceCost: 0
+  ExpertCost: 0
+  MasterCost: 0
+  Roll:
+    Rolls: 1
+    Sides: 2
+    Baseline: 0
+  UsesSkillForHit: 0
+  RollsPerSkillPoint: 0
+  NoviceShots: 1
+  ExpertShots: 3
+  MasterShots: 5
+  BaseDamage: 2

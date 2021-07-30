@@ -56,7 +56,8 @@ MonoBehaviour:
     - Heals 7-11 points of damage
     School: 4
     Icon: {fileID: 21300000, guid: 1068521e339fb0348b3c9a3e3db4fe48, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -2330344374914612223, guid: f21acf84935eb4a4894d3cc04f8b5120,
+      type: 3}
   - ID: lucky_day
     Number: 3
     SPCost: 4
@@ -69,4 +70,5 @@ MonoBehaviour:
     - Spell affects entire party
     School: 4
     Icon: {fileID: 21300000, guid: cd1583f5567991241985e2dbd5a8c667, type: 3}
-    Behaviour: {fileID: 0}
+    Behaviour: {fileID: -408822697240830063, guid: 54673b25aab5b0c4db5d2998ed481c5b,
+      type: 3}
