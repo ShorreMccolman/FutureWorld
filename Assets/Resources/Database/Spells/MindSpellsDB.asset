@@ -25,7 +25,7 @@ MonoBehaviour:
     - Increases Intellect and Personality by 10 points plus 3 per point of skill
     - Spell affects entire party
     School: 5
-    Icon: {fileID: 21300000, guid: 9b134b59a30bac346937c2180e9d420b, type: 3}
+    Icon: {fileID: 21300000, guid: 0d3452eb371ae5244bf5054227d3c3eb, type: 3}
     Behaviour: {fileID: 0}
   - ID: remove_fear
     Number: 1
@@ -41,7 +41,7 @@ MonoBehaviour:
     - Works if afraid less than 1 hour per point of skill
     - Works if afraid less than 1 day per point of skill
     School: 5
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: 6da159f6af3580044a0769adaee61b63, type: 3}
     Behaviour: {fileID: 7131675996358057144, guid: 4d03a11a5bb07a048b01c4370d932e5f,
       type: 3}
   - ID: mind_blast
@@ -56,7 +56,7 @@ MonoBehaviour:
     - Faster recovery rate
     - Fastest recovery rate
     School: 5
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: e61220ddf2655ca48bc5afc52ccbeba3, type: 3}
     Behaviour: {fileID: 0}
   - ID: precision
     Number: 3
@@ -69,5 +69,5 @@ MonoBehaviour:
     - Increases Accuracy by 10 points plus 3 per point of skill
     - Spell affects entire party
     School: 5
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: 1b6a12bf4fb11a441bb910edea75f052, type: 3}
     Behaviour: {fileID: 0}

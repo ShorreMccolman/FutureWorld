@@ -56,7 +56,7 @@ MonoBehaviour:
     - 2 points resistance per point of skill
     - 3 points resistance per point of skill
     School: 6
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: ba335d56176f42145bae5fb4cfbd15c6, type: 3}
     Behaviour: {fileID: -3969211400123517817, guid: c80b9b63473266d43b37ea23cb00087c,
       type: 3}
   - ID: harm
@@ -70,5 +70,5 @@ MonoBehaviour:
     - Faster recovery rate
     - Fastest recovery rate
     School: 6
-    Icon: {fileID: 21300000, guid: 230b604a342e5f54f820bcff06efb672, type: 3}
+    Icon: {fileID: 21300000, guid: a6bb5d9c8ce833f41ac23bacdbb96491, type: 3}
     Behaviour: {fileID: 0}
