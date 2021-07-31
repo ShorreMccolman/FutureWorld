@@ -32,7 +32,7 @@ public class SkillsMenu : CharacterMenu
             Destroy(button);
         buttonObjects.Clear();
 
-        Name.text = "Skills for " + member.Profile.CharacterName;
+        Name.text = member.Profile.CharacterName;
         Skillpoints.text = "Skill Points: " + member.Profile.SkillPoints;
 
         float lastOffset = 0;

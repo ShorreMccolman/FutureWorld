@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum OnHitEffect
+{
+    None,
+
+    Stun,
+}
+
 [System.Serializable]
 public class ProjectileData
 {
@@ -10,7 +17,7 @@ public class ProjectileData
     public GameObject model;
     public AttackType DamageType;
     public bool IsSpell;
-    public StatusEffectOption OnHitEffect;
+    public OnHitEffect OnHitEffect;
 }
 
 public class ProjectileDatabase

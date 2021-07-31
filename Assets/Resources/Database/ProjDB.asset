@@ -18,33 +18,76 @@ MonoBehaviour:
     model: {fileID: 3666990375783373759, guid: 6f985eec1df827e4fb6d6925e56d2872, type: 3}
     DamageType: 0
     IsSpell: 0
+    OnHitEffect: 0
   - ID: flame_arrow
     Speed: 10
     model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
     DamageType: 1
     IsSpell: 1
+    OnHitEffect: 0
   - ID: static_charge
     Speed: 8
-    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    model: {fileID: 3666990375783373759, guid: eb55c75d049bafe47aa117adf955cd87, type: 3}
     DamageType: 2
     IsSpell: 1
+    OnHitEffect: 0
   - ID: cold_beam
     Speed: 8
-    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    model: {fileID: 3666990375783373759, guid: efe9c3dd3dd1ad648b10b571f79c35ac, type: 3}
     DamageType: 3
     IsSpell: 1
+    OnHitEffect: 0
   - ID: magic_arrow
     Speed: 10
-    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    model: {fileID: 3666990375783373759, guid: 6f985eec1df827e4fb6d6925e56d2872, type: 3}
     DamageType: 5
     IsSpell: 1
+    OnHitEffect: 0
   - ID: spirit_arrow
     Speed: 10
-    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    model: {fileID: 3666990375783373759, guid: 6f985eec1df827e4fb6d6925e56d2872, type: 3}
     DamageType: 5
     IsSpell: 1
+    OnHitEffect: 0
   - ID: fire_bolt
     Speed: 8
-    model: {fileID: 3666990375783373759, guid: 07fb082d5bc057b459c3827cee0ab2f6, type: 3}
+    model: {fileID: 3666990375783373759, guid: 68bc2789251ce2d4cb1789c74303e944, type: 3}
     DamageType: 1
     IsSpell: 1
+    OnHitEffect: 0
+  - ID: spark
+    Speed: 5
+    model: {fileID: 3666990375783373759, guid: eb55c75d049bafe47aa117adf955cd87, type: 3}
+    DamageType: 2
+    IsSpell: 1
+    OnHitEffect: 0
+  - ID: poison_spray
+    Speed: 4
+    model: {fileID: 3666990375783373759, guid: eb55c75d049bafe47aa117adf955cd87, type: 3}
+    DamageType: 4
+    IsSpell: 1
+    OnHitEffect: 0
+  - ID: stun
+    Speed: 8
+    model: {fileID: 3666990375783373759, guid: 6f985eec1df827e4fb6d6925e56d2872, type: 3}
+    DamageType: 5
+    IsSpell: 1
+    OnHitEffect: 1
+  - ID: swarm
+    Speed: 6
+    model: {fileID: 3666990375783373759, guid: 68bc2789251ce2d4cb1789c74303e944, type: 3}
+    DamageType: 5
+    IsSpell: 1
+    OnHitEffect: 0
+  - ID: mind_blast
+    Speed: 8
+    model: {fileID: 3666990375783373759, guid: eb55c75d049bafe47aa117adf955cd87, type: 3}
+    DamageType: 0
+    IsSpell: 1
+    OnHitEffect: 0
+  - ID: harm
+    Speed: 8
+    model: {fileID: 3666990375783373759, guid: 6f985eec1df827e4fb6d6925e56d2872, type: 3}
+    DamageType: 0
+    IsSpell: 1
+    OnHitEffect: 0

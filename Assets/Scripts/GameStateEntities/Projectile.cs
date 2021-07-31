@@ -12,7 +12,7 @@ public class Projectile : GameStateEntity
     public int Potency { get; protected set; }
     public bool IsFriendly { get; protected set; }
     public AttackType DamageType => _data.DamageType;
-    public StatusEffectOption OnHit => _data.OnHitEffect;
+    public OnHitEffect OnHit => _data.OnHitEffect;
     public float Speed => _data.Speed;
     public GameObject Prefab => _data.model;
     public bool IsSpell => _data.IsSpell;

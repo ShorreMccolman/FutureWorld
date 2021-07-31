@@ -58,7 +58,7 @@ MonoBehaviour:
     - 2 points resistance per point of skill
     - 3 points resistance per point of skill
     School: 2
-    Icon: {fileID: 21300000, guid: c3b5526f36411a74f8718485fc82a12a, type: 3}
+    Icon: {fileID: 21300000, guid: 7ba264513bd77de4098a1bdf776d3246, type: 3}
     Behaviour: {fileID: -3969211400123517817, guid: 288bd16a8a6a9b14383e55afb7475494,
       type: 3}
   - ID: poison_spray

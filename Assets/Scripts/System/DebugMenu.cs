@@ -37,6 +37,25 @@ public class DebugMenu : MonoBehaviour
         chest.Inspect();
     }
 
+    public void LearnSpell()
+    {
+        string input = ChestInput.text;
+        string[] split = input.Split(' ');
+
+        Dictionary<string, SpellSchool> dict = new Dictionary<string, SpellSchool>()
+        {
+            {"fire", SpellSchool.Fire },
+            {"Air", SpellSchool.Air },
+            {"Water", SpellSchool.Water },
+            {"Earth", SpellSchool.Earth },
+            {"Spirit", SpellSchool.Spirit },
+            {"Mind", SpellSchool.Mind },
+            {"Body", SpellSchool.Body }
+        };
+
+        Party.Instance.ActiveMember.SpellLog.LearnSpell(dict[split[0]], int.Parse(split[1]));
+    }
+
     public void AddToInventory()
     {
         string input = ChestInput.text;
@@ -90,5 +109,11 @@ public class DebugMenu : MonoBehaviour
     public void AddSkillPoints()
     {
 
+    }
+
+    public void HealParty()
+    {
+        foreach (var member in Party.Instance.Members)
+            member.Vitals.ForceFullHeal();
     }
 }

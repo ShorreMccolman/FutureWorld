@@ -417,46 +417,33 @@ public class PartyController : MonoBehaviour {
         if(target == null)
             target = GetNearestTargetable(out shortRange);
 
+        Vector3 lookdir;
         if (target != null)
         {
-            Vector3 lookdir = (target.transform.position + Vector3.up - Entity.transform.position).normalized;
+            lookdir = (target.transform.position + Vector3.up - Entity.transform.position).normalized;
             projectile.Setup(lookdir, true);
             DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
-            SoundManager.Instance.PlayUISound("Arrow");
-
-            if (quantity > 1)
-            {
-                for (int i = 0; i < quantity / 2; i++)
-                {
-                    Vector3 dir = Quaternion.AngleAxis(30 * i, Vector3.up) * lookdir;
-                    projectile.Setup(lookdir, true);
-                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
-
-                    dir = Quaternion.AngleAxis(-30 * i, Vector3.up) * lookdir;
-                    projectile.Setup(lookdir, true);
-                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
-                }
-            }
         } 
         else
         {
-            Vector3 lookdir = Entity.transform.forward.normalized;
+            lookdir = Entity.transform.forward.normalized;
             projectile.Setup(lookdir, true);
             DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
-            SoundManager.Instance.PlayUISound("Arrow");
+        }
 
-            if (quantity > 1)
+        SoundManager.Instance.PlayUISound("Arrow");
+
+        if (quantity > 1)
+        {
+            for (int i = 0; i < quantity / 2; i++)
             {
-                for (int i = 0; i < quantity / 2; i++)
-                {
-                    Vector3 dir = Quaternion.AngleAxis(30 * i, Vector3.up) * lookdir;
-                    projectile.Setup(lookdir, true);
-                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
+                Vector3 dir = Quaternion.AngleAxis(30 * i, Vector3.up) * lookdir;
+                projectile.Setup(dir, true);
+                DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(dir), projectile, Entity.MoveSpeed);
 
-                    dir = Quaternion.AngleAxis(-30 * i, Vector3.up) * lookdir;
-                    projectile.Setup(lookdir, true);
-                    DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(lookdir), projectile, Entity.MoveSpeed);
-                }
+                dir = Quaternion.AngleAxis(-30 * i, Vector3.up) * lookdir;
+                projectile.Setup(dir, true);
+                DropController.Instance.SpawnProjectile(Entity.transform.position, Quaternion.LookRotation(dir), projectile, Entity.MoveSpeed);
             }
         }
     }
